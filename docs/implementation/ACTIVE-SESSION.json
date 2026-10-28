@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "project": "GRIMMLINK NEXT",
+  "repo": "https://github.com/0xstillb/Grimmlink-Next",
+  "repoFullName": "0xstillb/Grimmlink-Next",
+  "executionSurface": "GPT_WEB_FIRST",
+  "preferredModel": "GPT-6",
+  "branch": "feat/next-phase-00",
+  "integrationBranch": "integration/grimmlink-next",
+  "productionBranch": "main",
+  "phase": "00",
+  "phaseName": "Discovery, Contracts & Architecture Lock",
+  "phaseStatus": "SOURCE_AUDITED_REVIEW_PENDING",
+  "lastVerifiedPriorCommit": "51ece97047f35cb7364b6308a2d3c2534765998d",
+  "currentHead": "READ_LIVE_GITHUB_DO_NOT_ASSUME",
+  "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/1",
+  "codeImplemented": false,
+  "sourceAuditCompleted": "CANDIDATE_SOURCE_REVIEW_DONE_UNRESOLVED_CONTRACTS",
+  "contractLocked": false,
+  "fullE2eAllowed": false,
+  "fullE2ePhase": "09",
+  "testsRun": [
+    {
+      "method": "READ_ONLY_GITHUB_SOURCE_INSPECTION",
+      "result": "SOURCE_PATHS_OBSERVED"
+    },
+    {
+      "method": "IN_PROCESS_JSON_PARSE",
+      "result": "PASS_IF_COMMIT_SUCCEEDS"
+    },
+    {
+      "method": "READ_ONLY_AUTH_AND_SIDECAR_SOURCE_FOLLOWUP",
+      "result": "CONTROLLER_DTO_WRITER_PATHS_OBSERVED"
+    }
+  ],
+  "testsNotRun": [
+    "NO_TERMINAL_RUNNER",
+    "UNIT_NOT_RUN",
+    "LIVE_API_NOT_RUN",
+    "FULL_E2E_DEFERRED_TO_PHASE_09",
+    "PHYSICAL_DEVICE_TEST_DEFERRED_TO_PHASE_09"
+  ],
+  "blockers": [
+    "Installed Grimmory image/DB/mount/version unknown",
+    "JWT DTO source verified; per-user permissions, expires units and refresh runtime remain unverified",
+    "Metadata collection/lock and NAS side-effect behaviors require review",
+    "Independent review pending",
+    "CFI exactness real reader unverified",
+    "Nonempty OPF collection replace behavior requires explicit diff/merge rule C-016"
+  ],
+  "notion": {
+    "phase": "https://app.notion.com/p/407c7efbc00981e2b08ff8fb45c3f846",
+    "spec": "https://app.notion.com/p/407c7efbc00981f1a9c6ccb0de5d6a54",
+    "playbook": "https://app.notion.com/p/407c7efbc009814a9e18f0d945ee0ef0"
+  },
+  "nextAction": "Fresh independent GPT-6 Web review Phase00 diff and C-001..C-006; update REVIEW.md with real verdict; resolve blockers before CONTRACT_LOCKED. Do not merge main, E2E only Phase09.",
+  "updatedAt": "2026-10-28"
+}
