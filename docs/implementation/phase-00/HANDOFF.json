@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "phase": "PHASE_00",
-  "status": "SOURCE_AUDITED_REVIEW_PENDING",
+  "status": "INDEPENDENT_REVIEW_CHANGES_REQUIRED",
   "baseCommit": "a5eb72d4b0f8e01f876fb20c8895813df33c8ddb",
   "headCommit": "READ_LIVE_GITHUB",
   "branch": "feat/next-phase-00",
@@ -42,9 +42,13 @@
   "testsNotRun": [
     "TERMINAL_COMMANDS_NOT_RUN",
     "UNIT_NOT_RUN",
-    "FULL_E2E_DEFERRED_TO_PHASE_09"
+    "FULL_E2E_DEFERRED_TO_PHASE_09",
+    "LIVE_API_NOT_RUN",
+    "HERMES_NAS_DEVICES_NOT_RUN",
+    "READBACK_NOT_RUN",
+    "INTEGRATED_E2E_NOT_RUN_PHASE09"
   ],
-  "reviewStatus": "PENDING_INDEPENDENT_FRESH_CONTEXT",
+  "reviewStatus": "CHANGES_REQUIRED",
   "blockers": [
     "Installed Grimmory image/DB/mount/version unknown",
     "JWT DTO source verified; per-user permissions, expires units and refresh runtime remain unverified",
@@ -56,7 +60,14 @@
     "C-018 native/managed double projection risk",
     "C-019 personal book ACL needs authorization verification",
     "C-020 Native KOSync can reset manual READ at low percentage",
-    "PR #1 merged into integration while Phase00 independent reviewer was pending; no assumption that merge satisfied CONTRACT_LOCKED"
+    "PR #1 merged into integration while Phase00 independent reviewer was pending; no assumption that merge satisfied CONTRACT_LOCKED",
+    "Independent reviewer CHANGES_REQUIRED: inaccurate sidecar source guard wording in API inventory",
+    "Per-library ACL proof missing for KOSync, bookmarks, annotations, sessions, status and rating",
+    "Single-book OPF collection merge coupling lacks safe field mask/policy",
+    "Manual status preservation fixture contradicts Native KOSync thresholds",
+    "Native file-level progress is attempted, not proof of exact EPUB CFI",
+    "CFI EXACT anchor/round-trip proof not established",
+    "Obsolete PR#1/NOT_STARTED header in handoff and Notion historical section"
   ],
   "risks": [
     "unsafe metadata default",
@@ -66,8 +77,8 @@
     "runtime unverified",
     "nonempty collection can replace existing OPF authors/categories/tags"
   ],
-  "handoffTo": "PHASE_00_INDEPENDENT_REVIEW_BEFORE_01",
-  "nextAction": "Obtain independent separate-context review of historical merged PR #1 Phase00 source inventory plus Draft PR #2 recheck; resolve C001-C021 before CONTRACT_LOCKED. Avoid merge and Phase01 until proper gate.",
+  "handoffTo": "PHASE_00_CORRECTION_PASS_AND_RE_REVIEW",
+  "nextAction": "Correct R-01..R-12 source contract/fixture/ACL and stale handoff in Phase00 branch; keep Draft PR #2 open, no merge, no Phase01 until independent re-review can justify CONTRACT_LOCKED; Full E2E/hardware only Phase09.",
   "evidence": [
     "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/MetadataController.java#L51-L59",
     "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/KoreaderController.java",
@@ -94,5 +105,38 @@
     "mergedAt": "2026-10-28T17:02:39Z",
     "integrationMergeCommit": "5470c7ad807cb701381ae8bcd9abe516f351b150",
     "reviewGate": "INDEPENDENT_REVIEW_UNVERIFIED"
+  },
+  "reviewedSourceHead": "5eccac25c8e85e16cfa913b72ae36bc6a3ceeed8",
+  "reviewFile": "docs/implementation/phase-00/REVIEW.md",
+  "independentReview": {
+    "date": "2026-10-29",
+    "reviewer": "GPT-6 Web fresh independent context",
+    "status": "CHANGES_REQUIRED",
+    "approved": false,
+    "contractLocked": false,
+    "reviewedPrs": [
+      1,
+      2
+    ],
+    "reviewedHead": "5eccac25c8e85e16cfa913b72ae36bc6a3ceeed8",
+    "reviewReport": "docs/implementation/phase-00/REVIEW.md",
+    "findings": [
+      "R-01",
+      "R-02",
+      "R-03",
+      "R-04",
+      "R-05",
+      "R-06",
+      "R-07",
+      "R-08",
+      "R-09",
+      "R-10",
+      "R-11",
+      "R-12"
+    ],
+    "phase00StaticSourceRead": true,
+    "terminalUnitBuildNotRun": true,
+    "liveApiHardwareNasTests": "NOT_RUN_PHASE_09_ONLY",
+    "reviewCommitSha": "FETCH_LIVE_GITHUB_NO_SELF_REFERENTIAL_SHA"
   }
 }
