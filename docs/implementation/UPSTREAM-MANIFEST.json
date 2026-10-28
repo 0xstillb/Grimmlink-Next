@@ -1,35 +1,78 @@
 {
-  "schemaVersion": 1,
-  "status": "UNVERIFIED_BOOTSTRAP",
-  "generatedAt": "2026-10-28",
+  "schemaVersion": 2,
+  "recordedAt": "2026-10-28",
+  "status": "SOURCE_AUDITED_CANDIDATE_REVIEW_PENDING",
   "repository": "0xstillb/Grimmlink-Next",
+  "releasePolicy": "MANUAL_APPROVAL_ONLY",
   "currentInstalledVersions": {
     "grimmory": {
       "tag": null,
       "imageDigest": null,
-      "apiContractSha256": null
+      "dbMigrationVersion": null
     },
     "readest": {
-      "testedPlatformVersions": {}
+      "platformVersions": {}
     },
     "koreader": {
-      "stableTag": null
+      "installedTag": null
     },
     "proseKoreader": {
-      "npmVersion": null,
+      "installedNpmVersion": null,
       "lockfileSha256": null
+    },
+    "adapter": {
+      "deployedVersion": null
     }
   },
-  "sourceRepos": {
-    "grimmory": "https://github.com/grimmory-tools/grimmory",
-    "readest": "https://github.com/readest/readest",
-    "koreader": "https://github.com/koreader/koreader",
-    "proseKoreader": "https://github.com/mbret/prose-reader/tree/develop/packages/koreader"
+  "auditedSourceBaselines": {
+    "grimmory": {
+      "tag": "v3.5.0",
+      "commit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+      "status": "SOURCE_PATH_DTO_VERIFIED_NOT_RUNTIME"
+    },
+    "readest": {
+      "tag": "v0.12.16",
+      "commit": "3cc39ad7a558e6612e1a8135058fbd6f3c90b3e3",
+      "status": "CLIENT_SOURCE_VERIFIED_NOT_BINARY"
+    },
+    "koreader": {
+      "stableReleaseObserved": "v2026.07.1",
+      "sourceCommit": null,
+      "status": "RELEASE_SEEN_ONLY"
+    },
+    "grimmlinkLua": {
+      "sourceBranch": "Main",
+      "commit": "c6114075917a86d3a5d150f484adfa76a692bd75",
+      "status": "SOURCE_READ_ONLY"
+    },
+    "legacyPythonAdapter": {
+      "sourceBranch": "main",
+      "commit": "d5aa59ecf7aff42a632064ed900528967f67f517",
+      "status": "HISTORICAL_REFERENCE_ONLY"
+    },
+    "proseKoreader": {
+      "sourceBranch": "develop",
+      "commit": "1e2a38f0e48936792b222f27f79fe7dd511c8336",
+      "sourcePackageVersion": "30.2.0",
+      "publishedVersion": null,
+      "lockfileSha256": null,
+      "status": "SOURCE_SIGNATURE_VERIFIED_NOT_PINNED_DEPENDENCY"
+    }
   },
-  "releasePolicy": "MANUAL_APPROVAL_ONLY",
+  "requiredSafetyGates": [
+    "metadata_explicit_replace_mode",
+    "locks_and_clearflags_checked",
+    "user_auth_checked",
+    "nas_sentinel_ro",
+    "source_and_cover_readback",
+    "cfiexact_anchor_proof",
+    "migration_backup_restore",
+    "single_port_gateway_proof"
+  ],
   "acceptance": {
+    "phase00": "REVIEW_PENDING",
     "fullE2ePhase": "09",
-    "preFinalStatus": "NOT_TESTED",
-    "finalStatus": "UNVERIFIED"
+    "fullE2eStatus": "DEFERRED_TO_PHASE_09",
+    "production": "NOT_VERIFIED"
   }
 }

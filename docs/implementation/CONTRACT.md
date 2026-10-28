@@ -1,34 +1,35 @@
-# Contract — GRIMMLINK NEXT
+# GRIMMLINK NEXT — Phase 00 Architecture and Safety Contract
 
-**State:** DRAFT / AWAIT PHASE 00 SOURCE AUDIT. Not locked. Last prepared: 2026-10-28.
+**Status:** SOURCE_AUDITED_CANDIDATE / INDEPENDENT_REVIEW_PENDING (not CONTRACT_LOCKED).
+**Date:** 2026-10-28. **Evidence baseline:** Grimmory Official v3.5.0 source commit `402e89b4452f8e2b17ab95f16c1621c003516cd2`; Readest v0.12.16 source commit `3cc39ad7a558e6612e1a8135058fbd6f3c90b3e3`. These are **audited source baselines, not confirmed installed versions**.
 
-## Authoritative specification
+## Authority and constraints
+Latest user direction > approved [Spec v0.3](https://app.notion.com/p/407c7efbc00981f1a9c6ccb0de5d6a54) / [Playbook](https://app.notion.com/p/407c7efbc009814a9e18f0d945ee0ef0) / [Runbook](https://app.notion.com/p/407c7efbc0098105b492d0a7cca31bff) > source-pinned evidence > historical fork/adapter behavior. No upstream or Readest fork modifications, no full OPDS membership reconciler, no old-fork history migration, no direct Official DB writes, no false location/progress or personal-data impersonation.
 
-- [Technical Spec v0.3](https://app.notion.com/p/407c7efbc00981f1a9c6ccb0de5d6a54)
-- [AI Development Playbook v1.0](https://app.notion.com/p/407c7efbc009814a9e18f0d945ee0ef0)
-- [Upstream Compatibility Runbook](https://app.notion.com/p/407c7efbc0098105b492d0a7cca31bff)
+## Runtime boundaries
+- One published host port **6060**, with existing reverse proxy preferred; Official UI/API/OPDS routes stay intact, `/grimmlink/*` and `/api/grimmlink/v2/*` terminate at internal Adapter; intercept/alias KOSync **only according to checked client base URL**. Internal container ports are not separately published.
+- TypeScript/Node LTS + Fastify backend, SQLite/Drizzle durable local ownership (device/hash mapping, verified positions, outbox, dedupe, job receipts); React/Vite UI static served by Fastify behind same gateway. Official Grimmory is authoritative for library metadata and supported per-user data.
+- NAS input: mounted NETWORK disk in Grimmory, Adapter **RO**; no rename/move/delete/repack of source EPUB/PDF/OPF. NAS identity/sentinel and path containment are prerequisites; empty/missing mount is not an empty library. Ensure Grimmory source-write-related settings are explicitly OFF and audited (metadata file write, sidecar export, move-on-update), rather than assuming NETWORK removes all writes.
+- OPF adjacency is primary; scan ALL_BOOKS_WITH_OPF; validate XML/path/symlinks/cover MIME/hash; immutable diff and staleness validation; user-reviewed dry-run, then per-book API apply and read-back. Cover is a **separate** upload and verification receipt.
+- Explicit `replaceMode=REPLACE_WHEN_PROVIDED` on every metadata PUT and explicit safe `clearFlags` all false unless user explicitly requests a clear. Missing/empty OPF values never erase existing fields. Server source defaults to unsafe `REPLACE_ALL`! Never allow default mode. Respect field locks and collection merge behavior; target field mask and old→new diff per book required.
+- Sidecar inspect/optional fallback/backup/preview/restore through verified supported APIs. Adjacent NAS writes opt-in only and require separate audited RW permission, not part of regular sync.
+- Use native KOSync first; explicitly separate its MD5 header identity from Official JWT REST. User-scoped API operations must never be performed as an unrelated admin. Managed KOSync, exact book digest and CFI projection require new proof.
+- Preserve native location untouched when conversion cannot resolve exactly. `@prose-reader/koreader` is an **investigated** converter; do not ship `CHAPTER_ONLY` as `EXACT`; never invent percentages. Official Continue Reading at zero percent is an accepted UI limitation. Readest OPDS is add-only, not full shelf sync.
+- Pino JSON logs / correlation IDs, secrets and private notes redaction, DEBUG ≤30m, TRACE ≤5m, reproducible diagnostics. Version watcher only proposes; manual approval + verified backup/rollback for update.
+- Phases 00–08 allow source, static, JSON, unit, mocks and isolated fixture checks; **all** full integrated E2E, Hermes/NAS real stack, physical devices and production acceptance strictly Phase 09.
 
-This file records architectural constraints for the repository. It is intentionally **not** a claim that exact Official API requests, authentication, migrations, hashes, or deployed runtime behavior have been verified in the selected production tag.
+## Verified source-backed high-risk facts
+1. [MetadataController.java lines 51–59](https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/MetadataController.java#L51-L59) — `PUT /api/v1/books/{bookId}/metadata`, body `MetadataUpdateWrapper{metadata,clearFlags}`; query `mergeCategories=false` and **`replaceMode=REPLACE_ALL` default**; permission canEditMetadata/admin + book access.
+2. [BookMetadataUpdater.java lines 220–239](https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/service/metadata/BookMetadataUpdater.java#L220-L239) — locks skip, clearFlags override if true, `REPLACE_WHEN_PROVIDED` ignores missing values; other collection logic must be independently checked.
+3. [BookCoverController.java lines 39–48](https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/BookCoverController.java#L39-L48) — `POST /api/v1/books/{bookId}/metadata/cover/upload` with multipart form field `file`, permission canEditMetadata/admin + book access.
+4. [KoreaderController.java lines 22–58](https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/KoreaderController.java#L22-L58) — Official KOSync lives under **`/api/koreader`**; GET users/auth, GET syncs/progress/{bookHash}, PUT syncs/progress; no registration (403).
+5. [KoreaderAuthFilter.java](https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/config/security/filter/KoreaderAuthFilter.java) — `x-auth-user` and MD5 `x-auth-key` represent KOReader credentials, **not** general REST authorization.
+6. [BookController.java lines 289–336](https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/BookController.java#L289-L336) — POST progress/status, PUT personal-rating; [ReadProgressRequest](https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/model/dto/request/ReadProgressRequest.java) prefers `fileProgress`, deprecated format fields still exist.
+7. [SidecarController.java lines 33–101](https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/SidecarController.java#L33-L101) — GET per-book Sidecar/status, POST import/export and library bulk endpoints; invoking those endpoints is NOT guaranteed safe on RO source mount.
+8. [ReadingSessionController.java lines 28–51](https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/ReadingSessionController.java#L28-L51) — POST returns **202 Accepted**, GET by book is paginated; service idempotency is not established by controller.
+9. [Readest KOSyncClient.ts](https://github.com/readest/readest/blob/v0.12.16/apps/readest-app/src/services/sync/KOSyncClient.ts) — app appends `/users/auth` and `/syncs/progress` to configured server URL; exact prefix must be configured without double `/api/koreader`.
+10. [Readest OPDS autoDownload.ts](https://github.com/readest/readest/blob/v0.12.16/apps/readest-app/src/services/opds/autoDownload.ts) — subscribe/download and source-map identity; cannot be represented as complete two-way shelf membership sync.
+11. [Prose CFI signatures](https://github.com/mbret/prose-reader/blob/1e2a38f0e48936792b222f27f79fe7dd511c8336/packages/koreader/src/cfi.ts) — `xPointerToCfi(pointer, getSpineItem)` and `cfiToXPointer(cfi,getSpineItem)` return string or undefined; requires per-spine **document** and optional spine id, not just a hash or percentage.
 
-## Non-negotiable contract
-
-| Dimension | Requirement |
-| --- | --- |
-| Deployment | Grimmory Official, Readest Official, our TypeScript Adapter + KOReader Lua plugin |
-| Exclusions | No upstream patches/forks, no Full OPDS, no migration of historical fork DB |
-| Network | Only host port 6060 published; exact-path reverse proxy |
-| Library | NAS NETWORK disk; Adapter read-only; mount identity checked before scan |
-| OPF | Adjacent OPF primary, all-books scan, diff/dry-run/apply, checked locked fields |
-| Safe metadata | Explicit `REPLACE_WHEN_PROVIDED`; absent source fields must never silently clear target |
-| Cover | Separate validated multipart API call, source path/MIME/hash and Official readback |
-| Sidecar | Optional inspect/backup/import/restore, default OFF for NAS writes |
-| Reading | Native KOSync first, verified cross-reader location, single canonical writer |
-| Personal | Official API, per-user/device-bound auth; stable event identity and duplicate prevention |
-| Data | Durable SQLite outbox, job receipts and verified positions; no direct Official DB mutation |
-| Observability | Request correlation, Pino JSON, audit, redacted bundles, timeboxed DEBUG/TRACE |
-| Upgrade | Pinned release/image and compatibility gates; no unattended upgrade |
-| Verification | Phase 00–08 static/unit/mock only; Phase 09 all real E2E and release acceptance |
-
-## Pending source verification
-
-See [API-INVENTORY.md](API-INVENTORY.md) and [UPSTREAM-MANIFEST.json](UPSTREAM-MANIFEST.json). PHASE 00 must verify against **target releases/tags**, not just `develop`/`main`, and record deviations before implementation. Do not use placeholders in production.
+## Phase-01 start requirements
+Independent fresh-context reviewer must inspect changed diff and verify citations; unresolved `BLOCKED/VERIFY` entries in [DISCREPANCIES.md](DISCREPANCIES.md) may need conditional gates to disable writes until target manifest + authorization are proven. Do not label this `CONTRACT_LOCKED` until explicit reviewer verdict; never imply live E2E in Phase 00.

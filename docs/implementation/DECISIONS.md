@@ -1,23 +1,24 @@
-# Architecture Decision Register
+# Architecture Decision Records — Phase 00
 
-**State:** ACCEPTED USER DIRECTION; technical verification pending Phase 00.
+**Design accepted; contract evidence review pending.** No deployed instance was contacted.
 
-| ID | Decision | Rationale |
+| ADR | Decision | Status / qualification |
 | --- | --- | --- |
-| D-01 | Use Grimmory Official; no upstream patches | Reduce maintenance |
-| D-02 | Readest Official with native OPDS add-only and KOSync | No Readest fork or full shelf reconciliation |
-| D-03 | Adapter TS/Fastify, React Control Center, SQLite | One maintained integration platform |
-| D-04 | One host port 6060 and internal-only app ports | Network restriction |
-| D-05 | NAS NETWORK / Adapter read-only | Protect book sources |
-| D-06 | OPF primary via Official REST; Safe Replace, Cover ON if changed/valid | API-only ingestion |
-| D-07 | Sidecar optional; inspection/backup/restore retained | Operational safety without routine write |
-| D-08 | Native KOSync preferred; Managed mode only for proven gaps | Prevent duplicate ownership |
-| D-09 | `@prose-reader/koreader` for XPointer↔CFI and digests, must validate | Avoid reimplementing conversion |
-| D-10 | Reading State Bridge; accept Official 0.0% UI limitation | Do not fake progress |
-| D-11 | Rating/Bookmarks/Annotations/Sessions via Official API, KOReader Lua plugin | Preserve authoritative personal store |
-| D-12 | Clean start for old fork data; no database migration requirement | Reduce scope |
-| D-13 | Full features built across phases; a single final release | User direction |
-| D-14 | All full E2E and physical tests in Phase 09 only | User direction |
-| D-15 | Debug/diagnostics and Upstream Update Center in complete build | Maintainability |
+| ADR-001 | Stock Grimmory Official, stock Readest Official, maintained GrimmLink Lua; no upstream patch and no legacy DB migration | ACCEPTED |
+| ADR-002 | TypeScript Fastify + SQLite/Drizzle + React static UI monorepo in this repository | ACCEPTED; Phase 01 implementation |
+| ADR-003 | Gateway publishes only host :6060; preserve Official routes, exact prefix exceptions for KOSync and adapter | ACCEPTED; require proxy/auth/OPDS/Range/SSE fixtures |
+| ADR-004 | NAS NETWORK, Adapter RO; preflight mount sentinel, fail closed on missing mount | ACCEPTED; verify Grimmory settings which can still write/move |
+| ADR-005 | Adjacent OPF primary, ALL_BOOKS_WITH_OPF, immutable dry-run and Official API write only | ACCEPTED |
+| ADR-006 | Force REPLACE_WHEN_PROVIDED, explicit empty-clear policy, locks and read-back; cover handled via separate multipart call | SOURCE-CONFIRMED route; behavioral staging in Phase 09 |
+| ADR-007 | Sidecar retained for optional inspect/fallback/manual import/backup/restore; no routine NAS write | ACCEPTED; distinguish local backup from adjacent NAS JSON |
+| ADR-008 | Default Native Official KOSync and per-user mapping; Managed mode only on evidence, never competing writers | ACCEPTED; final auth/hash race matrix VERIFY |
+| ADR-009 | @prose-reader/koreader as conversion candidate, preserve native bytes & spine anchors; EXACT/CHAPTER_ONLY/UNRESOLVED | SOURCE-CONFIRMED signatures, correctness NOT E2E VERIFIED |
+| ADR-010 | Continue Reading 0.0% Official UI is accepted limitation; no fake percent | ACCEPTED |
+| ADR-011 | KOReader Lua personal push via per-user Official APIs with dedupe/queue; no server-only Readest personal hack | ACCEPTED; auth/idempotency still VERIFY |
+| ADR-012 | No Full OPDS reconciliation, deletions or custom Readest shelf protocol; Readest auto-download add-only | ACCEPTED |
+| ADR-013 | Full build phases 00–08 then Phase 09 only real Hermes/NAS/physical E2E and single final production release | ACCEPTED |
+| ADR-014 | Pinned version manifest, upstream diff watcher, safe backups, manual update and rollback | ACCEPTED |
+| ADR-015 | Implementation state separate from source evidence and actual runtime proof; each phase reviewed by separate fresh GPT context | ACCEPTED; Phase 00 review PENDING |
 
-When a design conflicts with the pinned upstream behavior, **document the discrepancy** and obtain an explicit architectural decision. Never silently patch Official code or invent unsupported features.
+## Draft workspace layout (Phase 01 target, NOT created)
+`apps/adapter` (Fastify API, KOSync coordinator, official client); `apps/control-center` (React); `packages/contracts` (versioned Zod/TS schemas); `packages/locations` (Prose adapter); `packages/opf`; `packages/persistence`; `packages/observability`; `infra/gateway`; `fixtures/contracts`; `docs/implementation/phase-XX`. Lua changes remain on separate GrimmLink plugin branch, referenced by pinned SHA. SQLite stores non-cache durable state on persistent volume, Grimmory Official retains authoritative data.

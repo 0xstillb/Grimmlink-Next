@@ -4,39 +4,50 @@
   "repo": "https://github.com/0xstillb/Grimmlink-Next",
   "repoFullName": "0xstillb/Grimmlink-Next",
   "executionSurface": "GPT_WEB_FIRST",
-  "preferredModel": "GPT-6 (High thinking when available)",
+  "preferredModel": "GPT-6",
   "branch": "feat/next-phase-00",
   "integrationBranch": "integration/grimmlink-next",
   "productionBranch": "main",
   "phase": "00",
   "phaseName": "Discovery, Contracts & Architecture Lock",
-  "phaseStatus": "PLANNED_NOT_STARTED",
-  "lastVerifiedPriorCommit": "7ae14af76591e08084478de47aca0605611876ad",
+  "phaseStatus": "SOURCE_AUDITED_REVIEW_PENDING",
+  "lastVerifiedPriorCommit": "7d5bc8a421bcca29101453c6e46a2b4677363c51",
   "currentHead": "READ_LIVE_GITHUB_DO_NOT_ASSUME",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/1",
   "codeImplemented": false,
-  "sourceAuditCompleted": false,
+  "sourceAuditCompleted": "CANDIDATE_SOURCE_REVIEW_DONE_UNRESOLVED_CONTRACTS",
+  "contractLocked": false,
   "fullE2eAllowed": false,
   "fullE2ePhase": "09",
-  "testsRun": [],
+  "testsRun": [
+    {
+      "method": "READ_ONLY_GITHUB_SOURCE_INSPECTION",
+      "result": "SOURCE_PATHS_OBSERVED"
+    },
+    {
+      "method": "IN_PROCESS_JSON_PARSE",
+      "result": "PASS_IF_COMMIT_SUCCEEDS"
+    }
+  ],
   "testsNotRun": [
+    "NO_TERMINAL_RUNNER",
     "UNIT_NOT_RUN",
+    "LIVE_API_NOT_RUN",
     "FULL_E2E_DEFERRED_TO_PHASE_09",
     "PHYSICAL_DEVICE_TEST_DEFERRED_TO_PHASE_09"
   ],
-  "notion": {
-    "master": "https://app.notion.com/p/407c7efbc009814a9e18f0d945ee0ef0",
-    "currentPhase": "https://app.notion.com/p/407c7efbc00981e2b08ff8fb45c3f846",
-    "spec": "https://app.notion.com/p/407c7efbc00981f1a9c6ccb0de5d6a54",
-    "upstreamRunbook": "https://app.notion.com/p/407c7efbc0098105b492d0a7cca31bff",
-    "sessionProtocol": "https://app.notion.com/p/407c7efbc009816ca3b1fe2b098e8c78",
-    "phase00DraftPR": "https://github.com/0xstillb/Grimmlink-Next/pull/1"
-  },
-  "nextAction": "Perform Phase 00 source/API contract and deployed-tag audit using connected GitHub and Notion; update inventory and manifest; commit reviewed evidence.",
   "blockers": [
-    "Actual installed Grimmory tag/DB/mount not verified",
-    "No Phase00 source audit performed"
+    "Installed Grimmory image/DB/mount/version unknown",
+    "Official JWT contract/ownership not frozen",
+    "Metadata collection/lock and NAS side-effect behaviors require review",
+    "Independent review pending",
+    "CFI exactness real reader unverified"
   ],
-  "handoffProtocol": "Update ACTIVE-SESSION.json and SESSION-HANDOFF.md on each checkpoint commit; verify server commit SHA then update Notion.",
+  "notion": {
+    "phase": "https://app.notion.com/p/407c7efbc00981e2b08ff8fb45c3f846",
+    "spec": "https://app.notion.com/p/407c7efbc00981f1a9c6ccb0de5d6a54",
+    "playbook": "https://app.notion.com/p/407c7efbc009814a9e18f0d945ee0ef0"
+  },
+  "nextAction": "Fresh independent GPT-6 Web review Phase00 diff and C-001..C-006; update REVIEW.md with real verdict; resolve blockers before CONTRACT_LOCKED. Do not merge main, E2E only Phase09.",
   "updatedAt": "2026-10-28"
 }
