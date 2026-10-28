@@ -28,3 +28,8 @@ Additional controller/DTO inspection pinned JWT login/refresh request and respon
 ## 2026-10-29 supplementary source recheck (implementer; not independent)
 
 A follow-up read-only source audit of the pinned Grimmory v3.5.0 release identified new risks **C-017..C-021** and updated the architecture/contract/checkpoint. Details and source links: [SOURCE-RECHECK-2026-10-29.md](SOURCE-RECHECK-2026-10-29.md). In particular, the single-book metadata `mergeCategories` flag also governs authors/reviews; native KOSync already writes file progress/optional CFI and can reset low-% read status; personal record user ownership is distinguishable from per-library book authorization. These are source-level findings, not a tested compatibility claim. The distinct independent reviewer remains PENDING. No runtime/unit/device tests or production changes.
+
+
+## 2026-10-29 PR continuity correction
+
+GitHub live check found [PR #1](https://github.com/0xstillb/Grimmlink-Next/pull/1) **merged into non-production integration** on 2026-10-28 17:02:39Z at merge SHA `5470c7ad807cb701381ae8bcd9abe516f351b150`. That merge did **not** supply the required independent-review evidence or approve Phase01. The subsequent recheck commit `a5eb72d4b0f8e01f876fb20c8895813df33c8ddb` is proposed separately through **[Draft PR #2](https://github.com/0xstillb/Grimmlink-Next/pull/2)**, still review-pending. `main` remains untouched. Use PR #2 for current Phase00 improvements, PR #1 as historical audit foundation. Continue to read live heads before any mutation.

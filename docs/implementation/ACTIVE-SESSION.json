@@ -11,9 +11,9 @@
   "phase": "00",
   "phaseName": "Discovery, Contracts & Architecture Lock",
   "phaseStatus": "SOURCE_AUDITED_REVIEW_PENDING",
-  "lastVerifiedPriorCommit": "7a3647a6aff08c7d0868fc976646e09a31eb7665",
+  "lastVerifiedPriorCommit": "a5eb72d4b0f8e01f876fb20c8895813df33c8ddb",
   "currentHead": "READ_LIVE_GITHUB_DO_NOT_ASSUME",
-  "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/1",
+  "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/2",
   "codeImplemented": false,
   "sourceAuditCompleted": "CANDIDATE_SOURCE_REVIEW_DONE_UNRESOLVED_CONTRACTS",
   "contractLocked": false,
@@ -61,7 +61,10 @@
     "spec": "https://app.notion.com/p/407c7efbc00981f1a9c6ccb0de5d6a54",
     "playbook": "https://app.notion.com/p/407c7efbc009814a9e18f0d945ee0ef0"
   },
-  "nextAction": "Separate independent fresh-context reviewer of Draft PR #1 and C-001..C-021 including 2026-10-29 source recheck; only after genuine review and resolved high-risk blockers consider CONTRACT_LOCKED; no Phase01/E2E.",
+  "nextAction": "Obtain independent separate-context review of historical merged PR #1 Phase00 source inventory plus Draft PR #2 recheck; resolve C001-C021 before CONTRACT_LOCKED. Avoid merge and Phase01 until proper gate.",
   "updatedAt": "2026-10-29",
-  "sourceRecheck": "IMPLEMENTER_SOURCE_RECHECK_NOT_INDEPENDENT"
+  "sourceRecheck": "IMPLEMENTER_SOURCE_RECHECK_NOT_INDEPENDENT",
+  "prStatus": "OPEN_DRAFT_RECHECK",
+  "priorMergedPr": "https://github.com/0xstillb/Grimmlink-Next/pull/1",
+  "priorMergedPrCommit": "5470c7ad807cb701381ae8bcd9abe516f351b150"
 }

@@ -2,10 +2,10 @@
   "schemaVersion": 1,
   "phase": "PHASE_00",
   "status": "SOURCE_AUDITED_REVIEW_PENDING",
-  "baseCommit": "7a3647a6aff08c7d0868fc976646e09a31eb7665",
+  "baseCommit": "a5eb72d4b0f8e01f876fb20c8895813df33c8ddb",
   "headCommit": "READ_LIVE_GITHUB",
   "branch": "feat/next-phase-00",
-  "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/1",
+  "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/2",
   "changedFiles": [
     "docs/implementation/CONTRACT.md",
     "docs/implementation/DECISIONS.md",
@@ -55,7 +55,8 @@
     "C-017 collection merge/field mask design not independently reviewed",
     "C-018 native/managed double projection risk",
     "C-019 personal book ACL needs authorization verification",
-    "C-020 Native KOSync can reset manual READ at low percentage"
+    "C-020 Native KOSync can reset manual READ at low percentage",
+    "PR #1 merged into integration while Phase00 independent reviewer was pending; no assumption that merge satisfied CONTRACT_LOCKED"
   ],
   "risks": [
     "unsafe metadata default",
@@ -66,7 +67,7 @@
     "nonempty collection can replace existing OPF authors/categories/tags"
   ],
   "handoffTo": "PHASE_00_INDEPENDENT_REVIEW_BEFORE_01",
-  "nextAction": "Separate independent fresh-context reviewer of Draft PR #1 and C-001..C-021 including 2026-10-29 source recheck; only after genuine review and resolved high-risk blockers consider CONTRACT_LOCKED; no Phase01/E2E.",
+  "nextAction": "Obtain independent separate-context review of historical merged PR #1 Phase00 source inventory plus Draft PR #2 recheck; resolve C001-C021 before CONTRACT_LOCKED. Avoid merge and Phase01 until proper gate.",
   "evidence": [
     "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/MetadataController.java#L51-L59",
     "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/KoreaderController.java",
@@ -87,5 +88,11 @@
     ],
     "report": "docs/implementation/phase-00/SOURCE-RECHECK-2026-10-29.md",
     "independent": false
+  },
+  "previousPr": {
+    "url": "https://github.com/0xstillb/Grimmlink-Next/pull/1",
+    "mergedAt": "2026-10-28T17:02:39Z",
+    "integrationMergeCommit": "5470c7ad807cb701381ae8bcd9abe516f351b150",
+    "reviewGate": "INDEPENDENT_REVIEW_UNVERIFIED"
   }
 }

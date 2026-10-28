@@ -35,3 +35,8 @@ Verified JWT source DTO shape, Bearer filter, nonempty collection replacement un
 Following a live HEAD check at prior commit `7a3647a6aff08c7d0868fc976646e09a31eb7665`, reviewed Grimmory Official v3.5.0 metadata merge, Native KOSync and personal service source. Added [SOURCE-RECHECK-2026-10-29.md](phase-00/SOURCE-RECHECK-2026-10-29.md), new discrepancies C-017..C-021, guardrail and fixture clarifications. **Phase remains SOURCE_AUDITED_REVIEW_PENDING, not CONTRACT_LOCKED.** This continuation is not a fresh independent review; `REVIEW.md` verdict remains PENDING. Unit/terminal/live API/physical E2E NOT_RUN. Production and integration/main untouched.
 
 **Next:** obtain genuinely separate reviewer review of entire PR and new findings; after documented corrections and approval, user-controlled integration PR gate. Do not start Phase01 or pretend that installed Grimmory/DB/NAS status is known. Retrieve current live HEAD rather than trusting this checkpoint.
+
+
+## 2026-10-29 PR continuity correction
+
+GitHub live check found [PR #1](https://github.com/0xstillb/Grimmlink-Next/pull/1) **merged into non-production integration** on 2026-10-28 17:02:39Z at merge SHA `5470c7ad807cb701381ae8bcd9abe516f351b150`. That merge did **not** supply the required independent-review evidence or approve Phase01. The subsequent recheck commit `a5eb72d4b0f8e01f876fb20c8895813df33c8ddb` is proposed separately through **[Draft PR #2](https://github.com/0xstillb/Grimmlink-Next/pull/2)**, still review-pending. `main` remains untouched. Use PR #2 for current Phase00 improvements, PR #1 as historical audit foundation. Continue to read live heads before any mutation.
