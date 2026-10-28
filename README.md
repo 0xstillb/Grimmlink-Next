@@ -28,6 +28,18 @@ The goal is to **maintain the Adapter and Lua plugin, not forks of Grimmory, Rea
 
 **Out of scope:** Readest Full OPDS shelf reconciliation, Readest/Grimmory forks or upstream patches, legacy fork database migration, fabricated reading progress, and direct writes to Grimmory's database.
 
+## GPT Web + Cross-Session Commit Workflow
+
+**Primary execution:** GPT-6 in ChatGPT Web with GitHub and Notion connectors. Codex CLI is optional for phases that need actual local execution.
+
+- [New Session Handoff & Git Commit Protocol (Notion)](https://app.notion.com/p/407c7efbc009816ca3b1fe2b098e8c78)
+- [Copy/paste session bootstrap](docs/implementation/SESSION-BOOTSTRAP-PROMPT.md)
+- [Git commit policy / phase PR](docs/implementation/COMMIT-POLICY.md)
+- [Current verified session checkpoint](docs/implementation/SESSION-HANDOFF.md)
+- [Phase 00 Draft PR #1](https://github.com/0xstillb/Grimmlink-Next/pull/1) targeting non-production integration branch
+
+**Current scope:** Documentation bootstrap committed; actual PHASE 00 audit/code implementation not started. All full E2E and real hardware tests in PHASE 09 only. Never merge automatically to main.
+
 ## Development Playbook
 
 The project follows **PHASE 00–09** with a **single final production release**. Phases 00–08 are for code, static analysis, unit tests, mocked contract and fixture-level integration checks. **All full-stack E2E, real NAS/Hermes tests, physical readers, fault injection, and production acceptance are reserved for PHASE 09.**

@@ -9,6 +9,8 @@ completion claims when repository evidence is available.
 
 Repository: https://github.com/0xstillb/Grimmlink-Next
 Notion Master: https://app.notion.com/p/407c7efbc009814a9e18f0d945ee0ef0
+Session Protocol: https://app.notion.com/p/407c7efbc009816ca3b1fe2b098e8c78
+Draft Phase 00 PR: https://github.com/0xstillb/Grimmlink-Next/pull/1
 Spec: https://app.notion.com/p/407c7efbc00981f1a9c6ccb0de5d6a54
 Upgrade Runbook: https://app.notion.com/p/407c7efbc0098105b492d0a7cca31bff
 

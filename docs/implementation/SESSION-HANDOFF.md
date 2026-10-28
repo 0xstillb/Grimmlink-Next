@@ -4,6 +4,8 @@
 **Status:** BOOTSTRAP_COMMITTED — PHASE 00 NOT STARTED
 **Canonical GitHub repo:** https://github.com/0xstillb/Grimmlink-Next
 **Working branch:** `feat/next-phase-00`
+**Current Draft PR:** https://github.com/0xstillb/Grimmlink-Next/pull/1
+**Notion GPT Web Continuity Protocol:** https://app.notion.com/p/407c7efbc009816ca3b1fe2b098e8c78
 **Production branch:** `main` (unchanged)
 **Phase PR base:** `integration/grimmlink-next` (non-production)
 **Live HEAD:** Always fetch current GitHub branch HEAD; this document is a checkpoint, not a live pointer.
