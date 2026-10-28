@@ -11,7 +11,7 @@
   "phase": "00",
   "phaseName": "Discovery, Contracts & Architecture Lock",
   "phaseStatus": "SOURCE_AUDITED_REVIEW_PENDING",
-  "lastVerifiedPriorCommit": "7d5bc8a421bcca29101453c6e46a2b4677363c51",
+  "lastVerifiedPriorCommit": "51ece97047f35cb7364b6308a2d3c2534765998d",
   "currentHead": "READ_LIVE_GITHUB_DO_NOT_ASSUME",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/1",
   "codeImplemented": false,
@@ -27,6 +27,10 @@
     {
       "method": "IN_PROCESS_JSON_PARSE",
       "result": "PASS_IF_COMMIT_SUCCEEDS"
+    },
+    {
+      "method": "READ_ONLY_AUTH_AND_SIDECAR_SOURCE_FOLLOWUP",
+      "result": "CONTROLLER_DTO_WRITER_PATHS_OBSERVED"
     }
   ],
   "testsNotRun": [
@@ -38,10 +42,11 @@
   ],
   "blockers": [
     "Installed Grimmory image/DB/mount/version unknown",
-    "Official JWT contract/ownership not frozen",
+    "JWT DTO source verified; per-user permissions, expires units and refresh runtime remain unverified",
     "Metadata collection/lock and NAS side-effect behaviors require review",
     "Independent review pending",
-    "CFI exactness real reader unverified"
+    "CFI exactness real reader unverified",
+    "Nonempty OPF collection replace behavior requires explicit diff/merge rule C-016"
   ],
   "notion": {
     "phase": "https://app.notion.com/p/407c7efbc00981e2b08ff8fb45c3f846",

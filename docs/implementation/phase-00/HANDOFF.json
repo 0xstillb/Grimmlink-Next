@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "phase": "PHASE_00",
   "status": "SOURCE_AUDITED_REVIEW_PENDING",
-  "baseCommit": "7d5bc8a421bcca29101453c6e46a2b4677363c51",
+  "baseCommit": "51ece97047f35cb7364b6308a2d3c2534765998d",
   "headCommit": "READ_LIVE_GITHUB",
   "branch": "feat/next-phase-00",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/1",
@@ -40,17 +40,19 @@
   "reviewStatus": "PENDING_INDEPENDENT_FRESH_CONTEXT",
   "blockers": [
     "Installed Grimmory image/DB/mount/version unknown",
-    "Official JWT contract/ownership not frozen",
+    "JWT DTO source verified; per-user permissions, expires units and refresh runtime remain unverified",
     "Metadata collection/lock and NAS side-effect behaviors require review",
     "Independent review pending",
-    "CFI exactness real reader unverified"
+    "CFI exactness real reader unverified",
+    "Nonempty OPF collection replace behavior requires explicit diff/merge rule C-016"
   ],
   "risks": [
     "unsafe metadata default",
     "reader hash identity",
     "NAS side effects",
     "duplicate sessions",
-    "runtime unverified"
+    "runtime unverified",
+    "nonempty collection can replace existing OPF authors/categories/tags"
   ],
   "handoffTo": "PHASE_00_INDEPENDENT_REVIEW_BEFORE_01",
   "nextAction": "Fresh independent GPT-6 Web review Phase00 diff and C-001..C-006; update REVIEW.md with real verdict; resolve blockers before CONTRACT_LOCKED. Do not merge main, E2E only Phase09.",
@@ -58,6 +60,8 @@
     "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/MetadataController.java#L51-L59",
     "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/KoreaderController.java",
     "https://github.com/readest/readest/blob/v0.12.16/apps/readest-app/src/services/sync/KOSyncClient.ts",
-    "https://github.com/mbret/prose-reader/blob/1e2a38f0e48936792b222f27f79fe7dd511c8336/packages/koreader/src/cfi.ts"
+    "https://github.com/mbret/prose-reader/blob/1e2a38f0e48936792b222f27f79fe7dd511c8336/packages/koreader/src/cfi.ts",
+    "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/AuthenticationController.java#L53-L67",
+    "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/service/metadata/sidecar/SidecarMetadataWriter.java#L43-L80"
   ]
 }

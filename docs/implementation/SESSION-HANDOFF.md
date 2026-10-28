@@ -25,3 +25,6 @@ Open Draft PR #1 and do adversarial independent review (not implementation self-
 
 ## Tests/commits
 Audit performed by connected GitHub source reads and in-process JSON validation. Terminal runner **NOT_USED**. GitHub PR current HEAD and new commit are the authority; do not put self SHA here. Historical base `7d5bc8a421bcca29101453c6e46a2b4677363c51` only. No production data touched.
+
+## Follow-up source check
+Verified JWT source DTO shape, Bearer filter, nonempty collection replacement under REPLACE_WHEN_PROVIDED, and SidecarMetadataWriter direct Files.writeString path; see [API-INVENTORY.md](API-INVENTORY.md) and discrepancy **C-016**. No runtime tests. Review these paths before contract lock.

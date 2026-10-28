@@ -20,3 +20,6 @@
 - Next action: fresh GPT-6 reviewer of Draft PR #1, use `phase-00/REVIEW.md` for honest findings; if approved, mark CONTRACT_LOCKED with real evidence and proceed to Phase01 via integration approval only.
 
 **Commit SHA note:** Current commit cannot contain its own final SHA. Fetch live branch HEAD / PR server-side. Never substitute this pre-audit SHA as result commit SHA.
+
+## Source follow-up before review (same day)
+Additional controller/DTO inspection pinned JWT login/refresh request and response shapes, verified `Authorization: Bearer` filter, identified nonempty OPF collection replace semantics, and inspected Sidecar writer's direct adjacent-file write. See new C-016. Still no runtime/physical test or independent approval.
