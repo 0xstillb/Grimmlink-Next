@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "status": "UNVERIFIED_BOOTSTRAP",
+  "generatedAt": "2026-10-28",
+  "repository": "0xstillb/Grimmlink-Next",
+  "currentInstalledVersions": {
+    "grimmory": {
+      "tag": null,
+      "imageDigest": null,
+      "apiContractSha256": null
+    },
+    "readest": {
+      "testedPlatformVersions": {}
+    },
+    "koreader": {
+      "stableTag": null
+    },
+    "proseKoreader": {
+      "npmVersion": null,
+      "lockfileSha256": null
+    }
+  },
+  "sourceRepos": {
+    "grimmory": "https://github.com/grimmory-tools/grimmory",
+    "readest": "https://github.com/readest/readest",
+    "koreader": "https://github.com/koreader/koreader",
+    "proseKoreader": "https://github.com/mbret/prose-reader/tree/develop/packages/koreader"
+  },
+  "releasePolicy": "MANUAL_APPROVAL_ONLY",
+  "acceptance": {
+    "fullE2ePhase": "09",
+    "preFinalStatus": "NOT_TESTED",
+    "finalStatus": "UNVERIFIED"
+  }
+}
