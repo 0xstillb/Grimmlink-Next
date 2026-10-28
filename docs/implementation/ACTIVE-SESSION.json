@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "project": "GRIMMLINK NEXT",
+  "repo": "https://github.com/0xstillb/Grimmlink-Next",
+  "repoFullName": "0xstillb/Grimmlink-Next",
+  "executionSurface": "GPT_WEB_FIRST",
+  "preferredModel": "GPT-6 (High thinking when available)",
+  "branch": "feat/next-phase-00",
+  "integrationBranch": "integration/grimmlink-next",
+  "productionBranch": "main",
+  "phase": "00",
+  "phaseName": "Discovery, Contracts & Architecture Lock",
+  "phaseStatus": "PLANNED_NOT_STARTED",
+  "lastVerifiedPriorCommit": "f1b743517795d7775021c174b5ee126b9c554c6d",
+  "currentHead": "READ_LIVE_GITHUB_DO_NOT_ASSUME",
+  "pr": "CHECK_LIVE_GITHUB",
+  "codeImplemented": false,
+  "sourceAuditCompleted": false,
+  "fullE2eAllowed": false,
+  "fullE2ePhase": "09",
+  "testsRun": [],
+  "testsNotRun": [
+    "UNIT_NOT_RUN",
+    "FULL_E2E_DEFERRED_TO_PHASE_09",
+    "PHYSICAL_DEVICE_TEST_DEFERRED_TO_PHASE_09"
+  ],
+  "notion": {
+    "master": "https://app.notion.com/p/407c7efbc009814a9e18f0d945ee0ef0",
+    "currentPhase": "https://app.notion.com/p/407c7efbc00981e2b08ff8fb45c3f846",
+    "spec": "https://app.notion.com/p/407c7efbc00981f1a9c6ccb0de5d6a54",
+    "upstreamRunbook": "https://app.notion.com/p/407c7efbc0098105b492d0a7cca31bff"
+  },
+  "nextAction": "Perform Phase 00 source/API contract and deployed-tag audit using connected GitHub and Notion; update inventory and manifest; commit reviewed evidence.",
+  "blockers": [
+    "Actual installed Grimmory tag/DB/mount not verified",
+    "No Phase00 source audit performed"
+  ],
+  "handoffProtocol": "Update ACTIVE-SESSION.json and SESSION-HANDOFF.md on each checkpoint commit; verify server commit SHA then update Notion.",
+  "updatedAt": "2026-10-28"
+}
