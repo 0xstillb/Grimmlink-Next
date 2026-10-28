@@ -1,5 +1,16 @@
 # GRIMMLINK NEXT — GPT Web Session Handoff
 
+## CURRENT VERIFIED GATE — 2026-10-29 (supersedes all historical snapshots below)
+
+- **Phase 00 independent review: CHANGES_REQUIRED. NOT APPROVED, NOT CONTRACT_LOCKED, PHASE 01 NOT AUTHORIZED.**
+- Active [Draft PR #2](https://github.com/0xstillb/Grimmlink-Next/pull/2) on `feat/next-phase-00`. Reviewed original head: `5eccac25c8e85e16cfa913b72ae36bc6a3ceeed8`; **fetch the live head for the latest review/handoff commit SHA**.
+- Historical [PR #1](https://github.com/0xstillb/Grimmlink-Next/pull/1) merged to `integration/grimmlink-next` only at `5470c7ad807cb701381ae8bcd9abe516f351b150` **without independent gate**. `main` not modified by this review.
+- **Read [Independent REVIEW.md](phase-00/REVIEW.md) first**, then [HANDOFF.json](phase-00/HANDOFF.json) and source-linked discrepancies C-001..C-021. Reviewer issues **R-01..R-12** include metadata collections, per-user ACL (including KOSync/rating/status), native KOSync double-write, manual read status, global Sidecar guard, CFI EXACTness, and obsolete handoff headers.
+- **Next action:** Correct Phase00 source contract/fixtures/ACL gaps on feature branch, add evidence and request fresh independent re-review. Unsafe metadata, managed CFI/progress, unverified cross-user bridge and NAS file mutation remain disabled. Do **not** merge PR #2 or commence Phase01 without subsequent evidenced gate.
+- **Executed:** read-only source/tag/PR/Notion inspection and GitHub documentation commits. **NOT_RUN:** shell/build/unit/mock/live API/Hermes/NAS/real readers; full E2E strictly Phase09. Source tag is **not** deployed version.
+
+## Historical implementer checkpoint notes — superseded where conflicting
+
 **2026-10-28; PHASE 00 SOURCE_AUDITED_REVIEW_PENDING (NOT CONTRACT_LOCKED).** Not a release. `main` and `integration/grimmlink-next` intentionally untouched. Draft PR [#1](https://github.com/0xstillb/Grimmlink-Next/pull/1) from `feat/next-phase-00`.
 
 ## Mandatory next-session read order
