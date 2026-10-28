@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "phase": "PHASE_00",
   "status": "SOURCE_AUDITED_REVIEW_PENDING",
-  "baseCommit": "51ece97047f35cb7364b6308a2d3c2534765998d",
+  "baseCommit": "7a3647a6aff08c7d0868fc976646e09a31eb7665",
   "headCommit": "READ_LIVE_GITHUB",
   "branch": "feat/next-phase-00",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/1",
@@ -17,7 +17,8 @@
     "docs/implementation/phase-00/REVIEW.md",
     "docs/implementation/ACTIVE-SESSION.json",
     "docs/implementation/SESSION-HANDOFF.md",
-    "docs/implementation/phase-00/HANDOFF.json"
+    "docs/implementation/phase-00/HANDOFF.json",
+    "docs/implementation/phase-00/SOURCE-RECHECK-2026-10-29.md"
   ],
   "requirementsCovered": [
     "source audit v3.5.0",
@@ -26,11 +27,17 @@
     "prose cfi exports",
     "architecture decisions",
     "discrepancy register",
-    "fixture plan"
+    "fixture plan",
+    "Native KOSync dual progress/CFI-write source proof",
+    "Metadata mergeCategories coupling",
+    "Read status low-percent server behavior",
+    "personal book-level authorization audit gaps",
+    "Sidecar writer global storage guard"
   ],
   "testsAllowedRun": [
     "READ_ONLY_SOURCE_INSPECTION",
-    "IN_PROCESS_JSON_PARSE"
+    "IN_PROCESS_JSON_PARSE",
+    "READ_ONLY_GRIMMORY_V3_5_0_SERVICE_RECHECK"
   ],
   "testsNotRun": [
     "TERMINAL_COMMANDS_NOT_RUN",
@@ -44,7 +51,11 @@
     "Metadata collection/lock and NAS side-effect behaviors require review",
     "Independent review pending",
     "CFI exactness real reader unverified",
-    "Nonempty OPF collection replace behavior requires explicit diff/merge rule C-016"
+    "Nonempty OPF collection replace behavior requires explicit diff/merge rule C-016",
+    "C-017 collection merge/field mask design not independently reviewed",
+    "C-018 native/managed double projection risk",
+    "C-019 personal book ACL needs authorization verification",
+    "C-020 Native KOSync can reset manual READ at low percentage"
   ],
   "risks": [
     "unsafe metadata default",
@@ -55,7 +66,7 @@
     "nonempty collection can replace existing OPF authors/categories/tags"
   ],
   "handoffTo": "PHASE_00_INDEPENDENT_REVIEW_BEFORE_01",
-  "nextAction": "Fresh independent GPT-6 Web review Phase00 diff and C-001..C-006; update REVIEW.md with real verdict; resolve blockers before CONTRACT_LOCKED. Do not merge main, E2E only Phase09.",
+  "nextAction": "Separate independent fresh-context reviewer of Draft PR #1 and C-001..C-021 including 2026-10-29 source recheck; only after genuine review and resolved high-risk blockers consider CONTRACT_LOCKED; no Phase01/E2E.",
   "evidence": [
     "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/MetadataController.java#L51-L59",
     "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/KoreaderController.java",
@@ -63,5 +74,18 @@
     "https://github.com/mbret/prose-reader/blob/1e2a38f0e48936792b222f27f79fe7dd511c8336/packages/koreader/src/cfi.ts",
     "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/AuthenticationController.java#L53-L67",
     "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/service/metadata/sidecar/SidecarMetadataWriter.java#L43-L80"
-  ]
+  ],
+  "sourceRecheck": {
+    "date": "2026-10-29",
+    "kind": "IMPLEMENTER_TARGETED_SOURCE_RECHECK",
+    "newDiscrepancyIds": [
+      "C-017",
+      "C-018",
+      "C-019",
+      "C-020",
+      "C-021"
+    ],
+    "report": "docs/implementation/phase-00/SOURCE-RECHECK-2026-10-29.md",
+    "independent": false
+  }
 }

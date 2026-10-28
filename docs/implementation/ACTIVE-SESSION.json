@@ -11,7 +11,7 @@
   "phase": "00",
   "phaseName": "Discovery, Contracts & Architecture Lock",
   "phaseStatus": "SOURCE_AUDITED_REVIEW_PENDING",
-  "lastVerifiedPriorCommit": "51ece97047f35cb7364b6308a2d3c2534765998d",
+  "lastVerifiedPriorCommit": "7a3647a6aff08c7d0868fc976646e09a31eb7665",
   "currentHead": "READ_LIVE_GITHUB_DO_NOT_ASSUME",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/1",
   "codeImplemented": false,
@@ -31,6 +31,10 @@
     {
       "method": "READ_ONLY_AUTH_AND_SIDECAR_SOURCE_FOLLOWUP",
       "result": "CONTROLLER_DTO_WRITER_PATHS_OBSERVED"
+    },
+    {
+      "method": "READ_ONLY_GRIMMORY_V3_5_0_SERVICE_RECHECK",
+      "result": "SOURCE_LINES_OBSERVED_C017_TO_C021"
     }
   ],
   "testsNotRun": [
@@ -46,13 +50,18 @@
     "Metadata collection/lock and NAS side-effect behaviors require review",
     "Independent review pending",
     "CFI exactness real reader unverified",
-    "Nonempty OPF collection replace behavior requires explicit diff/merge rule C-016"
+    "Nonempty OPF collection replace behavior requires explicit diff/merge rule C-016",
+    "Metadata mergeCategories couples authors/categories/reviews; moods/tags merge flags false (C-017)",
+    "Native KOSync file progress/CFI projection may conflict with Adapter dual-write (C-018)",
+    "Personal create/session book-level ACL requires explicit audit (C-019)",
+    "Native KOSync low-percent update can change prior Read Status to UNREAD (C-020)"
   ],
   "notion": {
     "phase": "https://app.notion.com/p/407c7efbc00981e2b08ff8fb45c3f846",
     "spec": "https://app.notion.com/p/407c7efbc00981f1a9c6ccb0de5d6a54",
     "playbook": "https://app.notion.com/p/407c7efbc009814a9e18f0d945ee0ef0"
   },
-  "nextAction": "Fresh independent GPT-6 Web review Phase00 diff and C-001..C-006; update REVIEW.md with real verdict; resolve blockers before CONTRACT_LOCKED. Do not merge main, E2E only Phase09.",
-  "updatedAt": "2026-10-28"
+  "nextAction": "Separate independent fresh-context reviewer of Draft PR #1 and C-001..C-021 including 2026-10-29 source recheck; only after genuine review and resolved high-risk blockers consider CONTRACT_LOCKED; no Phase01/E2E.",
+  "updatedAt": "2026-10-29",
+  "sourceRecheck": "IMPLEMENTER_SOURCE_RECHECK_NOT_INDEPENDENT"
 }

@@ -28,3 +28,10 @@ Audit performed by connected GitHub source reads and in-process JSON validation.
 
 ## Follow-up source check
 Verified JWT source DTO shape, Bearer filter, nonempty collection replacement under REPLACE_WHEN_PROVIDED, and SidecarMetadataWriter direct Files.writeString path; see [API-INVENTORY.md](API-INVENTORY.md) and discrepancy **C-016**. No runtime tests. Review these paths before contract lock.
+
+
+## 2026-10-29 — Targeted source recheck checkpoint (implementer)
+
+Following a live HEAD check at prior commit `7a3647a6aff08c7d0868fc976646e09a31eb7665`, reviewed Grimmory Official v3.5.0 metadata merge, Native KOSync and personal service source. Added [SOURCE-RECHECK-2026-10-29.md](phase-00/SOURCE-RECHECK-2026-10-29.md), new discrepancies C-017..C-021, guardrail and fixture clarifications. **Phase remains SOURCE_AUDITED_REVIEW_PENDING, not CONTRACT_LOCKED.** This continuation is not a fresh independent review; `REVIEW.md` verdict remains PENDING. Unit/terminal/live API/physical E2E NOT_RUN. Production and integration/main untouched.
+
+**Next:** obtain genuinely separate reviewer review of entire PR and new findings; after documented corrections and approval, user-controlled integration PR gate. Do not start Phase01 or pretend that installed Grimmory/DB/NAS status is known. Retrieve current live HEAD rather than trusting this checkpoint.

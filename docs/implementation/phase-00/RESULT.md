@@ -23,3 +23,8 @@
 
 ## Source follow-up before review (same day)
 Additional controller/DTO inspection pinned JWT login/refresh request and response shapes, verified `Authorization: Bearer` filter, identified nonempty OPF collection replace semantics, and inspected Sidecar writer's direct adjacent-file write. See new C-016. Still no runtime/physical test or independent approval.
+
+
+## 2026-10-29 supplementary source recheck (implementer; not independent)
+
+A follow-up read-only source audit of the pinned Grimmory v3.5.0 release identified new risks **C-017..C-021** and updated the architecture/contract/checkpoint. Details and source links: [SOURCE-RECHECK-2026-10-29.md](SOURCE-RECHECK-2026-10-29.md). In particular, the single-book metadata `mergeCategories` flag also governs authors/reviews; native KOSync already writes file progress/optional CFI and can reset low-% read status; personal record user ownership is distinguishable from per-library book authorization. These are source-level findings, not a tested compatibility claim. The distinct independent reviewer remains PENDING. No runtime/unit/device tests or production changes.

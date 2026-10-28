@@ -19,3 +19,12 @@ Source-only discovery: no fixture files or commands executed yet. The following 
 | update-check | upstream release diff, schema migration risk, no production auto-upgrade | 08 |
 
 Every fixture has schema version, source tag SHA, request/response sanitized JSON, expected error paths, permission and exact test assertion; E2E remains PHASE_09_ONLY.
+
+
+## Additions from 2026-10-29 source recheck
+
+- `metadata-coupled-merge`: Authors A+B, incoming A+C, categories and bookReviews, with query mergeCategories ON/OFF; independently include nonempty moods/tags in PUT and require skip when preserving existing members cannot be guaranteed.
+- `native-sync-single-writer`: Native KOSync saves file progress/CFI; verify Adapter does not issue second progress write when native already owns projection. Preserve original XPointer on CFI conversion failure and reject stale identity.
+- `native-read-status`: manually READ + KOSync at 0%, 0.2%, 0.3%, 99.5%, ensuring no fake percentage and explicit accepted status effects.
+- `personal-cross-library-permissions`: authenticated accounts with/without access to a book library; deny creating bookmarks, annotations or sessions against inaccessible book IDs and foreign user-owned items. Mock before Phase09 real isolated staging.
+- `sidecar-storage-switches`: differentiate global `isLocalStorage()`, Sidecar settings, metadata file write and move-on-update; ensure RO NAS unchanged and no misuse of export API.

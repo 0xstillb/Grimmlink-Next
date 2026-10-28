@@ -13,3 +13,8 @@ This file is a handoff target, **not** a purported independent review. The imple
 6. Return defects by path:line with impact and fix, and final **APPROVED / CHANGES_REQUIRED / BLOCKED**. Do not authorize Phase01 gate if unresolved critical contracts or unsupported assumptions.
 
 **Not run:** No independent review performed yet; do not change status without a distinct reviewer and evidence.
+
+
+## Supplemental implementer findings for the future independent reviewer (2026-10-29)
+
+**Not a review verdict.** Inspect [SOURCE-RECHECK-2026-10-29.md](SOURCE-RECHECK-2026-10-29.md), new `C-017..C-021` and actual PR diff. Specifically challenge: coupled merge flags across authors/categories/reviews; double CFI/progress writes from Native KOSync; low-percent KOSync overwrite of manual Read Status; actual book-library access enforcement on personal creations/sessions; Sidecar local-storage guard vs NETWORK disk assumption. Return source-pinned file:line findings and APPROVED / CHANGES_REQUIRED / BLOCKED **only from a genuinely separate context**.
