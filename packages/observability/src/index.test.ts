@@ -48,6 +48,33 @@ describe("Pino secret redaction", () => {
   });
 });
 
+describe("final sink protection against deep secrets and free-form logging", () => {
+  it("omits arbitrary nested fields, root headers, child bindings and raw string messages", () => {
+    const chunks: string[] = [];
+    const sink = new Writable({ write(chunk, _encoding, done) { chunks.push(String(chunk)); done(); } });
+    const logger = createLogger("adapter", "info", sink);
+    logger.info({
+      context: { auth: { token: "deep-token-canary", password: "deep-password-canary" } },
+      payload: { user: { credentials: { secret: "deep-secret-canary" } } },
+      headers: { authorization: "root-header-canary" },
+      code: "REQUEST_SUMMARY", count: 3,
+    }, "raw-message-secret-canary");
+    logger.info("standalone-message-secret-canary");
+    logger.child({ nested: { jwt: "child-binding-canary" } }).warn("child-message-secret-canary");
+    const output = chunks.join("");
+    expect(output).toContain('"code":"REQUEST_SUMMARY"');
+    expect(output).toContain("[REDACTED]");
+    expect(output).toContain("LOG_DETAILS_OMITTED");
+    for (const secret of [
+      "deep-token-canary", "deep-password-canary", "deep-secret-canary",
+      "root-header-canary", "raw-message-secret-canary", "standalone-message-secret-canary",
+      "child-binding-canary", "child-message-secret-canary",
+    ]) {
+      expect(output).not.toContain(secret);
+    }
+  });
+});
+
 describe("bounded diagnostics and error sanitization", () => {
   it("does not print thrown Error.message or stack", () => {
     const chunks: string[] = [];
