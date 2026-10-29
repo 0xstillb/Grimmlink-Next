@@ -17,7 +17,8 @@
 
 ## Test accounting
 
-- Phase02 CI: **PENDING / re-read exact live PR head and jobs before claiming any result**.
+- [Phase02 isolated CI #40899384263](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40899384263): **SUCCESS** at exact code source HEAD `83f5a80eba3dacabf3739cc46fb4f59e21a1d58a`. Frozen install, native SQLite binding, build, strict TypeScript, ESLint, Prettier, injected mock/unit tests and no-second-port contract checks all passed. This is not runtime authorization or Phase09 E2E.
+- [Phase00 per-HEAD gate #40899384123](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40899384123): **SUCCESS** at same code source HEAD, preserving design-lock and deny-all invariants. Later documentation commits require new exact-HEAD checks.
 - No standalone local test runner used in this GPT Web session.
 - Source route inventory 403 is a Phase00 **static candidate count**, NOT a number of runtime-forwarding approvals or completed executable ACL tests.
 - Direct Official upstream calls: **NOT EXECUTED** (no transport wired).
