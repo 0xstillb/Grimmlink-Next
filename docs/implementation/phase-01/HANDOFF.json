@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "phase": "PHASE_01",
-  "status": "FOUNDATION_CODE_IMPLEMENTED_REVIEW_PENDING",
+  "status": "FOUNDATION_CODE_AND_ISOLATED_CI_PASS_REVIEW_PENDING",
   "startFromIntegrationHead": "4b4a924cf225734dab0d17114f878b5b1982d4a9",
   "currentCodeCheckpoint": "223c0d5b2fa2fd5249f0e9719b5ca632f5d65209",
   "branch": "feat/next-phase-01",
@@ -22,25 +22,32 @@
   ],
   "validation": [
     {
-      "run": "40872300890",
-      "commit": "5dd677e542cc82688d6892dded240a3bd7e6a79d",
-      "result": "PASS_ISOLATED_BUILD_AND_ARM64",
+      "run": "40872799995",
+      "commit": "223c0d5b2fa2fd5249f0e9719b5ca632f5d65209",
+      "result": "PASS_ISOLATED_FROZEN_AND_ARM64",
       "steps": [
-        "frozen-pnpm",
-        "native-sqlite-build",
-        "build",
+        "frozen-install",
+        "sqlite-native",
+        "workspace-build",
         "typecheck",
         "eslint",
-        "unit-and-mock",
-        "arm64-image-build",
-        "arm64-image-architecture",
-        "isolated-compose"
+        "unit-mock",
+        "redaction-and-diagnostic-ttl",
+        "arm64-image",
+        "compose-boundaries"
+      ]
+    },
+    {
+      "run": "40873402518",
+      "commit": "a33fa103cf2da053cd256826b5e780b8d3a063b8",
+      "result": "PASS_PHASE00_GATE",
+      "steps": [
+        "immutable-design-lock-regressions"
       ]
     }
   ],
   "notRun": [
     "FRESH_INDEPENDENT_REVIEW",
-    "LATEST_LOGGING_HARDENING_SHA_EXACT_CI_PENDING",
     "FULL_E2E_PHASE09",
     "HERMES_NAS_PHYSICAL_READERS",
     "OFFICIAL_GATEWAY_RUNTIME"
@@ -53,5 +60,5 @@
   ],
   "securityGates": "PHASE00_DESIGN_ONLY_PASS; ALL_OFFICIAL_FORWARDING_DENY; PHASE02_05_07_HARD_SECURITY_GATES",
   "exitGate": "NOT_MET_INDEPENDENT_REVIEW_PENDING",
-  "next": "Check latest workflow on newest HEAD, review security/off-by-default source and logs, record independent verdict and findings. No merge or Phase02 before accepted gate."
+  "next": "Fresh-context independent Phase01 review of exact branch diff required; no self-PASS. Correct findings before promoting gate. Phase02/05/07 runtime and Phase09 integrated E2E remain off."
 }

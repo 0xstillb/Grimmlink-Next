@@ -13,3 +13,9 @@
 - Steps verified in runner: `pnpm install --frozen-lockfile`, native SQLite rebuild, `pnpm build`, `pnpm typecheck`, `pnpm lint`, `pnpm test`; Docker buildx `linux/arm64` image built and checked `process.arch=arm64` with network disabled; compose policy validated.
 - Later source change [223c0d5b](https://github.com/0xstillb/Grimmlink-Next/commit/223c0d5b2fa2fd5249f0e9719b5ca632f5d65209) tightens Pino error serialization and scoped diagnostic logs, **latest exact-HEAD CI not yet verified at writing**.
 - All integration/network/NAS/physical E2E remains NOT_RUN by design. ARM64 under QEMU is NOT Hermes real-device evidence.
+
+## Exact diagnostics-hardening source verified
+
+- [Run 40872799995](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40872799995) SUCCESS at source SHA `223c0d5b2fa2fd5249f0e9719b5ca632f5d65209`: frozen install, TypeScript build, lint, full isolated unit/mock canaries, no-network ARM64 image build/architecture/compose checks.
+- [Phase00 integrity 40873402518](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40873402518) SUCCESS at handoff/status commit `a33fa103`, enforcing Phase00 design-only and Phase01 foundation scope.
+- **Independently reviewed:** NO. **Official runtime security / Hermes / NAS / actual readers / Full E2E:** NOT_RUN.

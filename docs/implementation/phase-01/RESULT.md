@@ -15,7 +15,7 @@
 ## Verified tests (source-specific)
 [Actions run 40872300890](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40872300890): SUCCESS at `5dd677e5` for frozen install, build, typecheck, ESLint, unit/inject mocks, Linux ARM64 image build, image architecture and compose network/log policy.
 
-Diagnostics hardening at `223c0d5b` was committed after the above CI: exact post-change CI verdict must be read before claim on this code. [Phase00 integrity run 40872891080](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40872891080) SUCCESS at `836c5268`, confirming design-only gate invariants in subsequent workflow checkpoint.
+Latest logging/diagnostics source `223c0d5b` also passed exact-code [Phase01 CI 40872799995](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40872799995): frozen install, build, TypeScript, ESLint, isolated unit tests, ARM64 image and compose checks all SUCCESS. [Phase00 integrity run 40872891080](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40872891080) SUCCESS at `836c5268`, confirming design-only gate invariants in subsequent workflow checkpoint.
 
 ## Exclusions and residual risks
 - No fresh-context independent Phase01 review/approval yet.
