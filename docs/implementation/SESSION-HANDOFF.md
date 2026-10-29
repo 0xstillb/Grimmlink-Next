@@ -1,3 +1,11 @@
+## LATEST — PHASE01 CHANGES_REQUIRED REMEDIATION (2026-10-29; RE-REVIEW PENDING)
+
+[Independent Phase01 review](phase-01/REVIEW.md) at exact `7160eca` found 5 issues (2 high, 3 medium). Implementer patches at code checkpoint `d14a84d7bf1359e22846db6729fc4d6b6f060dd8` address all five; [remediation receipt](phase-01/REMEDIATION-2026-10-29.md) links implementation and regression tests. Phase00 gate #40883141347 passed. Phase01 code CI #40883141411 was pending when recorded; final docs commit requires **new exact HEAD** CI. Do not infer PASS from earlier commits.
+
+**Status: `FOUNDATION_IN_PROGRESS / CHANGES_REQUIRED / RE_REVIEW_PENDING`**. No second independent verdict, no merge, no Phase02, no upstream forwarding, sensitive sync, or production. Full E2E Phase09 only.
+
+---
+
 ## LATEST — PHASE01 IMPLEMENTER SECURITY FOLLOW-UP (2026-10-29; REVIEW PENDING)
 
 Branch `feat/next-phase-01` / [Draft PR #5](https://github.com/0xstillb/Grimmlink-Next/pull/5), source checkpoint [`04d72a3`](https://github.com/0xstillb/Grimmlink-Next/commit/04d72a3a31953b8be4d6a7295d17ea7435194f20). [`c9dd8cd`](https://github.com/0xstillb/Grimmlink-Next/commit/c9dd8cd08a7c8b64933660d5c1f0bee6a994a1d4) hardens local SQLite file creation and directory privacy with negative tests and private container data directory; [`04d72a3`](https://github.com/0xstillb/Grimmlink-Next/commit/04d72a3a31953b8be4d6a7295d17ea7435194f20) prevents calling an unverified Book ID "verified". [Phase00 gate #40876891650](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40876891650) succeeded at code SHA. [Phase01 isolated CI #40876891637](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40876891637) pending at this writing; do not claim latest full CI PASS. A docs-only commit after this receipt requires fresh exact-HEAD checks.
