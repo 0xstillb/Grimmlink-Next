@@ -69,7 +69,7 @@ class GateTests(unittest.TestCase):
 
     def test_design_review_attestation_tamper_rejected(self):
         p=self.root/"docs/implementation/phase-00/FRESH-CONTEXT-DESIGN-LOCK-REVIEW-2026-10-29.md"
-        p.write_text(p.read_text()+"\\nTAMPERED\\n")
+        p.write_text(p.read_text()+"\nTAMPERED\n")
         with self.assertRaisesRegex(ValueError,"independent design review attestation tampered"):
             gate.validate(self.root,self.out)
 
