@@ -19,7 +19,10 @@ describe("foundation server", () => {
     expect(contract.json().paths["/health"].get.responses["200"]).toBeDefined();
     expect(contract.json().paths["/api/v1/books"]).toBeUndefined();
     expect(health.headers["x-correlation-id"]).toMatch(/^[0-9a-f-]{36}$/);
-    const capabilities = await server.inject({ method: "GET", url: "/api/grimmlink/v2/capabilities" });
+    const capabilities = await server.inject({
+      method: "GET",
+      url: "/api/grimmlink/v2/capabilities",
+    });
     expect(capabilities.statusCode).toBe(200);
     expect(capabilities.json()).toMatchObject({
       phase: "02",
@@ -29,7 +32,9 @@ describe("foundation server", () => {
       nativeKosyncProgress: "OFF",
       fullE2e: "DEFERRED_TO_PHASE_09",
     });
-    expect(contract.json().paths["/api/grimmlink/v2/capabilities"].get.responses["200"]).toBeDefined();
+    expect(
+      contract.json().paths["/api/grimmlink/v2/capabilities"].get.responses["200"],
+    ).toBeDefined();
     for (const method of ["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"] as const) {
       const blocked = await server.inject({
         method,
