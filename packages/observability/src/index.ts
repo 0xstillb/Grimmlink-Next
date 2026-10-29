@@ -1,4 +1,5 @@
 import pino, { type Logger, type DestinationStream } from "pino";
+export * from "./metrics.js";
 
 const MAX_MS = { debug: 30 * 60_000, trace: 5 * 60_000 } as const;
 export type DiagnosticLevel = keyof typeof MAX_MS;
