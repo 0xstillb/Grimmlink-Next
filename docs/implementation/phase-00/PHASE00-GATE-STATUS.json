@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "basis": "PINNED_EVIDENCE_WITH_FAIL_CLOSED_RELEASE_POLICY",
+  "sourcePin": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+  "independentReviewReportGitBlob": "085c8bedb16513df38575fcff2a432ab72de2ad8",
+  "phase00SourceCensusVerified": true,
+  "phase00SourceAuthorizationReviewComplete": true,
+  "securityContractReadyForIndependentAcceptance": false,
+  "sourceAnnotationComplete": false,
+  "runtimeSpringRouteComplete": "NOT_RUN",
+  "authorizationRuntimeProof": "NOT_RUN",
+  "gatewayRuntimeEnforcement": "NOT_RUN",
+  "historicalIndependentVerdict": "CHANGES_REQUIRED",
+  "freshIndependentVerdict": "NOT_RUN",
+  "phase00ContractLocked": false,
+  "phase01Authorized": false,
+  "nextGateOwner": "FRESH_INDEPENDENT_SECURITY_REVIEW_AFTER_SOURCE_AND_RUNTIME_GAPS_CORRECTED",
+  "sourceRouteCountNotRuntime": 403,
+  "methodMappingRecords": 348,
+  "methodNamesNotUnique": 346,
+  "prioritySourceReviewRecords": 43,
+  "fixtureDefinitionsStaticValidated": 109,
+  "gateRows": [
+    {
+      "id": "P00_PINNED_SOURCE_CENSUS",
+      "status": "SOURCE_VERIFIED",
+      "owner": "Phase00",
+      "reason": "923/923 SHA and AST"
+    },
+    {
+      "id": "P00_SYMBOLIC_MAPPING_CONDITIONS",
+      "status": "SOURCE_VERIFIED",
+      "owner": "Phase00",
+      "reason": "15/15 exact source constants"
+    },
+    {
+      "id": "P00_SECURITY_CHAIN_CLASSIFICATION",
+      "status": "SOURCE_CANDIDATES_CLASSIFIED_NOT_RUNTIME",
+      "owner": "Phase00/02",
+      "reason": "403/403; root wildcard semantics outstanding"
+    },
+    {
+      "id": "P00_AUTH_OWNER_INVENTORY",
+      "status": "DENY_BY_DEFAULT_DOCUMENTED",
+      "owner": "Phase00/02",
+      "reason": "348/348 mapping records; no allow decisions"
+    },
+    {
+      "id": "P00_MUTATING_HANDLER_SOURCE_REVIEW",
+      "status": "SOURCE_REVIEWED_NOT_AUTHORIZED",
+      "owner": "Phase00",
+      "reason": "43/43 Git-blob verified; 0 allowed"
+    },
+    {
+      "id": "P00_INHERITED_TYPE_REVIEW",
+      "status": "LEXICAL_TRIAGE_NOT_TYPE_BOUND",
+      "owner": "Phase00/02",
+      "reason": "160 files, Spring runtime registration unresolved"
+    },
+    {
+      "id": "P00_RUNTIME_SPRING_CHAIN_MATCH",
+      "status": "NOT_RUN",
+      "owner": "Phase02",
+      "reason": "Actual matcher/order/dispatcher behavior unverified"
+    },
+    {
+      "id": "P00_GATEWAY_DENY_BEFORE_FORWARD",
+      "status": "NOT_IMPLEMENTED_VERIFIED",
+      "owner": "Phase02",
+      "reason": "No production gateway handler or isolated real HTTP proof"
+    },
+    {
+      "id": "P00_USER_LIBRARY_BOOK_FILE_ENTITLEMENT",
+      "status": "NOT_PROVEN",
+      "owner": "Phase02/05/07",
+      "reason": "Per-book current content and child-file relationships unresolved"
+    },
+    {
+      "id": "P00_KO_CREDENTIAL_LOGGING",
+      "status": "SOURCE_RISK_UNMITIGATED",
+      "owner": "Phase02/05",
+      "reason": "Controller and generic logger can receive secrets"
+    },
+    {
+      "id": "P00_RUNTIME_NEGATIVE_FIXTURES",
+      "status": "STATIC_ONLY_NOT_EXECUTED",
+      "owner": "Phase02/07",
+      "reason": "109/109 definitions pass, actual HTTP tests NOT_RUN"
+    },
+    {
+      "id": "P00_FRESH_INDEPENDENT_REVIEW",
+      "status": "NOT_RUN_PREVIOUS_CHANGES_REQUIRED",
+      "owner": "Independent",
+      "reason": "Prior immutable report CHANGES_REQUIRED"
+    }
+  ]
+}
