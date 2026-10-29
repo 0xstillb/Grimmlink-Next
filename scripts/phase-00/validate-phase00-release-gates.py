@@ -76,9 +76,19 @@ def validate(root,out):
             raise ValueError("active status differs from independent design lock")
     else:
         raise ValueError("unreviewed active phase transition")
-    disabled=current.get("securityCapability",{})
-    required=("kosyncProgress","metadataApply","personalBridge","sessionBridge","managedProjection","resetProgress","resetPersonalRating")
-    if any("OFF" not in str(disabled.get(k,"")) for k in required):
+    disabled=current.get("securityCapability")
+    # Exact accepted Phase01 design-only states. Substring checks would allow
+    # forged values such as ON_WITH_OFF_SUFFIX to pass a release gate.
+    expected_disabled={
+        "kosyncProgress":"BLOCKED_OFF_TOCTOU",
+        "metadataApply":"BLOCKED_OFF",
+        "personalBridge":"BLOCKED_OFF",
+        "sessionBridge":"BLOCKED_OFF",
+        "managedProjection":"BLOCKED_OFF",
+        "resetProgress":"BLOCKED_OFF",
+        "resetPersonalRating":"BLOCKED_OFF",
+    }
+    if not isinstance(disabled,dict) or disabled!=expected_disabled:
         raise ValueError("security feature unexpectedly enabled")
     gates=[
       ("P00_PINNED_SOURCE_CENSUS","SOURCE_VERIFIED", "Phase00","923/923 SHA and AST"),
