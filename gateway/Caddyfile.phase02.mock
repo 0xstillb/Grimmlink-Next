@@ -8,7 +8,7 @@
 # verification are separate hard gates. All Official UI/OPDS/KO routes remain DENIED.
 :6060 {
     @local_host {
-        header_regexp Host ^(localhost|127\\.0\\.0\\.1):6060$
+        host localhost 127.0.0.1
     }
 
     @adapter_get {
