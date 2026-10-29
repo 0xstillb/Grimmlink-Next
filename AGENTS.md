@@ -21,7 +21,7 @@ Do not assume the CLI has access to Notion. Use links or approved local snapshot
 - Sidecar optional inspect/fallback/import/backup/restore; adjacent NAS writes OFF by default.
 - Official is personal-data owner. Never write its DB directly or use an admin identity to impersonate reader accounts.
 - Retain raw native positions; use proven XPointer ↔ EPUB CFI with EXACT/CHAPTER_ONLY/UNRESOLVED. Never fake CFI, percent, Book Identity, HTTP success or test evidence.
-- Preserve manual status where appropriate; Official Continue Reading at 0.0% has accepted limitations.
+- **Manual READ is not guaranteed preserved**: Native KOSync may reset status to UNREAD for progress <0.25%. Never fabricate a percent or silently compensate via REST. Official Continue Reading at 0.0% also has accepted limitations.
 - Typed API contracts and safe error codes, bounded retries, idempotent queue, durable job/receipt records.
 - Pino structured logging and diagnostics required; redact secrets, book text, highlights and personal notes; debug TTL max 30 minutes, trace TTL max 5 minutes.
 - Watch upstream updates, pin versions and manually approve production updates; no auto-upgrade.

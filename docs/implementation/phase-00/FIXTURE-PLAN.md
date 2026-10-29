@@ -5,7 +5,7 @@ Source-only discovery: no fixture files or commands executed yet. The following 
 | Fixture | Essential positive/negative assertions | Phase |
 | --- | --- | --- |
 | metadata-safe-replace | Missing OPF fields preserved; required query mode; metadata wrapper and false clearFlags; locked fields untouched; stale fingerprint refused | 02/03 |
-| metadata-collection | author/category/tag merge vs replace precedence; empty/blank fields not destructive | 03 |
+| metadata-collection | whole-set author/category/tag/review merge/replace diff; missing/null vs present-empty reviews; explicit lock-bit/clearFlags guard; never trust replaceMode alone | 03 |
 | cover-multipart | only accepted safe cover, correct file key, cover lock/mismatch/no-change skips; GET readback | 03 |
 | opf-path | symlink/root escape/XXE/DTD/zip-bomb prevention; NAS missing => PAUSED_NAS_OFFLINE | 03/04 |
 | sidecar-network | import/export preview, no adjacent write and safe recovery | 04 |

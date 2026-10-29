@@ -18,10 +18,10 @@
 | P1 | C-012 | VERIFY | Upstream DB migration and restore/rollback steps untested; moving image tag backwards cannot replace DB restore | Phase08 manifest/runbook, Phase09 backup rehearsal |
 | P2 | C-013 | VERIFY | Published @prose-reader/koreader NPM package/version and lockfile may differ from source develop v30.2.0 | Phase01 dependency install lock+digest then Phase06 test |
 | P2 | C-014 | VERIFY | CrossPoint TH/SDPlugin firmware/version capabilities not inspectable from GitHub source; no invented device PASS | Phase09 operator test EPUB, skip PDF |
-| P2 | C-015 | REVIEW_PENDING | Fresh independent GPT-6 reviewer has not reviewed this specific diff; source-audit authored in implementer session | New GPT Web session review exact commit, line-by-line PR |
+| P2 | C-015 | REVIEW_CHANGES_REQUIRED_RE_REVIEW_PENDING | Independent review issued CHANGES_REQUIRED; implementer correction committed but fresh independent re-review not yet performed | New GPT Web session must re-review actual correction diff, evidence and gate |
 
 ## Contract acceptance rule
-A verified source route is not runtime evidence. The implementation can proceed only for feature code guarded by `VERIFY/BLOCKED` flags; never enable unsafe writes before observed target tag/permission/readback. Phase 00 gate stays **REVIEW_PENDING**.
+A verified source route is not runtime evidence. The implementation can proceed only for feature code guarded by `VERIFY/BLOCKED` flags; never enable unsafe writes before observed target tag/permission/readback. Phase 00 gate stays **CHANGES_REQUIRED_PENDING_INDEPENDENT_RE_REVIEW**.
 
 ### Added critical case — nonempty collection replacement
 
