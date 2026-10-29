@@ -70,7 +70,7 @@ jobs:
           grep -q 'internal: true' /tmp/phase02-resolved.yml
           grep -q 'network_mode: service:gateway' /tmp/phase02-resolved.yml
           test "$(grep -c '^    ports:' /tmp/phase02-resolved.yml)" -eq 1
-          ! grep -qi 'official' compose.phase02.mock.yml
+          ! grep -Eiq '^\s*(official|grimmory):|OFFICIAL_UPSTREAM' /tmp/phase02-resolved.yml
       - name: Start isolated mocked Caddy and adapter only
         run: |
           set -euo pipefail
