@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-10-28",
-  "status": "SOURCE_AUDITED_CANDIDATE_REVIEW_PENDING",
+  "recordedAt": "2026-10-29",
+  "status": "SOURCE_CONTRACT_CORRECTED_RE_REVIEW_PENDING",
   "repository": "0xstillb/Grimmlink-Next",
   "releasePolicy": "MANUAL_APPROVAL_ONLY",
   "currentInstalledVersions": {
@@ -67,12 +67,34 @@
     "source_and_cover_readback",
     "cfiexact_anchor_proof",
     "migration_backup_restore",
-    "single_port_gateway_proof"
+    "single_port_gateway_proof",
+    "review_collection_null_vs_empty",
+    "no_lock_bit_updates",
+    "native_kosync_book_acl",
+    "personal_library_content_acl",
+    "single_progress_writer",
+    "no_manual_status_preservation_claim",
+    "verified_cfi_dom_anchor",
+    "readest_digest_parity",
+    "global_sidecar_move_settings"
   ],
   "acceptance": {
-    "phase00": "REVIEW_PENDING",
+    "phase00": "INDEPENDENT_CHANGES_REQUIRED_RE_REVIEW_PENDING",
     "fullE2ePhase": "09",
     "fullE2eStatus": "DEFERRED_TO_PHASE_09",
-    "production": "NOT_VERIFIED"
+    "production": "NOT_VERIFIED",
+    "reviewVerdict": "CHANGES_REQUIRED",
+    "reviewPending": true,
+    "correctionDoc": "docs/implementation/phase-00/REMEDIATION.md"
+  },
+  "designOnlySafetyDefaults_NOT_IMPLEMENTED": {
+    "metadataApply": false,
+    "coverApply": false,
+    "unverifiedKOSyncPassThrough": false,
+    "managedProgressProjection": false,
+    "personalBridgeWrites": false,
+    "adjacentNasWrite": false,
+    "sidecarExportOnNas": false,
+    "moveSourceFiles": false
   }
 }
