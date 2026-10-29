@@ -1,3 +1,9 @@
+## CURRENT SOURCE PROOF CHECKPOINT — 2026-10-29 (IMPLEMENTER; NOT INDEPENDENT PASS)
+
+[CI 40821817455](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40821817455) verifies **923/923 pinned Java bodies SHA+AST**, 348 method handlers/403 source declarations (NOT runtime routes), **15/15 source symbolic constants** (9 pinned OPDS +6 locked spring-web 7.0.9 MediaType), **9 sensitive call chains and 37 source witnesses**, **101 fixture definitions STATIC_PASS, actual tests NOT_RUN**. [Source ACL evidence receipt](PHASE00-PINNED-SOURCE-SEMANTIC-ACL-RECEIPT-2026-10-29.md). 43 mutating handlers without local auth annotations and 160 lexical inheritance class flags remain source-review priorities. No runtime ACL/gateway proof, no independent re-review PASS. **NEW-P0-01 BLOCKED / CHANGES_REQUIRED / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED**. Historical older checkpoint contents below are superseded for 15 symbolic values and 97 current fixtures only.
+
+---
+
 # GrimmLink Next Phase 00 — Source Route Semantics & Security Chain Audit (Implementer)
 
 **Date:** 2026-10-29  
