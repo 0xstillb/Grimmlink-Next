@@ -9,7 +9,7 @@ permissions:
 jobs:
   foundation:
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -18,21 +18,35 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Install workspace dependencies (lockfile pending)
-        run: pnpm install --no-frozen-lockfile
+          cache: pnpm
+      - name: Deterministic frozen install
+        run: pnpm install --frozen-lockfile
       - name: Compile approved SQLite native binding
         run: pnpm rebuild better-sqlite3
       - name: Build packages and UI
         run: pnpm build
-      - name: Typecheck
+      - name: Strict TypeScript
         run: pnpm typecheck
+      - name: ESLint source audit
+        run: pnpm lint
       - name: Unit and injected mock tests only
         run: pnpm test
-      - name: Preserve generated lock for follow-up review
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: phase01-proposed-pnpm-lock
-          path: pnpm-lock.yaml
-          if-no-files-found: warn
-          retention-days: 7
+  arm64-image:
+    needs: foundation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+      - name: ARM64 native-image build (isolated, no push)
+        run: docker buildx build --platform linux/arm64 --load -t grimmlink-next:phase01-arm64 .
+      - name: Check image architecture without networking or devices
+        run: |
+          set -euo pipefail
+          test "$(docker run --rm --network none --entrypoint node grimmlink-next:phase01-arm64 -p 'process.arch')" = "arm64"
+      - name: Validate bounded local-only compose contract
+        run: |
+          docker compose -f compose.phase01.yml config > /tmp/grimmlink-compose-resolved.yml
+          grep -q 'network_mode: none' /tmp/grimmlink-compose-resolved.yml
+          ! grep -q '^    ports:' /tmp/grimmlink-compose-resolved.yml
