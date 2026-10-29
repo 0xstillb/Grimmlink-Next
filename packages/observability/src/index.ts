@@ -13,12 +13,15 @@ export class DiagnosticLeases {
   enable(input: { module: string; level: DiagnosticLevel; durationMs: number; adminAuthorized: boolean }, now = Date.now()): void {
     if (!input.adminAuthorized) throw new Error("Admin authorization required");
     if (!/^[a-z][a-z0-9_-]{0,63}$/.test(input.module)) throw new Error("Invalid module");
-    if (!Number.isFinite(input.durationMs) || input.durationMs <= 0 || input.durationMs > MAX_MS[input.level]) {
+    if (input.level !== "debug" && input.level !== "trace") throw new Error("Invalid diagnostic level");
+    if (!Number.isSafeInteger(now) || !Number.isSafeInteger(now + input.durationMs)) throw new Error("Invalid diagnostic clock");
+    if (!Number.isSafeInteger(input.durationMs) || input.durationMs <= 0 || input.durationMs > MAX_MS[input.level]) {
       throw new Error("Diagnostic duration exceeds limit");
     }
     this.leases.set(input.module, { level: input.level, expiresAt: now + input.durationMs });
   }
   levelFor(module: string, now = Date.now()): "info" | DiagnosticLevel {
+    if (!Number.isSafeInteger(now)) return "info";
     const value = this.leases.get(module);
     if (!value) return "info";
     if (value.expiresAt <= now) {
