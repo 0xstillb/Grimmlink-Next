@@ -3,7 +3,7 @@ import { buildServer } from "./server.js";
 
 describe("foundation server", () => {
   it("returns truthful local-only health and no API proxy", async () => {
-    const server = buildServer();
+    const server = await buildServer();
     const health = await server.inject({ method: "GET", url: "/health" });
     expect(health.statusCode).toBe(200);
     expect(health.json()).toMatchObject({ status:"foundation-only", upstreamConnected:false, phase:"01" });

@@ -5,7 +5,7 @@ import { HealthSchema, type Health } from "@grimmlink/contracts";
 import { createLogger } from "@grimmlink/observability";
 
 /** Phase01 exposes ONLY local health and its schema. No gateway/proxy routes. */
-export function buildServer() {
+export async function buildServer() {
   const server = Fastify({
     loggerInstance: createLogger("adapter"),
     genReqId: () => randomUUID(),
@@ -13,7 +13,7 @@ export function buildServer() {
   });
   // Plugin registration happens before routes; Fastify builds the OpenAPI
   // document from the same TypeBox route schema, no hand-maintained drift.
-  void server.register(swagger, {
+  await server.register(swagger, {
     openapi: {
       openapi: "3.0.3",
       info: { title: "GrimmLink Next Foundation", version: "0.1.0" },
