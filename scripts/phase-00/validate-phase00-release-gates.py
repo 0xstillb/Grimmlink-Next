@@ -2,6 +2,8 @@
 """Phase00 release-gate integrity check: implementer CANNOT self-authorize Phase01."""
 import argparse,hashlib,json,pathlib,subprocess,sys
 REVIEW_BLOB="085c8bedb16513df38575fcff2a432ab72de2ad8"
+FRESH_DESIGN_REVIEW_BLOB="e910a70fff151eaded60596e3e3042c59673b5aa"
+REVIEWED_SOURCE_HEAD="f071229d9d9a1b7fb680cb68f83c763bc53138c6"
 PIN="402e89b4452f8e2b17ab95f16c1621c003516cd2"
 def load(root,path):return json.loads((root/path).read_text("utf8"))
 def validate(root,out):
@@ -19,6 +21,13 @@ def validate(root,out):
     reviewed=hashlib.sha1(("blob "+str(len(reviewer_bytes))+"\0").encode()+reviewer_bytes).hexdigest()
     if reviewed!=REVIEW_BLOB:raise ValueError("historical reviewer report was modified")
     if "CHANGES_REQUIRED" not in reviewer_bytes.decode("utf8"):raise ValueError("historical verdict not found")
+    fresh_bytes=(root/(p+"FRESH-CONTEXT-DESIGN-LOCK-REVIEW-2026-10-29.md")).read_bytes()
+    fresh_hash=hashlib.sha1(("blob "+str(len(fresh_bytes))+"\\0").encode()+fresh_bytes).hexdigest()
+    if fresh_hash!=FRESH_DESIGN_REVIEW_BLOB:raise ValueError("independent design review attestation tampered")
+    fresh=fresh_bytes.decode("utf8")
+    if ("PASS_PHASE00_DESIGN_ONLY" not in fresh or REVIEWED_SOURCE_HEAD not in fresh
+        or "not a distinct GitHub human-account approval" not in fresh):
+        raise ValueError("fresh design review has incorrect scope or reviewed SHA")
     if not (census["filesEnumerated"]==923==census["astParsedFiles"]==census["contentReadAndBlobShaVerified"]
       and len(census["astErrors"])==0):raise ValueError("source census incomplete")
     if condition["symbolicConditions"]!=15 or condition["unresolvedThirdPartyOrDynamic"]!=0:raise ValueError("source constants unresolved")
@@ -51,8 +60,12 @@ def validate(root,out):
     if repo["pinnedGradleLockSpringDataRestDependencies"] or repo["pinnedGradleBuildSpringDataRestDeclarations"] or repo["springDataRestSourceSymbols"]:
         raise ValueError("NEW-P0-01 repository REST registration evidence changed")
     current=load(root,"docs/implementation/ACTIVE-SESSION.json")
-    if current.get("phase01Authorized") is not False or current.get("contractLocked") is not False:
-        raise ValueError("active status improperly approved")
+    if current.get("phase01Authorized") is not True or current.get("contractLocked") is not True or current.get("phaseStatus")!="CONTRACT_LOCKED_DESIGN_ONLY":
+        raise ValueError("active status differs from independent design lock")
+    disabled=current.get("securityCapability",{})
+    required=("kosyncProgress","metadataApply","personalBridge","sessionBridge","managedProjection","resetProgress","resetPersonalRating")
+    if any("OFF" not in str(disabled.get(k,"")) for k in required):
+        raise ValueError("security feature unexpectedly enabled")
     gates=[
       ("P00_PINNED_SOURCE_CENSUS","SOURCE_VERIFIED", "Phase00","923/923 SHA and AST"),
       ("NEW_P0_01_SOURCE_MECHANISM_INVENTORY","PINNED_SOURCE_RECONCILED_NOT_RUNTIME","Phase00","923 Java; 715 signals; 17 programmatic; 160 inheritance; 65 repositories; all route forwarding DENY"),
@@ -66,11 +79,13 @@ def validate(root,out):
       ("P00_USER_LIBRARY_BOOK_FILE_ENTITLEMENT","NOT_PROVEN","Phase02/05/07","Per-book current content and child-file relationships unresolved"),
       ("P00_KO_CREDENTIAL_LOGGING","SOURCE_RISK_UNMITIGATED","Phase02/05","Controller and generic logger can receive secrets"),
       ("P00_RUNTIME_NEGATIVE_FIXTURES","STATIC_ONLY_NOT_EXECUTED","Phase02/07","109/109 definitions pass, actual HTTP tests NOT_RUN"),
-      ("P00_FRESH_INDEPENDENT_REVIEW","NOT_RUN_PREVIOUS_CHANGES_REQUIRED","Independent","Prior immutable report CHANGES_REQUIRED"),
+      ("P00_FRESH_INDEPENDENT_REVIEW","PASS_PHASE00_DESIGN_ONLY_RUNTIME_NOT_RUN","Fresh GPT-6 context","Exact independent design review attestation, not a GitHub human approval"),
     ]
     obj={"schemaVersion":1,"basis":"PINNED_EVIDENCE_WITH_FAIL_CLOSED_RELEASE_POLICY",
       "sourcePin":PIN,"independentReviewReportGitBlob":REVIEW_BLOB,
       "phase00SourceCensusVerified":True,"phase00SourceAuthorizationReviewComplete":False,
+      "phase00DesignContractIndependentlyAccepted":True,"freshDesignReviewedHead":REVIEWED_SOURCE_HEAD,
+      "freshDesignReviewGitBlob":FRESH_DESIGN_REVIEW_BLOB,
       "phase00Priority43SourceReviewComplete":True,
       "newP001PinnedSourceMechanismReconciled":True,
       "newP001RuntimeAuthorizationVerified":False,
@@ -79,9 +94,9 @@ def validate(root,out):
       "securityContractReadyForIndependentAcceptance":False,
       "sourceAnnotationComplete":False,"runtimeSpringRouteComplete":"NOT_RUN",
       "authorizationRuntimeProof":"NOT_RUN","gatewayRuntimeEnforcement":"NOT_RUN",
-      "historicalIndependentVerdict":"CHANGES_REQUIRED","freshIndependentVerdict":"NOT_RUN",
-      "phase00ContractLocked":False,"phase01Authorized":False,
-      "nextGateOwner":"FRESH_INDEPENDENT_SECURITY_REVIEW_AFTER_SOURCE_AND_RUNTIME_GAPS_CORRECTED",
+      "historicalIndependentVerdict":"CHANGES_REQUIRED","freshIndependentVerdict":"PASS_PHASE00_DESIGN_ONLY",
+      "phase00ContractLocked":True,"phase01Authorized":True,
+      "nextGateOwner":"PHASE02_GATEWAY_RUNTIME_SECURITY_HARD_GATE",
       "sourceRouteCountNotRuntime":403,"methodMappingRecords":348,
       "methodNamesNotUnique":346,"prioritySourceReviewRecords":43,
       "fixtureDefinitionsStaticValidated":109,
@@ -89,7 +104,7 @@ def validate(root,out):
     out.parent.mkdir(parents=True,exist_ok=True)
     out.write_text(json.dumps(obj,ensure_ascii=False,indent=2)+"\n",encoding="utf8")
     print(json.dumps({"phase00SourceCensusVerified":True,"sourceHandlerAndRouteVerified":"348 / 403",
-      "sourceReview43":True,"runtimeTests":"NOT_RUN","phase01Authorized":False,
+      "sourceReview43":True,"runtimeTests":"NOT_RUN","phase01Authorized":True,
       "gateRows":len(gates)},indent=2))
 if __name__=="__main__":
     p=argparse.ArgumentParser()
