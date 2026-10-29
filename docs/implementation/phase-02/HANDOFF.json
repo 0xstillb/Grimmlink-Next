@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "phase": "PHASE_02",
   "phaseName": "Single-Port Gateway, Auth & Official REST Client",
-  "status": "CODE_EXTENDED_MOCK_CLIENT_AUTH_GATE_CI_PENDING_REVIEW",
+  "status": "CODE_AND_ISOLATED_CI_PASS_REVIEW_PENDING",
   "exitGate": "GATEWAY_CODE_REVIEWED_NOT_GRANTED",
   "baseIntegrationCommit": "0579f64afb2d53001c915a10079d00ecd9de0091",
   "branch": "feat/next-phase-02",
@@ -35,10 +35,24 @@
       "sourceHead": "83f5a80eba3dacabf3739cc46fb4f59e21a1d58a",
       "result": "SUCCESS_DESIGN_GATE_ONLY"
     },
-    "mockClientAndAuth": "PENDING_EXACT_HEAD_CI",
+    "mockClientAndAuth": {
+      "run": "40902172141",
+      "sourceHead": "f3b0d8791a97c739f22459b3c5fd15cc2c7098aa",
+      "result": "SUCCESS_ISOLATED_MOCK_UNIT_BUILD_TYPES_FORMAT"
+    },
     "liveOfficialTransport": "NOT_IMPLEMENTED",
     "liveSessionVerifier": "NOT_IMPLEMENTED",
-    "protocolFakeUpstreamE2E": "NOT_RUN"
+    "protocolFakeUpstreamE2E": "NOT_RUN",
+    "phase02ExactCodeRun": {
+      "run": "40902172141",
+      "sourceHead": "f3b0d8791a97c739f22459b3c5fd15cc2c7098aa",
+      "result": "SUCCESS"
+    },
+    "phase00ExactCodeRun": {
+      "run": "40902171900",
+      "sourceHead": "f3b0d8791a97c739f22459b3c5fd15cc2c7098aa",
+      "result": "SUCCESS_DESIGN_ONLY"
+    }
   },
   "safety": {
     "officialGatewayForwarding": "DENY_ALL",
@@ -59,7 +73,7 @@
     "Range/WS/SSE tests",
     "Independent fresh-context code review"
   ],
-  "next": "Check exact latest-head Phase02 CI; keep live Official and sessions OFF; complete safe single-port mock gateway and runtime Spring/ACL verification then separate fresh-context review.",
+  "next": "Latest committed code+docs CI passed at f3b0d879; re-check any later handoff-only HEAD CI. Continue remaining Phase02 runtime Spring, ingress, auth and ACL hard security gates, then fresh independent review. No live Official forwarding.",
   "updatedAt": "2026-10-29",
-  "latestVerifiedCodeSourceHead": "83f5a80eba3dacabf3739cc46fb4f59e21a1d58a"
+  "latestVerifiedCodeSourceHead": "f3b0d8791a97c739f22459b3c5fd15cc2c7098aa"
 }
