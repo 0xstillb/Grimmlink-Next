@@ -21,6 +21,7 @@ FILES=[
 "docs/implementation/phase-00/JAVA-INHERITANCE-TYPE-TRIAGE.json",
 "docs/implementation/phase-00/REPOSITORY-REST-SOURCE-EXPOSURE.json",
 "docs/implementation/phase-00/FRESH-INDEPENDENT-SECURITY-REVIEW-2026-10-29.md",
+"docs/implementation/phase-00/FRESH-CONTEXT-DESIGN-LOCK-REVIEW-2026-10-29.md",
 "docs/implementation/ACTIVE-SESSION.json",
 ]
 
@@ -41,15 +42,18 @@ class GateTests(unittest.TestCase):
         callback(data)
         p.write_text(json.dumps(data))
 
-    def test_baseline_remains_blocked(self):
+    def test_design_only_contract_lock_does_not_authorize_runtime(self):
         gate.validate(self.root,self.out)
         obj=json.loads(self.out.read_text())
-        self.assertFalse(obj["phase00ContractLocked"])
-        self.assertFalse(obj["phase01Authorized"])
+        self.assertTrue(obj["phase00ContractLocked"])
+        self.assertTrue(obj["phase01Authorized"])
+        self.assertEqual(obj["runtimeSpringRouteComplete"],"NOT_RUN")
+        self.assertEqual(obj["gatewayRuntimeEnforcement"],"NOT_RUN")
+        self.assertFalse(obj["newP001RuntimeAuthorizationVerified"])
 
-    def test_forged_phase01_unlock_rejected(self):
-        self.mutate("docs/implementation/ACTIVE-SESSION.json",lambda j:j.update(phase01Authorized=True))
-        with self.assertRaisesRegex(ValueError,"improperly approved"):
+    def test_unreviewed_gate_status_change_rejected(self):
+        self.mutate("docs/implementation/ACTIVE-SESSION.json",lambda j:j.update(phase01Authorized=False))
+        with self.assertRaisesRegex(ValueError,"differs from independent design lock"):
             gate.validate(self.root,self.out)
 
     def test_gateway_unreviewed_allow_rejected(self):
@@ -61,6 +65,12 @@ class GateTests(unittest.TestCase):
         self.mutate("docs/implementation/phase-00/SOURCE-ROUTE-CANDIDATES.json",
                     lambda j:j["candidates"].append({"handlerMechanism":"OTHER_ENDPOINT_ANNOTATION","sourcePath":"unreviewed/Unknown.java"}))
         with self.assertRaisesRegex(ValueError,"NEW-P0-01 alternate"):
+            gate.validate(self.root,self.out)
+
+    def test_design_review_attestation_tamper_rejected(self):
+        p=self.root/"docs/implementation/phase-00/FRESH-CONTEXT-DESIGN-LOCK-REVIEW-2026-10-29.md"
+        p.write_text(p.read_text()+"\\nTAMPERED\\n")
+        with self.assertRaisesRegex(ValueError,"independent design review attestation tampered"):
             gate.validate(self.root,self.out)
 
     def test_immutable_reviewer_report(self):
