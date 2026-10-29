@@ -1,0 +1,9 @@
+# Isolated Spring Runtime Route Exporter Specification — Phase02 (NOT RUN)
+
+**Goal:** export actual `RequestMappingHandlerMapping` under an isolated pinned `grimmory-tools/grimmory@402e89...` test application; not a production endpoint, not a new public admin route. Spring `RequestMappingInfo` exposes `getPatternsCondition` or `getPathPatternsCondition`, `getMethodsCondition`, `getParamsCondition`, `getHeadersCondition`, `getConsumesCondition`, `getProducesCondition`; handler method bean type, method and source class. Test harness must include `RouterFunctionMapping`, any `ServletRegistrationBean`, filter-controlled endpoints, Actuator and framework-generated handlers separately rather than assuming they appear in RequestMappingHandlerMapping.
+
+Export one JSON record per effective mapping plus all declared mapping conditions and HTTP variants; explain empty method condition (all supported methods) and HEAD/OPTIONS. Detect multi-path × multi-method expansion; duplicate path+method is not collision if params/headers/consumes/produces or priority distinguish it. Compare against source-wide machine census and reviewed Gateway ownership. Fail test if a sensitive route is absent or unclassified; unknown sensitive = DENY. Record exact SHA, JDK/Gradle/Spring profile, exporter test command and exit status, counts/diff, and mock ingress bypass tests.
+
+**Pinned edge cases:** Komga 9×5, Komga catchall, conditional Kobo proxy catchall and AdditionalFile `params=isBook`. Host/SNI/trusted proxy aliases, forwarded headers, percent/double encoding, trailing slash, HEAD/OPTIONS, wildcard fallback, registered filters and direct Official backend bypass require independent negative mocks.
+
+`RUNTIME_ROUTE_COMPLETE=NOT_RUN`; no exporter was built or executed during Phase00 correction. Owner Phase02; Full E2E reserved exclusively for Phase09.

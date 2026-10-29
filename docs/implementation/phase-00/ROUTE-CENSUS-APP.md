@@ -1,3 +1,9 @@
+## CURRENT — Phase00 Final Security Correction Checkpoint (2026-10-29; implementer, not independent approval)
+
+Start `1370f9f38482af1442a3ecd7570e7dbbc4ac3bdd` (independent report commit); independently reviewed immutable HEAD `9682f9ce9305ea5242af82418bec7e504bf1ca03` is distinct; fixture/security-design correction commit `496681b307dd71fefedb649d951079557dc431f9`. **97 synthetic fixture definitions (70 original + 27 added, 11 modified); all execution NOT_RUN**. See [final correction report](FINAL-SECURITY-CORRECTION-2026-10-29.md), [KO contract](KO-CREDENTIAL-GATEWAY-CONTRACT.md), [App ACL](APP-AUTHORIZATION-MATRIX.md), [Phase acceptance](CONTRACT-LOCK-ACCEPTANCE-CRITERIA.md). **NEW-P0-01 remains P0 BLOCKER**: 923 Java files in pinned tree but only 64 named controllers/348 annotations previously read, full remaining source-wide audit not completed; runtime Spring routes NOT_RUN. NO SOURCE_ANNOTATION_COMPLETE claim. KO logging mitigations are DESIGN_SPECIFIED, not deployed; metadata/session post-send fixtures now use UNKNOWN remote mutation. Native KO progress, metadataApply, personal bridges, resets and session writes BLOCKED/OFF (design-only). **Independent verdict remains CHANGES_REQUIRED / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED.** PR #2 Draft / do not merge; full E2E Phase09 only.
+
+---
+
 # App Controller Route Census — Pinned Grimmory v3.5.0
 
 Source commit: `402e89b4452f8e2b17ab95f16c1621c003516cd2`. **8 App Controllers / 27 method-level mapping annotations (SOURCE_VERIFIED)**, added to the previously documented root 56 / 321 = **64 recognized *Controller.java files / 348 annotations**. These are NOT expanded HTTP route counts. All listed annotation locations were read from pinned files.

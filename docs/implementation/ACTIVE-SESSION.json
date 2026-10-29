@@ -73,7 +73,7 @@
     "spec": "https://app.notion.com/p/407c7efbc00981f1a9c6ccb0de5d6a54",
     "playbook": "https://app.notion.com/p/407c7efbc009814a9e18f0d945ee0ef0"
   },
-  "nextAction": "Fresh independent reviewer: compare 9eb7790 to live HEAD; assess NEW-P0-01 source-wide completeness and R-02A/App/KO/OPF/outbox; no Phase01, no merge",
+  "nextAction": "Perform full pinned 923 Java file route-producing mechanism scan and reconciliation; then fresh independent security review. Never merge PR#2 or start Phase01.",
   "updatedAt": "2026-10-29",
   "sourceRecheck": "IMPLEMENTER_SOURCE_RECHECK_NOT_INDEPENDENT",
   "prStatus": "OPEN_DRAFT_UNMERGED",
@@ -110,5 +110,31 @@
     "appAnnotations": 27,
     "sourceFull": "UNVERIFIED",
     "runtime": "NOT_RUN"
+  },
+  "finalSecurityCorrection": {
+    "date": "2026-10-29",
+    "startingHead": "1370f9f38482af1442a3ecd7570e7dbbc4ac3bdd",
+    "immutableReviewedSha": "9682f9ce9305ea5242af82418bec7e504bf1ca03",
+    "correctionContentCommit": "496681b307dd71fefedb649d951079557dc431f9",
+    "finalCheckpointHead": "FETCH_LIVE_GITHUB_AFTER_COMMIT",
+    "implementationStatus": "CORRECTION_INCOMPLETE",
+    "sourceWideJavaFiles": 923,
+    "observedControllerFiles": 64,
+    "observedMethodAnnotations": 348,
+    "unverifiedOtherJavaFiles": 859,
+    "sourceAnnotationComplete": false,
+    "runtimeRouteComplete": "NOT_RUN",
+    "originalFixtures": 70,
+    "addedFixtures": 27,
+    "modifiedFixtures": 11,
+    "finalFixtures": 97,
+    "fixtureExecution": "NOT_RUN",
+    "notionSync": "PENDING_AFTER_GITHUB_COMMIT",
+    "lastIndependentVerdict": "CHANGES_REQUIRED",
+    "contractLocked": false,
+    "phase01Authorized": false,
+    "remainingP0": [
+      "NEW-P0-01"
+    ]
   }
 }
