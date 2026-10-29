@@ -9,14 +9,26 @@ export * from "./schema.js";
 
 export interface LocalStore { sqlite: Database.Database; orm: BetterSQLite3Database<typeof schema>; close: () => void; }
 
-/** Refuse symlinked directory components; the immediate data directory is owned and private. */
-function requirePrivateDirectory(parent: string): void {
+/**
+ * Walk paths one component at a time; never traverse symlinks or create a
+ * child through them. Existing public ancestors such as /tmp are allowed,
+ * but the immediate SQLite data directory must be private and process-owned.
+ */
+function preparePrivateDirectory(parent: string): void {
   const absolute = resolve(parent);
   const root = parse(absolute).root;
   let cursor = root;
   for (const component of absolute.slice(root.length).split(sep).filter(Boolean)) {
     cursor = join(cursor, component);
-    if (!lstatSync(cursor).isDirectory()) {
+    let entry;
+    try {
+      entry = lstatSync(cursor);
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+      mkdirSync(cursor, { mode: 0o700 }); // no recursive traversal of unknown links
+      entry = lstatSync(cursor);
+    }
+    if (!entry.isDirectory()) {
       throw new Error("Local SQLite directory must not contain symlinks");
     }
   }
@@ -31,10 +43,9 @@ export function openLocalStore(filePath: string, migrationsFolder: string): Loca
   if (filePath === ":memory:") throw new Error("Persistent local SQLite path required");
   const path = resolve(filePath);
   const parent = dirname(path);
-  mkdirSync(parent, { recursive: true, mode: 0o700 });
+  preparePrivateDirectory(parent);
   // SQLite may create its DB with umask-dependent 0644 rights by default.
   // Fail closed on shared directories and links before any migration/write.
-  requirePrivateDirectory(parent);
   try {
     const fd = openSync(path, constants.O_CREAT | constants.O_EXCL | constants.O_RDWR | constants.O_NOFOLLOW, 0o600);
     closeSync(fd);
@@ -87,8 +98,7 @@ export function claimJob(sqlite: Database.Database, leaseOwner: string, now: num
 export async function createVerifiedBackup(sqlite: Database.Database, target: string): Promise<string> {
   const finalPath = resolve(target);
   if (existsSync(finalPath)) throw new Error("Backup destination already exists");
-  mkdirSync(dirname(finalPath), { recursive: true, mode: 0o700 });
-  requirePrivateDirectory(dirname(finalPath));
+  preparePrivateDirectory(dirname(finalPath));
   const tmp = finalPath + "." + randomUUID() + ".partial";
   try {
     // Create private temp inode BEFORE writing SQLite pages. A later chmod
@@ -114,8 +124,7 @@ export function restoreBackupToNewLocation(backup: string, destination: string):
   const target = resolve(destination);
   if (source === target || existsSync(target)) throw new Error("Restore requires a new destination");
   verifySqliteFile(source);
-  mkdirSync(dirname(target), { recursive: true, mode: 0o700 });
-  requirePrivateDirectory(dirname(target));
+  preparePrivateDirectory(dirname(target));
   // Both destination exclusivity and 0600 permissions are enforced at CREATE,
   // not after copying potentially sensitive SQLite pages.
   const sourceFd = openSync(source, constants.O_RDONLY | constants.O_NOFOLLOW);
