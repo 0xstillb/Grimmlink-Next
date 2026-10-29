@@ -10,7 +10,7 @@
   "productionBranch": "main",
   "phase": "00",
   "phaseName": "Discovery, Contracts & Architecture Lock",
-  "phaseStatus": "INDEPENDENT_RE_REVIEW_CHANGES_REQUIRED_FOLLOWUP_CORRECTIONS_AWAIT_FRESH_RECHECK",
+  "phaseStatus": "FINAL_FRESH_INDEPENDENT_REVIEW_CHANGES_REQUIRED_NOT_CONTRACT_LOCKED",
   "lastVerifiedPriorCommit": "5efdaf3bef051d0d5c44f6274a2cd2bf22010de5",
   "currentHead": "READ_LIVE_GITHUB_NO_SELF_SHA",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/2",
@@ -46,7 +46,7 @@
     "CORRECTION_INDEPENDENT_RE_REVIEW_NOT_RUN",
     "MOCK_CONTRACT_NOT_RUN",
     "PHASE09_ALL_REAL_E2E_DEFERRED",
-    "POST_REVIEW_CORRECTION_INDEPENDENT_REVIEW_NOT_RUN"
+    "FOLLOWUP_REMEDIATION_INDEPENDENT_REVIEW_NOT_RUN"
   ],
   "blockers": [
     "Installed Grimmory image/DB/mount/version unknown",
@@ -71,7 +71,7 @@
     "spec": "https://app.notion.com/p/407c7efbc00981f1a9c6ccb0de5d6a54",
     "playbook": "https://app.notion.com/p/407c7efbc009814a9e18f0d945ee0ef0"
   },
-  "nextAction": "Fresh reviewer must check post-411b68 corrections and concrete gateway KOSync book entitlement feasibility; if infeasible BLOCKED, never forward. Do not lock contract, merge or start Phase01.",
+  "nextAction": "Phase00 fix R-01 scalar-field policy, R-02 secure book entitlement/gateway route isolation, R-09 uncertain ACK, R-11 stale banner. Keep KOSync/personal bridge/metadata OFF; request NEW independent review; no Phase01/merge.",
   "updatedAt": "2026-10-29",
   "sourceRecheck": "IMPLEMENTER_SOURCE_RECHECK_NOT_INDEPENDENT",
   "prStatus": "OPEN_DRAFT_RECHECK",
@@ -79,9 +79,11 @@
   "priorMergedPrCommit": "5470c7ad807cb701381ae8bcd9abe516f351b150",
   "reviewVerdict": "CHANGES_REQUIRED",
   "reviewedPreReviewHead": "5eccac25c8e85e16cfa913b72ae36bc6a3ceeed8",
-  "reviewReport": "docs/implementation/phase-00/RE-REVIEW-2026-10-29.md",
-  "independentReReview": "PERFORMED_CHANGES_REQUIRED_ON_411b68_POST_REVIEW_CORRECTIONS_NOT_RE_REVIEWED",
+  "reviewReport": "docs/implementation/phase-00/FINAL-INDEPENDENT-REVIEW-2026-10-29.md",
+  "independentReReview": "FRESH_REVIEW_PERFORMED_ON_CEA6485_CHANGES_REQUIRED",
   "correctionReport": "docs/implementation/phase-00/REMEDIATION.md",
   "correctionScope": "R-01_TO_R-12_DOCS_ONLY",
-  "reviewPacket": "docs/implementation/phase-00/RE-REVIEW-PACKET.md"
+  "reviewPacket": "docs/implementation/phase-00/RE-REVIEW-PACKET.md",
+  "finalIndependentReviewedHead": "cea648544547c4d2b3f5c652bfc75d408288b7c7",
+  "finalIndependentReviewReport": "docs/implementation/phase-00/FINAL-INDEPENDENT-REVIEW-2026-10-29.md"
 }
