@@ -56,3 +56,13 @@ These are source-review priorities, NOT assertions of vulnerabilities or public 
 4. Separate Independent Security Review mandatory. No implementer self-PASS, no CONTRACT_LOCKED, no PHASE01 approval, no PR merge.
 
 **Next action:** finish each source route family and security chain disposition, record source:file:line and gateway owner, validate, commit/readback and sync Notion, then submit to separate independent reviewer when source P0 gaps are truly closed.
+
+## WebSocket inbound-channel source follow-up — concrete additional evidence
+
+Pinned [WebSocketAuthInterceptor.java:28–108](https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/config/security/interceptor/WebSocketAuthInterceptor.java#L28) was independently read beyond the earlier HTTP matcher audit.
+
+- Lines 40–43 dispatch STOMP CONNECT/SUBSCRIBE/SEND; lines 50–68 require a native Authorization Bearer JWT on CONNECT and set the authenticated principal after token validation. The publicly permitted **HTTP handshake** is therefore **not** the same as an authenticated STOMP CONNECT.
+- Lines 71–84 require an authenticated principal for SUBSCRIBE; line 28 defines prefix-only accepted destinations /topic/ and /user/queue/. The interceptor does **not**, on its own, demonstrate per-topic object/tenant ACL for /topic/ messages; this is a *potential* information-scope review gap, not a confirmed exposure. Review topic publishers and payload ownership prior to any WS proxy allowance.
+- Lines 86–89 reject client STOMP SEND unconditionally. Do not claim SEND can mutate server state via this interceptor.
+- Lines 81 and 87 log the rejected destination; verify sink redaction/canonicalization before allowing user-controlled destination values through the bridge.
+- Consequence: WebSocket proxy and unknown destination forwarding remain BLOCKED/OFF. Isolated Phase02 should validate CONNECT token handling, unauthorized SUBSCRIBE, prohibited SEND, allowed-prefix isolation and redaction using synthetic-only mocks; NO real device/network E2E before Phase09.
