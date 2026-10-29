@@ -15,7 +15,7 @@
 ### Validation and gates
 
 - Preceding bootstrap code commit `f1b6624` passed [Phase02 isolated CI #40899699146](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40899699146) and [Phase00 gate #40899699256](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40899699256) (source-specific, **not** coverage of this new code).
-- **New mock-only/Auth/gateway changes:** exact latest-HEAD CI must be checked independently; **PENDING/NOT YET ATTESTED** at this documentation checkpoint. No successful E2E or live auth claim.
+- **New mock-only/Auth/gateway changes:** [Phase02 CI #40902172141](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40902172141) **SUCCESS** and [Phase00 integrity #40902171900](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40902171900) **SUCCESS** at exact pre-handoff code+docs SHA `f3b0d8791a97c739f22459b3c5fd15cc2c7098aa`; later handoff commits must receive separate exact-HEAD CI. No successful E2E or live auth claim.
 - Existing hard security blockers under [Issue #4](https://github.com/0xstillb/Grimmlink-Next/issues/4) remain: Spring runtime chains, route owner/record entitlement, direct ingress isolation and single-port Caddy validation, end-to-end mocked Range/WS/SSE compat, real Admin session verifier/device pairing, independent security review.
 - No production or upstream forwarding and no full Hermes/NAS/reader integration before Phase09.
 
