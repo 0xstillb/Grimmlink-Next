@@ -1,7 +1,7 @@
 import Database from "better-sqlite3";
 import { drizzle, type BetterSQLite3Database } from "drizzle-orm/better-sqlite3";
 import { migrate } from "drizzle-orm/better-sqlite3/migrator";
-import { constants, copyFileSync, chmodSync, existsSync, linkSync, lstatSync, mkdirSync, rmSync } from "node:fs";
+import { constants, chmodSync, closeSync, existsSync, fsyncSync, linkSync, lstatSync, mkdirSync, openSync, readSync, rmSync, writeSync } from "node:fs";
 import { randomUUID } from "node:crypto";
 import { dirname, resolve } from "node:path";
 import * as schema from "./schema.js";
@@ -58,6 +58,10 @@ export async function createVerifiedBackup(sqlite: Database.Database, target: st
   mkdirSync(dirname(finalPath), { recursive: true, mode: 0o700 });
   const tmp = finalPath + "." + randomUUID() + ".partial";
   try {
+    // Create private temp inode BEFORE writing SQLite pages. A later chmod
+    // would leave a possible world-readable window under permissive umask.
+    const tempFd = openSync(tmp, constants.O_CREAT | constants.O_EXCL | constants.O_WRONLY | constants.O_NOFOLLOW, 0o600);
+    closeSync(tempFd);
     await sqlite.backup(tmp);
     verifySqliteFile(tmp);
     chmodSync(tmp, 0o600);
@@ -78,15 +82,36 @@ export function restoreBackupToNewLocation(backup: string, destination: string):
   if (source === target || existsSync(target)) throw new Error("Restore requires a new destination");
   verifySqliteFile(source);
   mkdirSync(dirname(target), { recursive: true, mode: 0o700 });
-  // COPYFILE_EXCL is atomic creation: do not clobber a concurrently created DB.
-  copyFileSync(source, target, constants.COPYFILE_EXCL);
+  // Both destination exclusivity and 0600 permissions are enforced at CREATE,
+  // not after copying potentially sensitive SQLite pages.
+  const sourceFd = openSync(source, constants.O_RDONLY | constants.O_NOFOLLOW);
+  let targetFd: number | undefined;
+  let created = false;
   try {
+    targetFd = openSync(target, constants.O_CREAT | constants.O_EXCL | constants.O_WRONLY | constants.O_NOFOLLOW, 0o600);
+    created = true;
+    const chunk = Buffer.allocUnsafe(64 * 1024);
+    while (true) {
+      const bytesRead = readSync(sourceFd, chunk, 0, chunk.length, null);
+      if (bytesRead === 0) break;
+      let offset = 0;
+      while (offset < bytesRead) {
+        const written = writeSync(targetFd, chunk, offset, bytesRead - offset);
+        if (written <= 0) throw new Error("SQLite restore copy made no progress");
+        offset += written;
+      }
+    }
+    fsyncSync(targetFd);
+    closeSync(targetFd);
+    targetFd = undefined;
     verifySqliteFile(target);
-    chmodSync(target, 0o600);
     return target;
   } catch (error) {
-    rmSync(target, { force: true });
+    if (targetFd !== undefined) closeSync(targetFd);
+    if (created) rmSync(target, { force: true });
     throw error;
+  } finally {
+    closeSync(sourceFd);
   }
 }
 
