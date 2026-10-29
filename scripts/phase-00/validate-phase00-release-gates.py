@@ -73,25 +73,25 @@ def validate(root,out):
             or current.get("phase00Review")!="PASS_PHASE00_DESIGN_ONLY_RUNTIME_NOT_VERIFIED"
             or current.get("phase01Scope")!="FOUNDATION_ONLY"):
             raise ValueError("active status differs from independent design lock")
-        # Both safety and securityCapability are authoritative Phase01 design
-        # declarations. Comparing only gatewayForwarding could produce a false
-        # release PASS if personal writes or production were enabled in safety.
-        # Exact maps also reject missing, unknown, non-string or forged OFF values.
-        expected_safety={
-            "officialGatewayForwarding":"DENY_ALL",
-            "nativeKosyncProgress":"OFF",
-            "metadataApply":"OFF",
-            "personalBridge":"OFF",
-            "sessionBridge":"OFF",
-            "resetProgress":"OFF",
-            "managedProjection":"OFF",
-            "productionDeployment":"NOT_AUTHORIZED",
-            "fullE2ePhase":"09",
-        }
-        if not isinstance(current.get("safety"),dict) or current["safety"]!=expected_safety:
-            raise ValueError("active status differs from independent design lock")
     else:
         raise ValueError("unreviewed active phase transition")
+    # Both safety and securityCapability are authoritative design declarations.
+    # Verify the full safety map for EVERY accepted phase: a forged handback
+    # to Phase00 must not bypass the fail-closed Phase01 safety boundary.
+    # Exact comparison rejects missing, extra, non-string and forged OFF values.
+    expected_safety={
+        "officialGatewayForwarding":"DENY_ALL",
+        "nativeKosyncProgress":"OFF",
+        "metadataApply":"OFF",
+        "personalBridge":"OFF",
+        "sessionBridge":"OFF",
+        "resetProgress":"OFF",
+        "managedProjection":"OFF",
+        "productionDeployment":"NOT_AUTHORIZED",
+        "fullE2ePhase":"09",
+    }
+    if not isinstance(current.get("safety"),dict) or current["safety"]!=expected_safety:
+        raise ValueError("active status differs from independent design lock")
     disabled=current.get("securityCapability")
     # Exact accepted Phase01 design-only states. Substring checks would allow
     # forged values such as ON_WITH_OFF_SUFFIX to pass a release gate.
