@@ -82,11 +82,13 @@ def audit(root,expanded_file,auth_file,outdir):
     exp=json.loads(expanded_file.read_text("utf8"));auth=json.loads(auth_file.read_text("utf8"))
     if exp["upstreamCommit"]!=PIN or auth["sourcePin"]!=PIN:raise ValueError("evidence pin changed")
     if len(exp["expandedDeclarations"])!=403 or len(auth["allRouteRecords"])!=348:raise ValueError("changed baseline")
-    owners={r["handlerIdentity"]:r for r in auth["allRouteRecords"]}
+    # Handler method names are not unique: Java overloads / route variants have distinct source lines.
+    owners={(r["sourcePath"],r["sourceLine"],r["handlerIdentity"]):r for r in auth["allRouteRecords"]}
+    if len(owners)!=348:raise ValueError("colliding source line keys: "+str(len(owners)))
     rows=[];counts=collections.Counter();uncertain=0;missing=[]
     for e in exp["expandedDeclarations"]:
-        handler=e["handlerIdentity"];owner=owners.get(handler)
-        if owner is None:missing.append(handler);continue
+        handler=e["handlerIdentity"];owner=owners.get((e["sourcePath"],e["sourceLine"],handler))
+        if owner is None:missing.append((e["sourcePath"],e["sourceLine"],handler));continue
         path=e["path"];representative=sample(path)
         ch,amb=select(representative)
         if any(rp=="UNCLASSIFIED" for rp in owner["gatewayOwnerCandidates"]):
@@ -108,6 +110,8 @@ def audit(root,expanded_file,auth_file,outdir):
     data={"schemaVersion":1,"upstreamCommit":PIN,
       "securityConfigPinnedGitBlob":SECURITY_BLOB,
       "sourceRouteVariants":len(rows),"sourceMethodHandlers":len(owners),
+      "distinctJavaMethodNames":len({r["handlerIdentity"] for r in auth["allRouteRecords"]}),
+      "methodNameCollisionCount":len(owners)-len({r["handlerIdentity"] for r in auth["allRouteRecords"]}),
       "sourceChainCandidateCounts":dict(sorted(counts.items())),
       "sourceChainAmbiguousRepresentativeCount":uncertain,
       "runtimeSpringMatching":"NOT_RUN","userCurrentContentAuthorization":"NOT_PROVEN",
