@@ -39,6 +39,11 @@ jobs:
         run: pnpm format:check
       - name: Isolated unit and injected gateway denial mocks
         run: pnpm test
+      - name: Print exact Prettier patch for failed formatting (runner only, never committed)
+        if: failure()
+        run: |
+          pnpm exec prettier --write apps/adapter/src/auth packages/official-client/src
+          git diff -- apps/adapter/src/auth packages/official-client/src | head -c 50000
       - name: Verify no public second port or Official connection is enabled
         run: |
           set -euo pipefail
