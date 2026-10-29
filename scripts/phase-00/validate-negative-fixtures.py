@@ -35,7 +35,7 @@ def check(source, receipt):
                 failures.append(fid+': inconsistent durable state')
             if exp.get('diagnosticEvent')!=f.get('expectedDiagnosticEvent'):
                 failures.append(fid+': inconsistent diagnostic event')
-    if len(cases)!=101:failures.append('101 current fixture count changed')
+    if len(cases)!=103:failures.append('103 current fixture count changed')
     result={'sourceFile':str(source),'totalDefinitions':len(cases),
         'uniqueFixtureIds':len(ids),'families':dict(families),
         'testScenarios':dict(scenarios),'failures':failures,'execution':'STATIC_ONLY',

@@ -3711,6 +3711,88 @@
       "expectedDurableState": "UNCHANGED",
       "expectedDiagnosticEvent": "route.denied",
       "expectedHttpStatus": 403
+    },
+    {
+      "fixtureId": "KO-REGISTER-FILTER-PAYLOAD_REDACTION",
+      "family": "KOSYNC",
+      "request": {
+        "method": "POST",
+        "path": "/api/koreader/users/create",
+        "headers": {
+          "x-auth-key": "SYNTHETIC_MD5_HASH_NEVER_REAL",
+          "Authorization": "Bearer SYNTHETIC_TEST_ONLY_JWT",
+          "Content-Type": "application/json",
+          "x-auth-user": "SYNTHETIC_LOGGING_TEST_USER"
+        },
+        "body": {
+          "username": "SYNTHETIC_LOGGING_TEST_USER",
+          "password": "SYNTHETIC_BODY_SECRET_NEVER_REAL"
+        }
+      },
+      "preconditions": "Confirm synthetic KO registration password in JSON body never reaches Official request logger or any gateway/audit log sink; gateway denies before upstream, source only risk from payload-enabled logging",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "DENIED_NO_UPSTREAM",
+        "diagnosticEvent": "ko.registration.denied.redacted",
+        "upstreamMutationDispatchCount": 0,
+        "logsContainSyntheticSecret": false,
+        "automaticRetryAttempts": 0
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/config/logging/RequestLoggingFilterConfig.java#L24",
+      "phaseOwner": "Phase02/05",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK_SINK_CAPTURE",
+      "currentFeatureGate": "KOREADER_REGISTER=DENY_BY_DEFAULT (design), no executable gateway verified",
+      "testScenario": "FUTURE_IMPLEMENTED_BEHAVIOR",
+      "expectedHttpStatus": 403,
+      "expectedUpstreamAttempts": 0,
+      "expectedMutationObservability": "NONE_ASSERTED_BY_MOCK",
+      "expectedDurableState": "DENIED_NO_UPSTREAM",
+      "expectedDiagnosticEvent": "ko.registration.denied.redacted"
+    },
+    {
+      "fixtureId": "KO-REGISTER-FILTER-HEADER_REDACTION",
+      "family": "KOSYNC",
+      "request": {
+        "method": "POST",
+        "path": "/api/koreader/users/create",
+        "headers": {
+          "x-auth-key": "SYNTHETIC_MD5_HASH_NEVER_REAL",
+          "Authorization": "Bearer SYNTHETIC_TEST_ONLY_JWT",
+          "Content-Type": "application/json",
+          "x-auth-user": "SYNTHETIC_LOGGING_TEST_USER"
+        },
+        "body": {
+          "username": "SYNTHETIC_LOGGING_TEST_USER",
+          "password": "SYNTHETIC_BODY_SECRET_NEVER_REAL"
+        }
+      },
+      "preconditions": "Confirm synthetic x-auth-user and x-auth-key header values cannot appear in request logging or gateway/audit logs; excluded header list omits KO-specific keys, gateway denies before forwarding",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "DENIED_NO_UPSTREAM",
+        "diagnosticEvent": "ko.registration.denied.redacted",
+        "upstreamMutationDispatchCount": 0,
+        "logsContainSyntheticSecret": false,
+        "automaticRetryAttempts": 0
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/config/logging/RequestLoggingFilterConfig.java#L15",
+      "phaseOwner": "Phase02/05",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK_SINK_CAPTURE",
+      "currentFeatureGate": "KOREADER_REGISTER=DENY_BY_DEFAULT (design), no executable gateway verified",
+      "testScenario": "FUTURE_IMPLEMENTED_BEHAVIOR",
+      "expectedHttpStatus": 403,
+      "expectedUpstreamAttempts": 0,
+      "expectedMutationObservability": "NONE_ASSERTED_BY_MOCK",
+      "expectedDurableState": "DENIED_NO_UPSTREAM",
+      "expectedDiagnosticEvent": "ko.registration.denied.redacted"
     }
   ]
 }
