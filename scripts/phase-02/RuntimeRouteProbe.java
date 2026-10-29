@@ -86,6 +86,7 @@ public final class RuntimeRouteProbe implements ApplicationListener<ApplicationR
 
             String json = "{" +
                 "\"source\":\"PINNED_SPRING_RUNTIME_CI_ONLY\"," +
+                "\"pinnedUpstreamCommit\":\"402e89b4452f8e2b17ab95f16c1621c003516cd2\"," +
                 "\"actualSpringHandlerCount\":" + routes.size() + "," +
                 "\"actualSecurityChainCount\":" + chains.size() + "," +
                 "\"requestMappings\":[" + String.join(",", routes) + "]," +
