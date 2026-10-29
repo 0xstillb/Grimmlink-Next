@@ -53,7 +53,7 @@
     "Historical Node base requires CVE/patch assessment before production",
     "Phase02/05/07 runtime security and Phase09 real integrated E2E remain NOT AUTHORIZED"
   ],
-  "nextAction": "Continue Phase02 on Draft PR #6; verify latest exact-head CI and close real runtime Spring, gateway ingress, auth session and ACL gates. Keep all Official forwarding denied.",
+  "nextAction": "Phase02 mock/auth and Gateway deny-all isolated CI green on reviewed-source checkpoint, but GATEWAY_CODE_REVIEWED not granted. Continue runtime Spring/security, single-port ingress, auth and ACL gates; separate independent review.",
   "updatedAt": "2026-10-29",
   "contractLocked": true,
   "phase01Scope": "FOUNDATION_ONLY",
@@ -95,12 +95,24 @@
   "phase01ReviewAttestation": "docs/implementation/phase-01/FINAL-INDEPENDENT-REVIEW-ATTESTATION-2026-10-29.md",
   "phase02Work": {
     "phase": "02",
-    "status": "MOCK_CLIENT_AUTH_CODE_COMMITTED_CI_AND_REVIEW_PENDING",
+    "status": "CODE_AND_ISOLATED_CI_PASS_REVIEW_PENDING",
     "baseIntegrationCommit": "0579f64afb2d53001c915a10079d00ecd9de0091",
     "branch": "feat/next-phase-02",
     "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/6",
     "note": "Top-level phase 01 FOUNDATION_REVIEWED preserved as verified foundation/Phase00 validator state until Phase02-capable gate transition is separately implemented. It does not authorize gateway forwarding.",
-    "ci": "EXACT_NEW_HEAD_PENDING_RECHECK",
+    "ci": {
+      "phase02": {
+        "run": "40902172141",
+        "head": "f3b0d8791a97c739f22459b3c5fd15cc2c7098aa",
+        "result": "SUCCESS"
+      },
+      "phase00": {
+        "run": "40902171900",
+        "head": "f3b0d8791a97c739f22459b3c5fd15cc2c7098aa",
+        "result": "SUCCESS_DESIGN_ONLY"
+      },
+      "scope": "LATEST_VERIFIED_PRE_HANDOFF_CODE_AND_DOCS_HEAD; RECHECK_ANY_LATER_HEAD"
+    },
     "securityIssue": "https://github.com/0xstillb/Grimmlink-Next/issues/4",
     "fullE2e": "DEFERRED_TO_PHASE_09",
     "scope": [
