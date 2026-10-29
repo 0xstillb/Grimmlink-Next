@@ -1,6 +1,6 @@
 # Phase 00 — Source Audit Result (implementer)
 
-**As of 2026-10-28. Status: SOURCE_AUDITED_REVIEW_PENDING; NOT CONTRACT_LOCKED.** This file is a record of source and architecture investigation, not a final gate. The authoring session did not access user's Hermes/NAS, tokens, clients or execute shell tests.
+**Current 2026-10-29: IMPLEMENTER_CORRECTION_RE_REVIEW_PENDING; previous independent CHANGES_REQUIRED, NOT CONTRACT_LOCKED.** Historical source audit follows. This file is a record of source and architecture investigation, not a final gate. The authoring session did not access user's Hermes/NAS, tokens, clients or execute shell tests.
 
 ## Completed
 - Read actual GitHub repository and Draft PR #1; pre-audit HEAD `7d5bc8a421bcca29101453c6e46a2b4677363c51`; main and integration both `59ffeee432dadf40f61005f7d605be9bfe82df48`.
@@ -33,3 +33,8 @@ A follow-up read-only source audit of the pinned Grimmory v3.5.0 release identif
 ## 2026-10-29 PR continuity correction
 
 GitHub live check found [PR #1](https://github.com/0xstillb/Grimmlink-Next/pull/1) **merged into non-production integration** on 2026-10-28 17:02:39Z at merge SHA `5470c7ad807cb701381ae8bcd9abe516f351b150`. That merge did **not** supply the required independent-review evidence or approve Phase01. The subsequent recheck commit `a5eb72d4b0f8e01f876fb20c8895813df33c8ddb` is proposed separately through **[Draft PR #2](https://github.com/0xstillb/Grimmlink-Next/pull/2)**, still review-pending. `main` remains untouched. Use PR #2 for current Phase00 improvements, PR #1 as historical audit foundation. Continue to read live heads before any mutation.
+
+
+## 2026-10-29 implementation correction checkpoint
+
+Corrected R-01–R-12 source-contract descriptions; added [REMEDIATION.md](REMEDIATION.md), explicit metadata reviews/lock field masking, Native/per-library ACL distinction, no second CFI writer, manual status threshold fixture, Sidecar global guard, exactness and source-vs-installed versions. **This is documentation-only, no Adapter code, no compiled unit, no mocked fixtures, no live API or real device testing.** Shell/build/unit/mock/live/NAS/Hermes/physical/E2E NOT_RUN. Existing Independent REVIEW.md is **CHANGES_REQUIRED** until separate new reviewer validates this diff. No merge or Phase01.
