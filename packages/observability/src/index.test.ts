@@ -14,6 +14,14 @@ describe("diagnostic leases", () => {
     expect(leases.levelFor("adapter",1001)).toBe("trace");
     expect(leases.levelFor("adapter",301000)).toBe("info");
   });
+  it("rejects forged levels, invalid time and non-integer durations at runtime", () => {
+    const leases = new DiagnosticLeases();
+    expect(() => leases.enable({ module: "adapter", level: "fatal" as never, durationMs: 1000, adminAuthorized: true }, 1000)).toThrow("Invalid diagnostic level");
+    expect(() => leases.enable({ module: "adapter", level: "debug", durationMs: 1.5, adminAuthorized: true }, 1000)).toThrow();
+    expect(() => leases.enable({ module: "adapter", level: "debug", durationMs: 1000, adminAuthorized: true }, Number.MAX_SAFE_INTEGER)).toThrow("Invalid diagnostic clock");
+    leases.enable({ module: "adapter", level: "trace", durationMs: 1000, adminAuthorized: true }, 1000);
+    expect(leases.levelFor("adapter", Number.NaN)).toBe("info");
+  });
   it("does not persist leases across instances", () => {
     const leases = new DiagnosticLeases();
     leases.enable({ module:"adapter", level:"debug", durationMs: 1000, adminAuthorized:true },0);
