@@ -2,9 +2,9 @@
 
 923 Java bodies SHA verified, 348 method mappings, 403 source declarations; no runtime/ACL pass.
 
-## Local-condition resolution
+## Source-condition resolution
 
-9 OPDS constants are read from pinned OpdsController.java. 6 framework MediaType constants still require verified dependency value proof. No symbolic value is guessed.
+9 OPDS constants from pinned OpdsController.java; 6 Spring MediaType constants from spring-web 7.0.9 locked in upstream Gradle and exact Spring Framework Git blob. **15/15 source constants resolved**. Dependency runtime classpath and Spring mapping NOT_RUN.
 
 ## Mutating handlers with no local method/class security annotation — 43
 

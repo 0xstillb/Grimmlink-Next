@@ -4,7 +4,12 @@
   "sourceOnly": true,
   "symbolicConditions": 15,
   "resolvedFromPinnedLocalSource": 9,
-  "unresolvedThirdPartyOrDynamic": 6,
+  "resolvedFromLockedSpringDependencySource": 6,
+  "springSourceCommit": "82a6b40b9366ec181ededdad282b307ee5381a52",
+  "springMediaTypeGitBlob": "1d7ecf7fff9ad63926ea2ea00f54d39aecf12cff",
+  "dependencyLock": "backend/gradle.lockfile:spring-web:7.0.9",
+  "actualRuntimeClassPathResolution": "NOT_RUN",
+  "unresolvedThirdPartyOrDynamic": 0,
   "mappingConditions": [
     {
       "sourcePath": "backend/src/main/java/org/booklore/controller/AuthorController.java",
@@ -14,9 +19,19 @@
       "level": "method",
       "field": "produces",
       "sourceExpression": "MediaType.TEXT_EVENT_STREAM_VALUE",
-      "resolvedLiteralValues": null,
-      "declarationProof": null,
-      "classification": "UNRESOLVED_EXTERNAL_OR_DYNAMIC_SYMBOL"
+      "resolvedLiteralValues": [
+        "text/event-stream"
+      ],
+      "declarationProof": {
+        "repository": "spring-projects/spring-framework",
+        "commit": "82a6b40b9366ec181ededdad282b307ee5381a52",
+        "path": "spring-web/src/main/java/org/springframework/http/MediaType.java",
+        "sourceLine": 319,
+        "fileBlobSha": "1d7ecf7fff9ad63926ea2ea00f54d39aecf12cff",
+        "dependencyLock": "grimmory-tools/grimmory@402e89b4452f8e2b17ab95f16c1621c003516cd2:backend/gradle.lockfile:200",
+        "method": "PINNED_SPRING_WEB_7_0_9_SOURCE_AND_GRADLE_LOCK"
+      },
+      "classification": "LOCKED_DEPENDENCY_SOURCE_CONSTANT_RESOLVED_NOT_RUNTIME"
     },
     {
       "sourcePath": "backend/src/main/java/org/booklore/controller/AuthorController.java",
@@ -26,9 +41,19 @@
       "level": "method",
       "field": "produces",
       "sourceExpression": "MediaType.TEXT_EVENT_STREAM_VALUE",
-      "resolvedLiteralValues": null,
-      "declarationProof": null,
-      "classification": "UNRESOLVED_EXTERNAL_OR_DYNAMIC_SYMBOL"
+      "resolvedLiteralValues": [
+        "text/event-stream"
+      ],
+      "declarationProof": {
+        "repository": "spring-projects/spring-framework",
+        "commit": "82a6b40b9366ec181ededdad282b307ee5381a52",
+        "path": "spring-web/src/main/java/org/springframework/http/MediaType.java",
+        "sourceLine": 319,
+        "fileBlobSha": "1d7ecf7fff9ad63926ea2ea00f54d39aecf12cff",
+        "dependencyLock": "grimmory-tools/grimmory@402e89b4452f8e2b17ab95f16c1621c003516cd2:backend/gradle.lockfile:200",
+        "method": "PINNED_SPRING_WEB_7_0_9_SOURCE_AND_GRADLE_LOCK"
+      },
+      "classification": "LOCKED_DEPENDENCY_SOURCE_CONSTANT_RESOLVED_NOT_RUNTIME"
     },
     {
       "sourcePath": "backend/src/main/java/org/booklore/controller/BookCoverController.java",
@@ -38,9 +63,19 @@
       "level": "method",
       "field": "produces",
       "sourceExpression": "MediaType.TEXT_EVENT_STREAM_VALUE",
-      "resolvedLiteralValues": null,
-      "declarationProof": null,
-      "classification": "UNRESOLVED_EXTERNAL_OR_DYNAMIC_SYMBOL"
+      "resolvedLiteralValues": [
+        "text/event-stream"
+      ],
+      "declarationProof": {
+        "repository": "spring-projects/spring-framework",
+        "commit": "82a6b40b9366ec181ededdad282b307ee5381a52",
+        "path": "spring-web/src/main/java/org/springframework/http/MediaType.java",
+        "sourceLine": 319,
+        "fileBlobSha": "1d7ecf7fff9ad63926ea2ea00f54d39aecf12cff",
+        "dependencyLock": "grimmory-tools/grimmory@402e89b4452f8e2b17ab95f16c1621c003516cd2:backend/gradle.lockfile:200",
+        "method": "PINNED_SPRING_WEB_7_0_9_SOURCE_AND_GRADLE_LOCK"
+      },
+      "classification": "LOCKED_DEPENDENCY_SOURCE_CONSTANT_RESOLVED_NOT_RUNTIME"
     },
     {
       "sourcePath": "backend/src/main/java/org/booklore/controller/KoboController.java",
@@ -50,9 +85,19 @@
       "level": "method",
       "field": "produces",
       "sourceExpression": "MediaType.IMAGE_JPEG_VALUE",
-      "resolvedLiteralValues": null,
-      "declarationProof": null,
-      "classification": "UNRESOLVED_EXTERNAL_OR_DYNAMIC_SYMBOL"
+      "resolvedLiteralValues": [
+        "image/jpeg"
+      ],
+      "declarationProof": {
+        "repository": "spring-projects/spring-framework",
+        "commit": "82a6b40b9366ec181ededdad282b307ee5381a52",
+        "path": "spring-web/src/main/java/org/springframework/http/MediaType.java",
+        "sourceLine": 262,
+        "fileBlobSha": "1d7ecf7fff9ad63926ea2ea00f54d39aecf12cff",
+        "dependencyLock": "grimmory-tools/grimmory@402e89b4452f8e2b17ab95f16c1621c003516cd2:backend/gradle.lockfile:200",
+        "method": "PINNED_SPRING_WEB_7_0_9_SOURCE_AND_GRADLE_LOCK"
+      },
+      "classification": "LOCKED_DEPENDENCY_SOURCE_CONSTANT_RESOLVED_NOT_RUNTIME"
     },
     {
       "sourcePath": "backend/src/main/java/org/booklore/controller/MetadataController.java",
@@ -62,9 +107,19 @@
       "level": "method",
       "field": "produces",
       "sourceExpression": "MediaType.TEXT_EVENT_STREAM_VALUE",
-      "resolvedLiteralValues": null,
-      "declarationProof": null,
-      "classification": "UNRESOLVED_EXTERNAL_OR_DYNAMIC_SYMBOL"
+      "resolvedLiteralValues": [
+        "text/event-stream"
+      ],
+      "declarationProof": {
+        "repository": "spring-projects/spring-framework",
+        "commit": "82a6b40b9366ec181ededdad282b307ee5381a52",
+        "path": "spring-web/src/main/java/org/springframework/http/MediaType.java",
+        "sourceLine": 319,
+        "fileBlobSha": "1d7ecf7fff9ad63926ea2ea00f54d39aecf12cff",
+        "dependencyLock": "grimmory-tools/grimmory@402e89b4452f8e2b17ab95f16c1621c003516cd2:backend/gradle.lockfile:200",
+        "method": "PINNED_SPRING_WEB_7_0_9_SOURCE_AND_GRADLE_LOCK"
+      },
+      "classification": "LOCKED_DEPENDENCY_SOURCE_CONSTANT_RESOLVED_NOT_RUNTIME"
     },
     {
       "sourcePath": "backend/src/main/java/org/booklore/controller/OidcAuthController.java",
@@ -74,9 +129,19 @@
       "level": "method",
       "field": "consumes",
       "sourceExpression": "MediaType.APPLICATION_FORM_URLENCODED_VALUE",
-      "resolvedLiteralValues": null,
-      "declarationProof": null,
-      "classification": "UNRESOLVED_EXTERNAL_OR_DYNAMIC_SYMBOL"
+      "resolvedLiteralValues": [
+        "application/x-www-form-urlencoded"
+      ],
+      "declarationProof": {
+        "repository": "spring-projects/spring-framework",
+        "commit": "82a6b40b9366ec181ededdad282b307ee5381a52",
+        "path": "spring-web/src/main/java/org/springframework/http/MediaType.java",
+        "sourceLine": 100,
+        "fileBlobSha": "1d7ecf7fff9ad63926ea2ea00f54d39aecf12cff",
+        "dependencyLock": "grimmory-tools/grimmory@402e89b4452f8e2b17ab95f16c1621c003516cd2:backend/gradle.lockfile:200",
+        "method": "PINNED_SPRING_WEB_7_0_9_SOURCE_AND_GRADLE_LOCK"
+      },
+      "classification": "LOCKED_DEPENDENCY_SOURCE_CONSTANT_RESOLVED_NOT_RUNTIME"
     },
     {
       "sourcePath": "backend/src/main/java/org/booklore/controller/OpdsController.java",
@@ -250,80 +315,7 @@
       "classification": "PINNED_SOURCE_LOCAL_LITERAL_RESOLVED"
     }
   ],
-  "unresolved": [
-    {
-      "sourcePath": "backend/src/main/java/org/booklore/controller/AuthorController.java",
-      "fileBlobSha": "b9516b34c0aa7d9e2be7aed24f40ba1553297b9b",
-      "sourceLine": 130,
-      "handlerIdentity": "AuthorController#autoMatchAuthors",
-      "level": "method",
-      "field": "produces",
-      "sourceExpression": "MediaType.TEXT_EVENT_STREAM_VALUE",
-      "resolvedLiteralValues": null,
-      "declarationProof": null,
-      "classification": "UNRESOLVED_EXTERNAL_OR_DYNAMIC_SYMBOL"
-    },
-    {
-      "sourcePath": "backend/src/main/java/org/booklore/controller/AuthorController.java",
-      "fileBlobSha": "b9516b34c0aa7d9e2be7aed24f40ba1553297b9b",
-      "sourceLine": 147,
-      "handlerIdentity": "AuthorController#searchAuthorPhotos",
-      "level": "method",
-      "field": "produces",
-      "sourceExpression": "MediaType.TEXT_EVENT_STREAM_VALUE",
-      "resolvedLiteralValues": null,
-      "declarationProof": null,
-      "classification": "UNRESOLVED_EXTERNAL_OR_DYNAMIC_SYMBOL"
-    },
-    {
-      "sourcePath": "backend/src/main/java/org/booklore/controller/BookCoverController.java",
-      "fileBlobSha": "c14e4d31a2db932d0adb35923bf2748f4c482450",
-      "sourceLine": 153,
-      "handlerIdentity": "BookCoverController#getImages",
-      "level": "method",
-      "field": "produces",
-      "sourceExpression": "MediaType.TEXT_EVENT_STREAM_VALUE",
-      "resolvedLiteralValues": null,
-      "declarationProof": null,
-      "classification": "UNRESOLVED_EXTERNAL_OR_DYNAMIC_SYMBOL"
-    },
-    {
-      "sourcePath": "backend/src/main/java/org/booklore/controller/KoboController.java",
-      "fileBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
-      "sourceLine": 85,
-      "handlerIdentity": "KoboController#getThumbnail",
-      "level": "method",
-      "field": "produces",
-      "sourceExpression": "MediaType.IMAGE_JPEG_VALUE",
-      "resolvedLiteralValues": null,
-      "declarationProof": null,
-      "classification": "UNRESOLVED_EXTERNAL_OR_DYNAMIC_SYMBOL"
-    },
-    {
-      "sourcePath": "backend/src/main/java/org/booklore/controller/MetadataController.java",
-      "fileBlobSha": "8dbb447e78700b634fd16d1eead15fb8ce72e9ef",
-      "sourceLine": 40,
-      "handlerIdentity": "MetadataController#getMetadataList",
-      "level": "method",
-      "field": "produces",
-      "sourceExpression": "MediaType.TEXT_EVENT_STREAM_VALUE",
-      "resolvedLiteralValues": null,
-      "declarationProof": null,
-      "classification": "UNRESOLVED_EXTERNAL_OR_DYNAMIC_SYMBOL"
-    },
-    {
-      "sourcePath": "backend/src/main/java/org/booklore/controller/OidcAuthController.java",
-      "fileBlobSha": "6de4b34e54133898e4d4b63486003bdc41598ce4",
-      "sourceLine": 158,
-      "handlerIdentity": "OidcAuthController#backchannelLogout",
-      "level": "method",
-      "field": "consumes",
-      "sourceExpression": "MediaType.APPLICATION_FORM_URLENCODED_VALUE",
-      "resolvedLiteralValues": null,
-      "declarationProof": null,
-      "classification": "UNRESOLVED_EXTERNAL_OR_DYNAMIC_SYMBOL"
-    }
-  ],
+  "unresolved": [],
   "unresolvedRuntimeEquivalentProof": true,
   "SOURCE_ANNOTATION_COMPLETE": false,
   "RUNTIME_ROUTE_COMPLETE": "NOT_RUN"
