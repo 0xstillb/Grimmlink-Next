@@ -1,3 +1,9 @@
+## AUTHORITATIVE PHASE HANDOFF — Phase01 FOUNDATION_REVIEWED (2026-10-29)
+
+Phase00 design-only lock remains intact; Phase01 isolated foundation technical exit gate is `FOUNDATION_REVIEWED`, backed by [fresh-context GitHub technical COMMENT review ID 5699254459](https://github.com/0xstillb/Grimmlink-Next/pull/5) at source `2eb613b0cac39b689710501cc3dbad812e5486a2` and exact reviewed-source GitHub CI [Phase00 #40888013634](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40888013634) and [Phase01 #40888013081](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40888013081), both SUCCESS. See [ACTIVE-SESSION](ACTIVE-SESSION.json), [Phase01 RESULT](phase-01/RESULT.md) and [review attestation](phase-01/FINAL-INDEPENDENT-REVIEW-ATTESTATION-2026-10-29.md). Latest closure-commit CI must separately pass at the actual updated HEAD. **No human GitHub approval, integration merge, Official gateway, production, Phase02 runtime security or full E2E is implied.** Historical reviews below are audit history, not current status.
+
+---
+
 ## PHASE00 LATEST REVIEW-GATE EVIDENCE — 2026-10-29: INDEPENDENT PASS STILL REQUIRED
 
 [GitHub Actions 40831672425](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40831672425) SUCCESS: 403/403 pinned Official method/path/verb source variants classified against ordered SecurityConfig source chain candidates; all 403 DENY gateway forwarding, not executable runtime Spring authorization. **348 mapping records but only 346 unique method names** due to overloaded BookCoverController#regenerateCovers and FileUploadController#uploadFile. Fixed source-key collision by using file + mapping line + handler. Exactly one representative matcher ambiguity for /api/v1/opds versus OPDS /** root; runtime decision NOT_RUN.
