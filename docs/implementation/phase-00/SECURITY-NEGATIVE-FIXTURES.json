@@ -3793,6 +3793,233 @@
       "expectedMutationObservability": "NONE_ASSERTED_BY_MOCK",
       "expectedDurableState": "DENIED_NO_UPSTREAM",
       "expectedDiagnosticEvent": "ko.registration.denied.redacted"
+    },
+    {
+      "fixtureId": "APP-CROSS_BOOK_FILE_PROGRESS_MISMATCH",
+      "family": "APP",
+      "request": {
+        "method": "PUT",
+        "path": "/api/v1/app/books/111/progress",
+        "headers": {
+          "Authorization": "Bearer SYNTHETIC_TEST_ONLY_JWT",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "fileProgress": {
+            "bookFileId": 999,
+            "progressPercent": 50
+          }
+        }
+      },
+      "preconditions": "Synthetic bookFileId=999 belongs to book=222, not target book=111; verify per-book library+file ID ownership before any Official call",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "DENIED_NO_UPSTREAM",
+        "diagnosticEvent": "security.authorization.denied.redacted",
+        "automaticRetryAttempts": 0
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/service/progress/ReadingProgressService.java#L201",
+      "phaseOwner": "Phase02/05 (scope-specific isolated security tests)",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_ISOLATED_MOCK",
+      "currentFeatureGate": "SOURCE_REVIEWED__SECURITY_GATE_BLOCKED__FORWARDING_OFF",
+      "testScenario": "FUTURE_IMPLEMENTED_BEHAVIOR",
+      "expectedHttpStatus": 403,
+      "expectedUpstreamAttempts": 0,
+      "expectedMutationObservability": "NONE_ASSERTED_BY_MOCK",
+      "expectedDurableState": "DENIED_NO_UPSTREAM",
+      "expectedDiagnosticEvent": "security.authorization.denied.redacted"
+    },
+    {
+      "fixtureId": "APP-MAGIC_SHELF_PUBLIC_NONADMIN_DENY",
+      "family": "APP",
+      "request": {
+        "method": "POST",
+        "path": "/api/magic-shelves",
+        "headers": {
+          "Authorization": "Bearer SYNTHETIC_TEST_ONLY_JWT",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "SYNTHETIC_PUBLIC",
+          "isPublic": true
+        }
+      },
+      "preconditions": "Ordinary synthetic account must not be able to create a public magic shelf; upstream create path applies DTO flag without admin check",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "DENIED_NO_UPSTREAM",
+        "diagnosticEvent": "security.authorization.denied.redacted",
+        "automaticRetryAttempts": 0
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/service/MagicShelfService.java#L68",
+      "phaseOwner": "Phase02/05 (scope-specific isolated security tests)",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_ISOLATED_MOCK",
+      "currentFeatureGate": "SOURCE_REVIEWED__SECURITY_GATE_BLOCKED__FORWARDING_OFF",
+      "testScenario": "FUTURE_IMPLEMENTED_BEHAVIOR",
+      "expectedHttpStatus": 403,
+      "expectedUpstreamAttempts": 0,
+      "expectedMutationObservability": "NONE_ASSERTED_BY_MOCK",
+      "expectedDurableState": "DENIED_NO_UPSTREAM",
+      "expectedDiagnosticEvent": "security.authorization.denied.redacted"
+    },
+    {
+      "fixtureId": "APP-KOBO_BODY_ENTITLEMENT_PATH_MISMATCH",
+      "family": "APP",
+      "request": {
+        "method": "PUT",
+        "path": "/api/kobo/SYNTHETIC_TOKEN/v1/library/111/state",
+        "headers": {
+          "Authorization": "Bearer SYNTHETIC_TEST_ONLY_JWT",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "ReadingStates": [
+            {
+              "EntitlementId": "222"
+            }
+          ]
+        }
+      },
+      "preconditions": "Body entitlementId=222 differs from path bookId=111; reject before any Official or Kobo provider request and ensure matching current user/book entitlement",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "DENIED_NO_UPSTREAM",
+        "diagnosticEvent": "security.authorization.denied.redacted",
+        "automaticRetryAttempts": 0
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/service/kobo/KoboReadingStateService.java#L82",
+      "phaseOwner": "Phase02/05 (scope-specific isolated security tests)",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_ISOLATED_MOCK",
+      "currentFeatureGate": "SOURCE_REVIEWED__SECURITY_GATE_BLOCKED__FORWARDING_OFF",
+      "testScenario": "FUTURE_IMPLEMENTED_BEHAVIOR",
+      "expectedHttpStatus": 403,
+      "expectedUpstreamAttempts": 0,
+      "expectedMutationObservability": "NONE_ASSERTED_BY_MOCK",
+      "expectedDurableState": "DENIED_NO_UPSTREAM",
+      "expectedDiagnosticEvent": "security.authorization.denied.redacted"
+    },
+    {
+      "fixtureId": "KOSYNC-HASH_UNASSIGNED_LIBRARY_DENY",
+      "family": "KOSYNC",
+      "request": {
+        "method": "PUT",
+        "path": "/api/koreader/syncs/progress",
+        "headers": {
+          "Authorization": "Bearer SYNTHETIC_TEST_ONLY_JWT",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "document": "SYNTHETIC_HASH_OF_REVOKED_BOOK",
+          "progress": "epubcfi(/6/4)",
+          "percentage": 50
+        }
+      },
+      "preconditions": "Valid synthetic KO credential but hash belongs to book in unassigned library. Must deny before per-user progress insert and before external sync",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "DENIED_NO_UPSTREAM",
+        "diagnosticEvent": "security.authorization.denied.redacted",
+        "automaticRetryAttempts": 0
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/service/koreader/KoreaderService.java#L80",
+      "phaseOwner": "Phase02/05 (scope-specific isolated security tests)",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_ISOLATED_MOCK",
+      "currentFeatureGate": "SOURCE_REVIEWED__SECURITY_GATE_BLOCKED__FORWARDING_OFF",
+      "testScenario": "FUTURE_IMPLEMENTED_BEHAVIOR",
+      "expectedHttpStatus": 403,
+      "expectedUpstreamAttempts": 0,
+      "expectedMutationObservability": "NONE_ASSERTED_BY_MOCK",
+      "expectedDurableState": "DENIED_NO_UPSTREAM",
+      "expectedDiagnosticEvent": "security.authorization.denied.redacted"
+    },
+    {
+      "fixtureId": "ROUTE-KOBO_CONCURRENT_SHARED_TOKEN_DENY",
+      "family": "ROUTE",
+      "request": {
+        "method": "POST",
+        "path": "/api/kobo/SYNTHETIC_TOKEN_USER_A/v1/auth/device",
+        "headers": {
+          "Authorization": "Bearer SYNTHETIC_TEST_ONLY_JWT",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "syntheticOnly": true
+        }
+      },
+      "preconditions": "Concurrent requests with distinct user A/B Kobo tokens must not cross-bind mutable controller instance field; gateway Kobo forwarding stays OFF pending concurrency proof/upstream fix",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "DENIED_NO_UPSTREAM",
+        "diagnosticEvent": "security.authorization.denied.redacted",
+        "automaticRetryAttempts": 0
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/KoboController.java#L40",
+      "phaseOwner": "Phase02/05 (scope-specific isolated security tests)",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_ISOLATED_MOCK",
+      "currentFeatureGate": "SOURCE_REVIEWED__SECURITY_GATE_BLOCKED__FORWARDING_OFF",
+      "testScenario": "FUTURE_IMPLEMENTED_BEHAVIOR",
+      "expectedHttpStatus": 403,
+      "expectedUpstreamAttempts": 0,
+      "expectedMutationObservability": "NONE_ASSERTED_BY_MOCK",
+      "expectedDurableState": "DENIED_NO_UPSTREAM",
+      "expectedDiagnosticEvent": "security.authorization.denied.redacted"
+    },
+    {
+      "fixtureId": "ROUTE-SETUP_CONCURRENT_ADMIN_PROVISION_DENY",
+      "family": "ROUTE",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/setup",
+        "headers": {
+          "Authorization": "Bearer SYNTHETIC_TEST_ONLY_JWT",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "SYNTHETIC_RACE_ADMIN",
+          "password": "SYNTHETIC_NOT_REAL"
+        }
+      },
+      "preconditions": "Concurrent initial-user requests must never create two admin principals; deny public setup at bridge and verify Official bootstrap atomicity before any exposure",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "DENIED_NO_UPSTREAM",
+        "diagnosticEvent": "security.authorization.denied.redacted",
+        "automaticRetryAttempts": 0
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/SetupController.java#L37",
+      "phaseOwner": "Phase02/05 (scope-specific isolated security tests)",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_ISOLATED_MOCK",
+      "currentFeatureGate": "SOURCE_REVIEWED__SECURITY_GATE_BLOCKED__FORWARDING_OFF",
+      "testScenario": "FUTURE_IMPLEMENTED_BEHAVIOR",
+      "expectedHttpStatus": 403,
+      "expectedUpstreamAttempts": 0,
+      "expectedMutationObservability": "NONE_ASSERTED_BY_MOCK",
+      "expectedDurableState": "DENIED_NO_UPSTREAM",
+      "expectedDiagnosticEvent": "security.authorization.denied.redacted"
     }
   ]
 }
