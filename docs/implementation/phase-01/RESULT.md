@@ -1,9 +1,22 @@
-# PHASE 01 — Foundation Implementation Result (pre-review)
+# PHASE 01 — Foundation Implementation Result (review accepted)
 
-**Checkpoint date:** 2026-10-29  
-**Status:** IMPLEMENTED_CODE / INDEPENDENT_REVIEW_PENDING / NOT FOUNDATION_REVIEWED  
-**Branch:** `feat/next-phase-01` | **Draft PR:** https://github.com/0xstillb/Grimmlink-Next/pull/5  
-**Source:** https://app.notion.com/p/407c7efbc0098130a215ebe15c887e4f
+**Status:** `FOUNDATION_REVIEWED` — independent fresh GPT-6-context **technical PASS** for isolated Phase01 foundation at reviewed application source `2eb613b0cac39b689710501cc3dbad812e5486a2`.  
+**Date:** 2026-10-29 | **Branch:** `feat/next-phase-01` | **PR:** [#5](https://github.com/0xstillb/Grimmlink-Next/pull/5) remains DRAFT / UNMERGED.  
+**Source / scope:** [Notion Phase 01](https://app.notion.com/p/407c7efbc0098130a215ebe15c887e4f).
+
+## Final independent review and closure evidence
+
+- Recorded [independent reviewer GitHub COMMENT, ID 5699254459](https://github.com/0xstillb/Grimmlink-Next/pull/5) submitted from a separate fresh GPT-6 conversation. This is **NOT a human GitHub APPROVE** or an integration-merge authorization.
+- All six findings technically closed for scoped Phase01 foundation: `P1-01`, `P1-02`, `P2-03`, `P2-04`, `P2-05`, `NEW-R2-01`. [Immutable attestation record](./FINAL-INDEPENDENT-REVIEW-ATTESTATION-2026-10-29.md) links the reviewed code and reviewed-source checks.
+- [Exact reviewed-code Phase00 CI #40888013634](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40888013634) **SUCCESS** (43 Python tests, design-only static gate); [Phase01 CI #40888013081](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40888013081) **SUCCESS** (frozen build, typecheck, lint, Prettier, unit/mock, QEMU ARM64 offline health and SQLite WAL).
+- `ACTIVE-SESSION.json` and `HANDOFF.json` now declare `FOUNDATION_REVIEWED`. Phase00 machine gate accepts that state **only** when independent reviewer evidence and immutable report hash match the fixed reviewed-source SHA and CI run IDs; extra, missing and forged review declarations are regression tested.
+- Closure-commit CI must be checked against the **final live feature branch HEAD**: earlier reviewed-source CI is not asserted to cover later release-gate or documentation edits. CI links and current HEAD are available directly in [PR #5](https://github.com/0xstillb/Grimmlink-Next/pull/5).
+
+**Safety boundary:** no integration/main merge, Official gateway forwarding `DENY_ALL`, native KOSync progress, metadataApply, personal/session bridges and managed projection `OFF`, production `NOT_AUTHORIZED`. Runtime authorization / credential protection remain Phase02/05/07 hard gates; real Hermes/NAS/reader/full E2E is Phase09 only. Historical pinned Node base CVE assessment remains a pre-production requirement.
+
+## Historical implementation and remediation checkpoints
+
+The sections below document **previous states as written at the time** (including stale `REVIEW_PENDING` and formatting notes). They are intentionally retained for audit; the authoritative current closure status is the section above.
 
 ## Deliverables committed
 - Strict TypeScript pnpm workspace, TypeBox schemas, validated loopback-only Fastify health, generated OpenAPI scaffold; no Official proxy.
