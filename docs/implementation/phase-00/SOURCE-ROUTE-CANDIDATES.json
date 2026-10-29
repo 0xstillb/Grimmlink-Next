@@ -1175,6 +1175,406 @@
     },
     {
       "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+      "fileBlobSha": "8b5960e4f505ed25514eb5e13c2a4f408fdf2abd",
+      "sourcePath": "backend/src/main/java/org/booklore/config/WebMvcConfig.java",
+      "sourceLine": 38,
+      "className": "WebMvcConfig",
+      "handlerIdentity": "WebMvcConfig#addResourceHandlers",
+      "handlerMechanism": "PROGRAMMATIC_SOURCE_SIGNAL",
+      "annotationType": "CALL",
+      "sourceExpression": "registry.addResourceHandler(\"/**\")",
+      "classPrefix": null,
+      "declaredMethods": [],
+      "pathVariants": null,
+      "mappingConditions": null,
+      "mappingExpansion": "NOT_SEMANTICALLY_EXPANDED",
+      "authChain": "UNVERIFIED",
+      "authorizationDimensions": [
+        "UNVERIFIED"
+      ],
+      "gatewayOwner": "DENY_BY_DEFAULT_UNTIL_REVIEWED",
+      "evidenceGrade": "SOURCE_AST_SYNTAX_ONLY",
+      "openQuestions": [
+        "Review full mapping composition, meta annotations, inheritance, conditions and security ownership"
+      ]
+    },
+    {
+      "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+      "fileBlobSha": "8b5960e4f505ed25514eb5e13c2a4f408fdf2abd",
+      "sourcePath": "backend/src/main/java/org/booklore/config/WebMvcConfig.java",
+      "sourceLine": 57,
+      "className": "WebMvcConfig",
+      "handlerIdentity": "WebMvcConfig#addInterceptors",
+      "handlerMechanism": "PROGRAMMATIC_SOURCE_SIGNAL",
+      "annotationType": "CALL",
+      "sourceExpression": "registry.addInterceptor(opdsEnabledInterceptor).addPathPatterns(\"/api/v1/opds/**\", \"/api/v2/opds/**\")",
+      "classPrefix": null,
+      "declaredMethods": [],
+      "pathVariants": null,
+      "mappingConditions": null,
+      "mappingExpansion": "NOT_SEMANTICALLY_EXPANDED",
+      "authChain": "UNVERIFIED",
+      "authorizationDimensions": [
+        "UNVERIFIED"
+      ],
+      "gatewayOwner": "DENY_BY_DEFAULT_UNTIL_REVIEWED",
+      "evidenceGrade": "SOURCE_AST_SYNTAX_ONLY",
+      "openQuestions": [
+        "Review full mapping composition, meta annotations, inheritance, conditions and security ownership"
+      ]
+    },
+    {
+      "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+      "fileBlobSha": "8b5960e4f505ed25514eb5e13c2a4f408fdf2abd",
+      "sourcePath": "backend/src/main/java/org/booklore/config/WebMvcConfig.java",
+      "sourceLine": 57,
+      "className": "WebMvcConfig",
+      "handlerIdentity": "WebMvcConfig#addInterceptors",
+      "handlerMechanism": "PROGRAMMATIC_SOURCE_SIGNAL",
+      "annotationType": "CALL",
+      "sourceExpression": "registry.addInterceptor(opdsEnabledInterceptor)",
+      "classPrefix": null,
+      "declaredMethods": [],
+      "pathVariants": null,
+      "mappingConditions": null,
+      "mappingExpansion": "NOT_SEMANTICALLY_EXPANDED",
+      "authChain": "UNVERIFIED",
+      "authorizationDimensions": [
+        "UNVERIFIED"
+      ],
+      "gatewayOwner": "DENY_BY_DEFAULT_UNTIL_REVIEWED",
+      "evidenceGrade": "SOURCE_AST_SYNTAX_ONLY",
+      "openQuestions": [
+        "Review full mapping composition, meta annotations, inheritance, conditions and security ownership"
+      ]
+    },
+    {
+      "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+      "fileBlobSha": "8b5960e4f505ed25514eb5e13c2a4f408fdf2abd",
+      "sourcePath": "backend/src/main/java/org/booklore/config/WebMvcConfig.java",
+      "sourceLine": 59,
+      "className": "WebMvcConfig",
+      "handlerIdentity": "WebMvcConfig#addInterceptors",
+      "handlerMechanism": "PROGRAMMATIC_SOURCE_SIGNAL",
+      "annotationType": "CALL",
+      "sourceExpression": "registry.addInterceptor(komgaEnabledInterceptor).addPathPatterns(\"/komga/api/**\")",
+      "classPrefix": null,
+      "declaredMethods": [],
+      "pathVariants": null,
+      "mappingConditions": null,
+      "mappingExpansion": "NOT_SEMANTICALLY_EXPANDED",
+      "authChain": "UNVERIFIED",
+      "authorizationDimensions": [
+        "UNVERIFIED"
+      ],
+      "gatewayOwner": "DENY_BY_DEFAULT_UNTIL_REVIEWED",
+      "evidenceGrade": "SOURCE_AST_SYNTAX_ONLY",
+      "openQuestions": [
+        "Review full mapping composition, meta annotations, inheritance, conditions and security ownership"
+      ]
+    },
+    {
+      "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+      "fileBlobSha": "8b5960e4f505ed25514eb5e13c2a4f408fdf2abd",
+      "sourcePath": "backend/src/main/java/org/booklore/config/WebMvcConfig.java",
+      "sourceLine": 59,
+      "className": "WebMvcConfig",
+      "handlerIdentity": "WebMvcConfig#addInterceptors",
+      "handlerMechanism": "PROGRAMMATIC_SOURCE_SIGNAL",
+      "annotationType": "CALL",
+      "sourceExpression": "registry.addInterceptor(komgaEnabledInterceptor)",
+      "classPrefix": null,
+      "declaredMethods": [],
+      "pathVariants": null,
+      "mappingConditions": null,
+      "mappingExpansion": "NOT_SEMANTICALLY_EXPANDED",
+      "authChain": "UNVERIFIED",
+      "authorizationDimensions": [
+        "UNVERIFIED"
+      ],
+      "gatewayOwner": "DENY_BY_DEFAULT_UNTIL_REVIEWED",
+      "evidenceGrade": "SOURCE_AST_SYNTAX_ONLY",
+      "openQuestions": [
+        "Review full mapping composition, meta annotations, inheritance, conditions and security ownership"
+      ]
+    },
+    {
+      "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+      "fileBlobSha": "8b5960e4f505ed25514eb5e13c2a4f408fdf2abd",
+      "sourcePath": "backend/src/main/java/org/booklore/config/WebMvcConfig.java",
+      "sourceLine": 61,
+      "className": "WebMvcConfig",
+      "handlerIdentity": "WebMvcConfig#addInterceptors",
+      "handlerMechanism": "PROGRAMMATIC_SOURCE_SIGNAL",
+      "annotationType": "CALL",
+      "sourceExpression": "registry.addInterceptor(komgaCleanInterceptor).addPathPatterns(\"/komga/api/**\")",
+      "classPrefix": null,
+      "declaredMethods": [],
+      "pathVariants": null,
+      "mappingConditions": null,
+      "mappingExpansion": "NOT_SEMANTICALLY_EXPANDED",
+      "authChain": "UNVERIFIED",
+      "authorizationDimensions": [
+        "UNVERIFIED"
+      ],
+      "gatewayOwner": "DENY_BY_DEFAULT_UNTIL_REVIEWED",
+      "evidenceGrade": "SOURCE_AST_SYNTAX_ONLY",
+      "openQuestions": [
+        "Review full mapping composition, meta annotations, inheritance, conditions and security ownership"
+      ]
+    },
+    {
+      "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+      "fileBlobSha": "8b5960e4f505ed25514eb5e13c2a4f408fdf2abd",
+      "sourcePath": "backend/src/main/java/org/booklore/config/WebMvcConfig.java",
+      "sourceLine": 61,
+      "className": "WebMvcConfig",
+      "handlerIdentity": "WebMvcConfig#addInterceptors",
+      "handlerMechanism": "PROGRAMMATIC_SOURCE_SIGNAL",
+      "annotationType": "CALL",
+      "sourceExpression": "registry.addInterceptor(komgaCleanInterceptor)",
+      "classPrefix": null,
+      "declaredMethods": [],
+      "pathVariants": null,
+      "mappingConditions": null,
+      "mappingExpansion": "NOT_SEMANTICALLY_EXPANDED",
+      "authChain": "UNVERIFIED",
+      "authorizationDimensions": [
+        "UNVERIFIED"
+      ],
+      "gatewayOwner": "DENY_BY_DEFAULT_UNTIL_REVIEWED",
+      "evidenceGrade": "SOURCE_AST_SYNTAX_ONLY",
+      "openQuestions": [
+        "Review full mapping composition, meta annotations, inheritance, conditions and security ownership"
+      ]
+    },
+    {
+      "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+      "fileBlobSha": "8ec1884a2dc72261963bf75c1e877d6ef8aa7694",
+      "sourcePath": "backend/src/main/java/org/booklore/config/WebSocketConfig.java",
+      "sourceLine": 23,
+      "className": "WebSocketConfig",
+      "handlerIdentity": "WebSocketConfig#",
+      "handlerMechanism": "FRAMEWORK_TYPE_SIGNAL",
+      "annotationType": "CLASS",
+      "sourceExpression": "kind=CLASS;extends=null;implements=WebSocketMessageBrokerConfigurer",
+      "classPrefix": null,
+      "declaredMethods": [],
+      "pathVariants": null,
+      "mappingConditions": null,
+      "mappingExpansion": "NOT_SEMANTICALLY_EXPANDED",
+      "authChain": "UNVERIFIED",
+      "authorizationDimensions": [
+        "UNVERIFIED"
+      ],
+      "gatewayOwner": "DENY_BY_DEFAULT_UNTIL_REVIEWED",
+      "evidenceGrade": "SOURCE_AST_SYNTAX_ONLY",
+      "openQuestions": [
+        "Review full mapping composition, meta annotations, inheritance, conditions and security ownership"
+      ]
+    },
+    {
+      "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+      "fileBlobSha": "8ec1884a2dc72261963bf75c1e877d6ef8aa7694",
+      "sourcePath": "backend/src/main/java/org/booklore/config/WebSocketConfig.java",
+      "sourceLine": 45,
+      "className": "WebSocketConfig",
+      "handlerIdentity": "WebSocketConfig#configureMessageBroker",
+      "handlerMechanism": "PROGRAMMATIC_SOURCE_SIGNAL",
+      "annotationType": "CALL",
+      "sourceExpression": "registry.enableSimpleBroker(\"/queue\", \"/topic\")",
+      "classPrefix": null,
+      "declaredMethods": [],
+      "pathVariants": null,
+      "mappingConditions": null,
+      "mappingExpansion": "NOT_SEMANTICALLY_EXPANDED",
+      "authChain": "UNVERIFIED",
+      "authorizationDimensions": [
+        "UNVERIFIED"
+      ],
+      "gatewayOwner": "DENY_BY_DEFAULT_UNTIL_REVIEWED",
+      "evidenceGrade": "SOURCE_AST_SYNTAX_ONLY",
+      "openQuestions": [
+        "Review full mapping composition, meta annotations, inheritance, conditions and security ownership"
+      ]
+    },
+    {
+      "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+      "fileBlobSha": "8ec1884a2dc72261963bf75c1e877d6ef8aa7694",
+      "sourcePath": "backend/src/main/java/org/booklore/config/WebSocketConfig.java",
+      "sourceLine": 48,
+      "className": "WebSocketConfig",
+      "handlerIdentity": "WebSocketConfig#configureMessageBroker",
+      "handlerMechanism": "PROGRAMMATIC_SOURCE_SIGNAL",
+      "annotationType": "CALL",
+      "sourceExpression": "registry.setApplicationDestinationPrefixes(\"/app\")",
+      "classPrefix": null,
+      "declaredMethods": [],
+      "pathVariants": null,
+      "mappingConditions": null,
+      "mappingExpansion": "NOT_SEMANTICALLY_EXPANDED",
+      "authChain": "UNVERIFIED",
+      "authorizationDimensions": [
+        "UNVERIFIED"
+      ],
+      "gatewayOwner": "DENY_BY_DEFAULT_UNTIL_REVIEWED",
+      "evidenceGrade": "SOURCE_AST_SYNTAX_ONLY",
+      "openQuestions": [
+        "Review full mapping composition, meta annotations, inheritance, conditions and security ownership"
+      ]
+    },
+    {
+      "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+      "fileBlobSha": "8ec1884a2dc72261963bf75c1e877d6ef8aa7694",
+      "sourcePath": "backend/src/main/java/org/booklore/config/WebSocketConfig.java",
+      "sourceLine": 49,
+      "className": "WebSocketConfig",
+      "handlerIdentity": "WebSocketConfig#configureMessageBroker",
+      "handlerMechanism": "PROGRAMMATIC_SOURCE_SIGNAL",
+      "annotationType": "CALL",
+      "sourceExpression": "registry.setUserDestinationPrefix(\"/user\")",
+      "classPrefix": null,
+      "declaredMethods": [],
+      "pathVariants": null,
+      "mappingConditions": null,
+      "mappingExpansion": "NOT_SEMANTICALLY_EXPANDED",
+      "authChain": "UNVERIFIED",
+      "authorizationDimensions": [
+        "UNVERIFIED"
+      ],
+      "gatewayOwner": "DENY_BY_DEFAULT_UNTIL_REVIEWED",
+      "evidenceGrade": "SOURCE_AST_SYNTAX_ONLY",
+      "openQuestions": [
+        "Review full mapping composition, meta annotations, inheritance, conditions and security ownership"
+      ]
+    },
+    {
+      "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+      "fileBlobSha": "8ec1884a2dc72261963bf75c1e877d6ef8aa7694",
+      "sourcePath": "backend/src/main/java/org/booklore/config/WebSocketConfig.java",
+      "sourceLine": 64,
+      "className": "WebSocketConfig",
+      "handlerIdentity": "WebSocketConfig#registerStompEndpoints",
+      "handlerMechanism": "PROGRAMMATIC_SOURCE_SIGNAL",
+      "annotationType": "CALL",
+      "sourceExpression": "registry.addEndpoint(\"/ws\")",
+      "classPrefix": null,
+      "declaredMethods": [],
+      "pathVariants": null,
+      "mappingConditions": null,
+      "mappingExpansion": "NOT_SEMANTICALLY_EXPANDED",
+      "authChain": "UNVERIFIED",
+      "authorizationDimensions": [
+        "UNVERIFIED"
+      ],
+      "gatewayOwner": "DENY_BY_DEFAULT_UNTIL_REVIEWED",
+      "evidenceGrade": "SOURCE_AST_SYNTAX_ONLY",
+      "openQuestions": [
+        "Review full mapping composition, meta annotations, inheritance, conditions and security ownership"
+      ]
+    },
+    {
+      "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+      "fileBlobSha": "8ec1884a2dc72261963bf75c1e877d6ef8aa7694",
+      "sourcePath": "backend/src/main/java/org/booklore/config/WebSocketConfig.java",
+      "sourceLine": 66,
+      "className": "WebSocketConfig",
+      "handlerIdentity": "WebSocketConfig#registerStompEndpoints",
+      "handlerMechanism": "PROGRAMMATIC_SOURCE_SIGNAL",
+      "annotationType": "CALL",
+      "sourceExpression": "endpoint.setAllowedOriginPatterns(\"*\")",
+      "classPrefix": null,
+      "declaredMethods": [],
+      "pathVariants": null,
+      "mappingConditions": null,
+      "mappingExpansion": "NOT_SEMANTICALLY_EXPANDED",
+      "authChain": "UNVERIFIED",
+      "authorizationDimensions": [
+        "UNVERIFIED"
+      ],
+      "gatewayOwner": "DENY_BY_DEFAULT_UNTIL_REVIEWED",
+      "evidenceGrade": "SOURCE_AST_SYNTAX_ONLY",
+      "openQuestions": [
+        "Review full mapping composition, meta annotations, inheritance, conditions and security ownership"
+      ]
+    },
+    {
+      "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+      "fileBlobSha": "8ec1884a2dc72261963bf75c1e877d6ef8aa7694",
+      "sourcePath": "backend/src/main/java/org/booklore/config/WebSocketConfig.java",
+      "sourceLine": 75,
+      "className": "WebSocketConfig",
+      "handlerIdentity": "WebSocketConfig#registerStompEndpoints",
+      "handlerMechanism": "PROGRAMMATIC_SOURCE_SIGNAL",
+      "annotationType": "CALL",
+      "sourceExpression": "endpoint.setAllowedOriginPatterns(origins)",
+      "classPrefix": null,
+      "declaredMethods": [],
+      "pathVariants": null,
+      "mappingConditions": null,
+      "mappingExpansion": "NOT_SEMANTICALLY_EXPANDED",
+      "authChain": "UNVERIFIED",
+      "authorizationDimensions": [
+        "UNVERIFIED"
+      ],
+      "gatewayOwner": "DENY_BY_DEFAULT_UNTIL_REVIEWED",
+      "evidenceGrade": "SOURCE_AST_SYNTAX_ONLY",
+      "openQuestions": [
+        "Review full mapping composition, meta annotations, inheritance, conditions and security ownership"
+      ]
+    },
+    {
+      "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+      "fileBlobSha": "c99e1decb2b761f60fb0429287b5ef873d20c8b7",
+      "sourcePath": "backend/src/main/java/org/booklore/config/security/SecurityConfig.java",
+      "sourceLine": 342,
+      "className": "SecurityConfig",
+      "handlerIdentity": "SecurityConfig#corsConfigurationSource",
+      "handlerMechanism": "PROGRAMMATIC_SOURCE_SIGNAL",
+      "annotationType": "CALL",
+      "sourceExpression": "configuration.setAllowedOriginPatterns(List.of(\"*\"))",
+      "classPrefix": null,
+      "declaredMethods": [],
+      "pathVariants": null,
+      "mappingConditions": null,
+      "mappingExpansion": "NOT_SEMANTICALLY_EXPANDED",
+      "authChain": "UNVERIFIED",
+      "authorizationDimensions": [
+        "UNVERIFIED"
+      ],
+      "gatewayOwner": "DENY_BY_DEFAULT_UNTIL_REVIEWED",
+      "evidenceGrade": "SOURCE_AST_SYNTAX_ONLY",
+      "openQuestions": [
+        "Review full mapping composition, meta annotations, inheritance, conditions and security ownership"
+      ]
+    },
+    {
+      "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+      "fileBlobSha": "c99e1decb2b761f60fb0429287b5ef873d20c8b7",
+      "sourcePath": "backend/src/main/java/org/booklore/config/security/SecurityConfig.java",
+      "sourceLine": 348,
+      "className": "SecurityConfig",
+      "handlerIdentity": "SecurityConfig#corsConfigurationSource",
+      "handlerMechanism": "PROGRAMMATIC_SOURCE_SIGNAL",
+      "annotationType": "CALL",
+      "sourceExpression": "configuration.setAllowedOriginPatterns(origins)",
+      "classPrefix": null,
+      "declaredMethods": [],
+      "pathVariants": null,
+      "mappingConditions": null,
+      "mappingExpansion": "NOT_SEMANTICALLY_EXPANDED",
+      "authChain": "UNVERIFIED",
+      "authorizationDimensions": [
+        "UNVERIFIED"
+      ],
+      "gatewayOwner": "DENY_BY_DEFAULT_UNTIL_REVIEWED",
+      "evidenceGrade": "SOURCE_AST_SYNTAX_ONLY",
+      "openQuestions": [
+        "Review full mapping composition, meta annotations, inheritance, conditions and security ownership"
+      ]
+    },
+    {
+      "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
       "fileBlobSha": "d5a8649d27109cee681e220c674238945009058c",
       "sourcePath": "backend/src/main/java/org/booklore/controller/AdditionalFileController.java",
       "sourceLine": 23,

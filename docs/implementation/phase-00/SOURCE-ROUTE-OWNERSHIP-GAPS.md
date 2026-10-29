@@ -8,9 +8,10 @@ All unclassified personal/sensitive routes: DENY by default. Never wildcard-pass
 
 - backend/src/main/java/org/booklore/browse/RelSerializer.java: Inherited/interface route annotations require semantic review
 - backend/src/main/java/org/booklore/config/KomgaCleanBeanPropertyWriter.java: Inherited/interface route annotations require semantic review
-- backend/src/main/java/org/booklore/config/WebMvcConfig.java: Inherited/interface route annotations require semantic review
-- backend/src/main/java/org/booklore/config/WebSocketConfig.java: Inherited/interface route annotations require semantic review
+- backend/src/main/java/org/booklore/config/WebMvcConfig.java: Inherited/interface route annotations require semantic review; Programmatic mapping reachability and prefix require review
+- backend/src/main/java/org/booklore/config/WebSocketConfig.java: Inherited/interface route annotations require semantic review; Programmatic mapping reachability and prefix require review
 - backend/src/main/java/org/booklore/config/logging/filter/RequestLoggingFilter.java: Inherited/interface route annotations require semantic review
+- backend/src/main/java/org/booklore/config/security/SecurityConfig.java: Programmatic mapping reachability and prefix require review
 - backend/src/main/java/org/booklore/config/security/filter/AuthenticationCheckFilter.java: Inherited/interface route annotations require semantic review
 - backend/src/main/java/org/booklore/config/security/filter/JwtAuthenticationFilter.java: Inherited/interface route annotations require semantic review
 - backend/src/main/java/org/booklore/config/security/filter/KoboAuthFilter.java: Inherited/interface route annotations require semantic review

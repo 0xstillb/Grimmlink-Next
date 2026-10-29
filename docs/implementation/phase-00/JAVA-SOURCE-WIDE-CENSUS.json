@@ -3,16 +3,16 @@
   "upstreamRepository": "grimmory-tools/grimmory",
   "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
   "sourceScope": "backend/src/main/java/org/booklore/**/*.java",
-  "generatedUtc": "2026-10-29T04:15:58.630626+00:00",
+  "generatedUtc": "2026-10-29T04:18:44.021878+00:00",
   "filesEnumerated": 923,
   "contentReadAndBlobShaVerified": 923,
   "filesFailedContentRead": 0,
   "astParsedFiles": 923,
   "astErrors": [],
-  "sourceCandidates": 476,
+  "sourceCandidates": 492,
   "mappingAnnotationOccurrences": 411,
   "controllerMarkers": 64,
-  "programmaticSignals": 0,
+  "programmaticSignals": 15,
   "customAnnotationDefinitionNames": [
     "CheckBookAccess",
     "CheckLibraryAccess"
@@ -819,7 +819,14 @@
       "signalCount": 20,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
-        "Inherited/interface route annotations require semantic review"
+        "Inherited/interface route annotations require semantic review",
+        "Programmatic mapping reachability and prefix require review",
+        "Programmatic mapping reachability and prefix require review",
+        "Programmatic mapping reachability and prefix require review",
+        "Programmatic mapping reachability and prefix require review",
+        "Programmatic mapping reachability and prefix require review",
+        "Programmatic mapping reachability and prefix require review",
+        "Programmatic mapping reachability and prefix require review"
       ],
       "contentBytes": 2890,
       "contentLines": 64,
@@ -831,10 +838,16 @@
       "contentAvailable": true,
       "inspected": true,
       "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
-      "signalCount": 17,
+      "signalCount": 23,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
-        "Inherited/interface route annotations require semantic review"
+        "Inherited/interface route annotations require semantic review",
+        "Programmatic mapping reachability and prefix require review",
+        "Programmatic mapping reachability and prefix require review",
+        "Programmatic mapping reachability and prefix require review",
+        "Programmatic mapping reachability and prefix require review",
+        "Programmatic mapping reachability and prefix require review",
+        "Programmatic mapping reachability and prefix require review"
       ],
       "contentBytes": 4184,
       "contentLines": 92,
@@ -900,9 +913,12 @@
       "contentAvailable": true,
       "inspected": true,
       "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
-      "signalCount": 47,
+      "signalCount": 49,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
-      "unresolvedSemanticQuestions": [],
+      "unresolvedSemanticQuestions": [
+        "Programmatic mapping reachability and prefix require review",
+        "Programmatic mapping reachability and prefix require review"
+      ],
       "contentBytes": 18684,
       "contentLines": 361,
       "contentSha256": "e9fb4484fb7bad11e7f328027721dd3d2339b0de1951a7f1c1902ba4bfd7e72f"
