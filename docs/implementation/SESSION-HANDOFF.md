@@ -1,3 +1,4 @@
+<!-- Current 2026-10-29 reviewer packet: [RE-REVIEW-PACKET.md](phase-00/RE-REVIEW-PACKET.md). Prior checkpoints below historical. -->
 # GRIMMLINK NEXT — GPT Web Session Handoff
 
 ## CURRENT CORRECTION CHECKPOINT — 2026-10-29 (supersedes earlier reviewed head below)

@@ -24,3 +24,5 @@
 ## Mandatory next session after correction
 
 Fetch LIVE [Draft PR #2](https://github.com/0xstillb/Grimmlink-Next/pull/2); read [Independent REVIEW.md](REVIEW.md), [Implementer REMEDIATION.md](REMEDIATION.md), Contract/Discrepancies/Handoff. Request **fresh independent re-review** of correction diff and unresolved security/metadata contracts. Do not merge PR, change main or begin Phase01; Full E2E/Hermes/NAS/physical readers Phase09 only.
+
+**Next reviewer:** Read [RE-REVIEW-PACKET.md](RE-REVIEW-PACKET.md) for the specific R-01–R-12 acceptance matrix and copyable fresh-session prompt. A packet does not equal independent review.

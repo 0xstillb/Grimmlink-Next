@@ -70,7 +70,7 @@
     "spec": "https://app.notion.com/p/407c7efbc00981f1a9c6ccb0de5d6a54",
     "playbook": "https://app.notion.com/p/407c7efbc009814a9e18f0d945ee0ef0"
   },
-  "nextAction": "Read source remediation and Reviewer CHANGES_REQUIRED, obtain fresh independent review of this correction diff on Draft PR #2. Phase01 is NOT authorized.",
+  "nextAction": "Fresh-context independent re-review using RE-REVIEW-PACKET.md, R01–R12 with path:line. No Phase01 before approved contract lock.",
   "updatedAt": "2026-10-29",
   "sourceRecheck": "IMPLEMENTER_SOURCE_RECHECK_NOT_INDEPENDENT",
   "prStatus": "OPEN_DRAFT_RECHECK",
@@ -81,5 +81,6 @@
   "reviewReport": "docs/implementation/phase-00/REVIEW.md",
   "independentReReview": "NOT_RUN",
   "correctionReport": "docs/implementation/phase-00/REMEDIATION.md",
-  "correctionScope": "R-01_TO_R-12_DOCS_ONLY"
+  "correctionScope": "R-01_TO_R-12_DOCS_ONLY",
+  "reviewPacket": "docs/implementation/phase-00/RE-REVIEW-PACKET.md"
 }

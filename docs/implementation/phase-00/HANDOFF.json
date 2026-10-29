@@ -3,7 +3,7 @@
   "phase": "PHASE_00",
   "status": "CORRECTION_PASS_SOURCE_DOCS_COMMITTED_AWAITING_INDEPENDENT_RE_REVIEW",
   "baseCommit": "5efdaf3bef051d0d5c44f6274a2cd2bf22010de5",
-  "headCommit": "READ_LIVE_GITHUB_NO_SELF_REFERENTIAL_SHA",
+  "headCommit": "FETCH_LIVE_GITHUB_NO_SELF_SHA",
   "branch": "feat/next-phase-00",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/2",
   "changedFiles": [
@@ -21,7 +21,8 @@
     "docs/implementation/phase-00/SOURCE-RECHECK-2026-10-29.md",
     "docs/implementation/phase-00/REMEDIATION.md",
     "docs/implementation/phase-00/START-HERE.md",
-    "AGENTS.md"
+    "AGENTS.md",
+    "docs/implementation/phase-00/RE-REVIEW-PACKET.md"
   ],
   "requirementsCovered": [
     "source audit v3.5.0",
@@ -51,7 +52,7 @@
     "READBACK_NOT_RUN",
     "INTEGRATED_E2E_NOT_RUN_PHASE09"
   ],
-  "reviewStatus": "CHANGES_REQUIRED_PREVIOUS_REVIEW_RE_REVIEW_PENDING",
+  "reviewStatus": "CHANGES_REQUIRED_AWAITING_FRESH_INDEPENDENT_RE_REVIEW",
   "blockers": [
     "Installed Grimmory image/DB/mount/version unknown",
     "JWT DTO source verified; per-user permissions, expires units and refresh runtime remain unverified",
@@ -86,7 +87,7 @@
     "nonempty collection can replace existing OPF authors/categories/tags"
   ],
   "handoffTo": "PHASE_00_FRESH_INDEPENDENT_RE_REVIEW",
-  "nextAction": "Fresh independent reviewer must inspect latest Draft PR #2 correction diff and R01-R12 evidence; until approval keep phase00 CHANGES_REQUIRED, no CONTRACT_LOCKED, no Phase01, no merge. Real E2E only Phase09.",
+  "nextAction": "In fresh independent GPT Web session, fetch live Draft PR2 HEAD and review RE-REVIEW-PACKET.md R01-R12 against pinned source; record independent verdict before contract lock or Phase01.",
   "evidence": [
     "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/MetadataController.java#L51-L59",
     "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/KoreaderController.java",
@@ -173,5 +174,6 @@
     "actualTestCommands": "NOT_RUN",
     "testExitCodes": null,
     "fullE2e": "DEFERRED_TO_PHASE_09"
-  }
+  },
+  "reReviewPacket": "docs/implementation/phase-00/RE-REVIEW-PACKET.md"
 }
