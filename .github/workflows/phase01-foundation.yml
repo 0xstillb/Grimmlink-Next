@@ -27,6 +27,7 @@ jobs:
       - name: Unit and injected mock tests only
         run: pnpm test
       - name: Preserve generated lock for follow-up review
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: phase01-proposed-pnpm-lock

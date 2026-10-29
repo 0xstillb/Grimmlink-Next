@@ -1,12 +1,14 @@
 import Database from "better-sqlite3";
-import { drizzle } from "drizzle-orm/better-sqlite3";
+import { drizzle, type BetterSQLite3Database } from "drizzle-orm/better-sqlite3";
 import { migrate } from "drizzle-orm/better-sqlite3/migrator";
 import { mkdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import * as schema from "./schema.js";
 export * from "./schema.js";
 
-export function openLocalStore(filePath: string, migrationsFolder: string) {
+export interface LocalStore { sqlite: Database.Database; orm: BetterSQLite3Database<typeof schema>; close: () => void; }
+
+export function openLocalStore(filePath: string, migrationsFolder: string): LocalStore {
   if (filePath === ":memory:") throw new Error("Persistent local SQLite path required");
   const path = resolve(filePath);
   mkdirSync(dirname(path), { recursive: true, mode: 0o700 });
