@@ -23,6 +23,7 @@ FILES=[
 "docs/implementation/phase-00/FRESH-INDEPENDENT-SECURITY-REVIEW-2026-10-29.md",
 "docs/implementation/phase-00/FRESH-CONTEXT-DESIGN-LOCK-REVIEW-2026-10-29.md",
 "docs/implementation/ACTIVE-SESSION.json",
+"docs/implementation/phase-01/FINAL-INDEPENDENT-REVIEW-ATTESTATION-2026-10-29.md",
 ]
 
 class GateTests(unittest.TestCase):
@@ -121,6 +122,58 @@ class GateTests(unittest.TestCase):
         output=json.loads(self.out.read_text())
         self.assertTrue(output["phase01Authorized"])
         self.assertEqual(output["gatewayRuntimeEnforcement"],"NOT_RUN")
+
+    def test_phase01_final_independent_review_is_proven_and_bounded(self):
+        gate.validate(self.root,self.out)
+        obj=json.loads(self.out.read_text())
+        self.assertTrue(obj["phase01FoundationReviewed"])
+        self.assertEqual(obj["phase01IndependentTechnicalVerdict"],"PASS_AT_REVIEWED_SOURCE_HEAD")
+        self.assertEqual(obj["phase01ReviewedSourceHead"],gate.PHASE01_REVIEWED_HEAD)
+        self.assertFalse(obj["phase01HumanGitHubApproval"])
+        self.assertFalse(obj["phase01RuntimeSecurityAuthorized"])
+        self.assertEqual(obj["gatewayRuntimeEnforcement"],"NOT_RUN")
+
+    def test_phase01_status_flip_without_independent_evidence_is_rejected(self):
+        path="docs/implementation/ACTIVE-SESSION.json"
+        self.mutate(path,lambda j:j.pop("phase01IndependentReview",None))
+        with self.assertRaisesRegex(ValueError,"FOUNDATION_REVIEWED requires"):
+            gate.validate(self.root,self.out)
+
+    def test_phase01_forged_review_evidence_is_rejected(self):
+        path="docs/implementation/ACTIVE-SESSION.json"
+        pristine=(self.root/path).read_text()
+        changes=(
+            lambda j:j["phase01IndependentReview"].update(reviewedSourceHead="unreviewed-commit"),
+            lambda j:j["phase01IndependentReview"].update(githubReviewId="0"),
+            lambda j:j["phase01IndependentReview"].update(githubReviewEvent="APPROVED"),
+            lambda j:j["phase01IndependentReview"].update(humanGitHubApproved=True),
+            lambda j:j["phase01IndependentReview"].update(runtimeSecurityAuthorized=True),
+            lambda j:j["phase01IndependentReview"].update(phase01ReviewedCiRun="UNVERIFIED"),
+            lambda j:j["phase01IndependentReview"].update(attestationGitBlob="fabricated"),
+            lambda j:j["phase01IndependentReview"].update(unknownExtraKey="PASS"),
+            lambda j:j.update(phaseStatus="FOUNDATION_PASSED_WITHOUT_REVIEW"),
+        )
+        for i,change in enumerate(changes):
+            with self.subTest(case=i):
+                (self.root/path).write_text(pristine)
+                self.mutate(path,change)
+                with self.assertRaisesRegex(ValueError,"(FOUNDATION_REVIEWED requires|differs from independent design lock)"):
+                    gate.validate(self.root,self.out)
+
+    def test_phase01_independent_review_attestation_cannot_be_tampered(self):
+        p=self.root/"docs/implementation/phase-01/FINAL-INDEPENDENT-REVIEW-ATTESTATION-2026-10-29.md"
+        p.write_text(p.read_text()+"\\nUNREVIEWED EDIT\\n")
+        with self.assertRaisesRegex(ValueError,"Phase01 independent review attestation tampered"):
+            gate.validate(self.root,self.out)
+
+    def test_pre_review_state_remains_possible_only_without_accepted_evidence(self):
+        path="docs/implementation/ACTIVE-SESSION.json"
+        self.mutate(path,lambda j:(j.update(phaseStatus="FOUNDATION_IN_PROGRESS"),
+                                   j.pop("phase01IndependentReview",None)))
+        gate.validate(self.root,self.out)
+        obj=json.loads(self.out.read_text())
+        self.assertFalse(obj["phase01FoundationReviewed"])
+        self.assertFalse(obj["phase01HumanGitHubApproval"])
 
     def test_phase01_sensitive_feature_enable_rejected(self):
         self.mutate("docs/implementation/ACTIVE-SESSION.json",
