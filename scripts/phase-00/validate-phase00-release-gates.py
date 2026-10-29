@@ -5,6 +5,11 @@ REVIEW_BLOB="085c8bedb16513df38575fcff2a432ab72de2ad8"
 FRESH_DESIGN_REVIEW_BLOB="e910a70fff151eaded60596e3e3042c59673b5aa"
 REVIEWED_SOURCE_HEAD="f071229d9d9a1b7fb680cb68f83c763bc53138c6"
 PIN="402e89b4452f8e2b17ab95f16c1621c003516cd2"
+# Independent review submitted in a separate GPT-6 context for fixed Phase01 source.
+# This is a technical COMMENT verdict, NOT a distinct human GitHub approval.
+PHASE01_REVIEWED_HEAD="2eb613b0cac39b689710501cc3dbad812e5486a2"
+PHASE01_REVIEW_ATTESTATION_BLOB="c2f27b7a6d9cef5e139f7ce052aaa5118d6a177d"
+PHASE01_REVIEW_ID="5699254459"
 def load(root,path):return json.loads((root/path).read_text("utf8"))
 def validate(root,out):
     p="docs/implementation/phase-00/"
@@ -69,10 +74,35 @@ def validate(root,out):
         if current.get("phaseStatus")!="CONTRACT_LOCKED_DESIGN_ONLY":
             raise ValueError("active status differs from independent design lock")
     elif current.get("phase")=="01":
-        if (current.get("phaseStatus")!="FOUNDATION_IN_PROGRESS"
+        if (current.get("phaseStatus") not in ("FOUNDATION_IN_PROGRESS","FOUNDATION_REVIEWED")
             or current.get("phase00Review")!="PASS_PHASE00_DESIGN_ONLY_RUNTIME_NOT_VERIFIED"
             or current.get("phase01Scope")!="FOUNDATION_ONLY"):
             raise ValueError("active status differs from independent design lock")
+        # Phase01 technical review was independently submitted against a fixed
+        # application-source SHA. A bare status flip must NEVER self-authorize.
+        # No human GitHub APPROVE, runtime security approval, or merge is implied.
+        if current.get("phaseStatus")=="FOUNDATION_REVIEWED":
+            attestation_path="docs/implementation/phase-01/FINAL-INDEPENDENT-REVIEW-ATTESTATION-2026-10-29.md"
+            evidence_bytes=(root/attestation_path).read_bytes()
+            evidence_hash=hashlib.sha1(("blob "+str(len(evidence_bytes))+"\\0").encode()+evidence_bytes).hexdigest()
+            if evidence_hash!=PHASE01_REVIEW_ATTESTATION_BLOB:
+                raise ValueError("Phase01 independent review attestation tampered")
+            expected_review={
+                "reviewedSourceHead":PHASE01_REVIEWED_HEAD,
+                "githubReviewId":PHASE01_REVIEW_ID,
+                "githubReviewEvent":"COMMENTED",
+                "reviewerKind":"FRESH_GPT6_CONTEXT_NOT_HUMAN_APPROVAL",
+                "technicalVerdict":"PASS_ISOLATED_FOUNDATION",
+                "phase00ReviewedCiRun":"40888013634",
+                "phase01ReviewedCiRun":"40888013081",
+                "attestationGitBlob":PHASE01_REVIEW_ATTESTATION_BLOB,
+                "runtimeSecurityAuthorized":False,
+                "humanGitHubApproved":False,
+            }
+            if current.get("phase01IndependentReview")!=expected_review:
+                raise ValueError("FOUNDATION_REVIEWED requires fixed independent review evidence")
+        elif "phase01IndependentReview" in current:
+            raise ValueError("in-progress phase cannot carry accepted review evidence")
     else:
         raise ValueError("unreviewed active phase transition")
     # Both safety and securityCapability are authoritative design declarations.
@@ -122,6 +152,10 @@ def validate(root,out):
       ("P00_FRESH_INDEPENDENT_REVIEW","PASS_PHASE00_DESIGN_ONLY_RUNTIME_NOT_RUN","Fresh GPT-6 context","Exact independent design review attestation, not a GitHub human approval"),
     ]
     obj={"schemaVersion":1,"basis":"PINNED_EVIDENCE_WITH_FAIL_CLOSED_RELEASE_POLICY",
+      "phase01FoundationReviewed":current.get("phase")=="01" and current.get("phaseStatus")=="FOUNDATION_REVIEWED",
+      "phase01IndependentTechnicalVerdict":"PASS_AT_REVIEWED_SOURCE_HEAD" if current.get("phase")=="01" and current.get("phaseStatus")=="FOUNDATION_REVIEWED" else "NOT_ATTESTED",
+      "phase01ReviewedSourceHead":PHASE01_REVIEWED_HEAD if current.get("phase")=="01" and current.get("phaseStatus")=="FOUNDATION_REVIEWED" else None,
+      "phase01HumanGitHubApproval":False,"phase01RuntimeSecurityAuthorized":False,
       "sourcePin":PIN,"independentReviewReportGitBlob":REVIEW_BLOB,
       "phase00SourceCensusVerified":True,"phase00SourceAuthorizationReviewComplete":False,
       "phase00DesignContractIndependentlyAccepted":True,"freshDesignReviewedHead":REVIEWED_SOURCE_HEAD,
