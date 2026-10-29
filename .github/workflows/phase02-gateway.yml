@@ -96,8 +96,10 @@ jobs:
         run: |
           set -euo pipefail
           ready=0
-          for attempt in $(seq 1 30); do
-            if curl --silent --fail --max-time 2 http://127.0.0.1:6060/health > /tmp/mock-health; then ready=1; break; fi
+          for attempt in $(seq 1 12); do
+            code="$(curl --silent --output /tmp/mock-health --write-out '%{http_code}' --max-time 2 http://127.0.0.1:6060/health || true)"
+            if test "$code" = "200"; then ready=1; break; fi
+            echo "Mock gateway health attempt=$attempt status=$code response=$(head -c 200 /tmp/mock-health || true)"
             sleep 2
           done
           test "$ready" -eq 1
