@@ -1,0 +1,42 @@
+{
+    admin off
+    auto_https off
+}
+
+# Phase02 contract sandbox ONLY. Loopback host 6060. No Official upstream exists.
+# NEVER promote this file to production: public TLS/SNI and Spring runtime ACL
+# verification are separate hard gates. All Official UI/OPDS/KO routes remain DENIED.
+:6060 {
+    @local_host {
+        header Host localhost:6060 127.0.0.1:6060
+    }
+
+    @adapter_get {
+        method GET
+        path /health /openapi.json /api/grimmlink/v2/capabilities
+    }
+
+    route {
+        handle @local_host {
+            handle @adapter_get {
+                reverse_proxy 127.0.0.1:6061 {
+                    # Never pass inbound identity or proxy-rewrite headers.
+                    header_up -Authorization
+                    header_up -Cookie
+                    header_up -X-Auth-Key
+                    header_up -X-Auth-User
+                    header_up -Proxy-Authorization
+                    header_up -Forwarded
+                    header_up -X-Forwarded-For
+                    header_up -X-Forwarded-Host
+                    header_up -X-Forwarded-Proto
+                    header_up -X-Forwarded-Prefix
+                    header_up -X-Original-URL
+                    header_up -X-Rewrite-URL
+                }
+            }
+            respond "UPSTREAM_DENIED" 403
+        }
+        respond "INVALID_HOST" 421
+    }
+}
