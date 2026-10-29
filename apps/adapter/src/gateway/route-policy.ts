@@ -5,11 +5,7 @@
  */
 export type GatewayDecision = "LOCAL_READ" | "INVALID_TARGET" | "DENY_UPSTREAM";
 
-const LOCAL_READ_PATHS = new Set([
-  "/health",
-  "/openapi.json",
-  "/api/grimmlink/v2/capabilities",
-]);
+const LOCAL_READ_PATHS = new Set(["/health", "/openapi.json", "/api/grimmlink/v2/capabilities"]);
 const FORBIDDEN_HEADER_NAMES = new Set([
   "forwarded",
   "x-forwarded-host",
