@@ -56,8 +56,9 @@ jobs:
           python3 scripts/phase-00/expand-route-mappings.py /tmp/phase00-static/SOURCE-ROUTE-CANDIDATES.json /tmp/phase00-static/SOURCE-DECLARED-MAPPING-EXPANSION.json
           python3 -m unittest discover -s scripts/phase-00 -p "test_source_semantics.py" -v
           python3 scripts/phase-00/audit-source-semantics.py --upstream /tmp/grimmory-source --census /tmp/phase00-static/JAVA-SOURCE-WIDE-CENSUS.json --expansion /tmp/phase00-static/SOURCE-DECLARED-MAPPING-EXPANSION.json --output /tmp/phase00-static --framework-media-type /tmp/phase00-dependencies/MediaType.java
+          python3 scripts/phase-00/validate-manual-acl-traces.py --upstream /tmp/grimmory-source --manual docs/implementation/phase-00/SOURCE-ACL-CALLCHAIN-TRACE.json --ledger /tmp/phase00-static/SOURCE-AUTH-OWNERSHIP-LEDGER.json --output /tmp/phase00-static/SOURCE-ACL-TRACE-VALIDATION.json
           python3 scripts/phase-00/validate-negative-fixtures.py docs/implementation/phase-00/SECURITY-NEGATIVE-FIXTURES.json /tmp/phase00-static/FIXTURE-STATIC-VALIDATION.json
-          for file in JAVA-SOURCE-WIDE-CENSUS.json SOURCE-ROUTE-CANDIDATES.json SOURCE-ROUTE-OWNERSHIP-GAPS.md JAVA-SOURCE-WIDE-CENSUS-RECEIPT.md FIXTURE-STATIC-VALIDATION.json SOURCE-DECLARED-MAPPING-EXPANSION.json SOURCE-CONDITION-RESOLUTION.json SOURCE-AUTH-OWNERSHIP-LEDGER.json SOURCE-AUTH-REVIEW-QUEUE.md; do
+          for file in JAVA-SOURCE-WIDE-CENSUS.json SOURCE-ROUTE-CANDIDATES.json SOURCE-ROUTE-OWNERSHIP-GAPS.md JAVA-SOURCE-WIDE-CENSUS-RECEIPT.md FIXTURE-STATIC-VALIDATION.json SOURCE-DECLARED-MAPPING-EXPANSION.json SOURCE-CONDITION-RESOLUTION.json SOURCE-AUTH-OWNERSHIP-LEDGER.json SOURCE-AUTH-REVIEW-QUEUE.md SOURCE-ACL-TRACE-VALIDATION.json; do
             cp "/tmp/phase00-static/$file" "docs/implementation/phase-00/$file"
           done
           python3 - <<'PY'
@@ -78,7 +79,7 @@ jobs:
         run: |
           set -euo pipefail
           git diff --check
-          git add docs/implementation/phase-00/JAVA-SOURCE-WIDE-CENSUS.json docs/implementation/phase-00/JAVA-SOURCE-WIDE-CENSUS-RECEIPT.md docs/implementation/phase-00/SOURCE-ROUTE-CANDIDATES.json docs/implementation/phase-00/SOURCE-ROUTE-OWNERSHIP-GAPS.md docs/implementation/phase-00/FIXTURE-STATIC-VALIDATION.json docs/implementation/phase-00/SOURCE-DECLARED-MAPPING-EXPANSION.json docs/implementation/phase-00/SOURCE-CONDITION-RESOLUTION.json docs/implementation/phase-00/SOURCE-AUTH-OWNERSHIP-LEDGER.json docs/implementation/phase-00/SOURCE-AUTH-REVIEW-QUEUE.md
+          git add docs/implementation/phase-00/JAVA-SOURCE-WIDE-CENSUS.json docs/implementation/phase-00/JAVA-SOURCE-WIDE-CENSUS-RECEIPT.md docs/implementation/phase-00/SOURCE-ROUTE-CANDIDATES.json docs/implementation/phase-00/SOURCE-ROUTE-OWNERSHIP-GAPS.md docs/implementation/phase-00/FIXTURE-STATIC-VALIDATION.json docs/implementation/phase-00/SOURCE-DECLARED-MAPPING-EXPANSION.json docs/implementation/phase-00/SOURCE-CONDITION-RESOLUTION.json docs/implementation/phase-00/SOURCE-AUTH-OWNERSHIP-LEDGER.json docs/implementation/phase-00/SOURCE-AUTH-REVIEW-QUEUE.md docs/implementation/phase-00/SOURCE-ACL-TRACE-VALIDATION.json
           if git diff --cached --quiet; then echo "No changed evidence"; exit 0; fi
           git fetch origin feat/next-phase-00
           current="$(git rev-parse FETCH_HEAD)"

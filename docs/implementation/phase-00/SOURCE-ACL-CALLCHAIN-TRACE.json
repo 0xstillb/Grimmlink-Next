@@ -1,0 +1,266 @@
+{
+  "schemaVersion": 1,
+  "upstreamPin": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+  "sourceOnly": true,
+  "role": "PHASE00_IMPLEMENTER_EVIDENCE_NOT_INDEPENDENT_APPROVAL",
+  "securityDefault": "DENY_UNTIL_GATEWAY_AUTH_REVIEW",
+  "runtimeTests": "NOT_RUN",
+  "traces": [
+    {
+      "handlerIdentity": "AppBookController#updateBookProgress",
+      "evidenceGrade": "PINNED_SOURCE_TEXT_AND_CALL_CHAIN_STATIC",
+      "sourceFinding": "Controller delegates to AppBookService, which checks assigned library then delegates to bookService; current content restrictions and nested file progress ownership not proven",
+      "confirmedNarrowSourceProperty": "LIBRARY_ID_CHECK_IN_APP_SERVICE",
+      "fullBookAndRecordEntitlementProven": false,
+      "gatewayAllowed": false,
+      "executionState": "NOT_RUN",
+      "nextProofRequired": "Verify current library+content restriction, user/record ACL, downstream writes, atomicity and Gateway deny-before-forward with an independent test",
+      "witnesses": [
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppBookController.java",
+          "needle": "mobileBookService.updateBookProgress(bookId, request);"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/service/AppBookService.java",
+          "needle": "validateLibraryAccess(accessibleLibraryIds, book.getLibrary().getId());"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/service/AppBookService.java",
+          "needle": "bookService.updateReadProgress(progressRequest);"
+        }
+      ]
+    },
+    {
+      "handlerIdentity": "AppBookController#updateStatus",
+      "evidenceGrade": "PINNED_SOURCE_TEXT_AND_CALL_CHAIN_STATIC",
+      "sourceFinding": "AppBookService updateReadStatus calls validateAccessAndGetProgress which checks assigned library and loads caller progress; content restrictions unproven",
+      "confirmedNarrowSourceProperty": "ASSIGNED_LIBRARY_ID_CHECK_ONLY",
+      "fullBookAndRecordEntitlementProven": false,
+      "gatewayAllowed": false,
+      "executionState": "NOT_RUN",
+      "nextProofRequired": "Verify current library+content restriction, user/record ACL, downstream writes, atomicity and Gateway deny-before-forward with an independent test",
+      "witnesses": [
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppBookController.java",
+          "needle": "mobileBookService.updateReadStatus(bookId, request.getStatus());"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/service/AppBookService.java",
+          "needle": "UserBookProgressEntity progress = validateAccessAndGetProgress(bookId);"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/service/AppBookService.java",
+          "needle": ".findByUserIdAndBookId(userId, bookId)"
+        }
+      ]
+    },
+    {
+      "handlerIdentity": "AppBookController#updateRating",
+      "evidenceGrade": "PINNED_SOURCE_TEXT_AND_CALL_CHAIN_STATIC",
+      "sourceFinding": "AppBookService updatePersonalRating uses validateAccessAndGetProgress and caller ID; content restrictions unproven",
+      "confirmedNarrowSourceProperty": "ASSIGNED_LIBRARY_ID_CHECK_ONLY",
+      "fullBookAndRecordEntitlementProven": false,
+      "gatewayAllowed": false,
+      "executionState": "NOT_RUN",
+      "nextProofRequired": "Verify current library+content restriction, user/record ACL, downstream writes, atomicity and Gateway deny-before-forward with an independent test",
+      "witnesses": [
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppBookController.java",
+          "needle": "mobileBookService.updatePersonalRating(bookId, request.getRating());"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/service/AppBookService.java",
+          "needle": "UserBookProgressEntity progress = validateAccessAndGetProgress(bookId);"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/service/AppBookService.java",
+          "needle": "validateLibraryAccess(accessibleLibraryIds, book.getLibrary().getId());"
+        }
+      ]
+    },
+    {
+      "handlerIdentity": "AppNotebookController#updateEntry",
+      "evidenceGrade": "PINNED_SOURCE_TEXT_AND_CALL_CHAIN_STATIC",
+      "sourceFinding": "AppNotebookService delegates to 3 services whose update operations use findByIdAndUserId, but current book/library/content entitlement not proven",
+      "confirmedNarrowSourceProperty": "USER_ID_RECORD_SCOPED_REPOSITORY_LOOKUPS",
+      "fullBookAndRecordEntitlementProven": false,
+      "gatewayAllowed": false,
+      "executionState": "NOT_RUN",
+      "nextProofRequired": "Verify current library+content restriction, user/record ACL, downstream writes, atomicity and Gateway deny-before-forward with an independent test",
+      "witnesses": [
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppNotebookController.java",
+          "needle": "mobileNotebookService.updateEntry(entryId, type, request)"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/service/AppNotebookService.java",
+          "needle": "annotationService.updateAnnotation(entryId, updateReq)"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/service/AppNotebookService.java",
+          "needle": "bookNoteV2Service.updateNote(entryId, updateReq)"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/service/AppNotebookService.java",
+          "needle": "bookMarkService.updateBookmark(entryId, updateReq)"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/book/AnnotationService.java",
+          "needle": "annotationRepository.findByIdAndUserId(annotationId, userId)"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/book/BookNoteV2Service.java",
+          "needle": "bookNoteV2Repository.findByIdAndUserId(noteId, userId)"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/book/BookMarkService.java",
+          "needle": "bookMarkRepository.findByIdAndUserId(bookmarkId, userId)"
+        }
+      ]
+    },
+    {
+      "handlerIdentity": "AppNotebookController#deleteEntry",
+      "evidenceGrade": "PINNED_SOURCE_TEXT_AND_CALL_CHAIN_STATIC",
+      "sourceFinding": "Delete routes dispatch to user-scoped repository services, not proof of current book/content entitlement",
+      "confirmedNarrowSourceProperty": "USER_ID_RECORD_SCOPED_REPOSITORY_LOOKUPS",
+      "fullBookAndRecordEntitlementProven": false,
+      "gatewayAllowed": false,
+      "executionState": "NOT_RUN",
+      "nextProofRequired": "Verify current library+content restriction, user/record ACL, downstream writes, atomicity and Gateway deny-before-forward with an independent test",
+      "witnesses": [
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppNotebookController.java",
+          "needle": "mobileNotebookService.deleteEntry(entryId, type);"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/service/AppNotebookService.java",
+          "needle": "annotationService.deleteAnnotation(entryId)"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/service/AppNotebookService.java",
+          "needle": "bookNoteV2Service.deleteNote(entryId)"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/service/AppNotebookService.java",
+          "needle": "bookMarkService.deleteBookmark(entryId)"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/book/AnnotationService.java",
+          "needle": "annotationRepository.findByIdAndUserId(annotationId, userId)"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/book/BookNoteV2Service.java",
+          "needle": "bookNoteV2Repository.findByIdAndUserId(noteId, userId)"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/book/BookMarkService.java",
+          "needle": "bookMarkRepository.findByIdAndUserId(bookmarkId, userId)"
+        }
+      ]
+    },
+    {
+      "handlerIdentity": "BookController#resetProgress",
+      "evidenceGrade": "PINNED_SOURCE_TEXT_AND_CALL_CHAIN_STATIC",
+      "sourceFinding": "Controller calls ReadingProgressService.resetProgress; helper counts book existence and current user's progress, not per-ID current assigned-library/content ownership proof",
+      "confirmedNarrowSourceProperty": "USER_PROGRESS_EXISTENCE_AND_BULK_PERMISSION_ONLY",
+      "fullBookAndRecordEntitlementProven": false,
+      "gatewayAllowed": false,
+      "executionState": "NOT_RUN",
+      "nextProofRequired": "Verify current library+content restriction, user/record ACL, downstream writes, atomicity and Gateway deny-before-forward with an independent test",
+      "witnesses": [
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/controller/BookController.java",
+          "needle": "readingProgressService.resetProgress(bookIds, type)"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/progress/ReadingProgressService.java",
+          "needle": "validateResetPermission(bookIds, user, type);"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/progress/ReadingProgressService.java",
+          "needle": "bookRepository.countByIdIn(bookIds)"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/progress/ReadingProgressService.java",
+          "needle": "userBookProgressRepository.findExistingProgressBookIds(userId, new HashSet<>(bookIds))"
+        }
+      ]
+    },
+    {
+      "handlerIdentity": "BookController#updatePersonalRating",
+      "evidenceGrade": "PINNED_SOURCE_TEXT_AND_CALL_CHAIN_STATIC",
+      "sourceFinding": "Controller calls BookUpdateService; helper validates existence and current user's progress, no complete assigned library/content entitlement proof",
+      "confirmedNarrowSourceProperty": "USER_PROGRESS_EXISTENCE_ONLY",
+      "fullBookAndRecordEntitlementProven": false,
+      "gatewayAllowed": false,
+      "executionState": "NOT_RUN",
+      "nextProofRequired": "Verify current library+content restriction, user/record ACL, downstream writes, atomicity and Gateway deny-before-forward with an independent test",
+      "witnesses": [
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/controller/BookController.java",
+          "needle": "bookUpdateService.updatePersonalRating(request.ids(), request.rating())"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/book/BookUpdateService.java",
+          "needle": "validateBooksAndGetExistingProgress(user.getId(), bookIds)"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/book/BookUpdateService.java",
+          "needle": "bookRepository.countByIdIn(bookIds)"
+        }
+      ]
+    },
+    {
+      "handlerIdentity": "BookController#resetPersonalRating",
+      "evidenceGrade": "PINNED_SOURCE_TEXT_AND_CALL_CHAIN_STATIC",
+      "sourceFinding": "Controller calls BookUpdateService.resetPersonalRating which counts existing books and caller progress; no per-ID current content or library entitlement source proof",
+      "confirmedNarrowSourceProperty": "USER_PROGRESS_EXISTENCE_ONLY",
+      "fullBookAndRecordEntitlementProven": false,
+      "gatewayAllowed": false,
+      "executionState": "NOT_RUN",
+      "nextProofRequired": "Verify current library+content restriction, user/record ACL, downstream writes, atomicity and Gateway deny-before-forward with an independent test",
+      "witnesses": [
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/controller/BookController.java",
+          "needle": "bookUpdateService.resetPersonalRating(bookIds)"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/book/BookUpdateService.java",
+          "needle": "userBookProgressRepository.bulkUpdatePersonalRating"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/book/BookUpdateService.java",
+          "needle": "bookRepository.countByIdIn(bookIds)"
+        }
+      ]
+    },
+    {
+      "handlerIdentity": "ReadingSessionController#recordReadingSession",
+      "evidenceGrade": "PINNED_SOURCE_TEXT_AND_CALL_CHAIN_STATIC",
+      "sourceFinding": "Direct ReadingSessionService.recordSession gets authenticated user, fetches book by ID and saves; no current book entitlement check visible in inspected method, not conclusive of all global interceptors",
+      "confirmedNarrowSourceProperty": "USER_CONTEXT_AND_BOOK_EXISTENCE_ONLY",
+      "fullBookAndRecordEntitlementProven": false,
+      "gatewayAllowed": false,
+      "executionState": "NOT_RUN",
+      "nextProofRequired": "Verify current library+content restriction, user/record ACL, downstream writes, atomicity and Gateway deny-before-forward with an independent test",
+      "witnesses": [
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/controller/ReadingSessionController.java",
+          "needle": "readingSessionService.recordSession(request);"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/ReadingSessionService.java",
+          "needle": "authenticationService.getAuthenticatedUser()"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/ReadingSessionService.java",
+          "needle": "bookRepository.findById(request.getBookId())"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/ReadingSessionService.java",
+          "needle": "readingSessionRepository.save(session);"
+        }
+      ]
+    }
+  ]
+}
