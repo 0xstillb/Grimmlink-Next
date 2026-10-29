@@ -1,6 +1,6 @@
 # Phase 00 Discrepancy & Blocker Register
 
-**As of 2026-10-28:** source-only audit. `BLOCKED` = cannot safely enable feature without resolving before implementation/use; `VERIFY` = follow-up confirmation. Do not promote phase to CONTRACT_LOCKED until fresh reviewer.
+**Current 2026-10-29:** implementer correction pass pending independent re-review; the historical rows below remain for audit trail. Source-only audit. `BLOCKED` = cannot safely enable feature without resolving before implementation/use; `VERIFY` = follow-up confirmation. Do not promote phase to CONTRACT_LOCKED until fresh reviewer.
 
 | Priority | ID | Status | Finding / evidence | Owner / safe next step |
 | --- | --- | --- | --- | --- |
@@ -39,3 +39,20 @@ C-016 (P0, VERIFY/REQUIRE_DIFF): Under `REPLACE_WHEN_PROVIDED`, nonempty authors
 | P1 | C-021 | LANGUAGE_CLARIFICATION | Sidecar writer is gated by `appProperties.isLocalStorage()` and settings before write; prior wording must not imply unconditional NETWORK write. [Source](https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/service/metadata/sidecar/SidecarMetadataWriter.java#L43-L77). | Phase03/04: inspect storage mode/Sidecar/Move settings and verify RO mount; no sidecar export on live NAS for tests. |
 
 See [full targeted audit](phase-00/SOURCE-RECHECK-2026-10-29.md). Gate **NOT CONTRACT_LOCKED**; separate independent reviewer remains mandatory.
+
+
+## Current 2026-10-29 correction disposition — CHANGES_REQUIRED
+
+| IDs | Current issue / safe next step |
+| --- | --- |
+| C-001,016,017 | Reviews do not use replaceMode; empty-but-present list may clear. Single-book authors/categories/reviews coupled; scalar allowlist and reviewable field masks. |
+| C-003,005,019 | BookAccessAspect is annotation-scoped; Native KOSync global hash and personal routes/rating/status lack proven book-library/content authorization. Deny unverified passthrough, no impersonation, Phase02/05/07 negative fixtures. Not a demonstrated exploit. |
+| C-004,021 | Sidecar writer has global isLocalStorage guard, separate auto-move/embedded write. NAS RO and settings preflight. |
+| C-006,013 | Converter returns string/undefined, not exact text proof; pin dependency and round-trip fixtures. |
+| C-018,020 | Native file-progress write only attempted, potential stale/null CFI; native status can overwrite manual READ. Single writer and no status promises. |
+| C-007,008 | Session 202 not exactly-once, cover API side-effects and readback unverified. |
+| C-009,010,011 | Readest URL/hash/provisioning 401→403; OPDS add-only; gateway/auth/feed fixtures required. |
+| C-002,012,014 | Installed versions, NAS, migration/restore and devices UNKNOWN; Phase09 only real test. |
+| C-015 | Independent reviewer verdict was CHANGES_REQUIRED; source-doc correction **not independently reviewed yet**. |
+
+All C-001–C-021 retained. [Correction report](phase-00/REMEDIATION.md). **NOT CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED**.
