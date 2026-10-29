@@ -77,7 +77,7 @@ def scan(root,out):
         for e in all_events:
             if e['kind']=='CLASS' and 'kind=ANNOTATION_TYPE;' in e['expression']:
                 meta_defs.setdefault(e['className'].split('.')[-1],set()).add(path)
-            if e['kind']=='CLASS' and (not 'extends=null;' in e['expression'] or 'implements=[]' not in e['expression']):
+            if e['kind']=='CLASS' and ('extends=null;' not in e['expression'] or not (e['expression'].endswith('implements=') or e['expression'].endswith('implements=[]'))):
                 row['unresolvedSemanticQuestions'].append('Inherited/interface route annotations require semantic review')
             if e['kind'] in ('CALL','NEW') and HINT.search(e['expression']):
                 row['unresolvedSemanticQuestions'].append('Programmatic mapping reachability and prefix require review')
