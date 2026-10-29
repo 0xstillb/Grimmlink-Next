@@ -17,7 +17,7 @@
 - [Phase02 isolated gateway CI #40905567097](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40905567097) **SUCCESS** at source SHA `150bd87f471b242903c8da1147597afffcb29af6`: both `gateway-mocks` and `single-port-mock` jobs passed (Caddy/adapter started, HTTP/capabilities and deny paths tested). This is the **last verified pre-follow-up code SHA**, not the HEAD after later fixtures/docs.
 - The initial internal Docker network prevented host ingress (curl status 000), corrected to loopback-published bridge with egress limitation documented. Prior Caddy Host header-regexp incorrectly returned 421 to valid host; corrected to Caddy `host` matcher. Earlier failed CI checkpoints are not masked by the final PASS.
 - [Phase00 source gate #40905566812](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40905566812) **SUCCESS** for the same earlier SHA; its acceptance remains DESIGN-ONLY.
-- Newer extended security fixture head: **CI PENDING** until actually read back.
+- Extended Phase02 mocked HTTP + canary log-sink + foreign book/file/record denial: [Phase02 Gateway #40906176839](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40906176839) **SUCCESS (both jobs)** at source `69ded85e584263f885ce51a2a322adc0d20ce60e`. [Phase00 integrity #40906176944](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40906176944) **SUCCESS (design-only)** at the same source SHA. The subsequent handoff document commit requires its own exact-head CI.
 
 ### Why Phase02 cannot truthfully be called fully complete
 
