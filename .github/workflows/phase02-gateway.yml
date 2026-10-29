@@ -51,3 +51,60 @@ jobs:
           grep -q 'network_mode: none' compose.phase01.yml
           grep -q 'DENY_ALL' apps/adapter/src/server.ts
           echo "NO real Official/NAS/readers E2E; Phase09 only"
+  single-port-mock:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Validate Caddy mock config (no live upstream)
+        run: |
+          docker run --rm --network none -v "$PWD/gateway/Caddyfile.phase02.mock:/etc/caddy/Caddyfile:ro" \
+            --entrypoint caddy caddy:2.10.2-alpine validate --config /etc/caddy/Caddyfile
+      - name: Validate single-host-port and internal-only Compose topology
+        run: |
+          set -euo pipefail
+          docker compose -f compose.phase02.mock.yml config > /tmp/phase02-resolved.yml
+          grep -q '127.0.0.1:6060' /tmp/phase02-resolved.yml
+          grep -q 'internal: true' /tmp/phase02-resolved.yml
+          grep -q 'network_mode: service:gateway' /tmp/phase02-resolved.yml
+          test "$(grep -c '^    ports:' /tmp/phase02-resolved.yml)" -eq 1
+          ! grep -qi 'official' compose.phase02.mock.yml
+      - name: Start isolated mocked Caddy and adapter only
+        run: |
+          set -euo pipefail
+          docker compose -f compose.phase02.mock.yml up --build -d
+      - name: Mock HTTP routing, denial and ingress checks
+        run: |
+          set -euo pipefail
+          ready=0
+          for attempt in $(seq 1 30); do
+            if curl --silent --fail --max-time 2 http://127.0.0.1:6060/health > /tmp/mock-health; then ready=1; break; fi
+            sleep 2
+          done
+          test "$ready" -eq 1
+          grep -q 'foundation-only' /tmp/mock-health
+          curl --silent --fail http://127.0.0.1:6060/api/grimmlink/v2/capabilities | grep -q 'DENY_ALL'
+          check_status() {
+            local want="$1"; shift
+            local got
+            got="$(curl --silent --output /dev/null --write-out '%{http_code}' --max-time 3 "$@")"
+            test "$got" = "$want" || { echo "Expected $want got $got"; return 1; }
+          }
+          check_status 403 http://127.0.0.1:6060/api/v1/opds
+          check_status 403 -X POST -H 'x-auth-user: canary-user' -H 'x-auth-key: canary-key' \
+            --data 'passwordMD5=CANARYSECRET' http://127.0.0.1:6060/api/koreader/users/create
+          check_status 403 -I http://127.0.0.1:6060/health
+          check_status 403 -X OPTIONS http://127.0.0.1:6060/health
+          check_status 421 -H 'Host: evil.invalid:6060' http://127.0.0.1:6060/health
+          check_status 403 -H 'Range: bytes=0-4' http://127.0.0.1:6060/api/v1/books
+          check_status 403 -H 'Upgrade: websocket' http://127.0.0.1:6060/ws
+          check_status 403 -H 'Accept: text/event-stream' http://127.0.0.1:6060/api/v1/books
+          ! curl --silent --fail --max-time 2 http://127.0.0.1:6061/health >/dev/null
+          ! curl -g -6 --silent --fail --max-time 2 'http://[::1]:6060/health' >/dev/null
+      - name: Isolated docker logs (on failure) and teardown
+        if: always()
+        run: |
+          docker compose -f compose.phase02.mock.yml logs --tail 80 || true
+          docker compose -f compose.phase02.mock.yml down --volumes --remove-orphans || true
