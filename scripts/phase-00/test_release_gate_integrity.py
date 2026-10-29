@@ -62,6 +62,49 @@ class GateTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"differs from independent design lock"):
             gate.validate(self.root,self.out)
 
+    def test_phase01_every_safety_field_fails_closed(self):
+        path="docs/implementation/ACTIVE-SESSION.json"
+        pristine=(self.root/path).read_text()
+        # Every independently declared safety boundary must be enforced, even
+        # when its securityCapability counterpart remains BLOCKED_OFF.
+        cases=(
+            ("officialGatewayForwarding","ALLOW"),
+            ("nativeKosyncProgress","ON"),
+            ("metadataApply","ON"),
+            ("personalBridge","ON"),
+            ("sessionBridge","ON"),
+            ("resetProgress","ON"),
+            ("managedProjection","ON"),
+            ("productionDeployment","AUTHORIZED"),
+            ("fullE2ePhase","01"),
+            ("metadataApply","ON_BUT_OFF_IN_NAME"),
+            ("productionDeployment",None),
+            ("personalBridge",False),
+        )
+        for key,value in cases:
+            with self.subTest(key=key,value=value):
+                (self.root/path).write_text(pristine)
+                self.mutate(path,lambda j:j["safety"].update({key:value}))
+                with self.assertRaisesRegex(ValueError,"differs from independent design lock"):
+                    gate.validate(self.root,self.out)
+
+    def test_phase01_safety_rejects_missing_extra_and_wrong_type(self):
+        path="docs/implementation/ACTIVE-SESSION.json"
+        pristine=(self.root/path).read_text()
+        changes=(
+            lambda j:j["safety"].pop("resetProgress"),
+            lambda j:j["safety"].update(unreviewedFeature="OFF"),
+            lambda j:j.update(safety=None),
+            lambda j:j.update(safety="DENY_ALL"),
+            lambda j:j.update(safety=[]),
+        )
+        for i,change in enumerate(changes):
+            with self.subTest(case=i):
+                (self.root/path).write_text(pristine)
+                self.mutate(path,change)
+                with self.assertRaisesRegex(ValueError,"differs from independent design lock"):
+                    gate.validate(self.root,self.out)
+
     def test_phase01_sensitive_feature_enable_rejected(self):
         self.mutate("docs/implementation/ACTIVE-SESSION.json",
                     lambda j:j["securityCapability"].update(metadataApply="ON"))
