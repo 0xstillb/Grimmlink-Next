@@ -10,8 +10,8 @@
   "productionBranch": "main",
   "phase": "00",
   "phaseName": "Discovery, Contracts & Architecture Lock",
-  "phaseStatus": "IMPLEMENTER_FINAL_REMEDIATION_COMMITTED_AWAITING_FRESH_INDEPENDENT_REVIEW",
-  "lastVerifiedPriorCommit": "f263e6208d9dc520e29e3113dcf6bd632f239b72",
+  "phaseStatus": "IMPLEMENTER_SECURITY_REMEDIATION_COMMITTED_FRESH_INDEPENDENT_REVIEW_REQUIRED",
+  "lastVerifiedPriorCommit": "59773bd65eb265dbe4850204a65649b7c8a5c51c",
   "currentHead": "READ_LIVE_GITHUB_NO_SELF_SHA",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/2",
   "codeImplemented": false,
@@ -50,14 +50,21 @@
     "BUILD_NOT_RUN",
     "MOCK_FIXTURE_NOT_RUN",
     "DEPLOYED_SECURITY_NOT_RUN",
-    "FULL_E2E_PHASE09_ONLY"
+    "FULL_E2E_PHASE09_ONLY",
+    "GATEWAY_AUTHORIZATION_FIXTURES",
+    "RUNTIME_SPRING_REQUESTMAPPING_CENSUS",
+    "RESET_MODE_TESTS",
+    "SESSION_CRASH_TESTS"
   ],
   "blockers": [
     "R-02 unclosed native KOSync same-user entitlement TOCTOU, no gateway runtime; BLOCKED/OFF",
     "R-01 scalar policy now documented but metadata apply/protected source settings/isolated mocks unproven; OFF",
     "R-09 durable outbox spec documented, not implemented; OFF",
     "R-11 handoff documentation corrected; independent re-review still required",
-    "Installed versions and deployed ACL/network state UNKNOWN until Phase09"
+    "Installed versions and deployed ACL/network state UNKNOWN until Phase09",
+    "R-02A P0: reset-progress all modes and reset-personal-rating gateway interception and library/content authorization not implemented",
+    "R-02: no atomic Native KOSync book entitlement; permanently OFF unless independent authorized redesign",
+    "56 controller annotations catalogued (321), live Spring runtime mapping NOT_RUN"
   ],
   "notion": {
     "phase": "https://app.notion.com/p/407c7efbc00981e2b08ff8fb45c3f846",
@@ -82,10 +89,16 @@
   "finalRemediationReport": "docs/implementation/phase-00/FINAL-REMEDIATION-2026-10-29.md",
   "remediationType": "SOURCE_BACKED_DESIGN_AND_DOCUMENT_CORRECTION_NOT_RUNTIME_IMPLEMENTATION",
   "securityCapability": {
-    "kosyncProgress": "BLOCKED_OFF_TOCTOU_AND_GATEWAY_NOT_IMPLEMENTED",
+    "kosyncProgress": "BLOCKED_OFF_TOCTOU",
     "metadataApply": "BLOCKED_OFF",
     "personalBridge": "BLOCKED_OFF",
     "sessionBridge": "BLOCKED_OFF",
-    "managedProjection": "BLOCKED_OFF"
-  }
+    "managedProjection": "BLOCKED_OFF",
+    "resetProgress": "BLOCKED_OFF",
+    "resetPersonalRating": "BLOCKED_OFF"
+  },
+  "phase01Authorized": false,
+  "securityRemediationReport": "docs/implementation/phase-00/SECURITY-REMEDIATION-2026-10-29.md",
+  "routeCensus": "docs/implementation/phase-00/ROUTE-CENSUS-INDEX.md",
+  "nativeKosyncAdr": "docs/implementation/ADR-025-NATIVE-KOSYNC-SECURITY.md"
 }

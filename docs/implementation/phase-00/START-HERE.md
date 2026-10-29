@@ -1,3 +1,10 @@
+
+## Latest Phase00 Security Remediation — 2026-10-29 (NOT independent approval)
+
+**R-02A NEW P0:** Official `POST /api/v1/books/reset-progress` (BOOKLORE/KOREADER/KOBO) and `POST /api/v1/books/reset-personal-rating` require deny-before-upstream gateway coverage, current assigned-library/content eligibility for EVERY book ID, own-record eligibility and all-or-nothing mixed-batch rejection. Other sensitive routes include viewer-setting, shelves, notes v1/v2, PDF annotations, session reads/writes and KO profile. **56 source Controller files / 321 method-level annotations** inspected; runtime Spring mapping/aliases NOT_RUN. No generic sensitive fallback. **NATIVE_KOSYNC_PROGRESS=BLOCKED/OFF**: precheck TOCTOU not atomic. `metadataApply=OFF`, `personalBridgeWrites=OFF`, `sessionsBridgeWrite=OFF`; design != executable enforcement. Historical **CHANGES_REQUIRED / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED** unchanged; no merge or Phase01. Correction baseline `59773bd65eb265dbe4850204a65649b7c8a5c51c`, read LIVE HEAD for new commits.
+
+[Security remediation](SECURITY-REMEDIATION-2026-10-29.md) · [Full annotation census](ROUTE-CENSUS-INDEX.md) · [ADR-025](../ADR-025-NATIVE-KOSYNC-SECURITY.md)
+
 # Phase 00 — Start Here
 
 ## CURRENT — 2026-10-29 Implementer Final Remediation (RE-REVIEW REQUIRED)

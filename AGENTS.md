@@ -1,5 +1,7 @@
 # Repository Agent Instructions — GrimmLink Next
 
+> [Latest security remediation](docs/implementation/phase-00/SECURITY-REMEDIATION-2026-10-29.md): R-02A new P0, 56 source controllers/321 annotations; Native KOSync + personal reset routes BLOCKED/OFF, no review approval.
+
 **Audience:** Codex CLI / AI implementers / independent reviewers. These are project constraints, not a claim of implemented features.
 
 ## Priority of instructions

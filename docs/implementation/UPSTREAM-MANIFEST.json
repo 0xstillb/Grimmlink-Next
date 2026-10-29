@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "recordedAt": "2026-10-29",
-  "status": "IMPLEMENTER_FINAL_REMEDIATION_COMMITTED_AWAITING_FRESH_INDEPENDENT_REVIEW",
+  "status": "IMPLEMENTER_SECURITY_REMEDIATION_COMMITTED_FRESH_INDEPENDENT_REVIEW_REQUIRED",
   "repository": "0xstillb/Grimmlink-Next",
   "releasePolicy": "MANUAL_APPROVAL_ONLY",
   "currentInstalledVersions": {
@@ -79,10 +79,15 @@
     "global_sidecar_move_settings",
     "gateway_kosync_preproxy_deny_by_default",
     "no_gateway_bypass_paths",
-    "caller_bound_book_entitlement_before_personal_writes"
+    "caller_bound_book_entitlement_before_personal_writes",
+    "reset_progress_all_three_modes_acl",
+    "reset_personal_rating_acl",
+    "controller_census_56_321",
+    "spring_runtime_mapping_diff_not_run",
+    "native_kosync_atomic_acl_or_off"
   ],
   "acceptance": {
-    "phase00": "INDEPENDENT_CHANGES_REQUIRED_NEW_REVIEW_PENDING_NOT_CONTRACT_LOCKED",
+    "phase00": "CHANGES_REQUIRED_NOT_CONTRACT_LOCKED_FRESH_INDEPENDENT_REVIEW_REQUIRED",
     "fullE2ePhase": "09",
     "fullE2eStatus": "DEFERRED_TO_PHASE_09",
     "production": "NOT_VERIFIED",
@@ -97,7 +102,14 @@
     "implementerFinalRemediationReport": "docs/implementation/phase-00/FINAL-REMEDIATION-2026-10-29.md",
     "startingPriorHead": "f263e6208d9dc520e29e3113dcf6bd632f239b72",
     "sourceVerified": true,
-    "deployedVerified": false
+    "deployedVerified": false,
+    "securityRemediationReport": "docs/implementation/phase-00/SECURITY-REMEDIATION-2026-10-29.md",
+    "routeCensus": "docs/implementation/phase-00/ROUTE-CENSUS-INDEX.md",
+    "controllerFiles": 56,
+    "methodAnnotations": 321,
+    "nativeKosyncAdr": "docs/implementation/ADR-025-NATIVE-KOSYNC-SECURITY.md",
+    "implementedVerified": false,
+    "runtimeRouteMapping": "NOT_RUN"
   },
   "designOnlySafetyDefaults_NOT_IMPLEMENTED": {
     "metadataApply": false,
@@ -110,6 +122,20 @@
     "moveSourceFiles": false,
     "sessionsBridgeWrite": false,
     "personalBridgeReads": false,
-    "nativeKOSyncExternalGetPut": false
-  }
+    "nativeKOSyncExternalGetPut": false,
+    "resetProgress": false,
+    "resetPersonalRating": false,
+    "nativeKOSyncProgress": false
+  },
+  "blockers": [
+    "R-02A P0: reset-progress all modes and reset-personal-rating gateway interception and library/content authorization not implemented",
+    "R-02: no atomic Native KOSync book entitlement; permanently OFF unless independent authorized redesign",
+    "56 controller annotations catalogued (321), live Spring runtime mapping NOT_RUN"
+  ],
+  "testsNotRun": [
+    "GATEWAY_AUTHORIZATION_FIXTURES",
+    "RUNTIME_SPRING_REQUESTMAPPING_CENSUS",
+    "RESET_MODE_TESTS",
+    "SESSION_CRASH_TESTS"
+  ]
 }

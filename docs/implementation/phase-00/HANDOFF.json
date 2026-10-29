@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "phase": "PHASE_00",
-  "status": "IMPLEMENTER_FINAL_REMEDIATION_COMMITTED_AWAITING_FRESH_INDEPENDENT_REVIEW",
+  "status": "IMPLEMENTER_SECURITY_REMEDIATION_COMMITTED_FRESH_INDEPENDENT_REVIEW_REQUIRED",
   "baseCommit": "5efdaf3bef051d0d5c44f6274a2cd2bf22010de5",
   "headCommit": "FETCH_LIVE_GITHUB_NO_SELF_SHA",
   "branch": "feat/next-phase-00",
@@ -53,15 +53,22 @@
     "LIVE_API_NOT_RUN",
     "HERMES_NAS_DEVICES_NOT_RUN",
     "READBACK_NOT_RUN",
-    "INTEGRATED_E2E_NOT_RUN_PHASE09"
+    "INTEGRATED_E2E_NOT_RUN_PHASE09",
+    "GATEWAY_AUTHORIZATION_FIXTURES",
+    "RUNTIME_SPRING_REQUESTMAPPING_CENSUS",
+    "RESET_MODE_TESTS",
+    "SESSION_CRASH_TESTS"
   ],
-  "reviewStatus": "INDEPENDENT_CHANGES_REQUIRED_FRESH_REVIEW_PENDING",
+  "reviewStatus": "CHANGES_REQUIRED_FRESH_INDEPENDENT_REVIEW_REQUIRED",
   "blockers": [
     "R-02 Native KOSync user/book authorization TOCTOU remains BLOCKED/OFF pending independent security sign-off and Phase02/05 gateway + client tests",
     "R-01 metadata apply OFF until Phase03 mocks and side-effect/lock proof",
     "R-09 session bridge OFF until Phase07 durable at-most-once outbox implemented",
     "External personal bridge REST OFF until Phase07 per-row and per-book checks",
-    "Live deployment versions and physical NAS/Hermes readers unverified until Phase09"
+    "Live deployment versions and physical NAS/Hermes readers unverified until Phase09",
+    "R-02A P0: reset-progress all modes and reset-personal-rating gateway interception and library/content authorization not implemented",
+    "R-02: no atomic Native KOSync book entitlement; permanently OFF unless independent authorized redesign",
+    "56 controller annotations catalogued (321), live Spring runtime mapping NOT_RUN"
   ],
   "risks": [
     "unsafe metadata default",
@@ -72,7 +79,7 @@
     "nonempty collection can replace existing OPF authors/categories/tags"
   ],
   "handoffTo": "PHASE00_IMPLEMENTER_FOR_REQUIRED_CONTRACT_CORRECTIONS_THEN_NEW_INDEPENDENT_REVIEW",
-  "nextAction": "NEW independent reviewer inspect f263e620..LIVE HEAD, final remediation, source and Notion; no Phase01 or merge. Security capability remains BLOCKED/OFF.",
+  "nextAction": "Fresh independent review of R-02A reset paths, 56-controller census, ADR-025 and LIVE HEAD. No merge or Phase01.",
   "evidence": [
     "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/MetadataController.java#L51-L59",
     "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/KoreaderController.java",
@@ -222,7 +229,7 @@
     "mainChanged": false,
     "reviewCommitSha": "FETCH_GITHUB_LIVE_NO_SELF_SHA"
   },
-  "lastVerifiedPriorHead": "f263e6208d9dc520e29e3113dcf6bd632f239b72",
+  "lastVerifiedPriorHead": "59773bd65eb265dbe4850204a65649b7c8a5c51c",
   "finalRemediationReport": "docs/implementation/phase-00/FINAL-REMEDIATION-2026-10-29.md",
   "implementerFinalRemediation": {
     "date": "2026-10-29",
@@ -254,5 +261,33 @@
       "E2E_PHASE09"
     ],
     "reviewVerdictStill": "CHANGES_REQUIRED"
+  },
+  "contractLocked": false,
+  "phase01Authorized": false,
+  "securityRemediationReport": "docs/implementation/phase-00/SECURITY-REMEDIATION-2026-10-29.md",
+  "routeCensus": {
+    "index": "docs/implementation/phase-00/ROUTE-CENSUS-INDEX.md",
+    "controllerFiles": 56,
+    "methodAnnotations": 321,
+    "runtimeMapping": "NOT_RUN"
+  },
+  "nativeKosyncAdr": "docs/implementation/ADR-025-NATIVE-KOSYNC-SECURITY.md",
+  "securityReview": {
+    "independent": false,
+    "reviewVerdict": "CHANGES_REQUIRED",
+    "newFinding": "R-02A P0",
+    "resetRoutes": [
+      "POST /api/v1/books/reset-progress",
+      "POST /api/v1/books/reset-personal-rating"
+    ],
+    "resetModes": [
+      "BOOKLORE",
+      "KOREADER",
+      "KOBO"
+    ],
+    "kosync": "BLOCKED_OFF_TOCTOU",
+    "metadata": "BLOCKED_OFF",
+    "personalRest": "BLOCKED_OFF",
+    "sessions": "BLOCKED_OFF"
   }
 }

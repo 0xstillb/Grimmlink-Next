@@ -1,3 +1,10 @@
+
+## Latest Phase00 Security Remediation — 2026-10-29 (NOT independent approval)
+
+**R-02A NEW P0:** Official `POST /api/v1/books/reset-progress` (BOOKLORE/KOREADER/KOBO) and `POST /api/v1/books/reset-personal-rating` require deny-before-upstream gateway coverage, current assigned-library/content eligibility for EVERY book ID, own-record eligibility and all-or-nothing mixed-batch rejection. Other sensitive routes include viewer-setting, shelves, notes v1/v2, PDF annotations, session reads/writes and KO profile. **56 source Controller files / 321 method-level annotations** inspected; runtime Spring mapping/aliases NOT_RUN. No generic sensitive fallback. **NATIVE_KOSYNC_PROGRESS=BLOCKED/OFF**: precheck TOCTOU not atomic. `metadataApply=OFF`, `personalBridgeWrites=OFF`, `sessionsBridgeWrite=OFF`; design != executable enforcement. Historical **CHANGES_REQUIRED / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED** unchanged; no merge or Phase01. Correction baseline `59773bd65eb265dbe4850204a65649b7c8a5c51c`, read LIVE HEAD for new commits.
+
+[Security remediation](phase-00/SECURITY-REMEDIATION-2026-10-29.md) · [Full annotation census](phase-00/ROUTE-CENSUS-INDEX.md) · [ADR-025](ADR-025-NATIVE-KOSYNC-SECURITY.md)
+
 # Phase 00 Discrepancy & Blocker Register
 
 **Current 2026-10-29:** implementer correction pass pending independent re-review; the historical rows below remain for audit trail. Source-only audit. `BLOCKED` = cannot safely enable feature without resolving before implementation/use; `VERIFY` = follow-up confirmation. Do not promote phase to CONTRACT_LOCKED until fresh reviewer.
