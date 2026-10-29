@@ -1,0 +1,463 @@
+{
+  "schemaVersion": 1,
+  "upstreamPin": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+  "sourceOnly": true,
+  "manualTraces": 9,
+  "totalWitnesses": 37,
+  "missingSourceWitnesses": 0,
+  "authorizationApproved": false,
+  "runtimeAuthorizationTests": "NOT_RUN",
+  "rows": [
+    {
+      "handlerIdentity": "AppBookController#updateBookProgress",
+      "provenNarrowProperty": "LIBRARY_ID_CHECK_IN_APP_SERVICE",
+      "witnesses": [
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppBookController.java",
+          "gitBlobSha": "6fa5c48d2e66268198aa3e629e7af0f09fc22348",
+          "matchingLines": [
+            70
+          ],
+          "needle": "mobileBookService.updateBookProgress(bookId, request);",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/service/AppBookService.java",
+          "gitBlobSha": "8268ab766093d9ee4988916080229aff1396a9a0",
+          "matchingLines": [
+            216,
+            754
+          ],
+          "needle": "validateLibraryAccess(accessibleLibraryIds, book.getLibrary().getId());",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/service/AppBookService.java",
+          "gitBlobSha": "8268ab766093d9ee4988916080229aff1396a9a0",
+          "matchingLines": [
+            227
+          ],
+          "needle": "bookService.updateReadProgress(progressRequest);",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        }
+      ],
+      "authorizationApproved": false,
+      "currentContentEntitlementProven": false,
+      "gatewayAllowed": false
+    },
+    {
+      "handlerIdentity": "AppBookController#updateStatus",
+      "provenNarrowProperty": "ASSIGNED_LIBRARY_ID_CHECK_ONLY",
+      "witnesses": [
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppBookController.java",
+          "gitBlobSha": "6fa5c48d2e66268198aa3e629e7af0f09fc22348",
+          "matchingLines": [
+            146
+          ],
+          "needle": "mobileBookService.updateReadStatus(bookId, request.getStatus());",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/service/AppBookService.java",
+          "gitBlobSha": "8268ab766093d9ee4988916080229aff1396a9a0",
+          "matchingLines": [
+            726,
+            740
+          ],
+          "needle": "UserBookProgressEntity progress = validateAccessAndGetProgress(bookId);",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/service/AppBookService.java",
+          "gitBlobSha": "8268ab766093d9ee4988916080229aff1396a9a0",
+          "matchingLines": [
+            174,
+            198,
+            757
+          ],
+          "needle": ".findByUserIdAndBookId(userId, bookId)",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        }
+      ],
+      "authorizationApproved": false,
+      "currentContentEntitlementProven": false,
+      "gatewayAllowed": false
+    },
+    {
+      "handlerIdentity": "AppBookController#updateRating",
+      "provenNarrowProperty": "ASSIGNED_LIBRARY_ID_CHECK_ONLY",
+      "witnesses": [
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppBookController.java",
+          "gitBlobSha": "6fa5c48d2e66268198aa3e629e7af0f09fc22348",
+          "matchingLines": [
+            160
+          ],
+          "needle": "mobileBookService.updatePersonalRating(bookId, request.getRating());",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/service/AppBookService.java",
+          "gitBlobSha": "8268ab766093d9ee4988916080229aff1396a9a0",
+          "matchingLines": [
+            726,
+            740
+          ],
+          "needle": "UserBookProgressEntity progress = validateAccessAndGetProgress(bookId);",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/service/AppBookService.java",
+          "gitBlobSha": "8268ab766093d9ee4988916080229aff1396a9a0",
+          "matchingLines": [
+            216,
+            754
+          ],
+          "needle": "validateLibraryAccess(accessibleLibraryIds, book.getLibrary().getId());",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        }
+      ],
+      "authorizationApproved": false,
+      "currentContentEntitlementProven": false,
+      "gatewayAllowed": false
+    },
+    {
+      "handlerIdentity": "AppNotebookController#updateEntry",
+      "provenNarrowProperty": "USER_ID_RECORD_SCOPED_REPOSITORY_LOOKUPS",
+      "witnesses": [
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppNotebookController.java",
+          "gitBlobSha": "dc199fcd21bbd2a79a01934eb339deee2b550674",
+          "matchingLines": [
+            67
+          ],
+          "needle": "mobileNotebookService.updateEntry(entryId, type, request)",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/service/AppNotebookService.java",
+          "gitBlobSha": "8937b5bd3def2a3fa62225e4c083314eda67543e",
+          "matchingLines": [
+            100
+          ],
+          "needle": "annotationService.updateAnnotation(entryId, updateReq)",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/service/AppNotebookService.java",
+          "gitBlobSha": "8937b5bd3def2a3fa62225e4c083314eda67543e",
+          "matchingLines": [
+            118
+          ],
+          "needle": "bookNoteV2Service.updateNote(entryId, updateReq)",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/service/AppNotebookService.java",
+          "gitBlobSha": "8937b5bd3def2a3fa62225e4c083314eda67543e",
+          "matchingLines": [
+            135
+          ],
+          "needle": "bookMarkService.updateBookmark(entryId, updateReq)",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/book/AnnotationService.java",
+          "gitBlobSha": "25899aebe65bf5a821c43fdc3c50f3a85ff94de8",
+          "matchingLines": [
+            96
+          ],
+          "needle": "annotationRepository.findByIdAndUserId(annotationId, userId)",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/book/BookNoteV2Service.java",
+          "gitBlobSha": "36828488ec6a0fe413bcc3693043855635dce681",
+          "matchingLines": [
+            94
+          ],
+          "needle": "bookNoteV2Repository.findByIdAndUserId(noteId, userId)",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/book/BookMarkService.java",
+          "gitBlobSha": "b397b266d979aa970d7e65ae5353ae2be230bc9a",
+          "matchingLines": [
+            113
+          ],
+          "needle": "bookMarkRepository.findByIdAndUserId(bookmarkId, userId)",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        }
+      ],
+      "authorizationApproved": false,
+      "currentContentEntitlementProven": false,
+      "gatewayAllowed": false
+    },
+    {
+      "handlerIdentity": "AppNotebookController#deleteEntry",
+      "provenNarrowProperty": "USER_ID_RECORD_SCOPED_REPOSITORY_LOOKUPS",
+      "witnesses": [
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppNotebookController.java",
+          "gitBlobSha": "dc199fcd21bbd2a79a01934eb339deee2b550674",
+          "matchingLines": [
+            80
+          ],
+          "needle": "mobileNotebookService.deleteEntry(entryId, type);",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/service/AppNotebookService.java",
+          "gitBlobSha": "8937b5bd3def2a3fa62225e4c083314eda67543e",
+          "matchingLines": [
+            154
+          ],
+          "needle": "annotationService.deleteAnnotation(entryId)",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/service/AppNotebookService.java",
+          "gitBlobSha": "8937b5bd3def2a3fa62225e4c083314eda67543e",
+          "matchingLines": [
+            155
+          ],
+          "needle": "bookNoteV2Service.deleteNote(entryId)",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/app/service/AppNotebookService.java",
+          "gitBlobSha": "8937b5bd3def2a3fa62225e4c083314eda67543e",
+          "matchingLines": [
+            156
+          ],
+          "needle": "bookMarkService.deleteBookmark(entryId)",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/book/AnnotationService.java",
+          "gitBlobSha": "25899aebe65bf5a821c43fdc3c50f3a85ff94de8",
+          "matchingLines": [
+            96
+          ],
+          "needle": "annotationRepository.findByIdAndUserId(annotationId, userId)",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/book/BookNoteV2Service.java",
+          "gitBlobSha": "36828488ec6a0fe413bcc3693043855635dce681",
+          "matchingLines": [
+            94
+          ],
+          "needle": "bookNoteV2Repository.findByIdAndUserId(noteId, userId)",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/book/BookMarkService.java",
+          "gitBlobSha": "b397b266d979aa970d7e65ae5353ae2be230bc9a",
+          "matchingLines": [
+            113
+          ],
+          "needle": "bookMarkRepository.findByIdAndUserId(bookmarkId, userId)",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        }
+      ],
+      "authorizationApproved": false,
+      "currentContentEntitlementProven": false,
+      "gatewayAllowed": false
+    },
+    {
+      "handlerIdentity": "BookController#resetProgress",
+      "provenNarrowProperty": "USER_PROGRESS_EXISTENCE_AND_BULK_PERMISSION_ONLY",
+      "witnesses": [
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/controller/BookController.java",
+          "gitBlobSha": "a0ac203df59263496dc406e4108775f450b5e203",
+          "matchingLines": [
+            325
+          ],
+          "needle": "readingProgressService.resetProgress(bookIds, type)",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/progress/ReadingProgressService.java",
+          "gitBlobSha": "f26587d32bd0a973a66e7e2eef265e8673821aa0",
+          "matchingLines": [
+            283
+          ],
+          "needle": "validateResetPermission(bookIds, user, type);",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/progress/ReadingProgressService.java",
+          "gitBlobSha": "f26587d32bd0a973a66e7e2eef265e8673821aa0",
+          "matchingLines": [
+            489
+          ],
+          "needle": "bookRepository.countByIdIn(bookIds)",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/progress/ReadingProgressService.java",
+          "gitBlobSha": "f26587d32bd0a973a66e7e2eef265e8673821aa0",
+          "matchingLines": [
+            494
+          ],
+          "needle": "userBookProgressRepository.findExistingProgressBookIds(userId, new HashSet<>(bookIds))",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        }
+      ],
+      "authorizationApproved": false,
+      "currentContentEntitlementProven": false,
+      "gatewayAllowed": false
+    },
+    {
+      "handlerIdentity": "BookController#updatePersonalRating",
+      "provenNarrowProperty": "USER_PROGRESS_EXISTENCE_ONLY",
+      "witnesses": [
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/controller/BookController.java",
+          "gitBlobSha": "a0ac203df59263496dc406e4108775f450b5e203",
+          "matchingLines": [
+            333
+          ],
+          "needle": "bookUpdateService.updatePersonalRating(request.ids(), request.rating())",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/book/BookUpdateService.java",
+          "gitBlobSha": "e669815b627871bdd39649041ec94f17b4a3b8d3",
+          "matchingLines": [
+            66,
+            80,
+            94
+          ],
+          "needle": "validateBooksAndGetExistingProgress(user.getId(), bookIds)",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/book/BookUpdateService.java",
+          "gitBlobSha": "e669815b627871bdd39649041ec94f17b4a3b8d3",
+          "matchingLines": [
+            337
+          ],
+          "needle": "bookRepository.countByIdIn(bookIds)",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        }
+      ],
+      "authorizationApproved": false,
+      "currentContentEntitlementProven": false,
+      "gatewayAllowed": false
+    },
+    {
+      "handlerIdentity": "BookController#resetPersonalRating",
+      "provenNarrowProperty": "USER_PROGRESS_EXISTENCE_ONLY",
+      "witnesses": [
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/controller/BookController.java",
+          "gitBlobSha": "a0ac203df59263496dc406e4108775f450b5e203",
+          "matchingLines": [
+            347
+          ],
+          "needle": "bookUpdateService.resetPersonalRating(bookIds)",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/book/BookUpdateService.java",
+          "gitBlobSha": "e669815b627871bdd39649041ec94f17b4a3b8d3",
+          "matchingLines": [
+            83,
+            97
+          ],
+          "needle": "userBookProgressRepository.bulkUpdatePersonalRating",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/book/BookUpdateService.java",
+          "gitBlobSha": "e669815b627871bdd39649041ec94f17b4a3b8d3",
+          "matchingLines": [
+            337
+          ],
+          "needle": "bookRepository.countByIdIn(bookIds)",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        }
+      ],
+      "authorizationApproved": false,
+      "currentContentEntitlementProven": false,
+      "gatewayAllowed": false
+    },
+    {
+      "handlerIdentity": "ReadingSessionController#recordReadingSession",
+      "provenNarrowProperty": "USER_CONTEXT_AND_BOOK_EXISTENCE_ONLY",
+      "witnesses": [
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/controller/ReadingSessionController.java",
+          "gitBlobSha": "9d8c3766592037be1ed1653c44ff99854c1a13e4",
+          "matchingLines": [
+            35
+          ],
+          "needle": "readingSessionService.recordSession(request);",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/ReadingSessionService.java",
+          "gitBlobSha": "2715f045bcfa463a57b818b53fb240b272b1700b",
+          "matchingLines": [
+            127,
+            154,
+            164,
+            174,
+            197,
+            214,
+            223,
+            232,
+            254,
+            292,
+            320,
+            337,
+            438,
+            480,
+            489,
+            562,
+            581,
+            640,
+            687,
+            710,
+            740,
+            776,
+            805,
+            835,
+            844,
+            853,
+            874,
+            888,
+            905
+          ],
+          "needle": "authenticationService.getAuthenticatedUser()",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/ReadingSessionService.java",
+          "gitBlobSha": "2715f045bcfa463a57b818b53fb240b272b1700b",
+          "matchingLines": [
+            131
+          ],
+          "needle": "bookRepository.findById(request.getBookId())",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        },
+        {
+          "sourcePath": "backend/src/main/java/org/booklore/service/ReadingSessionService.java",
+          "gitBlobSha": "2715f045bcfa463a57b818b53fb240b272b1700b",
+          "matchingLines": [
+            148
+          ],
+          "needle": "readingSessionRepository.save(session);",
+          "status": "PINNED_SOURCE_TEXT_ONLY"
+        }
+      ],
+      "authorizationApproved": false,
+      "currentContentEntitlementProven": false,
+      "gatewayAllowed": false
+    }
+  ]
+}
