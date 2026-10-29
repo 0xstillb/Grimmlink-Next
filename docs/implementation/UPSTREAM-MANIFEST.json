@@ -117,9 +117,14 @@
     "runtimeRouteMapping": "NOT_RUN",
     "appControllerFiles": 8,
     "appMethodAnnotations": 27,
-    "sourceAnnotationComplete": "UNVERIFIED_ALTERNATE_HANDLERS",
+    "sourceAnnotationComplete": "FALSE_SEMANTIC_AND_OWNER_REVIEW_BLOCKED",
     "newSecurityReport": "docs/implementation/phase-00/ROUTE-COVERAGE-SECURITY-CORRECTION-2026-10-29.md",
-    "fixtureMatrix": "docs/implementation/phase-00/SECURITY-NEGATIVE-FIXTURES.json"
+    "fixtureMatrix": "docs/implementation/phase-00/SECURITY-NEGATIVE-FIXTURES.json",
+    "sourceContentScanComplete": true,
+    "sourceCensusEvidenceHead": "0b6fef1002c8a86fa5e15a2c416c16ff1b64ae9a",
+    "sourceRuntimeRouteComplete": "NOT_RUN",
+    "sourceCandidateSignals": 492,
+    "programmaticSourceSignals": 15
   },
   "designOnlySafetyDefaults_NOT_IMPLEMENTED": {
     "metadataApply": false,
@@ -138,7 +143,7 @@
     "nativeKOSyncProgress": false
   },
   "blockers": [
-    "NEW-P0-01 incomplete source-wide/Java handler census: named 64/348 annotations only; runtime exporter NOT_RUN",
+    "NEW-P0-01: 923/923 Java bodies SHA-verified and parsed, but mapping semantics, static /**, WebSocket /ws and source-backed gateway ownership remain unresolved; runtime NOT_RUN",
     "All App personal GET/PUT/DELETE need current book/record ACL and direct-backend bypass proof; no gateway runtime",
     "R-02A all reset modes/rating OFF; whole batch precheck non-atomic",
     "R-02 Native KO atomic book entitlement unavailable: OFF",
@@ -152,5 +157,32 @@
     "SESSION_CRASH_TESTS",
     "APP_ROUTE_NEGATIVE_FIXTURES",
     "FULL_SOURCE_HANDLER_SEARCH"
-  ]
+  ],
+  "sourceWideCensus20261029": {
+    "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+    "verifiedEvidenceHead": "0b6fef1002c8a86fa5e15a2c416c16ff1b64ae9a",
+    "filesExpected": 923,
+    "filesContentShaVerified": 923,
+    "filesAstParsed": 923,
+    "astErrors": 0,
+    "namedControllerFiles": 64,
+    "controllerMarkers": 64,
+    "classMappingAnnotations": 63,
+    "methodMappingAnnotations": 348,
+    "totalMappingAnnotations": 411,
+    "additionalProgrammaticSourceSignals": 15,
+    "allSourceCandidateSignals": 492,
+    "sourceAnnotationComplete": false,
+    "semanticOpenFiles": 161,
+    "runtimeRouteComplete": "NOT_RUN",
+    "WebSocketHandshake": "/ws SOURCE_ONLY",
+    "staticResourceWildcard": "/** SOURCE_ONLY",
+    "fixtureDefinitions": 97,
+    "fixtureStaticValidationFailures": 0,
+    "fixtureActualExecution": "NOT_RUN",
+    "evidencePath": "docs/implementation/phase-00/JAVA-SOURCE-WIDE-CENSUS.json",
+    "mechanismsPath": "docs/implementation/phase-00/SOURCE-WIDE-MECHANISM-RECONCILIATION-2026-10-29.md",
+    "actionsRun": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/40817012499",
+    "implementerReadiness": "CORRECTION_INCOMPLETE_SEMANTIC_OWNERSHIP_BLOCKED"
+  }
 }

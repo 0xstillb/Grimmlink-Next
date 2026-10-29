@@ -10,12 +10,12 @@
   "productionBranch": "main",
   "phase": "00",
   "phaseName": "Discovery, Contracts & Architecture Lock",
-  "phaseStatus": "IMPLEMENTER_ROUTE_SECURITY_CORRECTION_COMMITTED_FRESH_INDEPENDENT_REVIEW_REQUIRED",
+  "phaseStatus": "CORRECTION_INCOMPLETE_SEMANTIC_ROUTE_OWNERSHIP_GATE",
   "lastVerifiedPriorCommit": "f27dea9b5cd6c441405a6ad62d6703e33d9ef47c",
   "currentHead": "READ_LIVE_GITHUB_NO_SELF_SHA",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/2",
   "codeImplemented": false,
-  "sourceAuditCompleted": "CANDIDATE_SOURCE_REVIEW_DONE_UNRESOLVED_CONTRACTS",
+  "sourceAuditCompleted": "CONTENT_923_AST_923_SEMANTIC_REVIEW_INCOMPLETE",
   "contractLocked": false,
   "fullE2eAllowed": false,
   "fullE2ePhase": "09",
@@ -35,6 +35,16 @@
     {
       "method": "IN_PROCESS_JSON_PARSE_AND_DOCUMENT_ASSERTION",
       "result": "SOURCE_DOC_STRUCTURE_CHECKS_ONLY"
+    },
+    {
+      "method": "PINNED_JAVA21_AST_CI",
+      "result": "923_FILE_SHA_MATCH_923_AST_PARSED_0_DIAGNOSTICS",
+      "source": "actions/runs/40817012499"
+    },
+    {
+      "method": "FIXTURE_STATIC_VALIDATOR_CI",
+      "result": "97_UNIQUE_DEFINITIONS_0_STATIC_FAILURES_EXECUTION_NOT_RUN",
+      "source": "actions/runs/40817012499"
     }
   ],
   "testsNotRun": [
@@ -61,7 +71,7 @@
     "NEGATIVE_FIXTURES_DESIGNED_ONLY"
   ],
   "blockers": [
-    "NEW-P0-01 incomplete source-wide/Java handler census: named 64/348 annotations only; runtime exporter NOT_RUN",
+    "NEW-P0-01: 923/923 Java bodies SHA-verified and parsed, but mapping semantics, static /**, WebSocket /ws and source-backed gateway ownership remain unresolved; runtime NOT_RUN",
     "All App personal GET/PUT/DELETE need current book/record ACL and direct-backend bypass proof; no gateway runtime",
     "R-02A all reset modes/rating OFF; whole batch precheck non-atomic",
     "R-02 Native KO atomic book entitlement unavailable: OFF",
@@ -108,8 +118,10 @@
     "methodAnnotations": 348,
     "appFiles": 8,
     "appAnnotations": 27,
-    "sourceFull": "UNVERIFIED",
-    "runtime": "NOT_RUN"
+    "sourceFull": "CONTENT_COMPLETE_SEMANTIC_INCOMPLETE",
+    "runtime": "NOT_RUN",
+    "classAnnotations": 63,
+    "allMappingAnnotations": 411
   },
   "finalSecurityCorrection": {
     "date": "2026-10-29",
@@ -121,7 +133,7 @@
     "sourceWideJavaFiles": 923,
     "observedControllerFiles": 64,
     "observedMethodAnnotations": 348,
-    "unverifiedOtherJavaFiles": 859,
+    "unverifiedOtherJavaFiles": 0,
     "sourceAnnotationComplete": false,
     "runtimeRouteComplete": "NOT_RUN",
     "originalFixtures": 70,
@@ -129,12 +141,41 @@
     "modifiedFixtures": 11,
     "finalFixtures": 97,
     "fixtureExecution": "NOT_RUN",
-    "notionSync": "PENDING_AFTER_GITHUB_COMMIT",
+    "notionSync": "PENDING_VERIFIED_GITHUB_HANDOFF",
     "lastIndependentVerdict": "CHANGES_REQUIRED",
     "contractLocked": false,
     "phase01Authorized": false,
     "remainingP0": [
       "NEW-P0-01"
-    ]
+    ],
+    "sourceBodyReadComplete": true,
+    "semanticReviewRemaining": true
+  },
+  "sourceWideCensus20261029": {
+    "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+    "verifiedEvidenceHead": "0b6fef1002c8a86fa5e15a2c416c16ff1b64ae9a",
+    "filesExpected": 923,
+    "filesContentShaVerified": 923,
+    "filesAstParsed": 923,
+    "astErrors": 0,
+    "namedControllerFiles": 64,
+    "controllerMarkers": 64,
+    "classMappingAnnotations": 63,
+    "methodMappingAnnotations": 348,
+    "totalMappingAnnotations": 411,
+    "additionalProgrammaticSourceSignals": 15,
+    "allSourceCandidateSignals": 492,
+    "sourceAnnotationComplete": false,
+    "semanticOpenFiles": 161,
+    "runtimeRouteComplete": "NOT_RUN",
+    "WebSocketHandshake": "/ws SOURCE_ONLY",
+    "staticResourceWildcard": "/** SOURCE_ONLY",
+    "fixtureDefinitions": 97,
+    "fixtureStaticValidationFailures": 0,
+    "fixtureActualExecution": "NOT_RUN",
+    "evidencePath": "docs/implementation/phase-00/JAVA-SOURCE-WIDE-CENSUS.json",
+    "mechanismsPath": "docs/implementation/phase-00/SOURCE-WIDE-MECHANISM-RECONCILIATION-2026-10-29.md",
+    "actionsRun": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/40817012499",
+    "implementerReadiness": "CORRECTION_INCOMPLETE_SEMANTIC_OWNERSHIP_BLOCKED"
   }
 }

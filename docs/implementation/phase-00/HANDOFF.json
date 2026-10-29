@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "phase": "PHASE_00",
-  "status": "PHASE00_CORRECTION_INCOMPLETE_SOURCE_WIDE_CENSUS_REQUIRED",
+  "status": "PHASE00_CORRECTION_INCOMPLETE_ROUTE_SEMANTICS_AND_OWNERSHIP",
   "baseCommit": "5efdaf3bef051d0d5c44f6274a2cd2bf22010de5",
   "headCommit": "FETCH_LIVE_GITHUB_NO_SELF_SHA",
   "branch": "feat/next-phase-00",
@@ -66,7 +66,7 @@
   ],
   "reviewStatus": "CHANGES_REQUIRED_FRESH_INDEPENDENT_REVIEW_REQUIRED",
   "blockers": [
-    "NEW-P0-01 incomplete source-wide/Java handler census: named 64/348 annotations only; runtime exporter NOT_RUN",
+    "NEW-P0-01: 923/923 Java bodies SHA-verified and parsed, but mapping semantics, static /**, WebSocket /ws and source-backed gateway ownership remain unresolved; runtime NOT_RUN",
     "All App personal GET/PUT/DELETE need current book/record ACL and direct-backend bypass proof; no gateway runtime",
     "R-02A all reset modes/rating OFF; whole batch precheck non-atomic",
     "R-02 Native KO atomic book entitlement unavailable: OFF",
@@ -82,7 +82,7 @@
     "nonempty collection can replace existing OPF authors/categories/tags"
   ],
   "handoffTo": "PHASE00_IMPLEMENTER_FOR_REQUIRED_CONTRACT_CORRECTIONS_THEN_NEW_INDEPENDENT_REVIEW",
-  "nextAction": "Perform full pinned 923 Java file route-producing mechanism scan and reconciliation; then fresh independent security review. Never merge PR#2 or start Phase01.",
+  "nextAction": "Reconcile all 348 method +63 class mapping annotations and 15 non-controller programmatic signals incl /ws and /**; source-backed auth/gateway ownership; independent review after P0 closure. Keep Phase01 locked.",
   "evidence": [
     "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/MetadataController.java#L51-L59",
     "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/KoreaderController.java",
@@ -274,7 +274,12 @@
     "appControllerFiles": 8,
     "appAnnotations": 27,
     "runtimeComplete": false,
-    "sourceWideComplete": false
+    "sourceWideComplete": false,
+    "sourceWideContentShaVerified": true,
+    "sourceWideAstParsed": true,
+    "classMappingAnnotations": 63,
+    "programmaticSignals": 15,
+    "SourceAnnotationComplete": false
   },
   "nativeKosyncAdr": "docs/implementation/ADR-025-NATIVE-KOSYNC-SECURITY.md",
   "securityReview": {
@@ -307,7 +312,7 @@
     "sourceWideJavaFiles": 923,
     "observedControllerFiles": 64,
     "observedMethodAnnotations": 348,
-    "unverifiedOtherJavaFiles": 859,
+    "unverifiedOtherJavaFiles": 0,
     "sourceAnnotationComplete": false,
     "runtimeRouteComplete": "NOT_RUN",
     "originalFixtures": 70,
@@ -315,12 +320,41 @@
     "modifiedFixtures": 11,
     "finalFixtures": 97,
     "fixtureExecution": "NOT_RUN",
-    "notionSync": "PENDING_AFTER_GITHUB_COMMIT",
+    "notionSync": "PENDING_VERIFIED_GITHUB_HANDOFF",
     "lastIndependentVerdict": "CHANGES_REQUIRED",
     "contractLocked": false,
     "phase01Authorized": false,
     "remainingP0": [
       "NEW-P0-01"
-    ]
+    ],
+    "sourceBodyReadComplete": true,
+    "semanticReviewRemaining": true
+  },
+  "sourceWideCensus20261029": {
+    "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+    "verifiedEvidenceHead": "0b6fef1002c8a86fa5e15a2c416c16ff1b64ae9a",
+    "filesExpected": 923,
+    "filesContentShaVerified": 923,
+    "filesAstParsed": 923,
+    "astErrors": 0,
+    "namedControllerFiles": 64,
+    "controllerMarkers": 64,
+    "classMappingAnnotations": 63,
+    "methodMappingAnnotations": 348,
+    "totalMappingAnnotations": 411,
+    "additionalProgrammaticSourceSignals": 15,
+    "allSourceCandidateSignals": 492,
+    "sourceAnnotationComplete": false,
+    "semanticOpenFiles": 161,
+    "runtimeRouteComplete": "NOT_RUN",
+    "WebSocketHandshake": "/ws SOURCE_ONLY",
+    "staticResourceWildcard": "/** SOURCE_ONLY",
+    "fixtureDefinitions": 97,
+    "fixtureStaticValidationFailures": 0,
+    "fixtureActualExecution": "NOT_RUN",
+    "evidencePath": "docs/implementation/phase-00/JAVA-SOURCE-WIDE-CENSUS.json",
+    "mechanismsPath": "docs/implementation/phase-00/SOURCE-WIDE-MECHANISM-RECONCILIATION-2026-10-29.md",
+    "actionsRun": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/40817012499",
+    "implementerReadiness": "CORRECTION_INCOMPLETE_SEMANTIC_OWNERSHIP_BLOCKED"
   }
 }

@@ -1,3 +1,24 @@
+## CURRENT EVIDENCE — 2026-10-29 pinned full Java body scan (implementer, NOT reviewer approval)
+
+**Verified static CI:** [Actions run 40817012499](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40817012499) and [source evidence commit](https://github.com/0xstillb/Grimmlink-Next/commit/0b6fef1002c8a86fa5e15a2c416c16ff1b64ae9a). All **923/923** pinned Java bodies were read, SHA checked and AST parsed, **0 errors**. Exactly **64 Controller markers, 348 method mapping +63 class mapping =411 mapping annotation occurrences**, NOT 411 HTTP routes. Additional **15 programmatic signals**, including WebMvcConfig static **/*** resource fallback, OPDS/Komga interceptors and WebSocketConfig **/ws** handshake; see [source mechanism reconciliation](SOURCE-WIDE-MECHANISM-RECONCILIATION-2026-10-29.md) and [per-file ledger](JAVA-SOURCE-WIDE-CENSUS.json). (Links here are relative to docs/implementation for documents in that directory; Phase00 files use local equivalents.) **97 fixtures** static validated, zero static failures, all actual negative tests **NOT_RUN**.
+
+**IMPORTANT:** prior statements describing 859 unread Java bodies are historical and superseded *only as to content-read coverage*. The source has **161 files with lexical inheritance/semantic questions**; 348 method mappings, aliases/conditional/proxy, WebSocket/static, gateway auth ownership and Spring runtime evidence are **NOT yet contract complete**. `SOURCE_ANNOTATION_COMPLETE=false`, `RUNTIME_ROUTE_COMPLETE=NOT_RUN`. **NEW-P0-01 remains P0 BLOCKED**. Historical Independent verdict **CHANGES_REQUIRED** unchanged. **CORRECTION_INCOMPLETE / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED**. Do not self-approve/merge PR #2, start Phase 01 or expose Official backend. Feature gates for personal writes, native KO progress, metadata apply and session outbox remain OFF/BLOCKED.
+
+### Current implementer findings matrix (static evidence only)
+
+| Finding | Implementer status | Source/contract evidence | Residual / independent acceptance |
+|---|---|---|---|
+| NEW-P0-01 | **PARTIAL / BLOCKED** | 923/923 SHA+AST; 348+63 annotations, 15 programmatic signals; pinned WebMvcConfig:37–62, WebSocketConfig:62–75 | Semantically expand mappings, classify aliases/websocket/static/Actuator, verify auth and gateway ownership; separate reviewer required |
+| NEW-P0-02 | DESIGN_SPECIFIED | KO registration credential log in pinned KoreaderController:33–40 | Runtime ingress deny/redaction + sink tests NOT_RUN (Phase02/05) |
+| NEW-P0-03 | PRIOR_DISPOSITION_UNCHANGED | Historical independent report | No new acceptance claim in this implementer pass |
+| R-02A / App | DESIGN_BLOCKED_OFF | App assigned-library checks exist, do not prove current content restrictions/atomic batch | Per-ID ownership/current ACL and direct-bypass tests NOT_RUN |
+| R-02 | BLOCKED_OFF | Native KOSync requires atomic per-book authorization | No implementation or atomic proof |
+| R-01 | BLOCKED_OFF | Exact OPF scalar policy; CAS/Sidecar/NAS proof pending | metadataApply OFF |
+| R-09 | BLOCKED_OFF | One-attempt SQLite outbox contract only | Crash/ACK tests NOT_RUN |
+| R-11 | PRIOR_DISPOSITION_UNCHANGED | Historical independent report | No new acceptance claim in this implementer pass |
+
+**Static CI** source-file SHA and parser checks passed; fixtures 97/97 structurally valid, actual negative/mock/gateway/SQLite/RUNTIME/E2E tests NOT_RUN. No Independent PASS verdict was issued.
+
 # Phase00 — FINAL SECURITY CORRECTION (IMPLEMENTER REPORT, 2026-10-29)
 
 **Starting live feature HEAD:** `1370f9f38482af1442a3ecd7570e7dbbc4ac3bdd`; **immutable independent reviewed SHA:** `9682f9ce9305ea5242af82418bec7e504bf1ca03`; **first correction commit:** `496681b307dd71fefedb649d951079557dc431f9`; **final checkpoint commit:** fetch LIVE branch HEAD (cannot embed self-referential SHA). Feature `feat/next-phase-00` → Draft [PR #2](https://github.com/0xstillb/Grimmlink-Next/pull/2); integration `5470c7ad807cb701381ae8bcd9abe516f351b150`; main `59ffeee432dadf40f61005f7d605be9bfe82df48`. Independent reviewer report [immutable report](https://github.com/0xstillb/Grimmlink-Next/blob/1370f9f38482af1442a3ecd7570e7dbbc4ac3bdd/docs/implementation/phase-00/FRESH-INDEPENDENT-SECURITY-REVIEW-2026-10-29.md) not edited.
