@@ -128,8 +128,8 @@ describe("Phase02 Official fake-only transport", () => {
         json: { version: "3.5.0", capabilities: ["opds"], passwordMD5: "SECRET_CANARY" },
       }),
     });
-    // Unknown fields are deliberately not a confirmed Official DTO contract yet.
-    expect(await invalid.readJson(input)).toHaveProperty("version", "3.5.0");
+    // Unknown fields, including credential-bearing keys, fail closed.
+    await expect(invalid.readJson(input)).rejects.toMatchObject({ code: "INVALID_RESPONSE" });
     expect(isMockVersionCapabilities({ version: "3.5", capabilities: ["ok", 2] })).toBe(false);
   });
 
