@@ -1,3 +1,11 @@
+## CURRENT — Phase02 one-port mock code + runtime HOLD gates (2026-10-29)
+
+[Draft PR #6](https://github.com/0xstillb/Grimmlink-Next/pull/6) contains isolated Caddy on host-loopback :6060, Adapter nonpublished :6061 within same network namespace, typed mock REST GET, admin/reader pure policy, all-or-none synthetic book/file/record rights and an anti-forgery runtime proof gate. [Last full mock CI SUCCESS #40905567097](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40905567097) at source `150bd87f`; latest extended canary and docs commits require exact-head CI confirmation. [Phase02 RESULT](phase-02/RESULT.md), [HANDOFF](phase-02/HANDOFF.json), [independent reviewer packet](phase-02/INDEPENDENT-REVIEW-REQUEST.md).
+
+**Not approved:** Official proxy/UI/OPDS/KO/Kobo/Komga forwarding, live session/atomic rights, external TLS/SNI/direct ingress and outbound network egress, real Spring runtime route/chain evidence, fresh independent review and integration merge. `DENY_ALL`, all sensitive OFF and full Phase09 E2E deferred. Docker bridge mock does NOT prove upstream network isolation. Keep PR DRAFT and do not promote `GATEWAY_CODE_REVIEWED`.
+
+---
+
 ## ACTIVE Phase02 follow-up — mock-only Official client and Admin/Reader policy (2026-10-29)
 
 [Draft PR #6](https://github.com/0xstillb/Grimmlink-Next/pull/6) remains **OPEN / DRAFT / UNMERGED**. The feature branch adds a typed injected fake-only Official GET client, bounded timeout/retry/error classification, strict mock capabilities DTO, pure server-bound Admin CSRF + exact Origin policy, separate Reader owner identity checks, and Gateway rejection of Range/WS/SSE header variants. [Phase02 RESULT](phase-02/RESULT.md) and [machine handoff](phase-02/HANDOFF.json) document file paths and unfinished tasks.
