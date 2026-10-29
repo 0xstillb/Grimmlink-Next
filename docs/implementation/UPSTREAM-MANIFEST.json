@@ -143,7 +143,7 @@
     "nativeKOSyncProgress": false
   },
   "blockers": [
-    "NEW-P0-01: 923/923 Java bodies SHA-verified and parsed, but mapping semantics, static /**, WebSocket /ws and source-backed gateway ownership remain unresolved; runtime NOT_RUN",
+    "NEW-P0-01: 923/923 pinned Java bodies AST+SHA passed; 403 source declared method/path/verb expansions, 15 symbolic constraints, 160 lexical inheritance flags, 43 mutating handlers with no local security annotation; global/service/auth ownership incomplete; runtime NOT_RUN",
     "All App personal GET/PUT/DELETE need current book/record ACL and direct-backend bypass proof; no gateway runtime",
     "R-02A all reset modes/rating OFF; whole batch precheck non-atomic",
     "R-02 Native KO atomic book entitlement unavailable: OFF",
@@ -160,7 +160,7 @@
   ],
   "sourceWideCensus20261029": {
     "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
-    "verifiedEvidenceHead": "0b6fef1002c8a86fa5e15a2c416c16ff1b64ae9a",
+    "verifiedEvidenceHead": "5ea20a4ef5570173bb304c607766fb847ed5435b",
     "filesExpected": 923,
     "filesContentShaVerified": 923,
     "filesAstParsed": 923,
@@ -171,18 +171,30 @@
     "methodMappingAnnotations": 348,
     "totalMappingAnnotations": 411,
     "additionalProgrammaticSourceSignals": 15,
-    "allSourceCandidateSignals": 492,
+    "allSourceCandidateSignals": 715,
     "sourceAnnotationComplete": false,
-    "semanticOpenFiles": 161,
+    "semanticOpenFiles": 160,
     "runtimeRouteComplete": "NOT_RUN",
     "WebSocketHandshake": "/ws SOURCE_ONLY",
     "staticResourceWildcard": "/** SOURCE_ONLY",
-    "fixtureDefinitions": 97,
+    "fixtureDefinitions": 101,
     "fixtureStaticValidationFailures": 0,
     "fixtureActualExecution": "NOT_RUN",
     "evidencePath": "docs/implementation/phase-00/JAVA-SOURCE-WIDE-CENSUS.json",
     "mechanismsPath": "docs/implementation/phase-00/SOURCE-WIDE-MECHANISM-RECONCILIATION-2026-10-29.md",
-    "actionsRun": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/40817012499",
-    "implementerReadiness": "CORRECTION_INCOMPLETE_SEMANTIC_OWNERSHIP_BLOCKED"
+    "actionsRun": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/40819253130",
+    "implementerReadiness": "CORRECTION_INCOMPLETE_SOURCE_SEMANTICS_AND_OWNER_REVIEW_BLOCKED",
+    "staticMethodPathVerbDeclarations": 403,
+    "unresolvedLiteralPathVariants": 0,
+    "unresolvedSymbolicMethodConditions": 15,
+    "authAnnotationSignals": 223,
+    "methodHandlersWithLocalAuthAnnotations": 196,
+    "classSecurityHandlers": 9,
+    "noLocalAuthAnnotationHandlers": 143,
+    "mutatingNoLocalAnnotationHandlers": 43,
+    "frameworkTypeSourceSignals": 2,
+    "fixtureUniqueIDs": 101,
+    "sourceDeclaredExpansion": "docs/implementation/phase-00/SOURCE-DECLARED-MAPPING-EXPANSION.json",
+    "sourceSecurityReview": "docs/implementation/phase-00/SOURCE-ROUTE-SEMANTIC-AND-AUTH-REVIEW-2026-10-29.md"
   }
 }

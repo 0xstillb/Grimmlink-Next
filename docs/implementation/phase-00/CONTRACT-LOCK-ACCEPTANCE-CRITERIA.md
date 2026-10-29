@@ -1,3 +1,11 @@
+## LATEST VERIFIED STATIC EVIDENCE — Phase00 Route Semantics, 2026-10-29 (NOT Independent Approval)
+
+[CI run 40819253130](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40819253130): pinned 923/923 Java bodies SHA-verified and AST parsed (0 errors), 64 Controller markers, 63 class +348 method =411 mapping annotations, **403 static method/path/verb declarations (not runtime route count)**. All method paths resolved; **15 symbolic consumes/produces conditions** remain. **223 security annotation signals**, **15 programmatic** and **2 framework-type signals**; **43 mutation handlers without local annotations** require global/service ACL investigation, not proof of unauthenticated access.
+
+**101 security fixtures** (97 prior +4 WebSocket/static), static validator zero failures; every actual mock/HTTP/security/SQLite test NOT_RUN. [Source auth audit](SOURCE-ROUTE-SEMANTIC-AND-AUTH-REVIEW-2026-10-29.md) details pinned SecurityConfig chains. SOURCE_ANNOTATION_COMPLETE=false; RUNTIME_ROUTE_COMPLETE=NOT_RUN; NEW-P0-01 BLOCKED. CORRECTION_INCOMPLETE / CHANGES_REQUIRED (last independent verdict) / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED. Older checkpoints below are historical when referring to 859 unread Java bodies or 97 current fixtures.
+
+---
+
 # Phase00 Contract Lock — Evidence and Acceptance Criteria (2026-10-29)
 
 **This is an implementer design checklist, NOT permission to lock or start Phase01.** Independent review verdict: `CHANGES_REQUIRED / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED`.

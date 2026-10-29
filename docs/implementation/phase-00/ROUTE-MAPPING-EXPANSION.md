@@ -1,3 +1,11 @@
+## LATEST VERIFIED STATIC EVIDENCE — Phase00 Route Semantics, 2026-10-29 (NOT Independent Approval)
+
+[CI run 40819253130](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40819253130): pinned 923/923 Java bodies SHA-verified and AST parsed (0 errors), 64 Controller markers, 63 class +348 method =411 mapping annotations, **403 static method/path/verb declarations (not runtime route count)**. All method paths resolved; **15 symbolic consumes/produces conditions** remain. **223 security annotation signals**, **15 programmatic** and **2 framework-type signals**; **43 mutation handlers without local annotations** require global/service ACL investigation, not proof of unauthenticated access.
+
+**101 security fixtures** (97 prior +4 WebSocket/static), static validator zero failures; every actual mock/HTTP/security/SQLite test NOT_RUN. [Source auth audit](SOURCE-ROUTE-SEMANTIC-AND-AUTH-REVIEW-2026-10-29.md) details pinned SecurityConfig chains. SOURCE_ANNOTATION_COMPLETE=false; RUNTIME_ROUTE_COMPLETE=NOT_RUN; NEW-P0-01 BLOCKED. CORRECTION_INCOMPLETE / CHANGES_REQUIRED (last independent verdict) / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED. Older checkpoints below are historical when referring to 859 unread Java bodies or 97 current fixtures.
+
+---
+
 # Source Mapping Expansion and Coverage Boundary
 
 Pinned: `402e89b4452f8e2b17ab95f16c1621c003516cd2`. The previously unresolved [KomgaController:251–264](https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/KomgaController.java#L251) declares **9 path patterns and 5 explicit HTTP methods** = 45 declared method/path candidates from **one** method-level annotation (NOT 45 annotations). Class prefix: `/komga/api`, class `produces=application/json`. The paths are `/v1/readlists`, `/v1/series/new`, `/v1/series/updated`, `/v1/series/list`, `/v1/series/genres`, `/v1/books/ondeck`, `/v1/books/list`, `/v1/books/*/readlists`, `/v1/books/*/manifest`. HTTP methods: GET, POST, PUT, DELETE, PATCH; expected handler returns HTTP 501. Route expansion `SOURCE_DECLARED_EXPANSION` only; Spring pattern matching and runtime intersection not verified.
