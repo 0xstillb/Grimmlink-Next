@@ -1,8 +1,5 @@
 import { request as httpRequest } from "node:http";
-import {
-  OfficialClientError,
-  type MockOnlyTransport,
-} from "./mock-transport.js";
+import { OfficialClientError, type MockOnlyTransport } from "./mock-transport.js";
 
 /**
  * Real HTTP mechanics tested against a synthetic loopback server ONLY.
@@ -40,7 +37,10 @@ export function createLoopbackJsonTransport(
     }
     return await new Promise<{ status: number; json: unknown }>((resolve, reject) => {
       let done = false;
-      const finish = (error: OfficialClientError | null, response?: { status: number; json: unknown }) => {
+      const finish = (
+        error: OfficialClientError | null,
+        response?: { status: number; json: unknown },
+      ) => {
         if (done) return;
         done = true;
         request.signal.removeEventListener("abort", abort);
