@@ -67,6 +67,19 @@ describe("Phase02 zero-forward gateway classifier", () => {
     expect(classify("GET", "/health", { [key]: "http://evil.test" })).toBe("INVALID_TARGET");
   });
 
+
+  it.each([
+    ["upgrade", "websocket"],
+    ["sec-websocket-key", "synthetic-websocket-key"],
+    ["range", "bytes=0-99"],
+    ["if-range", "etag-canary"],
+    ["proxy-authorization", "Basic canary"],
+    ["transfer-encoding", "chunked"],
+    ["accept", "text/event-stream"],
+  ])("denies alternate protocol and content headers %s before local handling", (key, value) => {
+    expect(classify("GET", "/health", { [key]: value })).toBe("INVALID_TARGET");
+  });
+
   it("rejects host multiplicity and oversized path", () => {
     expect(classify("GET", "/health", { host: ["a", "b"] })).toBe("INVALID_TARGET");
     expect(classify("GET", "/health", { host: "a,b" })).toBe("INVALID_TARGET");
