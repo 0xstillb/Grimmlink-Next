@@ -11,7 +11,8 @@
     "typecheck": "pnpm -r --if-present typecheck",
     "test": "pnpm -r --if-present test",
     "lint": "eslint apps packages",
-    "format": "prettier --write apps packages"
+    "format": "prettier --write apps packages",
+    "format:check": "prettier --check apps packages"
   },
   "devDependencies": {
     "@types/node": "22.18.11",
