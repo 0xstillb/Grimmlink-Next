@@ -3,7 +3,10 @@
 # Host publication is loopback by design, NEVER production/LAN ingress.
 services:
   gateway:
-    image: caddy:2.10.2-alpine
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile.mock
+    image: grimmlink-caddy:phase02-mock
     user: "1000:1000"
     read_only: true
     cap_drop: ["ALL"]
