@@ -7,7 +7,7 @@
   "preferredModel": "GPT-6",
   "phase": "01",
   "phaseName": "TypeScript Core, Persistence & Observability Foundation",
-  "phaseStatus": "FOUNDATION_IMPLEMENTED_REVIEW_PENDING",
+  "phaseStatus": "FOUNDATION_IN_PROGRESS",
   "branch": "feat/next-phase-01",
   "integrationBranch": "integration/grimmlink-next",
   "productionBranch": "main",
@@ -19,7 +19,7 @@
   "phase00Review": "PASS_PHASE00_DESIGN_ONLY_RUNTIME_NOT_VERIFIED",
   "phase01Authorized": true,
   "codeImplemented": true,
-  "codeStatus": "FOUNDATION_CODE_COMMITTED_LOCK_FROZEN_CI_IMAGE_VERIFIED_REVIEW_PENDING",
+  "codeStatus": "FOUNDATION_CODE_IMPLEMENTED_REVIEW_PENDING",
   "unitTestRun": {
     "url": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/40872300890",
     "codeHead": "5dd677e542cc82688d6892dded240a3bd7e6a79d",
