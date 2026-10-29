@@ -10,9 +10,9 @@
   "productionBranch": "main",
   "phase": "00",
   "phaseName": "Discovery, Contracts & Architecture Lock",
-  "phaseStatus": "INDEPENDENT_REVIEW_CHANGES_REQUIRED",
-  "lastVerifiedPriorCommit": "d402310fa8e07bb84ed0415209176d2f2b1ab95b",
-  "currentHead": "READ_LIVE_GITHUB_DO_NOT_ASSUME",
+  "phaseStatus": "SOURCE_CONTRACT_CORRECTED_INDEPENDENT_RE_REVIEW_PENDING",
+  "lastVerifiedPriorCommit": "5efdaf3bef051d0d5c44f6274a2cd2bf22010de5",
+  "currentHead": "READ_LIVE_GITHUB_NO_SELF_SHA",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/2",
   "codeImplemented": false,
   "sourceAuditCompleted": "CANDIDATE_SOURCE_REVIEW_DONE_UNRESOLVED_CONTRACTS",
@@ -25,16 +25,16 @@
       "result": "SOURCE_PATHS_OBSERVED"
     },
     {
-      "method": "IN_PROCESS_JSON_PARSE",
-      "result": "PASS_IF_COMMIT_SUCCEEDS"
-    },
-    {
       "method": "READ_ONLY_AUTH_AND_SIDECAR_SOURCE_FOLLOWUP",
       "result": "CONTROLLER_DTO_WRITER_PATHS_OBSERVED"
     },
     {
       "method": "READ_ONLY_GRIMMORY_V3_5_0_SERVICE_RECHECK",
       "result": "SOURCE_LINES_OBSERVED_C017_TO_C021"
+    },
+    {
+      "method": "IN_PROCESS_JSON_PARSE_AND_DOCUMENT_ASSERTION",
+      "result": "SOURCE_DOC_STRUCTURE_CHECKS_ONLY"
     }
   ],
   "testsNotRun": [
@@ -42,7 +42,10 @@
     "UNIT_NOT_RUN",
     "LIVE_API_NOT_RUN",
     "FULL_E2E_DEFERRED_TO_PHASE_09",
-    "PHYSICAL_DEVICE_TEST_DEFERRED_TO_PHASE_09"
+    "PHYSICAL_DEVICE_TEST_DEFERRED_TO_PHASE_09",
+    "CORRECTION_INDEPENDENT_RE_REVIEW_NOT_RUN",
+    "MOCK_CONTRACT_NOT_RUN",
+    "PHASE09_ALL_REAL_E2E_DEFERRED"
   ],
   "blockers": [
     "Installed Grimmory image/DB/mount/version unknown",
@@ -67,7 +70,7 @@
     "spec": "https://app.notion.com/p/407c7efbc00981f1a9c6ccb0de5d6a54",
     "playbook": "https://app.notion.com/p/407c7efbc009814a9e18f0d945ee0ef0"
   },
-  "nextAction": "Address all R-01..R-12 in independent phase-00/REVIEW.md, correct docs/fixtures/ACL proof and re-review on Draft PR #2 before any CONTRACT_LOCKED/Phase01; no merge, real E2E only Phase09.",
+  "nextAction": "Read source remediation and Reviewer CHANGES_REQUIRED, obtain fresh independent review of this correction diff on Draft PR #2. Phase01 is NOT authorized.",
   "updatedAt": "2026-10-29",
   "sourceRecheck": "IMPLEMENTER_SOURCE_RECHECK_NOT_INDEPENDENT",
   "prStatus": "OPEN_DRAFT_RECHECK",
@@ -75,5 +78,8 @@
   "priorMergedPrCommit": "5470c7ad807cb701381ae8bcd9abe516f351b150",
   "reviewVerdict": "CHANGES_REQUIRED",
   "reviewedPreReviewHead": "5eccac25c8e85e16cfa913b72ae36bc6a3ceeed8",
-  "reviewReport": "docs/implementation/phase-00/REVIEW.md"
+  "reviewReport": "docs/implementation/phase-00/REVIEW.md",
+  "independentReReview": "NOT_RUN",
+  "correctionReport": "docs/implementation/phase-00/REMEDIATION.md",
+  "correctionScope": "R-01_TO_R-12_DOCS_ONLY"
 }
