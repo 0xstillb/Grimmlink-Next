@@ -8,7 +8,10 @@ export interface OfficialClient {
 export function createDisabledOfficialClient(): OfficialClient {
   return {
     getBookMetadata: async () => {
-      throw new UpstreamDisabledError("Official REST connectivity is not authorized in Phase01");
+      throw new UpstreamDisabledError("Official live REST connectivity is not authorized in Phase02");
     },
   };
 }
+
+// Only the explicitly injected fake transport is available in Phase02.
+export * from "./mock-transport.js";
