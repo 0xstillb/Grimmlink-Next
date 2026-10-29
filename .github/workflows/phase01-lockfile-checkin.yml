@@ -1,0 +1,45 @@
+name: Phase01 lockfile generator (one-shot feature branch only)
+on:
+  push:
+    branches: [feat/next-phase-01]
+    paths: [".github/workflows/phase01-lockfile-checkin.yml"]
+permissions:
+  contents: write
+jobs:
+  lock:
+    if: github.repository == '0xstillb/Grimmlink-Next'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.18.3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Generate and validate deterministic lock
+        run: |
+          pnpm install --lockfile-only --no-frozen-lockfile
+          pnpm install --frozen-lockfile
+          pnpm rebuild better-sqlite3
+          pnpm build && pnpm typecheck && pnpm test
+      - name: Commit generated lock without rewriting concurrent work
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git branch --show-current)" = "feat/next-phase-01"
+          git add pnpm-lock.yaml
+          if git diff --cached --quiet; then
+            echo "Lock already current"
+            exit 0
+          fi
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "build(phase-01): check in validated deterministic pnpm lockfile"
+          remote_sha=$(git ls-remote origin refs/heads/feat/next-phase-01 | cut -f1)
+          if [ "$remote_sha" != "$GITHUB_SHA" ]; then
+            echo "Branch advanced, refusing stale push"
+            exit 1
+          fi
+          git push origin HEAD:refs/heads/feat/next-phase-01
