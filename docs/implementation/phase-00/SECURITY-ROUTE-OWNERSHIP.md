@@ -1,3 +1,11 @@
+## LATEST — SOURCE INHERITANCE & KO LOG-SINK CORRECTION EVIDENCE (2026-10-29; NO REVIEWER APPROVAL)
+
+**Static CI [40828172115](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40828172115) SUCCESS**: 160 extends/implements source files classified, 0 direct annotation-mapped handlers in flagged set; 65 repository interfaces have no observed Spring Data REST dependency/source registration indicators, **not proof of no alternate exposure**. Exactly 2 web config files have source programmatic registration signals. KO registration logs userData at WARN, while separate generic request logger is configured for payload and headers without explicit x-auth-user/x-auth-key exclusions; operational log emission and ingress NOT_RUN. **103 unique synthetic fixtures static PASS**, real gateway/http/log-sink tests NOT_RUN. [Full source and log-risk receipt](PHASE00-INHERITANCE-AND-KO-LOGGING-TRIAGE-2026-10-29.md).
+
+Still **NEW-P0-01 BLOCKED / CHANGES_REQUIRED / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED**. Owner and per-book ACL proof still missing; no self-PASS, no PR merge. Historic records below preserved.
+
+---
+
 ## LATEST VERIFIED STATIC EVIDENCE — Phase00 Route Semantics, 2026-10-29 (NOT Independent Approval)
 
 [CI run 40819253130](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40819253130): pinned 923/923 Java bodies SHA-verified and AST parsed (0 errors), 64 Controller markers, 63 class +348 method =411 mapping annotations, **403 static method/path/verb declarations (not runtime route count)**. All method paths resolved; **15 symbolic consumes/produces conditions** remain. **223 security annotation signals**, **15 programmatic** and **2 framework-type signals**; **43 mutation handlers without local annotations** require global/service ACL investigation, not proof of unauthenticated access.

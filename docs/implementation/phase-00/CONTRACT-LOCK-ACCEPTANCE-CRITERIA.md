@@ -1,3 +1,11 @@
+## LATEST — SOURCE INHERITANCE & KO LOG-SINK CORRECTION EVIDENCE (2026-10-29; NO REVIEWER APPROVAL)
+
+**Static CI [40828172115](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40828172115) SUCCESS**: 160 extends/implements source files classified, 0 direct annotation-mapped handlers in flagged set; 65 repository interfaces have no observed Spring Data REST dependency/source registration indicators, **not proof of no alternate exposure**. Exactly 2 web config files have source programmatic registration signals. KO registration logs userData at WARN, while separate generic request logger is configured for payload and headers without explicit x-auth-user/x-auth-key exclusions; operational log emission and ingress NOT_RUN. **103 unique synthetic fixtures static PASS**, real gateway/http/log-sink tests NOT_RUN. [Full source and log-risk receipt](PHASE00-INHERITANCE-AND-KO-LOGGING-TRIAGE-2026-10-29.md).
+
+Still **NEW-P0-01 BLOCKED / CHANGES_REQUIRED / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED**. Owner and per-book ACL proof still missing; no self-PASS, no PR merge. Historic records below preserved.
+
+---
+
 ## CURRENT SOURCE PROOF CHECKPOINT — 2026-10-29 (IMPLEMENTER; NOT INDEPENDENT PASS)
 
 [CI 40821817455](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40821817455) verifies **923/923 pinned Java bodies SHA+AST**, 348 method handlers/403 source declarations (NOT runtime routes), **15/15 source symbolic constants** (9 pinned OPDS +6 locked spring-web 7.0.9 MediaType), **9 sensitive call chains and 37 source witnesses**, **101 fixture definitions STATIC_PASS, actual tests NOT_RUN**. [Source ACL evidence receipt](PHASE00-PINNED-SOURCE-SEMANTIC-ACL-RECEIPT-2026-10-29.md). 43 mutating handlers without local auth annotations and 160 lexical inheritance class flags remain source-review priorities. No runtime ACL/gateway proof, no independent re-review PASS. **NEW-P0-01 BLOCKED / CHANGES_REQUIRED / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED**. Historical older checkpoint contents below are superseded for 15 symbolic values and 97 current fixtures only.
