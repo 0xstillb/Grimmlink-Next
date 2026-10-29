@@ -18,6 +18,7 @@ describe("local durable SQLite", () => {
       expect(claimJob(store.sqlite,"worker-a",200,1000)).toBe("j1");
       expect(claimJob(store.sqlite,"worker-b",201,1000)).toBeNull();
       expect(claimJob(store.sqlite,"worker-b",1200,1000)).toBe("j1");
+      expect(() => claimJob(store.sqlite, "worker-a", Number.MAX_SAFE_INTEGER, 1000)).toThrow("Lease expiry out of range");
       store.close();
     } finally { rmSync(dir, { recursive:true, force:true }); }
   });
