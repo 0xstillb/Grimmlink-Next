@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "status": "NOT_RUN",
+  "status": "PARTIAL_SPRING_RUNTIME_CAPTURED_HARD_GATES_OPEN",
   "pinnedUpstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
   "sourceRouteVariants": 403,
-  "liveSpringHandlerMappings": "NOT_RUN",
-  "orderedSecurityFilterChains": "NOT_RUN",
-  "effectiveRouteReconciliation": "NOT_RUN",
+  "liveSpringHandlerMappings": "CAPTURED_RUNTIME_352_HANDLERS",
+  "orderedSecurityFilterChains": "CAPTURED_RUNTIME_12_CHAINS",
+  "effectiveRouteReconciliation": "346_SOURCE_HANDLER_IDENTITIES_PRESENT_EXACT_HTTP_MATCH_NOT_PROVEN",
   "opdsRootHeadOptionsAliases": "NOT_RUN",
   "staticWebSocketKoboKomga": "NOT_RUN",
   "directIpv4Ipv6ContainerIngress": "NOT_RUN",
@@ -16,5 +16,15 @@
   "officialGatewayForwarding": "DENY_ALL",
   "nativeKosyncProgress": "OFF",
   "productionDeployment": "NOT_AUTHORIZED",
-  "fullIntegratedE2e": "DEFERRED_TO_PHASE_09"
+  "fullIntegratedE2e": "DEFERRED_TO_PHASE_09",
+  "runtimeCapture": {
+    "run": "40918459916",
+    "sourceHead": "30b7d22c2297d2e022dd68538c4fc26072606080",
+    "artifactId": "12918045157",
+    "pinnedUpstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+    "actualSpringHandlerCount": 352,
+    "actualSecurityChainCount": 12,
+    "sourceHandlerIdentitiesPresent": 346,
+    "status": "ISOLATED_H2_SPRING_BOOT_NO_REAL_ACL"
+  }
 }
