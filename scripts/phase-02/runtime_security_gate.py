@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Phase02 HOLD gate: prove documentary zero-forwarding WITHOUT inventing live Spring evidence.
+"""Phase02 HOLD gate: keep runtime-registered Spring metadata distinct from ACL authorization.
 
 By design this checker cannot award runtime authorization from static findings.
 Live Spring/ingress/current-rights verification and separate owner signoff
@@ -15,9 +15,9 @@ SESSION = ROOT / "docs/implementation/ACTIVE-SESSION.json"
 EVIDENCE = ROOT / "docs/implementation/phase-02/RUNTIME-SECURITY-EVIDENCE.json"
 
 EXPECTED = {
-    "liveSpringHandlerMappings": "NOT_RUN",
-    "orderedSecurityFilterChains": "NOT_RUN",
-    "effectiveRouteReconciliation": "NOT_RUN",
+    "liveSpringHandlerMappings": "CAPTURED_RUNTIME_352_HANDLERS",
+    "orderedSecurityFilterChains": "CAPTURED_RUNTIME_12_CHAINS",
+    "effectiveRouteReconciliation": "346_SOURCE_HANDLER_IDENTITIES_PRESENT_EXACT_HTTP_MATCH_NOT_PROVEN",
     "opdsRootHeadOptionsAliases": "NOT_RUN",
     "staticWebSocketKoboKomga": "NOT_RUN",
     "directIpv4Ipv6ContainerIngress": "NOT_RUN",
@@ -39,7 +39,7 @@ def verify_hold(root: Path = ROOT) -> dict:
     source = read("docs/implementation/phase-00/SOURCE-403-SECURITY-CHAIN-CANDIDATES.json")
     current = read("docs/implementation/ACTIVE-SESSION.json")
     evidence = read("docs/implementation/phase-02/RUNTIME-SECURITY-EVIDENCE.json")
-    if evidence.get("schemaVersion") != 1 or evidence.get("status") != "NOT_RUN":
+    if evidence.get("schemaVersion") != 1 or evidence.get("status") != "PARTIAL_SPRING_RUNTIME_CAPTURED_HARD_GATES_OPEN":
         raise ValueError("Phase02 runtime status cannot be self-granted from static evidence")
     if source.get("sourceRouteVariants") != 403 or source.get("runtimeSpringMatching") != "NOT_RUN":
         raise ValueError("Phase00 source evidence changed; requires source/runtime re-review")
@@ -49,8 +49,20 @@ def verify_hold(root: Path = ROOT) -> dict:
         raise ValueError("Upstream pin mismatch")
     if any(evidence.get(k) != v for k, v in EXPECTED.items()):
         raise ValueError("Phase02 runtime evidence changed without separately approved acceptance")
+    runtime = evidence.get("runtimeCapture", {})
+    if runtime != {
+        "run": "40918459916",
+        "sourceHead": "30b7d22c2297d2e022dd68538c4fc26072606080",
+        "artifactId": "12918045157",
+        "pinnedUpstreamCommit": source.get("upstreamCommit"),
+        "actualSpringHandlerCount": 352,
+        "actualSecurityChainCount": 12,
+        "sourceHandlerIdentitiesPresent": 346,
+        "status": "ISOLATED_H2_SPRING_BOOT_NO_REAL_ACL",
+    }:
+        raise ValueError("Runtime capture provenance or scope differs from verified GitHub CI")
     if set(evidence) != (set(EXPECTED) | {
-        "schemaVersion", "status", "pinnedUpstreamCommit", "sourceRouteVariants"
+        "schemaVersion", "status", "pinnedUpstreamCommit", "sourceRouteVariants", "runtimeCapture"
     }):
         raise ValueError("Unknown or missing runtime receipt field")
     if current.get("safety", {}).get("officialGatewayForwarding") != "DENY_ALL":
@@ -59,8 +71,8 @@ def verify_hold(root: Path = ROOT) -> dict:
     if phase.get("runtimeSecurityAuthorized") is not False:
         raise ValueError("Phase02 security cannot authorize itself")
     return {
-        "phase": "02", "status": "BLOCKED_RUNTIME_PROOF_NOT_RUN",
-        "sourceRouteVariants": 403, "effectiveSpringRoutes": "UNVERIFIED",
+        "phase": "02", "status": "BLOCKED_RUNTIME_AUTHORIZATION_NOT_PROVEN",
+        "sourceRouteVariants": 403, "effectiveSpringRoutes": "METADATA_CAPTURED_AUTHZ_NOT_PROVEN",
         "runtimeAuthorized": False, "officialGatewayForwarding": "DENY_ALL",
     }
 
