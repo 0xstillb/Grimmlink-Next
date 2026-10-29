@@ -60,4 +60,4 @@ services:
         max-file: "3"
 networks:
   isolated-mock:
-    internal: true
+    driver: bridge
