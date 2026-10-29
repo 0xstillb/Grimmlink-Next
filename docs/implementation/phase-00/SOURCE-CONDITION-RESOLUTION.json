@@ -1,0 +1,330 @@
+{
+  "schemaVersion": 1,
+  "sourcePin": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+  "sourceOnly": true,
+  "symbolicConditions": 15,
+  "resolvedFromPinnedLocalSource": 9,
+  "unresolvedThirdPartyOrDynamic": 6,
+  "mappingConditions": [
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/controller/AuthorController.java",
+      "fileBlobSha": "b9516b34c0aa7d9e2be7aed24f40ba1553297b9b",
+      "sourceLine": 130,
+      "handlerIdentity": "AuthorController#autoMatchAuthors",
+      "level": "method",
+      "field": "produces",
+      "sourceExpression": "MediaType.TEXT_EVENT_STREAM_VALUE",
+      "resolvedLiteralValues": null,
+      "declarationProof": null,
+      "classification": "UNRESOLVED_EXTERNAL_OR_DYNAMIC_SYMBOL"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/controller/AuthorController.java",
+      "fileBlobSha": "b9516b34c0aa7d9e2be7aed24f40ba1553297b9b",
+      "sourceLine": 147,
+      "handlerIdentity": "AuthorController#searchAuthorPhotos",
+      "level": "method",
+      "field": "produces",
+      "sourceExpression": "MediaType.TEXT_EVENT_STREAM_VALUE",
+      "resolvedLiteralValues": null,
+      "declarationProof": null,
+      "classification": "UNRESOLVED_EXTERNAL_OR_DYNAMIC_SYMBOL"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/controller/BookCoverController.java",
+      "fileBlobSha": "c14e4d31a2db932d0adb35923bf2748f4c482450",
+      "sourceLine": 153,
+      "handlerIdentity": "BookCoverController#getImages",
+      "level": "method",
+      "field": "produces",
+      "sourceExpression": "MediaType.TEXT_EVENT_STREAM_VALUE",
+      "resolvedLiteralValues": null,
+      "declarationProof": null,
+      "classification": "UNRESOLVED_EXTERNAL_OR_DYNAMIC_SYMBOL"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+      "fileBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
+      "sourceLine": 85,
+      "handlerIdentity": "KoboController#getThumbnail",
+      "level": "method",
+      "field": "produces",
+      "sourceExpression": "MediaType.IMAGE_JPEG_VALUE",
+      "resolvedLiteralValues": null,
+      "declarationProof": null,
+      "classification": "UNRESOLVED_EXTERNAL_OR_DYNAMIC_SYMBOL"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/controller/MetadataController.java",
+      "fileBlobSha": "8dbb447e78700b634fd16d1eead15fb8ce72e9ef",
+      "sourceLine": 40,
+      "handlerIdentity": "MetadataController#getMetadataList",
+      "level": "method",
+      "field": "produces",
+      "sourceExpression": "MediaType.TEXT_EVENT_STREAM_VALUE",
+      "resolvedLiteralValues": null,
+      "declarationProof": null,
+      "classification": "UNRESOLVED_EXTERNAL_OR_DYNAMIC_SYMBOL"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/controller/OidcAuthController.java",
+      "fileBlobSha": "6de4b34e54133898e4d4b63486003bdc41598ce4",
+      "sourceLine": 158,
+      "handlerIdentity": "OidcAuthController#backchannelLogout",
+      "level": "method",
+      "field": "consumes",
+      "sourceExpression": "MediaType.APPLICATION_FORM_URLENCODED_VALUE",
+      "resolvedLiteralValues": null,
+      "declarationProof": null,
+      "classification": "UNRESOLVED_EXTERNAL_OR_DYNAMIC_SYMBOL"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/controller/OpdsController.java",
+      "fileBlobSha": "53ad2fbec94a8c40527d30fec84e26a17915af4b",
+      "sourceLine": 90,
+      "handlerIdentity": "OpdsController#getRootCatalog",
+      "level": "method",
+      "field": "produces",
+      "sourceExpression": "OPDS_CATALOG_MEDIA_TYPE",
+      "resolvedLiteralValues": [
+        "application/atom+xml;profile=opds-catalog;kind=navigation;charset=utf-8"
+      ],
+      "declarationProof": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/OpdsController.java",
+        "sourceLine": 37,
+        "fileBlobSha": "53ad2fbec94a8c40527d30fec84e26a17915af4b",
+        "method": "PINNED_SOURCE_STATIC_FINAL_STRING_LITERAL"
+      },
+      "classification": "PINNED_SOURCE_LOCAL_LITERAL_RESOLVED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/controller/OpdsController.java",
+      "fileBlobSha": "53ad2fbec94a8c40527d30fec84e26a17915af4b",
+      "sourceLine": 100,
+      "handlerIdentity": "OpdsController#getLibrariesNavigation",
+      "level": "method",
+      "field": "produces",
+      "sourceExpression": "OPDS_CATALOG_MEDIA_TYPE",
+      "resolvedLiteralValues": [
+        "application/atom+xml;profile=opds-catalog;kind=navigation;charset=utf-8"
+      ],
+      "declarationProof": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/OpdsController.java",
+        "sourceLine": 37,
+        "fileBlobSha": "53ad2fbec94a8c40527d30fec84e26a17915af4b",
+        "method": "PINNED_SOURCE_STATIC_FINAL_STRING_LITERAL"
+      },
+      "classification": "PINNED_SOURCE_LOCAL_LITERAL_RESOLVED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/controller/OpdsController.java",
+      "fileBlobSha": "53ad2fbec94a8c40527d30fec84e26a17915af4b",
+      "sourceLine": 110,
+      "handlerIdentity": "OpdsController#getShelvesNavigation",
+      "level": "method",
+      "field": "produces",
+      "sourceExpression": "OPDS_CATALOG_MEDIA_TYPE",
+      "resolvedLiteralValues": [
+        "application/atom+xml;profile=opds-catalog;kind=navigation;charset=utf-8"
+      ],
+      "declarationProof": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/OpdsController.java",
+        "sourceLine": 37,
+        "fileBlobSha": "53ad2fbec94a8c40527d30fec84e26a17915af4b",
+        "method": "PINNED_SOURCE_STATIC_FINAL_STRING_LITERAL"
+      },
+      "classification": "PINNED_SOURCE_LOCAL_LITERAL_RESOLVED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/controller/OpdsController.java",
+      "fileBlobSha": "53ad2fbec94a8c40527d30fec84e26a17915af4b",
+      "sourceLine": 120,
+      "handlerIdentity": "OpdsController#getMagicShelvesNavigation",
+      "level": "method",
+      "field": "produces",
+      "sourceExpression": "OPDS_CATALOG_MEDIA_TYPE",
+      "resolvedLiteralValues": [
+        "application/atom+xml;profile=opds-catalog;kind=navigation;charset=utf-8"
+      ],
+      "declarationProof": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/OpdsController.java",
+        "sourceLine": 37,
+        "fileBlobSha": "53ad2fbec94a8c40527d30fec84e26a17915af4b",
+        "method": "PINNED_SOURCE_STATIC_FINAL_STRING_LITERAL"
+      },
+      "classification": "PINNED_SOURCE_LOCAL_LITERAL_RESOLVED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/controller/OpdsController.java",
+      "fileBlobSha": "53ad2fbec94a8c40527d30fec84e26a17915af4b",
+      "sourceLine": 130,
+      "handlerIdentity": "OpdsController#getAuthorsNavigation",
+      "level": "method",
+      "field": "produces",
+      "sourceExpression": "OPDS_CATALOG_MEDIA_TYPE",
+      "resolvedLiteralValues": [
+        "application/atom+xml;profile=opds-catalog;kind=navigation;charset=utf-8"
+      ],
+      "declarationProof": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/OpdsController.java",
+        "sourceLine": 37,
+        "fileBlobSha": "53ad2fbec94a8c40527d30fec84e26a17915af4b",
+        "method": "PINNED_SOURCE_STATIC_FINAL_STRING_LITERAL"
+      },
+      "classification": "PINNED_SOURCE_LOCAL_LITERAL_RESOLVED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/controller/OpdsController.java",
+      "fileBlobSha": "53ad2fbec94a8c40527d30fec84e26a17915af4b",
+      "sourceLine": 140,
+      "handlerIdentity": "OpdsController#getSeriesNavigation",
+      "level": "method",
+      "field": "produces",
+      "sourceExpression": "OPDS_CATALOG_MEDIA_TYPE",
+      "resolvedLiteralValues": [
+        "application/atom+xml;profile=opds-catalog;kind=navigation;charset=utf-8"
+      ],
+      "declarationProof": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/OpdsController.java",
+        "sourceLine": 37,
+        "fileBlobSha": "53ad2fbec94a8c40527d30fec84e26a17915af4b",
+        "method": "PINNED_SOURCE_STATIC_FINAL_STRING_LITERAL"
+      },
+      "classification": "PINNED_SOURCE_LOCAL_LITERAL_RESOLVED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/controller/OpdsController.java",
+      "fileBlobSha": "53ad2fbec94a8c40527d30fec84e26a17915af4b",
+      "sourceLine": 150,
+      "handlerIdentity": "OpdsController#getCatalog",
+      "level": "method",
+      "field": "produces",
+      "sourceExpression": "OPDS_ACQUISITION_MEDIA_TYPE",
+      "resolvedLiteralValues": [
+        "application/atom+xml;profile=opds-catalog;kind=acquisition;charset=utf-8"
+      ],
+      "declarationProof": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/OpdsController.java",
+        "sourceLine": 38,
+        "fileBlobSha": "53ad2fbec94a8c40527d30fec84e26a17915af4b",
+        "method": "PINNED_SOURCE_STATIC_FINAL_STRING_LITERAL"
+      },
+      "classification": "PINNED_SOURCE_LOCAL_LITERAL_RESOLVED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/controller/OpdsController.java",
+      "fileBlobSha": "53ad2fbec94a8c40527d30fec84e26a17915af4b",
+      "sourceLine": 161,
+      "handlerIdentity": "OpdsController#getRecentBooks",
+      "level": "method",
+      "field": "produces",
+      "sourceExpression": "OPDS_ACQUISITION_MEDIA_TYPE",
+      "resolvedLiteralValues": [
+        "application/atom+xml;profile=opds-catalog;kind=acquisition;charset=utf-8"
+      ],
+      "declarationProof": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/OpdsController.java",
+        "sourceLine": 38,
+        "fileBlobSha": "53ad2fbec94a8c40527d30fec84e26a17915af4b",
+        "method": "PINNED_SOURCE_STATIC_FINAL_STRING_LITERAL"
+      },
+      "classification": "PINNED_SOURCE_LOCAL_LITERAL_RESOLVED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/controller/OpdsController.java",
+      "fileBlobSha": "53ad2fbec94a8c40527d30fec84e26a17915af4b",
+      "sourceLine": 172,
+      "handlerIdentity": "OpdsController#getSurpriseFeed",
+      "level": "method",
+      "field": "produces",
+      "sourceExpression": "OPDS_ACQUISITION_MEDIA_TYPE",
+      "resolvedLiteralValues": [
+        "application/atom+xml;profile=opds-catalog;kind=acquisition;charset=utf-8"
+      ],
+      "declarationProof": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/OpdsController.java",
+        "sourceLine": 38,
+        "fileBlobSha": "53ad2fbec94a8c40527d30fec84e26a17915af4b",
+        "method": "PINNED_SOURCE_STATIC_FINAL_STRING_LITERAL"
+      },
+      "classification": "PINNED_SOURCE_LOCAL_LITERAL_RESOLVED"
+    }
+  ],
+  "unresolved": [
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/controller/AuthorController.java",
+      "fileBlobSha": "b9516b34c0aa7d9e2be7aed24f40ba1553297b9b",
+      "sourceLine": 130,
+      "handlerIdentity": "AuthorController#autoMatchAuthors",
+      "level": "method",
+      "field": "produces",
+      "sourceExpression": "MediaType.TEXT_EVENT_STREAM_VALUE",
+      "resolvedLiteralValues": null,
+      "declarationProof": null,
+      "classification": "UNRESOLVED_EXTERNAL_OR_DYNAMIC_SYMBOL"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/controller/AuthorController.java",
+      "fileBlobSha": "b9516b34c0aa7d9e2be7aed24f40ba1553297b9b",
+      "sourceLine": 147,
+      "handlerIdentity": "AuthorController#searchAuthorPhotos",
+      "level": "method",
+      "field": "produces",
+      "sourceExpression": "MediaType.TEXT_EVENT_STREAM_VALUE",
+      "resolvedLiteralValues": null,
+      "declarationProof": null,
+      "classification": "UNRESOLVED_EXTERNAL_OR_DYNAMIC_SYMBOL"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/controller/BookCoverController.java",
+      "fileBlobSha": "c14e4d31a2db932d0adb35923bf2748f4c482450",
+      "sourceLine": 153,
+      "handlerIdentity": "BookCoverController#getImages",
+      "level": "method",
+      "field": "produces",
+      "sourceExpression": "MediaType.TEXT_EVENT_STREAM_VALUE",
+      "resolvedLiteralValues": null,
+      "declarationProof": null,
+      "classification": "UNRESOLVED_EXTERNAL_OR_DYNAMIC_SYMBOL"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+      "fileBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
+      "sourceLine": 85,
+      "handlerIdentity": "KoboController#getThumbnail",
+      "level": "method",
+      "field": "produces",
+      "sourceExpression": "MediaType.IMAGE_JPEG_VALUE",
+      "resolvedLiteralValues": null,
+      "declarationProof": null,
+      "classification": "UNRESOLVED_EXTERNAL_OR_DYNAMIC_SYMBOL"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/controller/MetadataController.java",
+      "fileBlobSha": "8dbb447e78700b634fd16d1eead15fb8ce72e9ef",
+      "sourceLine": 40,
+      "handlerIdentity": "MetadataController#getMetadataList",
+      "level": "method",
+      "field": "produces",
+      "sourceExpression": "MediaType.TEXT_EVENT_STREAM_VALUE",
+      "resolvedLiteralValues": null,
+      "declarationProof": null,
+      "classification": "UNRESOLVED_EXTERNAL_OR_DYNAMIC_SYMBOL"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/controller/OidcAuthController.java",
+      "fileBlobSha": "6de4b34e54133898e4d4b63486003bdc41598ce4",
+      "sourceLine": 158,
+      "handlerIdentity": "OidcAuthController#backchannelLogout",
+      "level": "method",
+      "field": "consumes",
+      "sourceExpression": "MediaType.APPLICATION_FORM_URLENCODED_VALUE",
+      "resolvedLiteralValues": null,
+      "declarationProof": null,
+      "classification": "UNRESOLVED_EXTERNAL_OR_DYNAMIC_SYMBOL"
+    }
+  ],
+  "unresolvedRuntimeEquivalentProof": true,
+  "SOURCE_ANNOTATION_COMPLETE": false,
+  "RUNTIME_ROUTE_COMPLETE": "NOT_RUN"
+}
