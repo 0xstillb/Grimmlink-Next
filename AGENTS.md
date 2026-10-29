@@ -43,7 +43,7 @@ Do not assume the CLI has access to Notion. Use links or approved local snapshot
 
 ## PHASE 00 kickoff
 
-Read [docs/implementation/phase-00/START-HERE.md](docs/implementation/phase-00/START-HERE.md). The current files are a **bootstrap scaffold**, not a completed Phase 00 audit.
+Read [docs/implementation/phase-00/START-HERE.md](docs/implementation/phase-00/START-HERE.md), [independent REVIEW.md](docs/implementation/phase-00/REVIEW.md), and [implementer REMEDIATION.md](docs/implementation/phase-00/REMEDIATION.md). Phase00 source audit and correction docs exist, but **independent verdict CHANGES_REQUIRED remains**, re-review pending, NOT CONTRACT_LOCKED; design flags are not runtime implementation.
 
 ## GPT Web-First workflow — current execution policy (2026-10-28)
 
