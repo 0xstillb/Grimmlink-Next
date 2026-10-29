@@ -1,0 +1,35 @@
+name: Phase 01 Foundation (isolated)
+on:
+  push:
+    branches: [feat/next-phase-01]
+  pull_request:
+    branches: [integration/grimmlink-next]
+permissions:
+  contents: read
+jobs:
+  foundation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.18.3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install workspace dependencies (lockfile pending)
+        run: pnpm install --no-frozen-lockfile
+      - name: Build packages and UI
+        run: pnpm build
+      - name: Typecheck
+        run: pnpm typecheck
+      - name: Unit and injected mock tests only
+        run: pnpm test
+      - name: Preserve generated lock for follow-up review
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase01-proposed-pnpm-lock
+          path: pnpm-lock.yaml
+          if-no-files-found: warn
+          retention-days: 7
