@@ -1,3 +1,11 @@
+## CURRENT — Phase00 DESIGN-ONLY CONTRACT LOCK (2026-10-29; fresh-context review)
+
+**Latest authoritative disposition:** `PASS_PHASE00_DESIGN_ONLY`, `CONTRACT_LOCKED_DESIGN_ONLY`, `PHASE01_AUTHORIZED=FOUNDATION_ONLY`. A separate GPT-6 fresh context reviewed pinned pre-review HEAD [f071229d](https://github.com/0xstillb/Grimmlink-Next/commit/f071229d9d9a1b7fb680cb68f83c763bc53138c6), upstream source, PR #2 and Phase00's Notion acceptance scope. [New independent design-only review](docs/implementation/phase-00/FRESH-CONTEXT-DESIGN-LOCK-REVIEW-2026-10-29.md). **Not an approval by a separate GitHub human account.** Historical `CHANGES_REQUIRED` reviewer reports are preserved.
+
+**Only Phase01 TS core, persistence and observability may begin.** No upstream HTTP exposure or sensitive feature is authorized. Source census 923 SHA/AST files, 403 static method/path/verb variants, 348 handler mappings, 43 priority source reviews and 109 fixture definitions were verified by prior source/static CI. These are NOT effective runtime routes, applied authorization, or live negative tests. All 403 gateway forwarding candidates remain DENY; KO Native progress, metadataApply, personal/app reset/rating, managedProjection and session bridge remain BLOCKED/OFF by **design, not deployed enforcement**. Actual Spring runtime SecurityFilterChain, gateway isolation, per-user/book/file ACL, KO secret-safe logging and SQLite faults remain Phase02/05/07 hard gates; full Hermes/NAS/device integrated E2E Phase09. No main/production changes. PR #2 integration merge is a separate action after exact HEAD CI and policy review.
+
+---
+
 ## PHASE00 LATEST REVIEW-GATE EVIDENCE — 2026-10-29: INDEPENDENT PASS STILL REQUIRED
 
 [GitHub Actions 40831672425](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40831672425) SUCCESS: 403/403 pinned Official method/path/verb source variants classified against ordered SecurityConfig source chain candidates; all 403 DENY gateway forwarding, not executable runtime Spring authorization. **348 mapping records but only 346 unique method names** due to overloaded BookCoverController#regenerateCovers and FileUploadController#uploadFile. Fixed source-key collision by using file + mapping line + handler. Exactly one representative matcher ambiguity for /api/v1/opds versus OPDS /** root; runtime decision NOT_RUN.
