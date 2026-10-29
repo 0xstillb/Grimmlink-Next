@@ -10,6 +10,8 @@ describe("adapter environment", () => {
     expect(() => validateEnvironment({ PORT: 70000 })).toThrow(ConfigurationError);
   });
   it("never echoes provided secrets on validation failure", () => {
-    expect(() => validateEnvironment({ PORT: "secret-plaintext" })).toThrow("values intentionally redacted");
+    expect(() => validateEnvironment({ PORT: "secret-plaintext" })).toThrow(
+      "values intentionally redacted",
+    );
   });
 });

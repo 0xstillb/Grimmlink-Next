@@ -5,5 +5,5 @@ export interface IngestionPlan {
 }
 /** No OPF read/write or metadata mutation in Phase01. */
 export function planIngestion(): IngestionPlan {
-  return Object.freeze({ action:"DRY_RUN_ONLY", source:"NAS_OPF", writesAllowed:false });
+  return Object.freeze({ action: "DRY_RUN_ONLY", source: "NAS_OPF", writesAllowed: false });
 }

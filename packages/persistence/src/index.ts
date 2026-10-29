@@ -1,13 +1,30 @@
 import Database from "better-sqlite3";
 import { drizzle, type BetterSQLite3Database } from "drizzle-orm/better-sqlite3";
 import { migrate } from "drizzle-orm/better-sqlite3/migrator";
-import { constants, chmodSync, closeSync, existsSync, fsyncSync, linkSync, lstatSync, mkdirSync, openSync, readSync, rmSync, writeSync } from "node:fs";
+import {
+  constants,
+  chmodSync,
+  closeSync,
+  existsSync,
+  fsyncSync,
+  linkSync,
+  lstatSync,
+  mkdirSync,
+  openSync,
+  readSync,
+  rmSync,
+  writeSync,
+} from "node:fs";
 import { randomUUID } from "node:crypto";
 import { dirname, join, parse, resolve, sep } from "node:path";
 import * as schema from "./schema.js";
 export * from "./schema.js";
 
-export interface LocalStore { sqlite: Database.Database; orm: BetterSQLite3Database<typeof schema>; close: () => void; }
+export interface LocalStore {
+  sqlite: Database.Database;
+  orm: BetterSQLite3Database<typeof schema>;
+  close: () => void;
+}
 
 /**
  * Walk paths one component at a time; never traverse symlinks or create a
@@ -33,8 +50,10 @@ function preparePrivateDirectory(parent: string): void {
     }
   }
   const directory = lstatSync(absolute);
-  if ((directory.mode & 0o077) !== 0 ||
-      (typeof process.getuid === "function" && directory.uid !== process.getuid())) {
+  if (
+    (directory.mode & 0o077) !== 0 ||
+    (typeof process.getuid === "function" && directory.uid !== process.getuid())
+  ) {
     throw new Error("Local SQLite directory must be private (0700) and owned by the process");
   }
 }
@@ -47,7 +66,11 @@ export function openLocalStore(filePath: string, migrationsFolder: string): Loca
   // SQLite may create its DB with umask-dependent 0644 rights by default.
   // Fail closed on shared directories and links before any migration/write.
   try {
-    const fd = openSync(path, constants.O_CREAT | constants.O_EXCL | constants.O_RDWR | constants.O_NOFOLLOW, 0o600);
+    const fd = openSync(
+      path,
+      constants.O_CREAT | constants.O_EXCL | constants.O_RDWR | constants.O_NOFOLLOW,
+      0o600,
+    );
     closeSync(fd);
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
@@ -73,19 +96,34 @@ export function openLocalStore(filePath: string, migrationsFolder: string): Loca
 }
 
 /** Atomic local job reservation. Does not contact any upstream service. */
-export function claimJob(sqlite: Database.Database, leaseOwner: string, now: number, ttlMs: number): string | null {
-  if (!leaseOwner || !Number.isSafeInteger(now) || !Number.isSafeInteger(ttlMs) || ttlMs <= 0 || ttlMs > 300000) {
+export function claimJob(
+  sqlite: Database.Database,
+  leaseOwner: string,
+  now: number,
+  ttlMs: number,
+): string | null {
+  if (
+    !leaseOwner ||
+    !Number.isSafeInteger(now) ||
+    !Number.isSafeInteger(ttlMs) ||
+    ttlMs <= 0 ||
+    ttlMs > 300000
+  ) {
     throw new Error("Invalid lease request");
   }
   if (!Number.isSafeInteger(now + ttlMs)) throw new Error("Lease expiry out of range");
   const tx = sqlite.transaction(() => {
-    const row = sqlite.prepare(
-      "SELECT id FROM jobs WHERE status = 'PENDING' OR (status = 'LEASED' AND lease_until <= ?) ORDER BY created_at ASC LIMIT 1"
-    ).get(now) as { id: string } | undefined;
+    const row = sqlite
+      .prepare(
+        "SELECT id FROM jobs WHERE status = 'PENDING' OR (status = 'LEASED' AND lease_until <= ?) ORDER BY created_at ASC LIMIT 1",
+      )
+      .get(now) as { id: string } | undefined;
     if (!row) return null;
-    sqlite.prepare(
-      "UPDATE jobs SET status = 'LEASED', lease_owner = ?, lease_until = ?, attempt_count = attempt_count + 1 WHERE id = ?"
-    ).run(leaseOwner, now + ttlMs, row.id);
+    sqlite
+      .prepare(
+        "UPDATE jobs SET status = 'LEASED', lease_owner = ?, lease_until = ?, attempt_count = attempt_count + 1 WHERE id = ?",
+      )
+      .run(leaseOwner, now + ttlMs, row.id);
     return row.id;
   });
   return tx.immediate();
@@ -95,7 +133,10 @@ export function claimJob(sqlite: Database.Database, leaseOwner: string, now: num
  * SQLite online backup API captures a consistent snapshot even in WAL mode.
  * Never overwrites an existing destination; intended only for local adapter DB.
  */
-export async function createVerifiedBackup(sqlite: Database.Database, target: string): Promise<string> {
+export async function createVerifiedBackup(
+  sqlite: Database.Database,
+  target: string,
+): Promise<string> {
   const finalPath = resolve(target);
   if (existsSync(finalPath)) throw new Error("Backup destination already exists");
   preparePrivateDirectory(dirname(finalPath));
@@ -103,7 +144,11 @@ export async function createVerifiedBackup(sqlite: Database.Database, target: st
   try {
     // Create private temp inode BEFORE writing SQLite pages. A later chmod
     // would leave a possible world-readable window under permissive umask.
-    const tempFd = openSync(tmp, constants.O_CREAT | constants.O_EXCL | constants.O_WRONLY | constants.O_NOFOLLOW, 0o600);
+    const tempFd = openSync(
+      tmp,
+      constants.O_CREAT | constants.O_EXCL | constants.O_WRONLY | constants.O_NOFOLLOW,
+      0o600,
+    );
     closeSync(tempFd);
     await sqlite.backup(tmp);
     verifySqliteFile(tmp);
@@ -122,7 +167,8 @@ export async function createVerifiedBackup(sqlite: Database.Database, target: st
 export function restoreBackupToNewLocation(backup: string, destination: string): string {
   const source = resolve(backup);
   const target = resolve(destination);
-  if (source === target || existsSync(target)) throw new Error("Restore requires a new destination");
+  if (source === target || existsSync(target))
+    throw new Error("Restore requires a new destination");
   verifySqliteFile(source);
   preparePrivateDirectory(dirname(target));
   // Both destination exclusivity and 0600 permissions are enforced at CREATE,
@@ -131,7 +177,11 @@ export function restoreBackupToNewLocation(backup: string, destination: string):
   let targetFd: number | undefined;
   let created = false;
   try {
-    targetFd = openSync(target, constants.O_CREAT | constants.O_EXCL | constants.O_WRONLY | constants.O_NOFOLLOW, 0o600);
+    targetFd = openSync(
+      target,
+      constants.O_CREAT | constants.O_EXCL | constants.O_WRONLY | constants.O_NOFOLLOW,
+      0o600,
+    );
     created = true;
     const chunk = Buffer.allocUnsafe(64 * 1024);
     while (true) {
@@ -164,7 +214,9 @@ function verifySqliteFile(path: string): void {
   try {
     const result = db.pragma("integrity_check(1)", { simple: true });
     if (result !== "ok") throw new Error("SQLite backup integrity check failed");
-    const found = db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='jobs'").get();
+    const found = db
+      .prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='jobs'")
+      .get();
     if (!found) throw new Error("SQLite backup missing adapter schema");
   } finally {
     db.close();

@@ -9,8 +9,12 @@ const close = async () => {
   closing = true;
   await server.close();
 };
-process.once("SIGTERM", () => { void close(); });
-process.once("SIGINT", () => { void close(); });
+process.once("SIGTERM", () => {
+  void close();
+});
+process.once("SIGINT", () => {
+  void close();
+});
 try {
   await server.listen({ host: config.HOST, port: config.PORT });
 } catch (error) {

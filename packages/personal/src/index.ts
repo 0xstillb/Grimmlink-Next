@@ -3,7 +3,7 @@ export const personalWriteCapability = Object.freeze({
   bookmarks: false,
   annotations: false,
   sessionOutboxTransmit: false,
-  resetProgress: false
+  resetProgress: false,
 } as const);
 export function assertPersonalWriteAuthorized(): never {
   throw new Error("Personal writes require Phase07 row-level authorization");

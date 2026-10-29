@@ -9,7 +9,7 @@ export async function buildServer(logLevel: "info" | "warn" | "error" = "info") 
   const server = Fastify({
     loggerInstance: createLogger("adapter", logLevel),
     genReqId: () => randomUUID(),
-    disableRequestLogging: true
+    disableRequestLogging: true,
   });
   // Plugin registration happens before routes; Fastify builds the OpenAPI
   // document from the same TypeBox route schema, no hand-maintained drift.
@@ -17,21 +17,28 @@ export async function buildServer(logLevel: "info" | "warn" | "error" = "info") 
     openapi: {
       openapi: "3.0.3",
       info: { title: "GrimmLink Next Foundation", version: "0.1.0" },
-      servers: [{ url: "http://127.0.0.1:6060" }]
-    }
+      servers: [{ url: "http://127.0.0.1:6060" }],
+    },
   });
   server.addHook("onSend", async (req, reply, payload) => {
     reply.header("x-correlation-id", req.id);
     return payload;
   });
-  server.get("/health", {
-    schema: { description: "Adapter process only; does not assert backend health", response: { 200: HealthSchema } }
-  }, async (): Promise<Health> => ({
-    status: "foundation-only",
-    upstreamConnected: false,
-    phase: "01",
-    timestamp: new Date().toISOString()
-  }));
+  server.get(
+    "/health",
+    {
+      schema: {
+        description: "Adapter process only; does not assert backend health",
+        response: { 200: HealthSchema },
+      },
+    },
+    async (): Promise<Health> => ({
+      status: "foundation-only",
+      upstreamConnected: false,
+      phase: "01",
+      timestamp: new Date().toISOString(),
+    }),
+  );
   server.get("/openapi.json", { schema: { hide: true } }, async () => server.swagger());
   // NO fallback, Official backend client, reading proxy, or runtime feature toggles.
   return server;

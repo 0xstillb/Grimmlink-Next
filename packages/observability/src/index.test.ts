@@ -5,44 +5,102 @@ import { DiagnosticLeases, createLogger, createScopedDiagnostics } from "./index
 describe("diagnostic leases", () => {
   it("requires administrator authorization", () => {
     const leases = new DiagnosticLeases();
-    expect(() => leases.enable({ module:"adapter", level:"trace", durationMs: 1000, adminAuthorized:false },0)).toThrow();
+    expect(() =>
+      leases.enable(
+        { module: "adapter", level: "trace", durationMs: 1000, adminAuthorized: false },
+        0,
+      ),
+    ).toThrow();
   });
   it("enforces trace maximum and auto expiry", () => {
     const leases = new DiagnosticLeases();
-    expect(() => leases.enable({ module:"adapter", level:"trace", durationMs: 300001, adminAuthorized:true },0)).toThrow();
-    leases.enable({ module:"adapter", level:"trace", durationMs: 300000, adminAuthorized:true },1000);
-    expect(leases.levelFor("adapter",1001)).toBe("trace");
-    expect(leases.levelFor("adapter",301000)).toBe("info");
+    expect(() =>
+      leases.enable(
+        { module: "adapter", level: "trace", durationMs: 300001, adminAuthorized: true },
+        0,
+      ),
+    ).toThrow();
+    leases.enable(
+      { module: "adapter", level: "trace", durationMs: 300000, adminAuthorized: true },
+      1000,
+    );
+    expect(leases.levelFor("adapter", 1001)).toBe("trace");
+    expect(leases.levelFor("adapter", 301000)).toBe("info");
   });
   it("rejects forged levels, invalid time and non-integer durations at runtime", () => {
     const leases = new DiagnosticLeases();
-    expect(() => leases.enable({ module: "adapter", level: "fatal" as never, durationMs: 1000, adminAuthorized: true }, 1000)).toThrow("Invalid diagnostic level");
-    expect(() => leases.enable({ module: "adapter", level: "debug", durationMs: 1.5, adminAuthorized: true }, 1000)).toThrow();
-    expect(() => leases.enable({ module: "adapter", level: "debug", durationMs: 1000, adminAuthorized: true }, Number.MAX_SAFE_INTEGER)).toThrow("Invalid diagnostic clock");
-    leases.enable({ module: "adapter", level: "trace", durationMs: 1000, adminAuthorized: true }, 1000);
+    expect(() =>
+      leases.enable(
+        { module: "adapter", level: "fatal" as never, durationMs: 1000, adminAuthorized: true },
+        1000,
+      ),
+    ).toThrow("Invalid diagnostic level");
+    expect(() =>
+      leases.enable(
+        { module: "adapter", level: "debug", durationMs: 1.5, adminAuthorized: true },
+        1000,
+      ),
+    ).toThrow();
+    expect(() =>
+      leases.enable(
+        { module: "adapter", level: "debug", durationMs: 1000, adminAuthorized: true },
+        Number.MAX_SAFE_INTEGER,
+      ),
+    ).toThrow("Invalid diagnostic clock");
+    leases.enable(
+      { module: "adapter", level: "trace", durationMs: 1000, adminAuthorized: true },
+      1000,
+    );
     expect(leases.levelFor("adapter", Number.NaN)).toBe("info");
   });
   it("does not persist leases across instances", () => {
     const leases = new DiagnosticLeases();
-    leases.enable({ module:"adapter", level:"debug", durationMs: 1000, adminAuthorized:true },0);
-    expect(new DiagnosticLeases().levelFor("adapter",1)).toBe("info");
+    leases.enable(
+      { module: "adapter", level: "debug", durationMs: 1000, adminAuthorized: true },
+      0,
+    );
+    expect(new DiagnosticLeases().levelFor("adapter", 1)).toBe("info");
   });
 });
 
 describe("Pino secret redaction", () => {
   it("redacts top-level and nested secrets, and drops raw request body/headers/query", () => {
     const chunks: string[] = [];
-    const sink = new Writable({ write(chunk, _encoding, next) { chunks.push(String(chunk)); next(); } });
+    const sink = new Writable({
+      write(chunk, _encoding, next) {
+        chunks.push(String(chunk));
+        next();
+      },
+    });
     const logger = createLogger("adapter", "info", sink);
-    logger.info({
-      password: "password-canary", passwordMD5: "md5-canary", token: "token-canary",
-      nested: { password: "nested-canary" },
-      req: { id:"safe-request", method:"GET", url:"/health?token=query-canary",
-        headers: { authorization:"auth-canary", "x-auth-key":"ko-canary" }, body:"body-canary" }
-    }, "redaction canary");
+    logger.info(
+      {
+        password: "password-canary",
+        passwordMD5: "md5-canary",
+        token: "token-canary",
+        nested: { password: "nested-canary" },
+        req: {
+          id: "safe-request",
+          method: "GET",
+          url: "/health?token=query-canary",
+          headers: { authorization: "auth-canary", "x-auth-key": "ko-canary" },
+          body: "body-canary",
+        },
+      },
+      "redaction canary",
+    );
     const output = chunks.join("");
     expect(output).toContain("[REDACTED]");
-    for (const secret of ["password-canary","md5-canary","token-canary","nested-canary","query-canary","auth-canary","ko-canary","body-canary"]) {
+    for (const secret of [
+      "password-canary",
+      "md5-canary",
+      "token-canary",
+      "nested-canary",
+      "query-canary",
+      "auth-canary",
+      "ko-canary",
+      "body-canary",
+    ]) {
       expect(output).not.toContain(secret);
     }
   });
@@ -51,14 +109,23 @@ describe("Pino secret redaction", () => {
 describe("final sink protection against deep secrets and free-form logging", () => {
   it("omits arbitrary nested fields, root headers, child bindings and raw string messages", () => {
     const chunks: string[] = [];
-    const sink = new Writable({ write(chunk, _encoding, done) { chunks.push(String(chunk)); done(); } });
+    const sink = new Writable({
+      write(chunk, _encoding, done) {
+        chunks.push(String(chunk));
+        done();
+      },
+    });
     const logger = createLogger("adapter", "info", sink);
-    logger.info({
-      context: { auth: { token: "deep-token-canary", password: "deep-password-canary" } },
-      payload: { user: { credentials: { secret: "deep-secret-canary" } } },
-      headers: { authorization: "root-header-canary" },
-      code: "REQUEST_SUMMARY", count: 3,
-    }, "raw-message-secret-canary");
+    logger.info(
+      {
+        context: { auth: { token: "deep-token-canary", password: "deep-password-canary" } },
+        payload: { user: { credentials: { secret: "deep-secret-canary" } } },
+        headers: { authorization: "root-header-canary" },
+        code: "REQUEST_SUMMARY",
+        count: 3,
+      },
+      "raw-message-secret-canary",
+    );
     logger.info("standalone-message-secret-canary");
     logger.child({ nested: { jwt: "child-binding-canary" } }).warn("child-message-secret-canary");
     const output = chunks.join("");
@@ -66,9 +133,14 @@ describe("final sink protection against deep secrets and free-form logging", () 
     expect(output).toContain("[REDACTED]");
     expect(output).toContain("LOG_DETAILS_OMITTED");
     for (const secret of [
-      "deep-token-canary", "deep-password-canary", "deep-secret-canary",
-      "root-header-canary", "raw-message-secret-canary", "standalone-message-secret-canary",
-      "child-binding-canary", "child-message-secret-canary",
+      "deep-token-canary",
+      "deep-password-canary",
+      "deep-secret-canary",
+      "root-header-canary",
+      "raw-message-secret-canary",
+      "standalone-message-secret-canary",
+      "child-binding-canary",
+      "child-message-secret-canary",
     ]) {
       expect(output).not.toContain(secret);
     }
@@ -78,8 +150,13 @@ describe("final sink protection against deep secrets and free-form logging", () 
 describe("bounded diagnostics and error sanitization", () => {
   it("does not print thrown Error.message or stack", () => {
     const chunks: string[] = [];
-    const sink = new Writable({ write(c,_enc,done) { chunks.push(String(c)); done(); } });
-    const logger = createLogger("adapter","info",sink);
+    const sink = new Writable({
+      write(c, _enc, done) {
+        chunks.push(String(c));
+        done();
+      },
+    });
+    const logger = createLogger("adapter", "info", sink);
     logger.error({ err: new Error("confidential-error-canary") }, "Safe startup failure");
     expect(chunks.join("")).not.toContain("confidential-error-canary");
     expect(chunks.join("")).not.toContain("stack");
@@ -87,14 +164,22 @@ describe("bounded diagnostics and error sanitization", () => {
   });
   it("emits only named, expiring diagnostics and never arbitrary payload fields", () => {
     const chunks: string[] = [];
-    const sink = new Writable({ write(c,_enc,done) { chunks.push(String(c)); done(); } });
+    const sink = new Writable({
+      write(c, _enc, done) {
+        chunks.push(String(c));
+        done();
+      },
+    });
     const leases = new DiagnosticLeases();
     const scoped = createScopedDiagnostics("adapter", leases, sink);
-    expect(scoped.trace({code:"REQUEST_SUMMARY"},1000)).toBe(false);
-    leases.enable({module:"adapter",level:"trace",durationMs:2000,adminAuthorized:true},1000);
-    expect(scoped.trace({code:"REQUEST_SUMMARY",count:3},1001)).toBe(true);
-    expect(scoped.debug({code:"SQLITE_RETRY",count:1},1002)).toBe(true);
-    expect(scoped.trace({code:"REQUEST_SUMMARY"},3000)).toBe(false);
+    expect(scoped.trace({ code: "REQUEST_SUMMARY" }, 1000)).toBe(false);
+    leases.enable(
+      { module: "adapter", level: "trace", durationMs: 2000, adminAuthorized: true },
+      1000,
+    );
+    expect(scoped.trace({ code: "REQUEST_SUMMARY", count: 3 }, 1001)).toBe(true);
+    expect(scoped.debug({ code: "SQLITE_RETRY", count: 1 }, 1002)).toBe(true);
+    expect(scoped.trace({ code: "REQUEST_SUMMARY" }, 3000)).toBe(false);
     expect(chunks.join("")).toContain("SCOPED_DIAGNOSTIC");
     expect(chunks.join("")).not.toContain("password");
   });

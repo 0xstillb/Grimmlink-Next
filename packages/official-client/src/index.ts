@@ -6,5 +6,9 @@ export interface OfficialClient {
   getBookMetadata(bookId: string): Promise<never>;
 }
 export function createDisabledOfficialClient(): OfficialClient {
-  return { getBookMetadata: async () => { throw new UpstreamDisabledError("Official REST connectivity is not authorized in Phase01"); } };
+  return {
+    getBookMetadata: async () => {
+      throw new UpstreamDisabledError("Official REST connectivity is not authorized in Phase01");
+    },
+  };
 }
