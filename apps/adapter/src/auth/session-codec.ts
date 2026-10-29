@@ -36,7 +36,10 @@ export function createIsolatedSessionCodec(secret: Uint8Array) {
   }
   const key = Buffer.from(secret);
   const hmac = (value: string): Buffer =>
-    createHmac("sha256", key).update("grimmlink-next-phase02-session-v1:", "utf8").update(value).digest();
+    createHmac("sha256", key)
+      .update("grimmlink-next-phase02-session-v1:", "utf8")
+      .update(value)
+      .digest();
 
   const encode = (session: Session): string => {
     const body = Buffer.from(JSON.stringify(session), "utf8").toString("base64url");
@@ -53,7 +56,11 @@ export function createIsolatedSessionCodec(secret: Uint8Array) {
 
   return {
     issueAdmin(accountId: string, csrfToken: string, nowMs: number, ttlMs = 600_000): string {
-      if (!validId(accountId) || !/^[A-Za-z0-9_-]{32,128}$/.test(csrfToken) || !interval(nowMs, ttlMs)) {
+      if (
+        !validId(accountId) ||
+        !/^[A-Za-z0-9_-]{32,128}$/.test(csrfToken) ||
+        !interval(nowMs, ttlMs)
+      ) {
         throw new Error("SESSION_ISSUE_INVALID");
       }
       return encode({
@@ -89,10 +96,17 @@ export function createIsolatedSessionCodec(secret: Uint8Array) {
         token.length > 1200 ||
         !Number.isSafeInteger(nowMs) ||
         nowMs < 0
-      ) return null;
+      )
+        return null;
       const parts = token.split(".");
-      if (parts.length !== 2 || !parts[0] || !parts[1] || !/^[A-Za-z0-9_-]+$/.test(parts[0]) ||
-          !/^[A-Za-z0-9_-]{43}$/.test(parts[1])) return null;
+      if (
+        parts.length !== 2 ||
+        !parts[0] ||
+        !parts[1] ||
+        !/^[A-Za-z0-9_-]+$/.test(parts[0]) ||
+        !/^[A-Za-z0-9_-]{43}$/.test(parts[1])
+      )
+        return null;
       let provided: Buffer;
       try {
         provided = Buffer.from(parts[1], "base64url");
@@ -125,10 +139,16 @@ export function createIsolatedSessionCodec(secret: Uint8Array) {
         data.issuedAtMs > nowMs ||
         data.expiresAtMs <= nowMs ||
         data.expiresAtMs - data.issuedAtMs > 3_600_000
-      ) return null;
+      )
+        return null;
       if (data.kind === "admin") {
-        if (Object.keys(data).sort().join(",") !== "accountId,csrfSha256,expiresAtMs,issuedAtMs,kind,nonce,v" ||
-            typeof data.csrfSha256 !== "string" || !validCsrfHash(data.csrfSha256)) return null;
+        if (
+          Object.keys(data).sort().join(",") !==
+            "accountId,csrfSha256,expiresAtMs,issuedAtMs,kind,nonce,v" ||
+          typeof data.csrfSha256 !== "string" ||
+          !validCsrfHash(data.csrfSha256)
+        )
+          return null;
         return {
           kind: "admin",
           accountId: data.accountId,
@@ -136,8 +156,13 @@ export function createIsolatedSessionCodec(secret: Uint8Array) {
           csrfSha256: data.csrfSha256,
         };
       }
-      if (Object.keys(data).sort().join(",") !== "accountId,deviceId,expiresAtMs,issuedAtMs,kind,nonce,v" ||
-          typeof data.deviceId !== "string" || !validId(data.deviceId)) return null;
+      if (
+        Object.keys(data).sort().join(",") !==
+          "accountId,deviceId,expiresAtMs,issuedAtMs,kind,nonce,v" ||
+        typeof data.deviceId !== "string" ||
+        !validId(data.deviceId)
+      )
+        return null;
       return {
         kind: "reader",
         accountId: data.accountId,
