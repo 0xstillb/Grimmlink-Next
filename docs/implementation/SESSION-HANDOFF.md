@@ -1,6 +1,13 @@
 <!-- Current 2026-10-29 reviewer packet: [RE-REVIEW-PACKET.md](phase-00/RE-REVIEW-PACKET.md). Prior checkpoints below historical. -->
 # GRIMMLINK NEXT — GPT Web Session Handoff
 
+## CURRENT FRESH FINAL INDEPENDENT REVIEW — 2026-10-29 (supersedes review-pending banners below)
+
+- The independent reviewer inspected corrected source/document HEAD `cea648544547c4d2b3f5c652bfc75d408288b7c7` against `411b68bd1ed2ffeca28165c55cc52fda6d88ea6c` and independently read Grimmory v3.5.0 / Readest v0.12.16 source. [Final review](phase-00/FINAL-INDEPENDENT-REVIEW-2026-10-29.md): **CHANGES_REQUIRED, 8 DOC_FIXED / 4 DOC_PARTIAL / 0 DOC_UNFIXED**, not CONTRACT_LOCKED. Review own handoff edits are NOT self-approved.
+- Remaining: R-01 P0 scalar allowlist, R-02 P0 authoritative user-to-book entitlement and bypass-free public :6060 gateway, R-09 P1 uncertain-session ACK/at-most-once, R-11 P1 stale historical handoff. **External KOSync progress BLOCKED/OFF**, personal bridge/metadata writes OFF. Never allow blind Official passthrough, impersonation, or source NAS writes.
+- Phase00 corrections need a NEW independent review before CONTRACT_LOCKED. **Do not merge Draft PR #2, modify main, or start Phase01.** Source-only review + JSON validation; build/unit/mock/live API NOT_RUN; integrated Hermes/NAS/physical readers/full E2E Phase09 only. Obtain the real current branch SHA from GitHub, not from this file.
+
+
 ## NEW INDEPENDENT RE-REVIEW — 2026-10-29 (read first)
 
 - [Re-review report](phase-00/RE-REVIEW-2026-10-29.md) evaluated original correction HEAD `411b68bd1ed2ffeca28165c55cc52fda6d88ea6c` and issued **CHANGES_REQUIRED**. Review documents R-01–R-12 and source evidence, not hardware/runtime PASS.
