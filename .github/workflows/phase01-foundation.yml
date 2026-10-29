@@ -4,6 +4,9 @@ on:
     branches: [feat/next-phase-01]
   pull_request:
     branches: [integration/grimmlink-next]
+concurrency:
+  group: phase01-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
