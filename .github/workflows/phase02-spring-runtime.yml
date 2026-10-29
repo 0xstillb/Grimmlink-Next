@@ -53,6 +53,7 @@ jobs:
           p=json.load(open('spring-runtime-probe.json',encoding='utf-8'))
           o=json.load(open('pinned-official/backend/build/openapi/grimmory-openapi.json',encoding='utf-8'))
           assert p.get('source') == 'PINNED_SPRING_RUNTIME_CI_ONLY'
+          assert p.get('pinnedUpstreamCommit') == '402e89b4452f8e2b17ab95f16c1621c003516cd2'
           assert p.get('actualSpringHandlerCount',0) >= 300,p.get('actualSpringHandlerCount')
           assert p.get('actualSecurityChainCount',0) >= 10,p.get('actualSecurityChainCount')
           assert len(p.get('requestMappings',[])) == p['actualSpringHandlerCount']
@@ -63,6 +64,10 @@ jobs:
           print('ACTUAL_SPRING_BOOT_CI_EVIDENCE_CAPTURED',p['actualSpringHandlerCount'],p['actualSecurityChainCount'])
           print('NOT_OWNERSHIP_AUTHORIZED_NOT_PRODUCTION_NOT_GATE_EXIT')
           PY
+          python3 scripts/phase-02/reconcile_spring_runtime.py \
+            --runtime spring-runtime-probe.json \
+            --source docs/implementation/phase-00/SOURCE-403-SECURITY-CHAIN-CANDIDATES.json \
+            --output spring-runtime-reconciliation.json
       - name: Attach actual pinned Spring evidence, no signed acceptance
         if: always()
         uses: actions/upload-artifact@v4
@@ -72,4 +77,5 @@ jobs:
           if-no-files-found: warn
           path: |
             spring-runtime-probe.json
+            spring-runtime-reconciliation.json
             pinned-official/backend/build/openapi/grimmory-openapi.json
