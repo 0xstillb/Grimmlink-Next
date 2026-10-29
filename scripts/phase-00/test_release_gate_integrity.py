@@ -68,6 +68,20 @@ class GateTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"security feature unexpectedly enabled"):
             gate.validate(self.root,self.out)
 
+    def test_phase01_forged_off_suffix_rejected(self):
+        for invalid in ("ON_BUT_OFF_IN_NAME", "BLOCKED_OFF_WITH_UNREVIEWED_EXTENSION", None, False):
+            with self.subTest(invalid=invalid):
+                self.mutate("docs/implementation/ACTIVE-SESSION.json",
+                            lambda j:j["securityCapability"].update(metadataApply=invalid))
+                with self.assertRaisesRegex(ValueError,"security feature unexpectedly enabled"):
+                    gate.validate(self.root,self.out)
+
+    def test_phase01_unapproved_capability_key_rejected(self):
+        self.mutate("docs/implementation/ACTIVE-SESSION.json",
+                    lambda j:j["securityCapability"].update(unreviewedFeature="BLOCKED_OFF"))
+        with self.assertRaisesRegex(ValueError,"security feature unexpectedly enabled"):
+            gate.validate(self.root,self.out)
+
     def test_gateway_unreviewed_allow_rejected(self):
         self.mutate("docs/implementation/phase-00/SOURCE-403-SECURITY-CHAIN-CANDIDATES.json",lambda j:j["routes"][0].update(gatewayForwardDecision="ALLOW"))
         with self.assertRaisesRegex(ValueError,"route allow bypass"):
