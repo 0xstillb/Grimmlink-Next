@@ -1,3 +1,64 @@
+## LATEST — Phase01 CLOSED AT TECHNICAL EXIT GATE (2026-10-29)
+
+**Current phase status:** `FOUNDATION_REVIEWED` (fresh-context independent GPT-6 technical PASS for isolated foundation); reviewed application source [2eb613b0](https://github.com/0xstillb/Grimmlink-Next/commit/2eb613b0cac39b689710501cc3dbad812e5486a2), independent GitHub reviewer `COMMENTED` ID `5699254459` (not a distinct human APPROVE). [Exact reviewed-source Phase00 CI #40888013634](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40888013634) SUCCESS; [Phase01 CI #40888013081](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40888013081) SUCCESS, including ARM64 offline health/SQLite WAL. The separate release-gate/metadata closure commits require exact final HEAD CI readback. See [RESULT](phase-01/RESULT.md), [HANDOFF](phase-01/HANDOFF.json), [final immutable attestation](phase-01/FINAL-INDEPENDENT-REVIEW-ATTESTATION-2026-10-29.md) and authoritative [ACTIVE-SESSION](ACTIVE-SESSION.json).
+
+**No automatic merge or runtime authorization:** Draft [PR #5](https://github.com/0xstillb/Grimmlink-Next/pull/5) remains UNMERGED; production NOT_AUTHORIZED, Official gateway DENY_ALL, all sensitive bridges OFF. Phase02/05/07 require their own runtime security acceptance; full real E2E is Phase09. Earlier headings below are historical snapshots and **not** the current phase status.
+
+---
+
+## LATEST — PHASE01 CHANGES_REQUIRED REMEDIATION (2026-10-29; RE-REVIEW PENDING)
+
+[Independent Phase01 review](phase-01/REVIEW.md) at exact `7160eca` found 5 issues (2 high, 3 medium). Implementer patches at code checkpoint `d14a84d7bf1359e22846db6729fc4d6b6f060dd8` address all five; [remediation receipt](phase-01/REMEDIATION-2026-10-29.md) links implementation and regression tests. Phase00 gate #40883141347 passed. Phase01 code CI #40883141411 was pending when recorded; final docs commit requires **new exact HEAD** CI. Do not infer PASS from earlier commits.
+
+**Status: `FOUNDATION_IN_PROGRESS / CHANGES_REQUIRED / RE_REVIEW_PENDING`**. No second independent verdict, no merge, no Phase02, no upstream forwarding, sensitive sync, or production. Full E2E Phase09 only.
+
+---
+
+## LATEST — PHASE01 IMPLEMENTER SECURITY FOLLOW-UP (2026-10-29; REVIEW PENDING)
+
+Branch `feat/next-phase-01` / [Draft PR #5](https://github.com/0xstillb/Grimmlink-Next/pull/5), source checkpoint [`04d72a3`](https://github.com/0xstillb/Grimmlink-Next/commit/04d72a3a31953b8be4d6a7295d17ea7435194f20). [`c9dd8cd`](https://github.com/0xstillb/Grimmlink-Next/commit/c9dd8cd08a7c8b64933660d5c1f0bee6a994a1d4) hardens local SQLite file creation and directory privacy with negative tests and private container data directory; [`04d72a3`](https://github.com/0xstillb/Grimmlink-Next/commit/04d72a3a31953b8be4d6a7295d17ea7435194f20) prevents calling an unverified Book ID "verified". [Phase00 gate #40876891650](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40876891650) succeeded at code SHA. [Phase01 isolated CI #40876891637](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40876891637) pending at this writing; do not claim latest full CI PASS. A docs-only commit after this receipt requires fresh exact-HEAD checks.
+
+Gate remains `FOUNDATION_IN_PROGRESS / INDEPENDENT_REVIEW_PENDING`. Prettier check is not enforced; Docker base digest pin does not replace an explicit CVE rotation review. Independent fresh-context exact-diff review and its `phase-01/REVIEW.md` verdict do not yet exist. No Official forwarding, upstream personal/session sync, NAS or physical tests, production, Phase02 start or merge. Full E2E deferred to Phase09.
+
+---
+
+## LATEST VERIFIED — PHASE01 SOURCE AND ARM64 ISOLATED CI GREEN (2026-10-29)
+
+**Actual source SHA:** [223c0d5b](https://github.com/0xstillb/Grimmlink-Next/commit/223c0d5b2fa2fd5249f0e9719b5ca632f5d65209) — [isolated frozen+ARM64 CI 40872799995](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40872799995) SUCCESS. Phase00 integrity [40873402518](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40873402518) SUCCESS on more recent handoff status. [Draft PR #5](https://github.com/0xstillb/Grimmlink-Next/pull/5) stays open, Draft/unmerged.
+
+Frozen pnpm, TypeScript, ESLint, local mock/unit tests including safe logs + scoped TTL, native SQLite on Linux ARM64 image, no-network compose were executed and passed. This does **not** authorize any Grimmory upstream operation, user/book permission, production/migration or E2E. Phase01 **FOUNDATION_IN_PROGRESS; fresh independent review still required.** Full Hermes/NAS/readers E2E Phase09.
+
+---
+## CURRENT — PHASE 01 FOUNDATION IMPLEMENTED, REVIEW PENDING (2026-10-29)
+
+**Branch:** `feat/next-phase-01`, [Draft PR #5](https://github.com/0xstillb/Grimmlink-Next/pull/5) -> `integration/grimmlink-next`; base `4b4a924cf225734dab0d17114f878b5b1982d4a9`. Latest committed code changes through [223c0d5b](https://github.com/0xstillb/Grimmlink-Next/commit/223c0d5b2fa2fd5249f0e9719b5ca632f5d65209); branch tip has later CI/workflow-only commit, always fetch LIVE.
+
+**Verified exact-code CI:** [Run 40872300890](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40872300890) SUCCESS on `5dd677e5`: frozen pnpm install, native SQLite build, full workspace build/typecheck, ESLint, isolated unit/mock tests, Docker ARM64 build, no-network ARM64 architecture and compose policy check. [Phase00 source/design-lock gate](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40872891080) SUCCESS on newer pre-handoff `836c5268`. New error/diagnostic sanitizer change `223c0d5b` requires exact-HEAD CI readback before accepting.
+
+**Implemented:** TypeScript monorepo; Fastify /health and generated /openapi.json (loopback-only); strict TypeBox env; SQLite WAL + versioned Drizzle schema, transactional job leases, verified private backup/restore to NEW location, personal-outbox schema only; Pino credential/redaction canaries and bounded diagnostic controls; non-connected React/Vite dark control center; typed no-upstream modules; ARM64 container and bounded compose log caps. **No Official forwarding, no real sync.**
+
+**Status:** `FOUNDATION_CODE_IMPLEMENTED_REVIEW_PENDING`, not `FOUNDATION_REVIEWED`. Need independent fresh-context exact diff review and latest CI readback. Docker base still patch-tag not immutable digest; final integrated E2E only Phase09.
+
+**Security:** Phase00 `PASS_PHASE00_DESIGN_ONLY`, not runtime security pass. [Issue #4](https://github.com/0xstillb/Grimmlink-Next/issues/4) blocks gateway/security and personal/sync until Phases02/05/07. All bridges and proxy remain OFF; no main, integration merge or production.
+
+---
+
+## CURRENT — PHASE 01 FOUNDATION IN PROGRESS (2026-10-29)
+
+**Authoritative GitHub:** [Draft PR #5](https://github.com/0xstillb/Grimmlink-Next/pull/5), `feat/next-phase-01` from merged integration HEAD `4b4a924cf225734dab0d17114f878b5b1982d4a9`. **Last verified code SHA:** [77a54dc070fa8e2660329c40ebd57c86b68dbdf5](https://github.com/0xstillb/Grimmlink-Next/commit/77a54dc070fa8e2660329c40ebd57c86b68dbdf5). This checkpoint commit must be read back LIVE before the next change.
+
+**Implementation actually committed:** pnpm TypeScript workspace; strict TypeBox config; local-only Fastify health with zero Official forwarding; Pino redaction plus log-sink canary and bounded ephemeral diagnostic leases; Drizzle SQLite local metadata schema/migrations/WAL/atomic local lease; React/Vite dark placeholder Control Center with keyboard buttons. No real metrics, sync, networking to Grimmory or physical devices.
+
+**Real isolated CI:** [Phase01 run 40868473874](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40868473874) **SUCCESS** on exact code SHA `77a54dc`: install (--no-frozen-lockfile), approved SQLite native rebuild, build, typecheck, injected mocks and unit tests. Earlier failed runs detected and were corrected: TS4058, TS2322/TS2742, pnpm10 native binding. This success is **not** a frozen-lock reproducible build and does not prove ARM64 or live integration.
+
+**State:** `CODE_COMMITTED_TESTS_PASS_ISOLATED` / `FOUNDATION_IN_PROGRESS`; **NOT** `FOUNDATION_REVIEWED`. No independent Phase01 review, approved reproducible pnpm lockfile, Docker ARM64 verification, OpenAPI, migration backup/restore test, complete domain packages, live health/dashboard binding or full accessibility review. [Phase01 Notion spec](https://app.notion.com/p/407c7efbc0098130a215ebe15c887e4f).
+
+**Safety invariant:** Phase00 `PASS_PHASE00_DESIGN_ONLY` permits foundation *only*. All Official static 403 route candidates remain DENY; no gateway, native KO progress, OPF apply, personal/session bridge or reset. [Issue #4](https://github.com/0xstillb/Grimmlink-Next/issues/4) is hard security gate for Phase02/05/07. Full Hermes/NAS/reader E2E deferred to Phase09; `main` and production untouched.
+
+**Next action:** obtain/review/commit deterministic pnpm-lock.yaml; switch CI to frozen lockfile; implement durable migration backup/restore, OpenAPI/config/error contracts, safe scoped diagnostics runtime control and remaining package modules; independently review exact source diff before exiting Phase01. Do not merge draft PR yet.
+
+---
+
 ## CURRENT — Phase00 DESIGN-ONLY CONTRACT LOCK (2026-10-29; fresh-context review)
 
 **Latest authoritative disposition:** `PASS_PHASE00_DESIGN_ONLY`, `CONTRACT_LOCKED_DESIGN_ONLY`, `PHASE01_AUTHORIZED=FOUNDATION_ONLY`. A separate GPT-6 fresh context reviewed pinned pre-review HEAD [f071229d](https://github.com/0xstillb/Grimmlink-Next/commit/f071229d9d9a1b7fb680cb68f83c763bc53138c6), upstream source, PR #2 and Phase00's Notion acceptance scope. [New independent design-only review](phase-00/FRESH-CONTEXT-DESIGN-LOCK-REVIEW-2026-10-29.md). **Not an approval by a separate GitHub human account.** Historical `CHANGES_REQUIRED` reviewer reports are preserved.

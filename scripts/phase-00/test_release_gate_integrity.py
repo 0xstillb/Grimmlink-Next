@@ -23,6 +23,7 @@ FILES=[
 "docs/implementation/phase-00/FRESH-INDEPENDENT-SECURITY-REVIEW-2026-10-29.md",
 "docs/implementation/phase-00/FRESH-CONTEXT-DESIGN-LOCK-REVIEW-2026-10-29.md",
 "docs/implementation/ACTIVE-SESSION.json",
+"docs/implementation/phase-01/FINAL-INDEPENDENT-REVIEW-ATTESTATION-2026-10-29.md",
 ]
 
 class GateTests(unittest.TestCase):
@@ -54,6 +55,144 @@ class GateTests(unittest.TestCase):
     def test_unreviewed_gate_status_change_rejected(self):
         self.mutate("docs/implementation/ACTIVE-SESSION.json",lambda j:j.update(phase01Authorized=False))
         with self.assertRaisesRegex(ValueError,"differs from independent design lock"):
+            gate.validate(self.root,self.out)
+
+    def test_phase01_safety_handoff_fails_closed(self):
+        self.mutate("docs/implementation/ACTIVE-SESSION.json",
+                    lambda j:j["safety"].update(officialGatewayForwarding="ALLOW"))
+        with self.assertRaisesRegex(ValueError,"differs from independent design lock"):
+            gate.validate(self.root,self.out)
+
+    def test_phase01_every_safety_field_fails_closed(self):
+        path="docs/implementation/ACTIVE-SESSION.json"
+        pristine=(self.root/path).read_text()
+        # Every independently declared safety boundary must be enforced, even
+        # when its securityCapability counterpart remains BLOCKED_OFF.
+        cases=(
+            ("officialGatewayForwarding","ALLOW"),
+            ("nativeKosyncProgress","ON"),
+            ("metadataApply","ON"),
+            ("personalBridge","ON"),
+            ("sessionBridge","ON"),
+            ("resetProgress","ON"),
+            ("managedProjection","ON"),
+            ("productionDeployment","AUTHORIZED"),
+            ("fullE2ePhase","01"),
+            ("metadataApply","ON_BUT_OFF_IN_NAME"),
+            ("productionDeployment",None),
+            ("personalBridge",False),
+        )
+        for key,value in cases:
+            with self.subTest(key=key,value=value):
+                (self.root/path).write_text(pristine)
+                self.mutate(path,lambda j:j["safety"].update({key:value}))
+                with self.assertRaisesRegex(ValueError,"differs from independent design lock"):
+                    gate.validate(self.root,self.out)
+
+    def test_phase01_safety_rejects_missing_extra_and_wrong_type(self):
+        path="docs/implementation/ACTIVE-SESSION.json"
+        pristine=(self.root/path).read_text()
+        changes=(
+            lambda j:j["safety"].pop("resetProgress"),
+            lambda j:j["safety"].update(unreviewedFeature="OFF"),
+            lambda j:j.update(safety=None),
+            lambda j:j.update(safety="DENY_ALL"),
+            lambda j:j.update(safety=[]),
+        )
+        for i,change in enumerate(changes):
+            with self.subTest(case=i):
+                (self.root/path).write_text(pristine)
+                self.mutate(path,change)
+                with self.assertRaisesRegex(ValueError,"differs from independent design lock"):
+                    gate.validate(self.root,self.out)
+
+    def test_forged_phase00_handoff_cannot_bypass_safety_contract(self):
+        path="docs/implementation/ACTIVE-SESSION.json"
+        self.mutate(path,lambda j:j.update(phase="00",phaseStatus="CONTRACT_LOCKED_DESIGN_ONLY"))
+        # This otherwise accepted legacy-phase shape must not authorize an
+        # unsafe safety status simply by bypassing the Phase01-only branch.
+        self.mutate(path,lambda j:j["safety"].update(productionDeployment="AUTHORIZED"))
+        with self.assertRaisesRegex(ValueError,"differs from independent design lock"):
+            gate.validate(self.root,self.out)
+
+    def test_phase00_design_handoff_still_works_when_safety_is_closed(self):
+        path="docs/implementation/ACTIVE-SESSION.json"
+        self.mutate(path,lambda j:j.update(phase="00",phaseStatus="CONTRACT_LOCKED_DESIGN_ONLY"))
+        gate.validate(self.root,self.out)
+        output=json.loads(self.out.read_text())
+        self.assertTrue(output["phase01Authorized"])
+        self.assertEqual(output["gatewayRuntimeEnforcement"],"NOT_RUN")
+
+    def test_phase01_final_independent_review_is_proven_and_bounded(self):
+        gate.validate(self.root,self.out)
+        obj=json.loads(self.out.read_text())
+        self.assertTrue(obj["phase01FoundationReviewed"])
+        self.assertEqual(obj["phase01IndependentTechnicalVerdict"],"PASS_AT_REVIEWED_SOURCE_HEAD")
+        self.assertEqual(obj["phase01ReviewedSourceHead"],gate.PHASE01_REVIEWED_HEAD)
+        self.assertFalse(obj["phase01HumanGitHubApproval"])
+        self.assertFalse(obj["phase01RuntimeSecurityAuthorized"])
+        self.assertEqual(obj["gatewayRuntimeEnforcement"],"NOT_RUN")
+
+    def test_phase01_status_flip_without_independent_evidence_is_rejected(self):
+        path="docs/implementation/ACTIVE-SESSION.json"
+        self.mutate(path,lambda j:j.pop("phase01IndependentReview",None))
+        with self.assertRaisesRegex(ValueError,"FOUNDATION_REVIEWED requires"):
+            gate.validate(self.root,self.out)
+
+    def test_phase01_forged_review_evidence_is_rejected(self):
+        path="docs/implementation/ACTIVE-SESSION.json"
+        pristine=(self.root/path).read_text()
+        changes=(
+            lambda j:j["phase01IndependentReview"].update(reviewedSourceHead="unreviewed-commit"),
+            lambda j:j["phase01IndependentReview"].update(githubReviewId="0"),
+            lambda j:j["phase01IndependentReview"].update(githubReviewEvent="APPROVED"),
+            lambda j:j["phase01IndependentReview"].update(humanGitHubApproved=True),
+            lambda j:j["phase01IndependentReview"].update(runtimeSecurityAuthorized=True),
+            lambda j:j["phase01IndependentReview"].update(phase01ReviewedCiRun="UNVERIFIED"),
+            lambda j:j["phase01IndependentReview"].update(attestationGitBlob="fabricated"),
+            lambda j:j["phase01IndependentReview"].update(unknownExtraKey="PASS"),
+            lambda j:j.update(phaseStatus="FOUNDATION_PASSED_WITHOUT_REVIEW"),
+        )
+        for i,change in enumerate(changes):
+            with self.subTest(case=i):
+                (self.root/path).write_text(pristine)
+                self.mutate(path,change)
+                with self.assertRaisesRegex(ValueError,"(FOUNDATION_REVIEWED requires|differs from independent design lock)"):
+                    gate.validate(self.root,self.out)
+
+    def test_phase01_independent_review_attestation_cannot_be_tampered(self):
+        p=self.root/"docs/implementation/phase-01/FINAL-INDEPENDENT-REVIEW-ATTESTATION-2026-10-29.md"
+        p.write_text(p.read_text()+"\\nUNREVIEWED EDIT\\n")
+        with self.assertRaisesRegex(ValueError,"Phase01 independent review attestation tampered"):
+            gate.validate(self.root,self.out)
+
+    def test_pre_review_state_remains_possible_only_without_accepted_evidence(self):
+        path="docs/implementation/ACTIVE-SESSION.json"
+        self.mutate(path,lambda j:(j.update(phaseStatus="FOUNDATION_IN_PROGRESS"),
+                                   j.pop("phase01IndependentReview",None)))
+        gate.validate(self.root,self.out)
+        obj=json.loads(self.out.read_text())
+        self.assertFalse(obj["phase01FoundationReviewed"])
+        self.assertFalse(obj["phase01HumanGitHubApproval"])
+
+    def test_phase01_sensitive_feature_enable_rejected(self):
+        self.mutate("docs/implementation/ACTIVE-SESSION.json",
+                    lambda j:j["securityCapability"].update(metadataApply="ON"))
+        with self.assertRaisesRegex(ValueError,"security feature unexpectedly enabled"):
+            gate.validate(self.root,self.out)
+
+    def test_phase01_forged_off_suffix_rejected(self):
+        for invalid in ("ON_BUT_OFF_IN_NAME", "BLOCKED_OFF_WITH_UNREVIEWED_EXTENSION", None, False):
+            with self.subTest(invalid=invalid):
+                self.mutate("docs/implementation/ACTIVE-SESSION.json",
+                            lambda j:j["securityCapability"].update(metadataApply=invalid))
+                with self.assertRaisesRegex(ValueError,"security feature unexpectedly enabled"):
+                    gate.validate(self.root,self.out)
+
+    def test_phase01_unapproved_capability_key_rejected(self):
+        self.mutate("docs/implementation/ACTIVE-SESSION.json",
+                    lambda j:j["securityCapability"].update(unreviewedFeature="BLOCKED_OFF"))
+        with self.assertRaisesRegex(ValueError,"security feature unexpectedly enabled"):
             gate.validate(self.root,self.out)
 
     def test_gateway_unreviewed_allow_rejected(self):

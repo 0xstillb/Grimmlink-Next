@@ -2,7 +2,7 @@
 
 **Official Grimmory Integration · Multi-Reader Progress Sync · NAS OPF Sync · Local Control Center**
 
-> **Status: planning / Phase 00 bootstrap.** This repository does not yet contain a working Adapter, tested API integration, or an E2E-verified deployment.
+> **Status: Phase 01 foundation IN PROGRESS.** Local-only Adapter scaffold and isolated CI exist in Draft PR #5; no live Official backend integration, full E2E or production deployment is claimed.
 
 ## Overview
 
@@ -38,7 +38,7 @@ The goal is to **maintain the Adapter and Lua plugin, not forks of Grimmory, Rea
 - [Current verified session checkpoint](docs/implementation/SESSION-HANDOFF.md)
 - [Phase 00 Draft PR #1](https://github.com/0xstillb/Grimmlink-Next/pull/1) targeting non-production integration branch
 
-**Current scope:** Documentation bootstrap committed; actual PHASE 00 audit/code implementation not started. All full E2E and real hardware tests in PHASE 09 only. Never merge automatically to main.
+**Current scope:** Phase00 accepted DESIGN-ONLY and merged into integration; Phase01 typed local-only foundation started in Draft PR #5. No upstream forwarding; runtime security gates remain Phase02/05/07, full E2E and real hardware Phase09 only. Never merge automatically to main.
 
 ## Development Playbook
 

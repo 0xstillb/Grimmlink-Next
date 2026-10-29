@@ -1,0 +1,23 @@
+# Isolated Phase01 container verification only. No host-published ports or upstream network.
+services:
+  foundation:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: grimmlink-next:phase01-foundation
+    network_mode: none
+    read_only: true
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+    tmpfs:
+      - /tmp:noexec,nosuid,size=16m
+    volumes:
+      - adapter-local-state:/app/data
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    restart: "no"
+volumes:
+  adapter-local-state:

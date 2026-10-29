@@ -1,0 +1,84 @@
+name: Phase 01 Foundation (isolated)
+# Run for every commit, including docs/config-only changes, so review attests exact HEAD.
+on:
+  workflow_dispatch:
+  push:
+    branches: [feat/next-phase-01]
+  pull_request:
+    branches: [integration/grimmlink-next]
+concurrency:
+  group: phase01-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+permissions:
+  contents: read
+jobs:
+  foundation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.18.3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+      - name: Deterministic frozen install
+        run: pnpm install --frozen-lockfile
+      - name: Compile approved SQLite native binding
+        run: pnpm rebuild better-sqlite3
+      - name: Build packages and UI
+        run: pnpm build
+      - name: Strict TypeScript
+        run: pnpm typecheck
+      - name: ESLint source audit
+        run: pnpm lint
+      - name: Prettier source format check
+        run: pnpm format:check
+      - name: Unit and injected mock tests only
+        run: pnpm test
+  arm64-image:
+    needs: foundation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+      - name: ARM64 native-image build (isolated, no push)
+        run: docker buildx build --platform linux/arm64 --load -t grimmlink-next:phase01-arm64 .
+      - name: Check image architecture without networking or devices
+        run: |
+          set -euo pipefail
+          test "$(docker run --rm --network none --entrypoint node grimmlink-next:phase01-arm64 -p 'process.arch')" = "arm64"
+      - name: Offline ARM64 adapter boot + private SQLite smoke
+        run: |
+          set -euo pipefail
+          docker run -d --name phase01-smoke --network none --read-only \
+            --cap-drop ALL --security-opt no-new-privileges \
+            --tmpfs /tmp:rw,nosuid,noexec,size=16m \
+            --tmpfs /app/data:rw,nosuid,noexec,size=16m,uid=1000,gid=1000,mode=0700 \
+            grimmlink-next:phase01-arm64
+          trap 'docker rm -f phase01-smoke >/dev/null 2>&1 || true' EXIT
+          ready=0
+          for attempt in $(seq 1 20); do
+            if docker exec phase01-smoke node -e "fetch('http://127.0.0.1:6060/health').then(r=>r.json()).then(j=>{if(j.status!=='foundation-only'||j.upstreamConnected!==false)process.exit(2)}).catch(()=>process.exit(3))"; then
+              ready=1
+              break
+            fi
+            sleep 1
+          done
+          test "$ready" -eq 1
+          docker exec phase01-smoke node --input-type=module -e '
+            import { openLocalStore } from "./packages/persistence/dist/index.js";
+            const store = openLocalStore("/app/data/smoke.sqlite","/app/packages/persistence/migrations");
+            if (store.sqlite.pragma("journal_mode",{simple:true}) !== "wal") process.exitCode = 3;
+            store.close();
+          '
+          test "$(docker inspect -f '{{.State.Running}}' phase01-smoke)" = "true"
+      - name: Validate bounded local-only compose contract
+        run: |
+          docker compose -f compose.phase01.yml config > /tmp/grimmlink-compose-resolved.yml
+          grep -q 'network_mode: none' /tmp/grimmlink-compose-resolved.yml
+          ! grep -q '^    ports:' /tmp/grimmlink-compose-resolved.yml
