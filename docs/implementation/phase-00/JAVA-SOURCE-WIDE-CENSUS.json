@@ -3,221 +3,12 @@
   "upstreamRepository": "grimmory-tools/grimmory",
   "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
   "sourceScope": "backend/src/main/java/org/booklore/**/*.java",
-  "generatedUtc": "2026-10-29T04:13:11.746189+00:00",
+  "generatedUtc": "2026-10-29T04:14:08.951756+00:00",
   "filesEnumerated": 923,
   "contentReadAndBlobShaVerified": 923,
   "filesFailedContentRead": 0,
   "astParsedFiles": 923,
-  "astErrors": [
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppUserController.java",
-      "sourceLine": 40,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    },
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/config/security/oidc/OidcAuthService.java",
-      "sourceLine": 216,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    },
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/mapper/OidcGroupMappingMapper.java",
-      "sourceLine": 37,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    },
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/nativelib/NativeLibraries.java",
-      "sourceLine": 66,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    },
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/service/ArchiveService.java",
-      "sourceLine": 34,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    },
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/service/BookRuleEvaluatorService.java",
-      "sourceLine": 919,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    },
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/service/FileStreamingService.java",
-      "sourceLine": 51,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    },
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/service/appsettings/AppSettingService.java",
-      "sourceLine": 191,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    },
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/service/audit/AuditService.java",
-      "sourceLine": 48,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    },
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/service/book/PhysicalBookService.java",
-      "sourceLine": 109,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    },
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/service/bookdrop/FilenamePatternExtractor.java",
-      "sourceLine": 432,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    },
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/service/customfont/CustomFontService.java",
-      "sourceLine": 268,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    },
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/service/kobo/KoboReadingStateService.java",
-      "sourceLine": 396,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    },
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/CoverImageGenerator.java",
-      "sourceLine": 867,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    },
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/extractor/AudiobookMetadataExtractor.java",
-      "sourceLine": 122,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    },
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/extractor/EpubMetadataExtractor.java",
-      "sourceLine": 192,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    },
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/extractor/PdfMetadataExtractor.java",
-      "sourceLine": 191,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    },
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/parser/AmazonBookParser.java",
-      "sourceLine": 968,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    },
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/parser/ComicvineBookParser.java",
-      "sourceLine": 293,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    },
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/parser/GoogleParser.java",
-      "sourceLine": 319,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    },
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/parser/HardcoverParser.java",
-      "sourceLine": 402,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    },
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/parser/hardcover/HardcoverBookSearchService.java",
-      "sourceLine": 209,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    },
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/writer/CbxMetadataWriter.java",
-      "sourceLine": 460,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    },
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/service/reader/ChapterCacheService.java",
-      "sourceLine": 38,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    },
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/service/user/DefaultSettingInitializer.java",
-      "sourceLine": 42,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    },
-    {
-      "kind": "ERROR",
-      "sourcePath": "backend/src/main/java/org/booklore/util/kobo/BookloreSyncTokenGenerator.java",
-      "sourceLine": 36,
-      "className": "",
-      "methodName": "",
-      "expression": "compiler.err.preview.feature.disabled.plural"
-    }
-  ],
+  "astErrors": [],
   "sourceCandidates": 476,
   "mappingAnnotationOccurrences": 411,
   "controllerMarkers": 64,
@@ -360,7 +151,7 @@
       "fileBlobSha": "c7559ae0ab64fad1796599d8c51359a0123610b8",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 8,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
@@ -1456,7 +1247,7 @@
       "fileBlobSha": "6acc36590e17b7daf71f0b6e48e406dd490d93a0",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 16,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
@@ -3145,7 +2936,7 @@
       "fileBlobSha": "8f261ea5add2e9798a6c39ec14a5e4d19b7938f4",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 18,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
@@ -9299,7 +9090,7 @@
       "fileBlobSha": "e87dafe398fe266d527c9a70520b86e43f57625f",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 16,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
@@ -10373,7 +10164,7 @@
       "fileBlobSha": "78000be2266f8819f0aa20cd79e17b9236179a6e",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 30,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
@@ -10421,7 +10212,7 @@
       "fileBlobSha": "1d225bf13a24c43b6532bd95d94d7ac5b5ff2c9b",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 63,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
@@ -10437,7 +10228,7 @@
       "fileBlobSha": "9a1945c4f1b607940e1cc968d9150c57b15c0cb6",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 12,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
@@ -10559,7 +10350,7 @@
       "fileBlobSha": "696526779d9d5ddfd6c3f0e548863e0493ee9316",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 35,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
@@ -10574,7 +10365,7 @@
       "fileBlobSha": "8d5da49c6447e298d6d3bf6d21b205d3815305c9",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 10,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
@@ -10845,7 +10636,7 @@
       "fileBlobSha": "1ae800d04ca5d171d779888675be2756b38df592",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 14,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
@@ -10968,7 +10759,7 @@
       "fileBlobSha": "db242102660b40a252e96bef39d87c39648de7fd",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 36,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
@@ -11095,7 +10886,7 @@
       "fileBlobSha": "b014c2440904f4df35a49511973c9fb9513cc8a2",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 18,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
@@ -11690,7 +11481,7 @@
       "fileBlobSha": "6f3cd607a60cac175d7fb647574714e9c344567f",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 31,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
@@ -12102,7 +11893,7 @@
       "fileBlobSha": "bff9f2e5feab9f601d3d67f2820ec7e39bd4b834",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 49,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
@@ -12266,7 +12057,7 @@
       "fileBlobSha": "bb9b2915f71d70e4499354cc548bf4658b77b20e",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 21,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
@@ -12311,7 +12102,7 @@
       "fileBlobSha": "6e2dda99a4d8209956a01d81812cbbab1ccbfdd7",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 15,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
@@ -12404,7 +12195,7 @@
       "fileBlobSha": "c41484f2333de0c15264d303f3eb5dbae5cd3193",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 21,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
@@ -12420,7 +12211,7 @@
       "fileBlobSha": "22f4f61514d93ef16163e301c63cc1402450d966",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 54,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
@@ -12525,7 +12316,7 @@
       "fileBlobSha": "70712fbd71db015e640f4d70377f3153b1bf995c",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 48,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
@@ -12590,7 +12381,7 @@
       "fileBlobSha": "4dc7a919e9b56a1176cb946180530dab9a2a664d",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 39,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
@@ -12606,7 +12397,7 @@
       "fileBlobSha": "cc9ad0d39103e79860f73bd28b764ac5815dcb11",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 38,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
@@ -12771,7 +12562,7 @@
       "fileBlobSha": "60010085766fe41ca5ddba473f1e3cca67931af7",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 17,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
@@ -12891,7 +12682,7 @@
       "fileBlobSha": "b4d90140501756d32fe1b3c14170fa3ba067caa1",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 30,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
@@ -13393,7 +13184,7 @@
       "fileBlobSha": "d009f69376049cca4660b4b6cbb671620cb34b8d",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 13,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
@@ -13593,7 +13384,7 @@
       "fileBlobSha": "8764e45647096895bf9b77535e6efffebe46139d",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 8,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
@@ -14211,7 +14002,7 @@
       "fileBlobSha": "56c5f1534c079addf5d5b0d02173993d78f3ee58",
       "contentAvailable": true,
       "inspected": true,
-      "scanStatus": "AST_PARSE_DIAGNOSTIC_ERROR",
+      "scanStatus": "CONTENT_SHA_VERIFIED_AST_PARSED",
       "signalCount": 7,
       "classifierConfidence": "JAVA_AST_SYNTAX_NO_TYPE_BINDING",
       "unresolvedSemanticQuestions": [
