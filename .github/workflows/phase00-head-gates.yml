@@ -1,0 +1,48 @@
+name: Phase00 per-HEAD read-only integrity
+on:
+  push:
+    branches: [feat/next-phase-00]
+  pull_request:
+    branches: [integration/grimmlink-next]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  phase00-static-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Unit tests of route/chain semantics and negative release gates
+        run: python -m unittest discover -s scripts/phase-00 -p "test_*.py" -v
+      - name: Fixture definition structural validation (not executed HTTP tests)
+        run: |
+          python scripts/phase-00/validate-negative-fixtures.py docs/implementation/phase-00/SECURITY-NEGATIVE-FIXTURES.json /tmp/fixtures.json
+          python - <<'PY'
+          import json
+          x=json.load(open("/tmp/fixtures.json"))
+          assert x["totalDefinitions"]==109 and x["uniqueFixtureIds"]==109 and not x["failures"]
+          print("109/109 STATIC fixtures only; HTTP/E2E NOT_RUN")
+          PY
+      - name: Verify unchanged independent review and fail-closed gate JSON
+        run: |
+          python scripts/phase-00/validate-phase00-release-gates.py --repo . --output /tmp/gate.json
+          python - <<'PY'
+          import json
+          new=json.load(open("/tmp/gate.json"))
+          old=json.load(open("docs/implementation/phase-00/PHASE00-GATE-STATUS.json"))
+          assert new==old, "Committed gate receipt differs from computed evidence"
+          assert new["phase00ContractLocked"] is False
+          assert new["phase01Authorized"] is False
+          assert new["freshIndependentVerdict"]=="NOT_RUN"
+          print("SOURCE/STATIC INTEGRITY PASSED, NOT SECURITY APPROVAL")
+          PY
+      - name: Show exact inspected revision
+        run: |
+          git rev-parse HEAD
+          echo "NO PHASE01 APPROVAL; no runtime, network, Hermes or Phase09 tests"

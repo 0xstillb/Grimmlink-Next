@@ -1,3 +1,9 @@
+## HEAD source CI and independent closure — 2026-10-29 (NOT APPROVED)
+
+See [Closure Decision Queue](PHASE00-CLOSURE-DECISION-2026-10-29.md). Added read-only CI for every feature push/PR update with negative tests for status self-unlock, route forwarding and review tampering. This checks source/static evidence only; the historical independent CHANGES_REQUIRED verdict remains. No gateway/authorization runtime tests, no real E2E (Phase09 only). Do not merge, change Contract Lock or authorize Phase01 until a separate genuine independent PASS with exact reviewed HEAD.
+
+---
+
 ## PHASE00 LATEST REVIEW-GATE EVIDENCE — 2026-10-29: INDEPENDENT PASS STILL REQUIRED
 
 [GitHub Actions 40831672425](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40831672425) SUCCESS: 403/403 pinned Official method/path/verb source variants classified against ordered SecurityConfig source chain candidates; all 403 DENY gateway forwarding, not executable runtime Spring authorization. **348 mapping records but only 346 unique method names** due to overloaded BookCoverController#regenerateCovers and FileUploadController#uploadFile. Fixed source-key collision by using file + mapping line + handler. Exactly one representative matcher ambiguity for /api/v1/opds versus OPDS /** root; runtime decision NOT_RUN.
