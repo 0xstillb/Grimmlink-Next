@@ -1,5 +1,33 @@
 # Phase 02 — Gateway, Auth & Official REST Client (IN PROGRESS)
 
+## Current checkpoint — Executable Single-Port MOCK Gateway (2026-10-29)
+
+**Phase02 exit gate:** `GATEWAY_CODE_REVIEWED` **NOT GRANTED**; reviewer and real Spring runtime owner signoff remain outstanding. **No production or live Official forwarding**.
+
+### New code & configuration
+
+- `gateway/Caddyfile.phase02.mock` + `gateway/Dockerfile.mock`: constrained loopback host 6060 Caddy, Caddy admin OFF, no Official upstream, exact local GET path allowlist and 403/421 default deny. Caddy file capabilities are stripped for safe `cap_drop: ALL` under non-root user; no blanket privilege relaxation.
+- `compose.phase02.mock.yml`: one host-published `127.0.0.1:6060` only, Adapter in Gateway network namespace on loopback 6061 (never exposed to host or peer containers), read-only/rootless services and bounded logs. Docker bridge is required for local host ingress; **egress isolation is NOT PROVEN**. This Compose **must not be deployed to LAN or production**.
+- `apps/adapter/src/auth/synthetic-acl.ts` + tests: all-or-none, fail-closed synthetic checks for current user, library, book, child file, record, stale/revoked and unsafe batch; never authorizes a real Official route or claims atomic upstream enforcement.
+- `scripts/phase-02/runtime_security_gate.py` + negative tests + `RUNTIME-SECURITY-EVIDENCE.json`: machine gate that explicitly blocks forged Spring runtime PASS and requires actual proofs; current receipt is `NOT_RUN`.
+- `.github/workflows/phase02-gateway.yml`: real isolated Docker Caddy/Adapter mock HTTP tests with single-port/host/port isolation/denial checks, plus frozen workspace unit/mocks and runtime gate integrity tests. The later additional canary log-sink, sensitive-GET and admin-write HTTP fixtures require a new exact-HEAD CI readback.
+
+### CI evidence
+
+- [Phase02 isolated gateway CI #40905567097](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40905567097) **SUCCESS** at source SHA `150bd87f471b242903c8da1147597afffcb29af6`: both `gateway-mocks` and `single-port-mock` jobs passed (Caddy/adapter started, HTTP/capabilities and deny paths tested). This is the **last verified pre-follow-up code SHA**, not the HEAD after later fixtures/docs.
+- The initial internal Docker network prevented host ingress (curl status 000), corrected to loopback-published bridge with egress limitation documented. Prior Caddy Host header-regexp incorrectly returned 421 to valid host; corrected to Caddy `host` matcher. Earlier failed CI checkpoints are not masked by the final PASS.
+- [Phase00 source gate #40905566812](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40905566812) **SUCCESS** for the same earlier SHA; its acceptance remains DESIGN-ONLY.
+- Newer extended security fixture head: **CI PENDING** until actually read back.
+
+### Why Phase02 cannot truthfully be called fully complete
+
+The mock-only configuration deliberately cannot proxy Official UI/API/OPDS/Kobo/KO/Komga or guarantee WebSocket/SSE/Range backward compatibility without exact route ownership and live Spring authorization. There is no live authenticated session issuer, real account/device mapping, or current same-user per-book/file/row atomic proof. Caddy auto-HTTPS is disabled *only because* the tested listener is loopback; there is no public TLS/SNI or IPv6 production test. Docker bridge egress is not proved isolated. Full real Hermes/NAS/readers E2E belongs solely to Phase09. Explicit blockers and fresh-context review request: [INDEPENDENT-REVIEW-REQUEST.md](./INDEPENDENT-REVIEW-REQUEST.md) and [Issue #4](https://github.com/0xstillb/Grimmlink-Next/issues/4).
+
+No merge, production cutover, new Official forwarding allowlist or Phase02 acceptance is authorized.
+
+---
+
+
 ## Follow-up — Typed mocked Official read + separated Auth contract (2026-10-29)
 
 **Implementation HEAD:** See [Draft PR #6](https://github.com/0xstillb/Grimmlink-Next/pull/6) for live branch SHA; this section does not self-attest its own commit. **Phase02 exit gate still OPEN; no code-review approval.**
