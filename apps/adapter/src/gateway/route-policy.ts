@@ -51,6 +51,9 @@ export function classifyGatewayRequest(
     if (
       FORBIDDEN_HEADER_NAMES.has(key) ||
       key.startsWith("x-forwarded-") ||
+      key.startsWith("sec-websocket-") ||
+      ["upgrade", "range", "if-range", "proxy-authorization", "transfer-encoding"].includes(key) ||
+      (key === "accept" && String(value).toLowerCase().includes("text/event-stream")) ||
       (key === "host" && (Array.isArray(value) || typeof value !== "string" || value.includes(",")))
     ) {
       return "INVALID_TARGET";
