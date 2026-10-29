@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "status": "NOT_RUN",
+  "pinnedUpstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+  "sourceRouteVariants": 403,
+  "liveSpringHandlerMappings": "NOT_RUN",
+  "orderedSecurityFilterChains": "NOT_RUN",
+  "effectiveRouteReconciliation": "NOT_RUN",
+  "opdsRootHeadOptionsAliases": "NOT_RUN",
+  "staticWebSocketKoboKomga": "NOT_RUN",
+  "directIpv4Ipv6ContainerIngress": "NOT_RUN",
+  "currentUserBookFileRowAuthorization": "NOT_RUN",
+  "koCredentialSinkCapture": "NOT_RUN",
+  "mockNegativeBatchAndReset": "PARTIAL_SYNTHETIC_ONLY",
+  "independentOwnerSignoff": false,
+  "officialGatewayForwarding": "DENY_ALL",
+  "nativeKosyncProgress": "OFF",
+  "productionDeployment": "NOT_AUTHORIZED",
+  "fullIntegratedE2e": "DEFERRED_TO_PHASE_09"
+}
