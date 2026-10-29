@@ -39,3 +39,11 @@ Latest logging/diagnostics source `223c0d5b` also passed exact-code [Phase01 CI 
 - Source [`04d72a3`](https://github.com/0xstillb/Grimmlink-Next/commit/04d72a3a31953b8be4d6a7295d17ea7435194f20): an unverified book ID is now labeled `bookIdCandidate` instead of `verifiedBookId`. Identity entitlement remains explicitly false.
 - [Phase00 design integrity CI #40876891650](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40876891650): SUCCESS at code SHA 04d72a3a31953b8be4d6a7295d17ea7435194f20. [Phase01 isolated CI #40876891637](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40876891637) was PENDING at this receipt. Do not infer a final result; re-fetch latest HEAD and runs.
 - Independent review: **NOT RUN**. Formatting CI gate is a documented residual; historical pinned Node base requires future security refresh. `FOUNDATION_REVIEWED` **NOT GRANTED**. Keep Draft PR unmerged and all runtime forwarding denied.
+
+## 2026-10-29 fresh-review corrections — implementer, re-review required
+
+The independent [CHANGES_REQUIRED review](./REVIEW.md) at source `7160eca` found five issues. [Remediation receipt](./REMEDIATION-2026-10-29.md) records code and regression-test fixes for nested Pino secret/message leakage, Phase00 malformed-OFF gate states, private backup/restore directories, enforceable Prettier and ARM64 runtime smoke, and typed local metrics contracts. Temporary GitHub formatter was removed after formatting 44 source files.
+
+**Corrected-code checkpoint:** `d14a84d7bf1359e22846db6729fc4d6b6f060dd8`. [Phase00 CI #40883141347](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40883141347) SUCCESS. [Phase01 CI #40883141411](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40883141411) was PENDING when this section was written; check new HEAD runs independently before claiming green. This is NOT an independent re-review verdict; `FOUNDATION_REVIEWED` remains denied.
+
+No Phase02, live Official backend, NAS/reader, personal/session bridge, or production activation. Integrated E2E stays deferred to Phase09.
