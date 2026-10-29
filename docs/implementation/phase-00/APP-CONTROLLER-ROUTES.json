@@ -1,0 +1,1103 @@
+{
+  "schemaVersion": 1,
+  "upstream": {
+    "repo": "grimmory-tools/grimmory",
+    "commit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+    "tag": "v3.5.0"
+  },
+  "counts": {
+    "rootControllerFiles": 56,
+    "rootMethodAnnotations": 321,
+    "appControllerFiles": 8,
+    "appMethodAnnotations": 27,
+    "observedControllerFiles": 64,
+    "observedMethodAnnotations": 348
+  },
+  "countingMethod": "Each method-level Spring mapping annotation counts once; class prefixes excluded; multi-method/path annotations not expanded; HEAD/OPTIONS/runtime not counted.",
+  "scope": "Recognized *Controller.java classes in pinned backend Java tree, not proof of ALL source handlers or runtime mappings",
+  "sourceCompleteness": "PARTIAL_PENDING_OTHER_HANDLER_MECHANISMS_SEARCH",
+  "runtimeCompleteness": "NOT_RUN",
+  "gatewayImplementation": "DESIGN_SPECIFIED_ONLY",
+  "routes": [
+    {
+      "controller": "AppAuthorController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppAuthorController.java",
+      "sourceLine": 26,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppAuthorController.java#L26",
+      "classPrefix": "/api/v1/app/authors",
+      "annotation": "@GetMapping",
+      "declaredHttpMethods": [
+        "GET"
+      ],
+      "declaredPathVariants": [
+        ""
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/authors"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "READ",
+      "gatewayPolicy": "EXPLICIT_UI_COMPATIBILITY_POLICY",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppAuthorController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppAuthorController.java",
+      "sourceLine": 44,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppAuthorController.java#L44",
+      "classPrefix": "/api/v1/app/authors",
+      "annotation": "@GetMapping(\"/{authorId}\")",
+      "declaredHttpMethods": [
+        "GET"
+      ],
+      "declaredPathVariants": [
+        "/{authorId}"
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/authors/{authorId}"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "READ",
+      "gatewayPolicy": "EXPLICIT_UI_COMPATIBILITY_POLICY",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppBookController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppBookController.java",
+      "sourceLine": 27,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppBookController.java#L27",
+      "classPrefix": "/api/v1/app/books",
+      "annotation": "@GetMapping",
+      "declaredHttpMethods": [
+        "GET"
+      ],
+      "declaredPathVariants": [
+        ""
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/books"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "READ",
+      "gatewayPolicy": "EXPLICIT_UI_COMPATIBILITY_POLICY",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppBookController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppBookController.java",
+      "sourceLine": 39,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppBookController.java#L39",
+      "classPrefix": "/api/v1/app/books",
+      "annotation": "@GetMapping(\"/ids\")",
+      "declaredHttpMethods": [
+        "GET"
+      ],
+      "declaredPathVariants": [
+        "/ids"
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/books/ids"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "READ",
+      "gatewayPolicy": "EXPLICIT_UI_COMPATIBILITY_POLICY",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppBookController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppBookController.java",
+      "sourceLine": 51,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppBookController.java#L51",
+      "classPrefix": "/api/v1/app/books",
+      "annotation": "@GetMapping(\"/{bookId}\")",
+      "declaredHttpMethods": [
+        "GET"
+      ],
+      "declaredPathVariants": [
+        "/{bookId}"
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/books/{bookId}"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "READ",
+      "gatewayPolicy": "EXPLICIT_REVIEW_BEFORE_UPSTREAM",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppBookController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppBookController.java",
+      "sourceLine": 58,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppBookController.java#L58",
+      "classPrefix": "/api/v1/app/books",
+      "annotation": "@GetMapping(\"/{bookId}/progress\")",
+      "declaredHttpMethods": [
+        "GET"
+      ],
+      "declaredPathVariants": [
+        "/{bookId}/progress"
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/books/{bookId}/progress"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "READ",
+      "gatewayPolicy": "EXPLICIT_REVIEW_BEFORE_UPSTREAM",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppBookController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppBookController.java",
+      "sourceLine": 65,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppBookController.java#L65",
+      "classPrefix": "/api/v1/app/books",
+      "annotation": "@PutMapping(\"/{bookId}/progress\")",
+      "declaredHttpMethods": [
+        "PUT"
+      ],
+      "declaredPathVariants": [
+        "/{bookId}/progress"
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/books/{bookId}/progress"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "UPDATE",
+      "gatewayPolicy": "EXPLICIT_REVIEW_BEFORE_UPSTREAM",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppBookController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppBookController.java",
+      "sourceLine": 79,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppBookController.java#L79",
+      "classPrefix": "/api/v1/app/books",
+      "annotation": "@GetMapping(\"/search\")",
+      "declaredHttpMethods": [
+        "GET"
+      ],
+      "declaredPathVariants": [
+        "/search"
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/books/search"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "READ",
+      "gatewayPolicy": "EXPLICIT_UI_COMPATIBILITY_POLICY",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppBookController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppBookController.java",
+      "sourceLine": 93,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppBookController.java#L93",
+      "classPrefix": "/api/v1/app/books",
+      "annotation": "@GetMapping(\"/continue-reading\")",
+      "declaredHttpMethods": [
+        "GET"
+      ],
+      "declaredPathVariants": [
+        "/continue-reading"
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/books/continue-reading"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "READ",
+      "gatewayPolicy": "EXPLICIT_UI_COMPATIBILITY_POLICY",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppBookController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppBookController.java",
+      "sourceLine": 105,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppBookController.java#L105",
+      "classPrefix": "/api/v1/app/books",
+      "annotation": "@GetMapping(\"/continue-listening\")",
+      "declaredHttpMethods": [
+        "GET"
+      ],
+      "declaredPathVariants": [
+        "/continue-listening"
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/books/continue-listening"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "READ",
+      "gatewayPolicy": "EXPLICIT_UI_COMPATIBILITY_POLICY",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppBookController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppBookController.java",
+      "sourceLine": 117,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppBookController.java#L117",
+      "classPrefix": "/api/v1/app/books",
+      "annotation": "@GetMapping(\"/recently-added\")",
+      "declaredHttpMethods": [
+        "GET"
+      ],
+      "declaredPathVariants": [
+        "/recently-added"
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/books/recently-added"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "READ",
+      "gatewayPolicy": "EXPLICIT_UI_COMPATIBILITY_POLICY",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppBookController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppBookController.java",
+      "sourceLine": 129,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppBookController.java#L129",
+      "classPrefix": "/api/v1/app/books",
+      "annotation": "@GetMapping(\"/recently-scanned\")",
+      "declaredHttpMethods": [
+        "GET"
+      ],
+      "declaredPathVariants": [
+        "/recently-scanned"
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/books/recently-scanned"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "READ",
+      "gatewayPolicy": "EXPLICIT_UI_COMPATIBILITY_POLICY",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppBookController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppBookController.java",
+      "sourceLine": 141,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppBookController.java#L141",
+      "classPrefix": "/api/v1/app/books",
+      "annotation": "@PutMapping(\"/{bookId}/status\")",
+      "declaredHttpMethods": [
+        "PUT"
+      ],
+      "declaredPathVariants": [
+        "/{bookId}/status"
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/books/{bookId}/status"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "UPDATE",
+      "gatewayPolicy": "EXPLICIT_REVIEW_BEFORE_UPSTREAM",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppBookController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppBookController.java",
+      "sourceLine": 155,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppBookController.java#L155",
+      "classPrefix": "/api/v1/app/books",
+      "annotation": "@PutMapping(\"/{bookId}/rating\")",
+      "declaredHttpMethods": [
+        "PUT"
+      ],
+      "declaredPathVariants": [
+        "/{bookId}/rating"
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/books/{bookId}/rating"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "UPDATE",
+      "gatewayPolicy": "EXPLICIT_REVIEW_BEFORE_UPSTREAM",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppBookController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppBookController.java",
+      "sourceLine": 169,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppBookController.java#L169",
+      "classPrefix": "/api/v1/app/books",
+      "annotation": "@GetMapping(\"/random\")",
+      "declaredHttpMethods": [
+        "GET"
+      ],
+      "declaredPathVariants": [
+        "/random"
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/books/random"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "READ",
+      "gatewayPolicy": "EXPLICIT_UI_COMPATIBILITY_POLICY",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppFilterController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppFilterController.java",
+      "sourceLine": 27,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppFilterController.java#L27",
+      "classPrefix": "/api/v1/app",
+      "annotation": "@GetMapping(\"/filter-options\")",
+      "declaredHttpMethods": [
+        "GET"
+      ],
+      "declaredPathVariants": [
+        "/filter-options"
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/filter-options"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "READ",
+      "gatewayPolicy": "EXPLICIT_UI_COMPATIBILITY_POLICY",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppLibraryController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppLibraryController.java",
+      "sourceLine": 37,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppLibraryController.java#L37",
+      "classPrefix": "/api/v1/app/libraries",
+      "annotation": "@GetMapping",
+      "declaredHttpMethods": [
+        "GET"
+      ],
+      "declaredPathVariants": [
+        ""
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/libraries"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "READ",
+      "gatewayPolicy": "EXPLICIT_UI_COMPATIBILITY_POLICY",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppNotebookController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppNotebookController.java",
+      "sourceLine": 30,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppNotebookController.java#L30",
+      "classPrefix": "/api/v1/app/notebook",
+      "annotation": "@GetMapping(\"/books\")",
+      "declaredHttpMethods": [
+        "GET"
+      ],
+      "declaredPathVariants": [
+        "/books"
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/notebook/books"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "READ",
+      "gatewayPolicy": "EXPLICIT_REVIEW_BEFORE_UPSTREAM",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppNotebookController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppNotebookController.java",
+      "sourceLine": 44,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppNotebookController.java#L44",
+      "classPrefix": "/api/v1/app/notebook",
+      "annotation": "@GetMapping(\"/books/{bookId}/entries\")",
+      "declaredHttpMethods": [
+        "GET"
+      ],
+      "declaredPathVariants": [
+        "/books/{bookId}/entries"
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/notebook/books/{bookId}/entries"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "READ",
+      "gatewayPolicy": "EXPLICIT_REVIEW_BEFORE_UPSTREAM",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppNotebookController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppNotebookController.java",
+      "sourceLine": 61,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppNotebookController.java#L61",
+      "classPrefix": "/api/v1/app/notebook",
+      "annotation": "@PutMapping(\"/entries/{entryId}\")",
+      "declaredHttpMethods": [
+        "PUT"
+      ],
+      "declaredPathVariants": [
+        "/entries/{entryId}"
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/notebook/entries/{entryId}"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "UPDATE",
+      "gatewayPolicy": "EXPLICIT_REVIEW_BEFORE_UPSTREAM",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppNotebookController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppNotebookController.java",
+      "sourceLine": 75,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppNotebookController.java#L75",
+      "classPrefix": "/api/v1/app/notebook",
+      "annotation": "@DeleteMapping(\"/entries/{entryId}\")",
+      "declaredHttpMethods": [
+        "DELETE"
+      ],
+      "declaredPathVariants": [
+        "/entries/{entryId}"
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/notebook/entries/{entryId}"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "DELETE",
+      "gatewayPolicy": "EXPLICIT_REVIEW_BEFORE_UPSTREAM",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppSeriesController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppSeriesController.java",
+      "sourceLine": 26,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppSeriesController.java#L26",
+      "classPrefix": "/api/v1/app/series",
+      "annotation": "@GetMapping",
+      "declaredHttpMethods": [
+        "GET"
+      ],
+      "declaredPathVariants": [
+        ""
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/series"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "READ",
+      "gatewayPolicy": "EXPLICIT_UI_COMPATIBILITY_POLICY",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppSeriesController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppSeriesController.java",
+      "sourceLine": 49,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppSeriesController.java#L49",
+      "classPrefix": "/api/v1/app/series",
+      "annotation": "@GetMapping(\"/{seriesName}/books\")",
+      "declaredHttpMethods": [
+        "GET"
+      ],
+      "declaredPathVariants": [
+        "/{seriesName}/books"
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/series/{seriesName}/books"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "READ",
+      "gatewayPolicy": "EXPLICIT_UI_COMPATIBILITY_POLICY",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppShelfController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppShelfController.java",
+      "sourceLine": 43,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppShelfController.java#L43",
+      "classPrefix": "/api/v1/app/shelves",
+      "annotation": "@GetMapping",
+      "declaredHttpMethods": [
+        "GET"
+      ],
+      "declaredPathVariants": [
+        ""
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/shelves"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "READ",
+      "gatewayPolicy": "EXPLICIT_UI_COMPATIBILITY_POLICY",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppShelfController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppShelfController.java",
+      "sourceLine": 62,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppShelfController.java#L62",
+      "classPrefix": "/api/v1/app/shelves",
+      "annotation": "@GetMapping(\"/magic\")",
+      "declaredHttpMethods": [
+        "GET"
+      ],
+      "declaredPathVariants": [
+        "/magic"
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/shelves/magic"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "READ",
+      "gatewayPolicy": "EXPLICIT_UI_COMPATIBILITY_POLICY",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppShelfController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppShelfController.java",
+      "sourceLine": 100,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppShelfController.java#L100",
+      "classPrefix": "/api/v1/app/shelves",
+      "annotation": "@GetMapping(\"/magic/{magicShelfId}/books\")",
+      "declaredHttpMethods": [
+        "GET"
+      ],
+      "declaredPathVariants": [
+        "/magic/{magicShelfId}/books"
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/shelves/magic/{magicShelfId}/books"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "READ",
+      "gatewayPolicy": "EXPLICIT_UI_COMPATIBILITY_POLICY",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    },
+    {
+      "controller": "AppUserController",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppUserController.java",
+      "sourceLine": 29,
+      "sourceUrl": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppUserController.java#L29",
+      "classPrefix": "/api/v1/app/users",
+      "annotation": "@GetMapping(\"/me\")",
+      "declaredHttpMethods": [
+        "GET"
+      ],
+      "declaredPathVariants": [
+        "/me"
+      ],
+      "effectiveCandidatePaths": [
+        "/api/v1/app/users/me"
+      ],
+      "mappingConditions": {
+        "params": [],
+        "headers": [],
+        "consumes": [],
+        "produces": []
+      },
+      "authentication": "JWT_SECURITY_CHAIN_VERIFY",
+      "preAuthorize": "NONE_OBSERVED_AT_HANDLER",
+      "checkBookAccess": "NONE_OBSERVED_AT_HANDLER",
+      "assignedLibrary": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "contentRestriction": "NOT_PROVEN",
+      "personalOwnership": "SERVICE_LEVEL_PER_METHOD_VERIFY",
+      "sideEffects": "READ",
+      "gatewayPolicy": "EXPLICIT_REVIEW_BEFORE_UPSTREAM",
+      "canonicalization": "STRICT_NO_AMBIGUOUS_ALIAS",
+      "negativeFixtureRequired": true,
+      "verificationTier": "SOURCE_VERIFIED_ANNOTATION_ONLY",
+      "runtimeRouteVerified": false,
+      "unresolved": [
+        "Spring runtime mapping and security-chain filters NOT_RUN",
+        "content restriction and mutation-level ownership require method-specific proof"
+      ],
+      "failClosed": "DENY_UNREVIEWED_SENSITIVE_CAPABILITY"
+    }
+  ]
+}

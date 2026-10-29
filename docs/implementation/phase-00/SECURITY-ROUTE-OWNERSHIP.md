@@ -1,0 +1,31 @@
+# Security-sensitive Route Ownership Matrix — Phase00 DESIGN_SPECIFIED
+
+Pinned Grimmory `402e89b4452f8e2b17ab95f16c1621c003516cd2`. **Not an executable Gateway, not deployed, not reviewed.** Never forward an unknown sensitive method/path to Official. For Official UI, only individually justified explicit route policies after authorization review; do not fix compatibility with wildcard allow.
+
+| Methods and externally visible routes | Owner | Admission and safety policy | Current decision |
+| --- | --- | --- | --- |
+| POST `/api/v1/books/reset-progress?type=BOOKLORE` | Official + Gateway | Own Official JWT; validate IDs (1–500, unique, positive); every ID current assigned-library+content eligible; full-batch denial before Official | BLOCKED/OFF |
+| POST `/api/v1/books/reset-progress?type=KOREADER` | Official + Gateway | Same full-batch policy; KO fields distinguished | BLOCKED/OFF |
+| POST `/api/v1/books/reset-progress?type=KOBO` | Official + Gateway | Same; user-scoped Kobo state deletion must not be claimed global | BLOCKED/OFF |
+| POST `/api/v1/books/reset-personal-rating` | Official + Gateway | Same whole-batch current eligibility; own row is insufficient | BLOCKED/OFF |
+| GET/PUT `/api/v1/app/books/{bookId}/progress` | Official + Gateway | JWT + current book/library/content entitlement; exact file ID; side-effect only PUT | BLOCKED pending ACL proof |
+| PUT `/api/v1/app/books/{bookId}/status`, `/rating` | Official + Gateway | JWT + per-book current entitlement; no manual status fabrication | BLOCKED pending ACL proof |
+| GET `/api/v1/app/notebook/books/{bookId}/entries` | Official + Gateway | JWT + row scoping AND current book entitlement; suppress stale-row data | BLOCKED pending ACL proof |
+| PUT/DELETE `/api/v1/app/notebook/entries/{entryId}?type=...` | Official + Gateway | Resolve type + entry owner + linked book + content eligibility, deny foreign item BEFORE delegate | BLOCKED pending ACL proof |
+| GET `/api/v1/app/books`, `/ids`, `/{bookId}`, `/search`, `/continue-*`, `/recently-*`, `/random` | Official UI data | JWT and response visibility/data scoping review; do not assume library filter covers content restrictions | EXPLICIT_REVIEW_REQUIRED |
+| GET `/api/v1/app/authors/**`, `/series/**`, `/filter-options`, `/libraries`, `/shelves/**`, `/users/me` | Official UI data | JWT, assigned library, public shelf visibility and private fields review | EXPLICIT_REVIEW_REQUIRED |
+| `/api/v1/bookmarks/**`, `/annotations/**`, `/book-notes/**`, `/pdf-annotations/**`, `/reading-sessions/**`, `/shelves/**`, user/settings/KO-profile routes | Official personal | Exact method/path inventory before forwarding; own user + book entitlement + per-item owner + read vs mutation | BLOCKED unless separately reviewed |
+| GET/PUT `/api/koreader/syncs/progress/**` | Official Native KO + Gateway | KO MD5 credentials not a JWT; strict per-user and per-book atomic entitlement unavailable | NATIVE_KOSYNC_PROGRESS=BLOCKED/OFF |
+| GET `/api/koreader/users/auth` and POST `/api/koreader/users/create` | Official KO protocol | explicit read/auth policy and disabled registration, no KO secret echo; not a progress bypass | REVIEWED_POLICY_REQUIRED |
+| `/komga/api/**`, `/api/kobo/{token}/**` | Official compatibility / third-party | class prefix, methods, proxy/catchall, token secrecy and network policy; never use as personal bypass | EXPLICIT_REVIEW_REQUIRED |
+| Unknown method or path under sensitive prefixes | Gateway | strict default deny; 404 or 405 according to fixed policy, zero upstream calls | REQUIRED_GATEWAY |
+
+## Canonicalization and network contract
+
+1. At first trusted ingress, match normalized **method + canonical path + exact query conditions** before upstream dispatch. Reject encoded slash, double-encoding, dot segments, semicolon matrix params, ambiguous trailing slash, duplicate separators, suspicious Unicode, invalid percent escapes; compare raw and normalized representations. Handle path variables and ordering without confused-deputy aliases.
+2. Host/SNI and scheme allowlist; no client-controlled Forwarded/X-Forwarded-*; proxy strip/repopulate; no alternate IPv4/IPv6 ingress, hostNetwork, direct container/backend port or proxy rewrite bypass. Single external :6060 listener. Validate with Phase02 mocked/static and Phase09 network tests.
+3. HEAD, OPTIONS, preflight and CORS policies are explicit, never automatic privileged mutation. Reject unsupported methods uniformly. Avoid book-existence timing/status differences where denial could leak personal information.
+4. Apply user entitlement on **all** requested bookIds and their file/edition identity. A precheck is NOT atomic authorization inside Official's write transaction; when this guarantee is mandatory and absent, leave route OFF. No item-by-item replays after batch denial.
+5. Evidence levels: SOURCE_VERIFIED for cited upstream handlers; DESIGN_SPECIFIED for policies; IMPLEMENTED_VERIFIED/DEPLOYED_VERIFIED **NONE**; tests NOT_RUN. App read/list privacy and Official UI compatibility still under review.
+
+Sources: [BookController:318–348](https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/BookController.java#L318); [AppBookController:58–155](https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppBookController.java#L58); [AppBookService:161–228](https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/service/AppBookService.java#L161); [AppNotebookController:44–75](https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppNotebookController.java#L44); [AppNotebookService:75–159](https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/service/AppNotebookService.java#L75); [KoreaderService:271–293](https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/service/koreader/KoreaderService.java#L271).
