@@ -62,15 +62,24 @@ jobs:
         run: |
           docker run --rm --network none -v "$PWD/gateway/Caddyfile.phase02.mock:/etc/caddy/Caddyfile:ro" \
             --entrypoint caddy caddy:2.10.2-alpine validate --config /etc/caddy/Caddyfile
-      - name: Validate single-host-port and internal-only Compose topology
+      - name: Validate one host port and isolated Compose contract
         run: |
           set -euo pipefail
-          docker compose -f compose.phase02.mock.yml config > /tmp/phase02-resolved.yml
-          grep -q '127.0.0.1:6060' /tmp/phase02-resolved.yml
-          grep -q 'internal: true' /tmp/phase02-resolved.yml
-          grep -q 'network_mode: service:gateway' /tmp/phase02-resolved.yml
-          test "$(grep -c '^    ports:' /tmp/phase02-resolved.yml)" -eq 1
-          ! grep -Eiq '^\s*(official|grimmory):|OFFICIAL_UPSTREAM' /tmp/phase02-resolved.yml
+          docker compose -f compose.phase02.mock.yml config --format json > /tmp/phase02.json
+          python3 - <<'PY'
+          import json
+          d=json.load(open('/tmp/phase02.json',encoding='utf8'))
+          assert set(d['services'])=={'gateway','adapter'},'Unexpected service'
+          g=d['services']['gateway']; a=d['services']['adapter']
+          assert len(g.get('ports',[]))==1,'More than one host publication'
+          p=g['ports'][0]
+          assert (p['published'],p['target'],p.get('host_ip'))==('6060',6060,'127.0.0.1'),p
+          assert a.get('network_mode')=='service:gateway','Adapter not namespace-isolated'
+          assert not a.get('ports'),'Adapter published directly'
+          assert all(x.get('internal') is True for x in d['networks'].values()),'Network permits egress'
+          assert g.get('read_only') is True and a.get('read_only') is True
+          print('MOCK_ONLY_COMPOSE_TOPOLOGY_PASS')
+          PY
       - name: Start isolated mocked Caddy and adapter only
         run: |
           set -euo pipefail
