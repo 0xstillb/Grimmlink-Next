@@ -43,7 +43,9 @@ describe("Phase02 Official fake-only transport", () => {
     const delays: number[] = [];
     const client = createMockOnlyOfficialClient({
       maxAttempts: 3,
-      wait: async (duration) => { delays.push(duration); },
+      wait: async (duration) => {
+        delays.push(duration);
+      },
       transport: async () => {
         count++;
         return count < 3 ? { status: 503, json: { secret: "CANARY" } } : ok;
@@ -112,7 +114,9 @@ describe("Phase02 Official fake-only transport", () => {
   it("never reveals upstream network errors, invalid body data or their canary secrets", async () => {
     const network = createMockOnlyOfficialClient({
       maxAttempts: 1,
-      transport: async () => { throw new Error("passwordMD5=SECRET_CANARY"); },
+      transport: async () => {
+        throw new Error("passwordMD5=SECRET_CANARY");
+      },
     });
     await expect(network.readJson(input)).rejects.toMatchObject({
       code: "NETWORK_FAILURE",
@@ -136,7 +140,13 @@ describe("Phase02 Official fake-only transport", () => {
       maxAttempts: 1,
       transport: async ({ signal }) =>
         new Promise(() => {
-          signal.addEventListener("abort", () => { aborted = true; }, { once: true });
+          signal.addEventListener(
+            "abort",
+            () => {
+              aborted = true;
+            },
+            { once: true },
+          );
         }),
     });
     await expect(client.readJson(input)).rejects.toMatchObject({ code: "TIMEOUT" });
