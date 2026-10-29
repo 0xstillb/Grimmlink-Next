@@ -1,5 +1,27 @@
 # Phase 02 — Gateway, Auth & Official REST Client (IN PROGRESS)
 
+## Follow-up — Typed mocked Official read + separated Auth contract (2026-10-29)
+
+**Implementation HEAD:** See [Draft PR #6](https://github.com/0xstillb/Grimmlink-Next/pull/6) for live branch SHA; this section does not self-attest its own commit. **Phase02 exit gate still OPEN; no code-review approval.**
+
+### Newly implemented
+
+- `packages/official-client/src/mock-transport.ts`: typed mock-only Official GET transport with explicit mock injection (no global fetch), strict origin-relative path/correlation/scope validation, 1–3 bounded attempts, aborting timeout, idempotent GET-only retry for transient failures, sanitizer-safe errors without upstream text or secrets. `isMockVersionCapabilities` validates a **synthetic capability DTO only**, not a confirmed Official endpoint.
+- `packages/official-client/src/index.ts`: existing live client stays disabled and the mock-only contract is separately exported; no admin JWT, KO key or cookie propagation.
+- `apps/adapter/src/auth/policy.ts`: pure authorization contract for verified Admin mutations (exact Origin plus server-session-bound SHA256 CSRF) and separate same-owner Reader identity. Admin cannot inherit Reader permissions. **No live session resolver, login or HTTP mutation endpoint is enabled**.
+- New `mock-transport.test.ts` and `auth/policy.test.ts`: simulated timeout, transient retry, terminal 401/403/404, malformed/credential-bearing DTO, scope/path checks, CSRF, expiration and cross-user refusal.
+- Gateway `route-policy.ts` and tests: deny Range, WebSocket upgrade, SSE and proxy auth/header variants before any forwarding; Official remains `DENY_ALL`.
+
+### Validation and gates
+
+- Preceding bootstrap code commit `f1b6624` passed [Phase02 isolated CI #40899699146](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40899699146) and [Phase00 gate #40899699256](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40899699256) (source-specific, **not** coverage of this new code).
+- **New mock-only/Auth/gateway changes:** exact latest-HEAD CI must be checked independently; **PENDING/NOT YET ATTESTED** at this documentation checkpoint. No successful E2E or live auth claim.
+- Existing hard security blockers under [Issue #4](https://github.com/0xstillb/Grimmlink-Next/issues/4) remain: Spring runtime chains, route owner/record entitlement, direct ingress isolation and single-port Caddy validation, end-to-end mocked Range/WS/SSE compat, real Admin session verifier/device pairing, independent security review.
+- No production or upstream forwarding and no full Hermes/NAS/reader integration before Phase09.
+
+---
+
+
 **Date:** 2026-10-29
 **Base:** `integration/grimmlink-next` at `0579f64afb2d53001c915a10079d00ecd9de0091` (merged Phase01 technical foundation).
 **Branch:** `feat/next-phase-02`
