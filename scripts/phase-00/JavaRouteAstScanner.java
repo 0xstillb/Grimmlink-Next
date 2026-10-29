@@ -26,7 +26,7 @@ public final class JavaRouteAstScanner {
         if(!file.startsWith(root)||!Files.isRegularFile(file))throw new IOException("invalid path "+path);
         files.add(file.toFile());
       }
-      JavacTask task=(JavacTask)javac.getTask(null,fm,errors,List.of("-proc:none","-encoding","UTF-8","-Xlint:none"),null,fm.getJavaFileObjectsFromFiles(files));
+      JavacTask task=(JavacTask)javac.getTask(null,fm,errors,List.of("-proc:none","--enable-preview","--source","21","-encoding","UTF-8","-Xlint:none"),null,fm.getJavaFileObjectsFromFiles(files));
       Trees trees=Trees.instance(task);
       for(CompilationUnitTree unit:task.parse()) {
         String path=root.relativize(Paths.get(unit.getSourceFile().toUri()).toRealPath()).toString().replace(File.separatorChar,'/');
