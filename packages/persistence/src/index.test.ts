@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { mkdtempSync, rmSync, statSync, symlinkSync } from "node:fs";
+import { chmodSync, mkdtempSync, rmSync, statSync, symlinkSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -32,6 +32,8 @@ describe("local durable SQLite", () => {
       await createVerifiedBackup(store.sqlite, backupFile);
       expect(statSync(backupFile).mode & 0o777).toBe(0o600);
       await expect(createVerifiedBackup(store.sqlite, backupFile)).rejects.toThrow("already exists");
+      // A readable source snapshot must never make the newly created restore readable.
+      chmodSync(backupFile, 0o644);
       const restoredFile = join(dir, "restored.sqlite");
       restoreBackupToNewLocation(backupFile, restoredFile);
       expect(statSync(restoredFile).mode & 0o777).toBe(0o600);
@@ -43,6 +45,8 @@ describe("local durable SQLite", () => {
       const dangling = join(dir, "dangling.sqlite");
       symlinkSync(join(dir,"nonexistent.sqlite"),dangling);
       await expect(createVerifiedBackup(store.sqlite, dangling)).rejects.toThrow();
+      expect(() => restoreBackupToNewLocation(backupFile, dangling)).toThrow();
+      expect(() => restoreBackupToNewLocation(dangling, join(dir,"unsafe.sqlite"))).toThrow();
       store.close();
     } finally { rmSync(dir, { recursive: true, force: true }); }
   });
