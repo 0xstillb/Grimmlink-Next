@@ -277,5 +277,11 @@
     "releaseGateIntegrityCI": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/40831960179",
     "source403CI": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/40831672425",
     "freshIndependentVerdict": "NOT_RUN"
-  }
+  },
+  "newP001SourceMechanismStatus": "PINNED_SOURCE_RECONCILED_RUNTIME_AND_INDEPENDENT_ACCEPTANCE_PENDING",
+  "newP001SourceMechanismEvidence": "docs/implementation/phase-00/NEW-P0-01-SOURCE-MECHANISM-RECONCILIATION.md",
+  "newP001SourceAuditor": "scripts/phase-00/audit-route-mechanisms.py",
+  "newP001SourceCi": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/40853316961",
+  "newP001CiArtifact": "new-p0-01-source-mechanism-receipt",
+  "newP001RemainingOwner": "Phase02 runtime Spring/filter-chain mapping, Gateway isolation + reviewer Phase00 contract acceptance"
 }

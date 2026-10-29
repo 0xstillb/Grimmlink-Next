@@ -28,6 +28,12 @@
       "reason": "923/923 SHA and AST"
     },
     {
+      "id": "NEW_P0_01_SOURCE_MECHANISM_INVENTORY",
+      "status": "PINNED_SOURCE_RECONCILED_NOT_RUNTIME",
+      "owner": "Phase00",
+      "reason": "923 Java; 715 signals; 17 programmatic; 160 inheritance; 65 repositories; all route forwarding DENY"
+    },
+    {
       "id": "P00_SYMBOLIC_MAPPING_CONDITIONS",
       "status": "SOURCE_VERIFIED",
       "owner": "Phase00",
@@ -95,5 +101,8 @@
     }
   ],
   "phase00Priority43SourceReviewComplete": true,
-  "sourceAuthorizationCoverage": "43_PRIORITY_REVIEWED_348_SOURCE_RECORDS_DENY_UNTIL_PHASE02"
+  "sourceAuthorizationCoverage": "43_PRIORITY_REVIEWED_348_SOURCE_RECORDS_DENY_UNTIL_PHASE02",
+  "newP001PinnedSourceMechanismReconciled": true,
+  "newP001RuntimeAuthorizationVerified": false,
+  "newP001SourceEvidenceArtifact": "new-p0-01-source-mechanism-receipt"
 }

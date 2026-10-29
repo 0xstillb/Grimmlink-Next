@@ -1,3 +1,9 @@
+## NEW-P0-01 SOURCE MECHANISM SUBGATE — VERIFIED 2026-10-29 (NOT A SECURITY PASS)
+
+[Actual pinned source audit CI 40853316961](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40853316961) SUCCESS on source audit commit `8653ecd8c5f719643fd5950f36aeea58a732e8a9`. [Per-HEAD source/static integrity CI 40853316919](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40853316919) SUCCESS. [Auditor](../../../scripts/phase-00/audit-route-mechanisms.py) / [mechanism reconciliation](NEW-P0-01-SOURCE-MECHANISM-RECONCILIATION.md) use pinned source and 30-day `new-p0-01-source-mechanism-receipt` artifact. **923 SHA/AST files, 715 source signals, 17 programmatic/type signals, 160 inherited/interface flags, 65 repository interfaces and 403 method/path/verb candidates** reconciled; new unknown mechanism fails CI. 43/43 priority auth source dispositions stay 0 allowed. This is a **source mechanism enumeration subgate only**: `SOURCE_ANNOTATION_COMPLETE=false`, Spring runtime, direct backend ingress, current book ACL and Gateway enforcement NOT_RUN/NOT_PROVEN. NEW-P0-01 formal security acceptance remains pending distinct independent reviewer adjudication of Phase00-vs-Phase02 boundary. **Historical CHANGES_REQUIRED, CONTRACT_LOCKED=false and PHASE01_AUTHORIZED=false are unchanged.** No runtime/production/merge authorization.
+
+---
+
 ## HEAD source CI and independent closure — 2026-10-29 (NOT APPROVED)
 
 See [Closure Decision Queue](PHASE00-CLOSURE-DECISION-2026-10-29.md). Added read-only CI for every feature push/PR update with negative tests for status self-unlock, route forwarding and review tampering. This checks source/static evidence only; the historical independent CHANGES_REQUIRED verdict remains. No gateway/authorization runtime tests, no real E2E (Phase09 only). Do not merge, change Contract Lock or authorize Phase01 until a separate genuine independent PASS with exact reviewed HEAD.

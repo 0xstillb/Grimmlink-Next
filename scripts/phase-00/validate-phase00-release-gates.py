@@ -37,11 +37,25 @@ def validate(root,out):
         raise ValueError("inheritance source review coverage shifted")
     if fixture["totalDefinitions"]!=109 or fixture["uniqueFixtureIds"]!=109 or fixture["failures"]:
         raise ValueError("fixture static validation not complete")
+    candidates=load(root,p+"SOURCE-ROUTE-CANDIDATES.json")
+    program=[r for r in candidates["candidates"] if r["handlerMechanism"] in ("PROGRAMMATIC_SOURCE_SIGNAL","FRAMEWORK_TYPE_SIGNAL")]
+    kinds=set(r["handlerMechanism"] for r in candidates["candidates"])
+    if (len(candidates["candidates"]),len(program))!=(715,17) or "OTHER_ENDPOINT_ANNOTATION" in kinds:
+        raise ValueError("NEW-P0-01 alternate source signal census changed")
+    if set(r["sourcePath"] for r in program)!={"backend/src/main/java/org/booklore/config/WebMvcConfig.java",
+        "backend/src/main/java/org/booklore/config/WebSocketConfig.java",
+        "backend/src/main/java/org/booklore/config/security/SecurityConfig.java"}:
+        raise ValueError("NEW-P0-01 unexpected programmatic route owner")
+    if census["customAnnotationDefinitionNames"]!=["CheckBookAccess","CheckLibraryAccess"] or census["mappingAnnotationOccurrences"]!=411:
+        raise ValueError("NEW-P0-01 custom/composed annotation definitions changed")
+    if repo["pinnedGradleLockSpringDataRestDependencies"] or repo["pinnedGradleBuildSpringDataRestDeclarations"] or repo["springDataRestSourceSymbols"]:
+        raise ValueError("NEW-P0-01 repository REST registration evidence changed")
     current=load(root,"docs/implementation/ACTIVE-SESSION.json")
     if current.get("phase01Authorized") is not False or current.get("contractLocked") is not False:
         raise ValueError("active status improperly approved")
     gates=[
       ("P00_PINNED_SOURCE_CENSUS","SOURCE_VERIFIED", "Phase00","923/923 SHA and AST"),
+      ("NEW_P0_01_SOURCE_MECHANISM_INVENTORY","PINNED_SOURCE_RECONCILED_NOT_RUNTIME","Phase00","923 Java; 715 signals; 17 programmatic; 160 inheritance; 65 repositories; all route forwarding DENY"),
       ("P00_SYMBOLIC_MAPPING_CONDITIONS","SOURCE_VERIFIED","Phase00","15/15 exact source constants"),
       ("P00_SECURITY_CHAIN_CLASSIFICATION","SOURCE_CANDIDATES_CLASSIFIED_NOT_RUNTIME","Phase00/02","403/403; root wildcard semantics outstanding"),
       ("P00_AUTH_OWNER_INVENTORY","DENY_BY_DEFAULT_DOCUMENTED","Phase00/02","348/348 mapping records; no allow decisions"),
@@ -58,6 +72,9 @@ def validate(root,out):
       "sourcePin":PIN,"independentReviewReportGitBlob":REVIEW_BLOB,
       "phase00SourceCensusVerified":True,"phase00SourceAuthorizationReviewComplete":False,
       "phase00Priority43SourceReviewComplete":True,
+      "newP001PinnedSourceMechanismReconciled":True,
+      "newP001RuntimeAuthorizationVerified":False,
+      "newP001SourceEvidenceArtifact":"new-p0-01-source-mechanism-receipt",
       "sourceAuthorizationCoverage":"43_PRIORITY_REVIEWED_348_SOURCE_RECORDS_DENY_UNTIL_PHASE02",
       "securityContractReadyForIndependentAcceptance":False,
       "sourceAnnotationComplete":False,"runtimeSpringRouteComplete":"NOT_RUN",
