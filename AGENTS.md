@@ -1,3 +1,13 @@
+## CURRENT — Phase02 single-port MOCK Gateway CI PASS / hard runtime gates OPEN (2026-10-29)
+
+[Draft PR #6](https://github.com/0xstillb/Grimmlink-Next/pull/6) remains **OPEN / DRAFT / NOT MERGED**. From integrated Phase01 `0579f64`, Phase02 has Caddy :6060 host-loopback single-port mock topology, Adapter 127.0.0.1:6061 private shared network namespace, fail-closed all-Official routing, pure Admin/Reader CSRF/ownership policies, typed mock-only REST client, synthetic all-or-none per-book/file/row entitlement, and source/runtime evidence hold gate. [Phase02 RESULT](docs/implementation/phase-02/RESULT.md) / [HANDOFF](docs/implementation/phase-02/HANDOFF.json) and [independent review request](docs/implementation/phase-02/INDEPENDENT-REVIEW-REQUEST.md).
+
+**Last proven Docker mock run:** [CI #40905567097](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40905567097) **SUCCESS** at exact source `150bd87f471b242903c8da1147597afffcb29af6` (two jobs; isolated Caddy-Adapter HTTP, unit and mock). Extended log canary and docs commits occurred **after** that SHA; read live HEAD CI before claiming full green. Docker bridge only publishes host-loopback and does **not prove egress isolation**. Caddy HTTP/no TLS is strictly local mock, not production-ready.
+
+**Gate:** `GATEWAY_CODE_REVIEWED` **NOT GRANTED**; no live Spring `RequestMappingHandlerMapping`/`SecurityFilterChain`/current record rights, authenticated Official JWT/device pairing, production TLS/direct IPv4+IPv6/egress proof or separate-context independent review. [Issue #4](https://github.com/0xstillb/Grimmlink-Next/issues/4) remains HARD BLOCK. All Official upstream candidates `DENY_ALL`; native progress/metadata/personal/session/reset bridges OFF. No Hermes/NAS/real readers until Phase09. Root `ACTIVE-SESSION.phaseStatus=FOUNDATION_REVIEWED` remains Phase01 immutable receipt while `phase02Work` is live active phase; do not forge Phase02 security state.
+
+---
+
 ## CURRENT — Phase02 MOCK_CLIENT_AUTH_IN_PROGRESS (2026-10-29; Draft PR #6)
 
 **Live source:** [Phase02 Draft PR #6](https://github.com/0xstillb/Grimmlink-Next/pull/6) based on merged Phase01 integration commit `0579f64afb2d53001c915a10079d00ecd9de0091`. Current Phase02 work is recorded in `docs/implementation/ACTIVE-SESSION.json.phase02Work`, [Phase02 RESULT](docs/implementation/phase-02/RESULT.md) and [HANDOFF](docs/implementation/phase-02/HANDOFF.json). The root `phase=01 / FOUNDATION_REVIEWED` fields remain as an immutable compatible foundation receipt until Phase02 state gate is formally reviewed; they do **not** indicate Phase02 is inactive.
