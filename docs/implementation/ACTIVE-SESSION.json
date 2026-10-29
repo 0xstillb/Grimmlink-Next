@@ -7,19 +7,19 @@
   "preferredModel": "GPT-6",
   "phase": "01",
   "phaseName": "TypeScript Core, Persistence & Observability Foundation",
-  "phaseStatus": "FOUNDATION_IN_PROGRESS",
+  "phaseStatus": "FOUNDATION_CODE_CORRECTED_INDEPENDENT_REVIEW_PENDING",
   "branch": "feat/next-phase-01",
   "integrationBranch": "integration/grimmlink-next",
   "productionBranch": "main",
   "baseIntegrationCommit": "4b4a924cf225734dab0d17114f878b5b1982d4a9",
-  "lastVerifiedPriorCommit": "a33fa103cf2da053cd256826b5e780b8d3a063b8",
+  "lastVerifiedPriorCommit": "04d72a3a31953b8be4d6a7295d17ea7435194f20",
   "currentHead": "READ_LIVE_GITHUB_NO_SELF_SHA",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/5",
   "prStatus": "OPEN_DRAFT",
   "phase00Review": "PASS_PHASE00_DESIGN_ONLY_RUNTIME_NOT_VERIFIED",
   "phase01Authorized": true,
   "codeImplemented": true,
-  "codeStatus": "FOUNDATION_CODE_IMPLEMENTED_REVIEW_PENDING",
+  "codeStatus": "SOURCE_CORRECTED_EXACT_HEAD_CI_PENDING",
   "unitTestRun": {
     "url": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/40872799995",
     "codeHead": "223c0d5b2fa2fd5249f0e9719b5ca632f5d65209",
@@ -28,7 +28,7 @@
   },
   "testsNotRun": [
     "INDEPENDENT_FRESH_CONTEXT_PHASE01_REVIEW",
-    "IMMUTABLE_DOCKER_BASE_DIGEST_AUDIT",
+    "LATEST_EXACT_HEAD_ARM64_PENDING",
     "PHASE02_GATEWAY_RUNTIME_AUTH",
     "PHASE05_NATIVE_KOSYNC_ACL",
     "PHASE07_PERSONAL_SESSION_RUNTIME",
@@ -50,11 +50,13 @@
     "fullE2ePhase": "09"
   },
   "blockers": [
-    "Phase01 fresh independent reviewer verdict not yet obtained",
-    "Docker base node:22.16.0-bookworm-slim is patch-tag pinned, not immutable registry digest",
-    "Phase02/05/07 runtime security Issue #4 and Phase09 full E2E explicitly deferred"
+    "Fresh independent exact-HEAD Phase01 reviewer verdict not yet obtained",
+    "Exact-head isolated Phase01 CI and ARM64 must finish successfully after latest corrections",
+    "Prettier format --check not enforced in CI; independent reviewer must determine gate need",
+    "Pinned historical Node base requires separate CVE/patch review before production (Phase09)",
+    "Runtime security Phases02/05/07 and Phase09 full E2E intentionally deferred"
   ],
-  "nextAction": "Phase01 implementation and current exact code CI verified; request genuinely fresh independent review and fix findings. Keep Draft PR unmerged; preserve Phase02/05/07 security gates and Phase09 E2E.",
+  "nextAction": "Verify successful exact-head isolated CI on final documentation HEAD, then request a genuinely fresh independent Phase01 review with file:line verdict. Keep PR #5 Draft, do not self-PASS, merge or start Phase02.",
   "updatedAt": "2026-10-29",
   "contractLocked": true,
   "phase01Scope": "FOUNDATION_ONLY",
@@ -66,5 +68,16 @@
     "managedProjection": "BLOCKED_OFF",
     "resetProgress": "BLOCKED_OFF",
     "resetPersonalRating": "BLOCKED_OFF"
+  },
+  "latestImplementationCheckpoint": "04d72a3a31953b8be4d6a7295d17ea7435194f20",
+  "latestImplementationCorrections": [
+    "c9dd8cd08a7c8b64933660d5c1f0bee6a994a1d4: enforce private SQLite file and parent-dir modes, reject symlink/hardlink, add negative tests and private Docker /app/data",
+    "04d72a3a31953b8be4d6a7295d17ea7435194f20: rename unverified identity field to bookIdCandidate and add test"
+  ],
+  "latestCIRun": {
+    "url": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/40876891637",
+    "sourceHead": "04d72a3a31953b8be4d6a7295d17ea7435194f20",
+    "conclusion": "PENDING",
+    "scope": "FROZEN_INSTALL_BUILD_TYPECHECK_ESLINT_UNIT_MOCK_ARM64_IMAGE"
   }
 }

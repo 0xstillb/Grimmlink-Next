@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "phase": "PHASE_01",
-  "status": "FOUNDATION_CODE_AND_ISOLATED_CI_PASS_REVIEW_PENDING",
+  "status": "FOUNDATION_CODE_CORRECTED_EXACT_HEAD_CI_PENDING_INDEPENDENT_REVIEW_PENDING",
   "startFromIntegrationHead": "4b4a924cf225734dab0d17114f878b5b1982d4a9",
-  "currentCodeCheckpoint": "fa685c93426febfdfbf1d09ed678ebf77e4ab564",
+  "currentCodeCheckpoint": "04d72a3a31953b8be4d6a7295d17ea7435194f20",
   "branch": "feat/next-phase-01",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/5",
   "implemented": [
@@ -71,22 +71,58 @@
       "steps": [
         "phase00-gate-integrity"
       ]
+    },
+    {
+      "run": "40876891650",
+      "commit": "04d72a3a31953b8be4d6a7295d17ea7435194f20",
+      "result": "PASS_PHASE00_DESIGN_ONLY_INTEGRITY",
+      "steps": [
+        "phase00-source-static-gate"
+      ]
     }
   ],
   "notRun": [
     "FRESH_INDEPENDENT_REVIEW",
     "FULL_E2E_PHASE09",
     "HERMES_NAS_PHYSICAL_READERS",
-    "OFFICIAL_GATEWAY_RUNTIME"
+    "OFFICIAL_GATEWAY_RUNTIME",
+    "LATEST_EXACT_HEAD_CI_PENDING"
   ],
   "riskFlags": [
     "Formatting command exists but Prettier check is not yet a CI hard gate",
     "Historical Node base digest requires future security patch/CVE review and deliberate rotation",
     "Pino redaction is defense-in-depth, not upstream authorization or a permit to log arbitrary secret-bearing strings",
     "Local job leases must never be reused for UNCERTAIN session outbox retry policy",
-    "Actual migration rollback under power loss and deployed SQLite file paths are not verified"
+    "Actual migration rollback under power loss and deployed SQLite file paths are not verified",
+    "Latest exact-head isolated CI on final handoff documentation commit still required"
   ],
   "securityGates": "PHASE00_DESIGN_ONLY_PASS; ALL_OFFICIAL_FORWARDING_DENY; PHASE02_05_07_HARD_SECURITY_GATES",
-  "exitGate": "NOT_MET_INDEPENDENT_REVIEW_PENDING",
-  "next": "Fresh independent exact-HEAD Phase01 review and separate REVIEW.md verdict required. No self-PASS, merge, Phase02 gateway or production runtime; full E2E Phase09 only."
+  "exitGate": "NOT_MET_FRESH_INDEPENDENT_REVIEW_REQUIRED",
+  "next": "Read latest PR HEAD and run exact-head isolated CI; separate fresh-context reviewer must inspect full diff and write REVIEW.md. No self-PASS/merge/Phase02/production.",
+  "followupCorrections": [
+    {
+      "commit": "c9dd8cd08a7c8b64933660d5c1f0bee6a994a1d4",
+      "files": [
+        "packages/persistence/src/index.ts",
+        "packages/persistence/src/index.test.ts",
+        "Dockerfile",
+        "docs/implementation/phase-01/DATABASE-NOTES.md"
+      ],
+      "change": "Private local SQLite file and directory creation, symlink and link count guards, 0600/0700 tests"
+    },
+    {
+      "commit": "04d72a3a31953b8be4d6a7295d17ea7435194f20",
+      "files": [
+        "packages/identity/src/index.ts",
+        "packages/identity/src/index.test.ts"
+      ],
+      "change": "Unverified book ID field no longer claims verified identity"
+    }
+  ],
+  "pendingValidation": {
+    "run": "40876891637",
+    "commit": "04d72a3a31953b8be4d6a7295d17ea7435194f20",
+    "result": "PENDING",
+    "scope": "frozen/build/typecheck/lint/unit+mock/arm64/compose"
+  }
 }

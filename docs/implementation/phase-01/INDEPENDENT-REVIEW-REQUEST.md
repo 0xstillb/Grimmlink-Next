@@ -17,3 +17,7 @@ Review:
 Publish a separate `phase-01/REVIEW.md` referencing **exact HEAD, test run IDs and file:line findings**, verdict `PASS` or `CHANGES_REQUIRED` and residual blockers. Must be an independently initiated fresh GPT-6 Web context; implementer may prepare this packet but MUST NOT self-approve. If reviewer has no runtime tool, mark tests not run instead of invented proof.
 
 **Exit:** only after genuine review evidence and passed exact HEAD checks may phase be marked `FOUNDATION_REVIEWED`; do not merge without separate authorization. Full integrated E2E Phase09 only.
+
+## Fresh reviewer attention after implementer follow-up
+
+Current source checkpoint before this handoff: [`04d72a3`](https://github.com/0xstillb/Grimmlink-Next/commit/04d72a3a31953b8be4d6a7295d17ea7435194f20). **Always fetch actual latest PR HEAD and revalidate its CI**, not this snapshot. Inspect local SQLite directory/file mode checks, new DB first-open behavior, symlink/hardlink and WAL sidecar safety; check the explicit `bookIdCandidate` identity semantics and any stale references; verify no deployed runtime exposure. Also determine whether Prettier format needs an enforced gate. If any defect remains, mark `CHANGES_REQUIRED` and provide exact file/line evidence. This request is not the independent verdict.

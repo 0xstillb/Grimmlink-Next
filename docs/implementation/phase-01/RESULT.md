@@ -32,3 +32,10 @@ Latest logging/diagnostics source `223c0d5b` also passed exact-code [Phase01 CI 
 - Phase01 not merged; `main` unchanged. Next action is exact-HEAD test readback and independent reviewer verdict.
 
 **Never describe Phase00 design-only acceptance as deployed security authorization.**
+
+## 2026-10-29 follow-up corrections (implementer only)
+
+- Source [`c9dd8cd`](https://github.com/0xstillb/Grimmlink-Next/commit/c9dd8cd08a7c8b64933660d5c1f0bee6a994a1d4): local SQLite now requires private `0700` parent and regular single-linked `0600` DB; creates new DB inode with `O_EXCL | O_NOFOLLOW`, runs negative security fixtures, and provides `/app/data` as `0700` in Docker. No existing DB is auto-chmodded or replaced.
+- Source [`04d72a3`](https://github.com/0xstillb/Grimmlink-Next/commit/04d72a3a31953b8be4d6a7295d17ea7435194f20): an unverified book ID is now labeled `bookIdCandidate` instead of `verifiedBookId`. Identity entitlement remains explicitly false.
+- [Phase00 design integrity CI #40876891650](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40876891650): SUCCESS at code SHA 04d72a3a31953b8be4d6a7295d17ea7435194f20. [Phase01 isolated CI #40876891637](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40876891637) was PENDING at this receipt. Do not infer a final result; re-fetch latest HEAD and runs.
+- Independent review: **NOT RUN**. Formatting CI gate is a documented residual; historical pinned Node base requires future security refresh. `FOUNDATION_REVIEWED` **NOT GRANTED**. Keep Draft PR unmerged and all runtime forwarding denied.
