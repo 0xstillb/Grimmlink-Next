@@ -4,7 +4,7 @@ This is a **configuration + isolated local test fixture**. It is not a deployed 
 
 - Caddy is the only host-published listener: `127.0.0.1:6060`; *not* a LAN/public deployment.
 - Adapter process binds `127.0.0.1:6061` inside the shared Caddy network namespace. It has **no second host-published or directly addressable container port**.
-- Caddy admin API is OFF, auto-HTTPS OFF (loopback-only), container read-only, unprivileged, no-new-privileges, all caps dropped; isolated internal Docker network has no Official service, NAS, or egress.
+- Caddy admin API is OFF, auto-HTTPS OFF (loopback-only), container read-only, unprivileged, no-new-privileges, all caps dropped; loopback-only Docker bridge has no Official service or NAS mounted. Docker egress isolation is **NOT PROVEN** and remains an explicit runtime security blocker.
 - Caddy permits only the three explicitly named local GET routes; all other methods/routes including `/api/koreader/users/create`, `/api/v1/opds`, `/ws`, file/content, root and `/grimmlink` deny 403.
 - Host outside `localhost:6060` / `127.0.0.1:6060` denies 421. Headers for auth and forwarding are stripped; Fastify checks the same strict local routes independently.
 - No Caddy arbitrary fallback, URI rewrite, Official reverse proxy or route delegation; no leaked credentials.
