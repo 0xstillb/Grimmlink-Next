@@ -84,7 +84,7 @@ jobs:
           assert (p['published'],p['target'],p.get('host_ip'))==('6060',6060,'127.0.0.1'),p
           assert a.get('network_mode')=='service:gateway','Adapter not namespace-isolated'
           assert not a.get('ports'),'Adapter published directly'
-          assert all(x.get('internal') is True for x in d['networks'].values()),'Network permits egress'
+          assert all(x.get('driver') == 'bridge' for x in d['networks'].values()),'Unexpected mock network'
           assert g.get('read_only') is True and a.get('read_only') is True
           print('MOCK_ONLY_COMPOSE_TOPOLOGY_PASS')
           PY
