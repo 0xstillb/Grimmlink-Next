@@ -3,7 +3,7 @@
   "phase": "PHASE_01",
   "status": "FOUNDATION_CODE_AND_ISOLATED_CI_PASS_REVIEW_PENDING",
   "startFromIntegrationHead": "4b4a924cf225734dab0d17114f878b5b1982d4a9",
-  "currentCodeCheckpoint": "223c0d5b2fa2fd5249f0e9719b5ca632f5d65209",
+  "currentCodeCheckpoint": "fa685c93426febfdfbf1d09ed678ebf77e4ab564",
   "branch": "feat/next-phase-01",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/5",
   "implemented": [
@@ -17,8 +17,11 @@
     "Private consistent SQLite backup and restore to NEW destination only",
     "Pinned pnpm lockfile with frozen CI and ESLint",
     "Docker ARM64 offline-run isolation and non-root compose with log cap",
-    "Safe error serializer + named expiring diagnostics (newest source CI pending)",
-    "Seven type-safe fail-closed domain module packages"
+    "Seven type-safe fail-closed domain module packages",
+    "Exact-head CI triggers for docs/config and all source changes",
+    "Private 0600 SQLite backup/restore creation with exclusive no-symlink target and tests",
+    "Runtime malformed diagnostic/lease-overflow checks",
+    "Immutable multi-platform Docker base digest pinned"
   ],
   "validation": [
     {
@@ -44,6 +47,30 @@
       "steps": [
         "immutable-design-lock-regressions"
       ]
+    },
+    {
+      "run": "40874867397",
+      "commit": "fa685c93426febfdfbf1d09ed678ebf77e4ab564",
+      "result": "PASS_ISOLATED_FROZEN_AND_ARM64",
+      "steps": [
+        "frozen-install",
+        "native-sqlite",
+        "build",
+        "typecheck",
+        "eslint",
+        "isolated-tests",
+        "backup-restore-regression",
+        "arm64-native-image",
+        "network-none-compose"
+      ]
+    },
+    {
+      "run": "40874867260",
+      "commit": "fa685c93426febfdfbf1d09ed678ebf77e4ab564",
+      "result": "PASS_PHASE00_DESIGN_ONLY_INTEGRITY",
+      "steps": [
+        "phase00-gate-integrity"
+      ]
     }
   ],
   "notRun": [
@@ -53,12 +80,13 @@
     "OFFICIAL_GATEWAY_RUNTIME"
   ],
   "riskFlags": [
-    "Unfrozen pnpm installation; lock artifact generated in CI but not yet committed",
-    "Pino redaction is not authorization; no public diagnostic toggle",
-    "Local job leases must never be reused as session outbox retry policy",
-    "No application source exposed beyond loopback health"
+    "Formatting command exists but Prettier check is not yet a CI hard gate",
+    "Historical Node base digest requires future security patch/CVE review and deliberate rotation",
+    "Pino redaction is defense-in-depth, not upstream authorization or a permit to log arbitrary secret-bearing strings",
+    "Local job leases must never be reused for UNCERTAIN session outbox retry policy",
+    "Actual migration rollback under power loss and deployed SQLite file paths are not verified"
   ],
   "securityGates": "PHASE00_DESIGN_ONLY_PASS; ALL_OFFICIAL_FORWARDING_DENY; PHASE02_05_07_HARD_SECURITY_GATES",
   "exitGate": "NOT_MET_INDEPENDENT_REVIEW_PENDING",
-  "next": "Fresh-context independent Phase01 review of exact branch diff required; no self-PASS. Correct findings before promoting gate. Phase02/05/07 runtime and Phase09 integrated E2E remain off."
+  "next": "Fresh independent exact-HEAD Phase01 review and separate REVIEW.md verdict required. No self-PASS, merge, Phase02 gateway or production runtime; full E2E Phase09 only."
 }
