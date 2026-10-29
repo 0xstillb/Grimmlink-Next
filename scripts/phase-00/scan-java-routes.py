@@ -7,6 +7,7 @@ SCOPE='backend/src/main/java/org/booklore/'
 MAPPINGS={'RequestMapping':['UNSPECIFIED'],'GetMapping':['GET'],'PostMapping':['POST'],
           'PutMapping':['PUT'],'PatchMapping':['PATCH'],'DeleteMapping':['DELETE']}
 CONTROLLERS={'Controller','RestController'}
+AUTH_ANNOTATIONS={'PreAuthorize','PostAuthorize','Secured','RolesAllowed','PermitAll','DenyAll','CheckBookAccess','CheckLibraryAccess'}
 ALT_ENDPOINTS={'MessageMapping','SubscribeMapping','ServerEndpoint','Endpoint','QueryMapping','MutationMapping','SchemaMapping','BatchMapping','ControllerEndpoint','RestControllerEndpoint'}
 HINT=re.compile(r'(?i)(RouterFunctions|RouterFunction|RequestMappingHandlerMapping|HandlerMapping|WebMvcConfigurer|ServletRegistration|FilterRegistration|Endpoint|WebSocketMessageBrokerConfigurer|WebSocketConfigurer|StompEndpointRegistry|addPathPrefix|registerMapping|setUrlMap|addResourceHandler|addInterceptor|addPathPatterns|addEndpoint|enableSimpleBroker|setApplicationDestinationPrefixes|setUserDestinationPrefix|setAllowedOriginPatterns|registerStompEndpoints|registerWebSocketHandlers|MessageMapping)')
 
@@ -87,6 +88,7 @@ def scan(root,out):
                 if at in MAPPINGS:kind='ANNOTATION_MAPPING';methods=MAPPINGS[at]
                 elif at in CONTROLLERS:kind='CONTROLLER_MARKER';methods=[]
                 elif at in ALT_ENDPOINTS:kind='OTHER_ENDPOINT_ANNOTATION';methods=[]
+                elif at in AUTH_ANNOTATIONS:kind='AUTH_ANNOTATION_SOURCE';methods=[]
                 else:continue
                 typ=at
             elif e['kind'] in ('CALL','NEW') and HINT.search(e['expression']):
@@ -115,6 +117,7 @@ def scan(root,out):
         'astErrors':errors,'sourceCandidates':len(signals),
         'mappingAnnotationOccurrences':kinds['ANNOTATION_MAPPING'],
         'controllerMarkers':kinds['CONTROLLER_MARKER'],
+        'authAnnotationOccurrences':kinds['AUTH_ANNOTATION_SOURCE'],
         'programmaticSignals':kinds['PROGRAMMATIC_SOURCE_SIGNAL'],
         'customAnnotationDefinitionNames':sorted(meta_defs),
         'CONTROLLER_FILE_CENSUS':'RECONCILIATION_REQUIRED',

@@ -43,6 +43,9 @@ def get_attrs(annotation):
 def strings(expr):
     """Only accept pure string literals or literal arrays; do not guess symbolic values."""
     expr=expr.strip()
+    # Java allows redundant parentheses around literal annotation values.
+    while expr.startswith("(") and expr.endswith(")") and len(expr)>2:
+        expr=expr[1:-1].strip()
     if expr.startswith("{") and expr.endswith("}"):
         toks=split_outer(expr[1:-1])
     else:toks=[expr]
@@ -99,7 +102,12 @@ def main(src,out):
     candidates=meta["candidates"]
     mappings=[x for x in candidates if x["handlerMechanism"]=="ANNOTATION_MAPPING"]
     classes=collections.defaultdict(list)
+    security=collections.defaultdict(list)
     methods=[]
+    for ev in candidates:
+        if ev["handlerMechanism"]=="AUTH_ANNOTATION_SOURCE":
+            security[(ev["sourcePath"],ev["className"],ev["handlerIdentity"].split("#",1)[-1])].append({
+                "sourceLine":ev["sourceLine"],"annotationType":ev["annotationType"],"expression":ev["sourceExpression"]})
     for ev in mappings:
         k=(ev["sourcePath"],ev["className"])
         if ev["handlerIdentity"].endswith("#"):classes[k].append(ev)
@@ -131,7 +139,10 @@ def main(src,out):
               "annotationType":ev["annotationType"],"classMappingLines":[x["sourceLine"] for x in classMappings],
               "declaredMethods":methodVerbs,"pathVariants":pathVars,
               "mappingConditions":conditions,"gatewayOwner":"UNASSIGNED_DENY_BY_DEFAULT",
-              "authChain":"UNVERIFIED","authorizationDimensions":["UNVERIFIED"],
+              "authChain":"SOURCE_DECLARATION_ONLY_RUNTIME_UNVERIFIED",
+              "declaredSecurityAnnotations":security.get((ev["sourcePath"],ev["className"],identity.split("#",1)[-1]),[]),
+              "declaredClassSecurityAnnotations":security.get((ev["sourcePath"],ev["className"],""),[]),
+              "authorizationDimensions":["UNVERIFIED"],
               "evidenceGrade":"SOURCE_AST_LITERAL_EXPANSION_NOT_RUNTIME",
               "openQuestions":sorted(set(reason))}
         rows.append(base)
@@ -150,6 +161,8 @@ def main(src,out):
       "sourceNotRuntime":True,"methodMappingAnnotations":len(methods),
       "classMappingAnnotations":sum(len(v) for v in classes.values()),
       "routeHandlerRecords":len(rows),"methodPathVariants":len(expansions),
+      "handlersWithMethodSecurityAnnotations":sum(bool(z["declaredSecurityAnnotations"]) for z in rows),
+      "handlersWithClassSecurityAnnotations":sum(bool(z["declaredClassSecurityAnnotations"]) for z in rows),
       "unresolvedHandlerCount":len(unresolved),"classMappingsWithoutMethods":[
         {"sourcePath":x["sourcePath"],"sourceLine":x["sourceLine"],"className":x["className"]}
         for group in classes.values() for x in group

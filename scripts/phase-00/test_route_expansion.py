@@ -21,6 +21,10 @@ class StaticExpansionTests(unittest.TestCase):
         self.assertEqual(a["paths"],b["paths"])
         self.assertNotEqual(a["conditions"],b["conditions"])
         self.assertEqual(b["conditions"]["params"]["literalValues"],["isBook"])
+    def test_redundant_parenthesized_shelf_path(self):
+        m=mod.parse_mapping(self.event("RequestMapping",'@RequestMapping(("/api/v1/shelves"))'))
+        self.assertEqual(m["paths"],["/api/v1/shelves"])
+        self.assertEqual(m["unresolved"],[])
     def test_path_join(self):
         self.assertEqual(mod.join_paths("/api/kobo/{token}","/**"),"/api/kobo/{token}/**")
         self.assertEqual(mod.join_paths("/api/v1/app/books",""),"/api/v1/app/books")
