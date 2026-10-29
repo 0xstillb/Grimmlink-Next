@@ -2,7 +2,7 @@ import { validateEnvironment } from "@grimmlink/contracts";
 import { buildServer } from "./server.js";
 
 const config = validateEnvironment(process.env);
-const server = await buildServer();
+const server = await buildServer(config.LOG_LEVEL);
 let closing = false;
 const close = async () => {
   if (closing) return;

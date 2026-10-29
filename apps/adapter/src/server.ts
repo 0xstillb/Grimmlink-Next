@@ -5,9 +5,9 @@ import { HealthSchema, type Health } from "@grimmlink/contracts";
 import { createLogger } from "@grimmlink/observability";
 
 /** Phase01 exposes ONLY local health and its schema. No gateway/proxy routes. */
-export async function buildServer() {
+export async function buildServer(logLevel: "info" | "warn" | "error" = "info") {
   const server = Fastify({
-    loggerInstance: createLogger("adapter"),
+    loggerInstance: createLogger("adapter", logLevel),
     genReqId: () => randomUUID(),
     disableRequestLogging: true
   });

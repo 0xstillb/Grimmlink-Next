@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { Writable } from "node:stream";
-import { DiagnosticLeases, createLogger } from "./index.js";
+import { DiagnosticLeases, createLogger, createScopedDiagnostics } from "./index.js";
 
 describe("diagnostic leases", () => {
   it("requires administrator authorization", () => {
@@ -37,5 +37,30 @@ describe("Pino secret redaction", () => {
     for (const secret of ["password-canary","md5-canary","token-canary","nested-canary","query-canary","auth-canary","ko-canary","body-canary"]) {
       expect(output).not.toContain(secret);
     }
+  });
+});
+
+describe("bounded diagnostics and error sanitization", () => {
+  it("does not print thrown Error.message or stack", () => {
+    const chunks: string[] = [];
+    const sink = new Writable({ write(c,_enc,done) { chunks.push(String(c)); done(); } });
+    const logger = createLogger("adapter","info",sink);
+    logger.error({ err: new Error("confidential-error-canary") }, "Safe startup failure");
+    expect(chunks.join("")).not.toContain("confidential-error-canary");
+    expect(chunks.join("")).not.toContain("stack");
+    expect(chunks.join("")).toContain('"type":"Error"');
+  });
+  it("emits only named, expiring diagnostics and never arbitrary payload fields", () => {
+    const chunks: string[] = [];
+    const sink = new Writable({ write(c,_enc,done) { chunks.push(String(c)); done(); } });
+    const leases = new DiagnosticLeases();
+    const scoped = createScopedDiagnostics("adapter", leases, sink);
+    expect(scoped.trace({code:"REQUEST_SUMMARY"},1000)).toBe(false);
+    leases.enable({module:"adapter",level:"trace",durationMs:2000,adminAuthorized:true},1000);
+    expect(scoped.trace({code:"REQUEST_SUMMARY",count:3},1001)).toBe(true);
+    expect(scoped.debug({code:"SQLITE_RETRY",count:1},1002)).toBe(true);
+    expect(scoped.trace({code:"REQUEST_SUMMARY"},3000)).toBe(false);
+    expect(chunks.join("")).toContain("SCOPED_DIAGNOSTIC");
+    expect(chunks.join("")).not.toContain("password");
   });
 });

@@ -46,11 +46,47 @@ export function createLogger(module: string, level: "info" | "warn" | "error" = 
       censor: "[REDACTED]"
     },
     serializers: {
-      err: pino.stdSerializers.err,
+      err: (err: unknown) => {
+        // Error.message and .stack may contain request URLs, passwords and tokens.
+        // Do not serialize either, including during fatal startup failures.
+        if (!(err instanceof Error)) return { type: "UnknownError" };
+        const allowed = ["Error", "TypeError", "ConfigurationError", "UpstreamDisabledError"];
+        return { type: allowed.includes(err.name) ? err.name : "Error" };
+      },
       req: (req: { id?: unknown; method?: unknown; url?: unknown }) => ({
-        id: req.id, method: req.method, path: typeof req.url === "string" ? req.url.split("?")[0] : undefined
+        id: req.id, method: req.method // never log an untrusted URL path or query
       })
     }
   };
   return destination ? pino(options, destination) : pino(options);
+}
+
+export type SafeDiagnosticSignal = Readonly<{
+  code: "REQUEST_SUMMARY" | "SQLITE_RETRY" | "MIGRATION_STAGE";
+  count?: number;
+}>;
+/**
+ * Explicit limited diagnostic API. No raw payload, paths, headers or book data.
+ * A lease only changes this named module's DEBUG/TRACE emission; never global Pino.
+ */
+export function createScopedDiagnostics(module: string, leases: DiagnosticLeases, destination?: DestinationStream) {
+  const logger = createLogger(module, "info", destination).child({}, { level: "trace" });
+  const emit = (level: DiagnosticLevel, signal: SafeDiagnosticSignal, now: number): boolean => {
+    const authorized = leases.levelFor(module, now);
+    if (authorized !== "trace" && (level !== "debug" || authorized !== "debug")) return false;
+    const code = signal.code;
+    if (code !== "REQUEST_SUMMARY" && code !== "SQLITE_RETRY" && code !== "MIGRATION_STAGE") {
+      throw new Error("Unsupported diagnostic signal");
+    }
+    const count = signal.count;
+    if (count !== undefined && (!Number.isSafeInteger(count) || count < 0)) throw new Error("Invalid diagnostic counter");
+    const safe = count === undefined ? { code } : { code, count };
+    if (level === "trace") logger.trace(safe, "SCOPED_DIAGNOSTIC");
+    else logger.debug(safe, "SCOPED_DIAGNOSTIC");
+    return true;
+  };
+  return {
+    debug: (signal: SafeDiagnosticSignal, now = Date.now()) => emit("debug", signal, now),
+    trace: (signal: SafeDiagnosticSignal, now = Date.now()) => emit("trace", signal, now)
+  };
 }
