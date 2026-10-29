@@ -58,8 +58,9 @@ jobs:
           python3 scripts/phase-00/audit-source-semantics.py --upstream /tmp/grimmory-source --census /tmp/phase00-static/JAVA-SOURCE-WIDE-CENSUS.json --expansion /tmp/phase00-static/SOURCE-DECLARED-MAPPING-EXPANSION.json --output /tmp/phase00-static --framework-media-type /tmp/phase00-dependencies/MediaType.java
           python3 scripts/phase-00/validate-manual-acl-traces.py --upstream /tmp/grimmory-source --manual docs/implementation/phase-00/SOURCE-ACL-CALLCHAIN-TRACE.json --ledger /tmp/phase00-static/SOURCE-AUTH-OWNERSHIP-LEDGER.json --output /tmp/phase00-static/SOURCE-ACL-TRACE-VALIDATION.json
           python3 scripts/phase-00/audit-repository-exposure.py --upstream /tmp/grimmory-source --census /tmp/phase00-static/JAVA-SOURCE-WIDE-CENSUS.json --inheritance /tmp/phase00-static/JAVA-INHERITANCE-TYPE-TRIAGE.json --output /tmp/phase00-static/REPOSITORY-REST-SOURCE-EXPOSURE.json
+          python3 scripts/phase-00/verify-auth43-source-review.py --upstream /tmp/grimmory-source --ledger /tmp/phase00-static/SOURCE-AUTH-OWNERSHIP-LEDGER.json --manual docs/implementation/phase-00/AUTH-43-SOURCE-DISPOSITION.json --output /tmp/phase00-static
           python3 scripts/phase-00/validate-negative-fixtures.py docs/implementation/phase-00/SECURITY-NEGATIVE-FIXTURES.json /tmp/phase00-static/FIXTURE-STATIC-VALIDATION.json
-          for file in JAVA-SOURCE-WIDE-CENSUS.json SOURCE-ROUTE-CANDIDATES.json SOURCE-ROUTE-OWNERSHIP-GAPS.md JAVA-SOURCE-WIDE-CENSUS-RECEIPT.md FIXTURE-STATIC-VALIDATION.json SOURCE-DECLARED-MAPPING-EXPANSION.json SOURCE-CONDITION-RESOLUTION.json SOURCE-AUTH-OWNERSHIP-LEDGER.json SOURCE-AUTH-REVIEW-QUEUE.md SOURCE-ACL-TRACE-VALIDATION.json JAVA-INHERITANCE-TYPE-TRIAGE.json REPOSITORY-REST-SOURCE-EXPOSURE.json; do
+          for file in JAVA-SOURCE-WIDE-CENSUS.json SOURCE-ROUTE-CANDIDATES.json SOURCE-ROUTE-OWNERSHIP-GAPS.md JAVA-SOURCE-WIDE-CENSUS-RECEIPT.md FIXTURE-STATIC-VALIDATION.json SOURCE-DECLARED-MAPPING-EXPANSION.json SOURCE-CONDITION-RESOLUTION.json SOURCE-AUTH-OWNERSHIP-LEDGER.json SOURCE-AUTH-REVIEW-QUEUE.md SOURCE-ACL-TRACE-VALIDATION.json JAVA-INHERITANCE-TYPE-TRIAGE.json REPOSITORY-REST-SOURCE-EXPOSURE.json AUTH-43-SOURCE-VERIFICATION.json AUTH-43-REVIEW-DISPOSITION.md; do
             cp "/tmp/phase00-static/$file" "docs/implementation/phase-00/$file"
           done
           python3 - <<'PY'
@@ -80,6 +81,12 @@ jobs:
           assert i['runtimeRouteComplete']=='NOT_RUN'
           assert len(i['items'])==160
           print('Inheritance lexical classification:',i['categoryCounts'])
+          a=json.load(open('docs/implementation/phase-00/AUTH-43-SOURCE-VERIFICATION.json'))
+          assert a['totalReviewed']==43 and a['missingSourceWitnesses']==0
+          assert a['sourceReviewClosed'] is True and a['securityAuthorizationApproved'] is False
+          assert a['gatewayAllowed'] is False and a['runtimeChainProof']=='NOT_RUN'
+          assert a['PHASE01_AUTHORIZED'] is False
+          print('43/43 prioritized source handlers triaged; 0 approved')
 
           print('Content coverage verified; AST diagnostics require review and source semantics remain BLOCKED')
           PY
@@ -88,7 +95,7 @@ jobs:
         run: |
           set -euo pipefail
           git diff --check
-          git add docs/implementation/phase-00/JAVA-SOURCE-WIDE-CENSUS.json docs/implementation/phase-00/JAVA-SOURCE-WIDE-CENSUS-RECEIPT.md docs/implementation/phase-00/SOURCE-ROUTE-CANDIDATES.json docs/implementation/phase-00/SOURCE-ROUTE-OWNERSHIP-GAPS.md docs/implementation/phase-00/FIXTURE-STATIC-VALIDATION.json docs/implementation/phase-00/SOURCE-DECLARED-MAPPING-EXPANSION.json docs/implementation/phase-00/SOURCE-CONDITION-RESOLUTION.json docs/implementation/phase-00/SOURCE-AUTH-OWNERSHIP-LEDGER.json docs/implementation/phase-00/SOURCE-AUTH-REVIEW-QUEUE.md docs/implementation/phase-00/SOURCE-ACL-TRACE-VALIDATION.json docs/implementation/phase-00/JAVA-INHERITANCE-TYPE-TRIAGE.json docs/implementation/phase-00/REPOSITORY-REST-SOURCE-EXPOSURE.json
+          git add docs/implementation/phase-00/JAVA-SOURCE-WIDE-CENSUS.json docs/implementation/phase-00/JAVA-SOURCE-WIDE-CENSUS-RECEIPT.md docs/implementation/phase-00/SOURCE-ROUTE-CANDIDATES.json docs/implementation/phase-00/SOURCE-ROUTE-OWNERSHIP-GAPS.md docs/implementation/phase-00/FIXTURE-STATIC-VALIDATION.json docs/implementation/phase-00/SOURCE-DECLARED-MAPPING-EXPANSION.json docs/implementation/phase-00/SOURCE-CONDITION-RESOLUTION.json docs/implementation/phase-00/SOURCE-AUTH-OWNERSHIP-LEDGER.json docs/implementation/phase-00/SOURCE-AUTH-REVIEW-QUEUE.md docs/implementation/phase-00/SOURCE-ACL-TRACE-VALIDATION.json docs/implementation/phase-00/JAVA-INHERITANCE-TYPE-TRIAGE.json docs/implementation/phase-00/REPOSITORY-REST-SOURCE-EXPOSURE.json docs/implementation/phase-00/AUTH-43-SOURCE-VERIFICATION.json docs/implementation/phase-00/AUTH-43-REVIEW-DISPOSITION.md
           if git diff --cached --quiet; then echo "No changed evidence"; exit 0; fi
           git fetch origin feat/next-phase-00
           current="$(git rev-parse FETCH_HEAD)"

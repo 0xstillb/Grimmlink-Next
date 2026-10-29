@@ -1,0 +1,1113 @@
+{
+  "schemaVersion": 1,
+  "sourcePin": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+  "scope": "43 source handlers classified as mutating by HTTP verb and with no direct method/class auth annotations",
+  "reviewBasis": "PINNED_CONTROLLER_PLUS_SERVICE_SOURCE_WITNESS; NOT RUNTIME/TYPED_EXECUTION",
+  "coverage": {
+    "target": 43,
+    "reviewed": 43,
+    "authorizationApproved": 0,
+    "gatewayAllowed": 0,
+    "runtimeAuthorizationTests": "NOT_RUN",
+    "sourceTriaged": true,
+    "contractLocked": false
+  },
+  "defaultGatewayPolicy": "NO_FORWARD_OR_WRITE_UNTIL_SEPARATE_INDEPENDENT_APPROVAL",
+  "rows": [
+    {
+      "handlerIdentity": "AppBookController#updateBookProgress",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppBookController.java",
+      "sourceLine": 65,
+      "fileBlobSha": "6fa5c48d2e66268198aa3e629e7af0f09fc22348",
+      "declaredMethods": [
+        "PUT"
+      ],
+      "pathVariants": [
+        "/api/v1/app/books/{bookId}/progress"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "USER_LIBRARY_ONLY_WITH_NESTED_FILE_ID_GAP",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "Nested file ID and current book content entitlement still require pre-write validation",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/app/service/AppBookService.java",
+        "needle": "validateLibraryAccess(accessibleLibraryIds, book.getLibrary().getId());"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "AppBookController#updateStatus",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppBookController.java",
+      "sourceLine": 141,
+      "fileBlobSha": "6fa5c48d2e66268198aa3e629e7af0f09fc22348",
+      "declaredMethods": [
+        "PUT"
+      ],
+      "pathVariants": [
+        "/api/v1/app/books/{bookId}/status"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "USER_LIBRARY_ONLY",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "Service checks assigned library; revoked content entitlement not proven",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/app/service/AppBookService.java",
+        "needle": "UserBookProgressEntity progress = validateAccessAndGetProgress(bookId);"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "AppBookController#updateRating",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppBookController.java",
+      "sourceLine": 155,
+      "fileBlobSha": "6fa5c48d2e66268198aa3e629e7af0f09fc22348",
+      "declaredMethods": [
+        "PUT"
+      ],
+      "pathVariants": [
+        "/api/v1/app/books/{bookId}/rating"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "USER_LIBRARY_ONLY",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "Service checks assigned library; revoked content entitlement not proven",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/app/service/AppBookService.java",
+        "needle": "UserBookProgressEntity progress = validateAccessAndGetProgress(bookId);"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "AppNotebookController#updateEntry",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppNotebookController.java",
+      "sourceLine": 61,
+      "fileBlobSha": "dc199fcd21bbd2a79a01934eb339deee2b550674",
+      "declaredMethods": [
+        "PUT"
+      ],
+      "pathVariants": [
+        "/api/v1/app/notebook/entries/{entryId}"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "USER_RECORD_LOOKUP_ONLY",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "Downstream annotation/note/bookmark services scope by user ID; current book entitlement not proven",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/app/service/AppNotebookService.java",
+        "needle": "annotationService.updateAnnotation(entryId, updateReq)"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "AppNotebookController#deleteEntry",
+      "sourcePath": "backend/src/main/java/org/booklore/app/controller/AppNotebookController.java",
+      "sourceLine": 75,
+      "fileBlobSha": "dc199fcd21bbd2a79a01934eb339deee2b550674",
+      "declaredMethods": [
+        "DELETE"
+      ],
+      "pathVariants": [
+        "/api/v1/app/notebook/entries/{entryId}"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "USER_RECORD_LOOKUP_ONLY",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "Downstream annotation/note/bookmark delete scope by user ID; current book entitlement not proven",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/app/service/AppNotebookService.java",
+        "needle": "annotationService.deleteAnnotation(entryId)"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "AnnotationController#createAnnotation",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/AnnotationController.java",
+      "sourceLine": 44,
+      "fileBlobSha": "cde4677af982af542df6a1d5ac2927374a708cf9",
+      "declaredMethods": [
+        "POST"
+      ],
+      "pathVariants": [
+        "/api/v1/annotations"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "USER_SCOPED_CREATE_NO_CONTENT_ACL",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "Create uses book existence and caller user but lacks demonstrated current content eligibility",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/service/book/AnnotationService.java",
+        "needle": "validateNoDuplicateAnnotation(request.getCfi(), request.getBookId(), userId);"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "AnnotationController#updateAnnotation",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/AnnotationController.java",
+      "sourceLine": 52,
+      "fileBlobSha": "cde4677af982af542df6a1d5ac2927374a708cf9",
+      "declaredMethods": [
+        "PUT"
+      ],
+      "pathVariants": [
+        "/api/v1/annotations/{annotationId}"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "USER_RECORD_LOOKUP_ONLY",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "Record ID and user ID tied; current book entitlement after revocation not proven",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/service/book/AnnotationService.java",
+        "needle": "AnnotationEntity annotation = findAnnotationByIdAndUser(annotationId);"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "AnnotationController#deleteAnnotation",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/AnnotationController.java",
+      "sourceLine": 61,
+      "fileBlobSha": "cde4677af982af542df6a1d5ac2927374a708cf9",
+      "declaredMethods": [
+        "DELETE"
+      ],
+      "pathVariants": [
+        "/api/v1/annotations/{annotationId}"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "USER_RECORD_LOOKUP_ONLY",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "Record ID and user ID tied; current book entitlement after revocation not proven",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/service/book/AnnotationService.java",
+        "needle": "AnnotationEntity annotation = findAnnotationByIdAndUser(annotationId);"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "AuthenticationController#loginUser",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/AuthenticationController.java",
+      "sourceLine": 55,
+      "fileBlobSha": "b977b9babdc9e17765f626ea38767e6ab830015c",
+      "declaredMethods": [
+        "POST"
+      ],
+      "pathVariants": [
+        "/api/v1/auth/login"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "PUBLIC_AUTH_BOOTSTRAP",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "Deliberately public login; no bridge proxy until verified credential handling and rate limit/abuse controls",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/AuthenticationController.java",
+        "needle": "return authenticationService.loginUser(loginRequest);"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "AuthenticationController#refreshToken",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/AuthenticationController.java",
+      "sourceLine": 63,
+      "fileBlobSha": "b977b9babdc9e17765f626ea38767e6ab830015c",
+      "declaredMethods": [
+        "POST"
+      ],
+      "pathVariants": [
+        "/api/v1/auth/refresh"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "PUBLIC_TOKEN_REFRESH",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "Deliberately public refresh, token replay/rotation/revocation and no secret logging must be checked",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/AuthenticationController.java",
+        "needle": "return authenticationService.refreshToken(request.getRefreshToken());"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "BookController#addBookToShelf",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/BookController.java",
+      "sourceLine": 281,
+      "fileBlobSha": "a0ac203df59263496dc406e4108775f450b5e203",
+      "declaredMethods": [
+        "POST"
+      ],
+      "pathVariants": [
+        "/api/v1/books/shelves"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "SHELF_OWNER_BUT_BOOK_CONTENT_GAP",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "Shelf ownership check visible; per-book current content entitlement for set not proven",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/service/book/BookUpdateService.java",
+        "needle": "validateShelfOwnership(userEntity, shelfIdsToAssign, shelfIdsToUnassign);"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "BookController#addBookToProgress",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/BookController.java",
+      "sourceLine": 289,
+      "fileBlobSha": "a0ac203df59263496dc406e4108775f450b5e203",
+      "declaredMethods": [
+        "POST"
+      ],
+      "pathVariants": [
+        "/api/v1/books/progress"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "USER_PROGRESS_NO_LIBRARY_ACL",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "Read progress may accept nested bookFileId not proven to belong to selected book",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/service/progress/ReadingProgressService.java",
+        "needle": "BookEntity book = bookRepository.findByIdWithBookFiles(request.getBookId())"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "BookController#updateReadStatus",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/BookController.java",
+      "sourceLine": 308,
+      "fileBlobSha": "a0ac203df59263496dc406e4108775f450b5e203",
+      "declaredMethods": [
+        "POST"
+      ],
+      "pathVariants": [
+        "/api/v1/books/status"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "BULK_USER_PROGRESS_BUT_NO_CONTENT_ACL",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "Bulk permission conditional; per-ID current assigned library and content scope not proven",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/service/book/BookUpdateService.java",
+        "needle": "Set<Long> existingProgressBookIds = validateBooksAndGetExistingProgress(user.getId(), bookIds);"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "BookController#resetProgress",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/BookController.java",
+      "sourceLine": 318,
+      "fileBlobSha": "a0ac203df59263496dc406e4108775f450b5e203",
+      "declaredMethods": [
+        "POST"
+      ],
+      "pathVariants": [
+        "/api/v1/books/reset-progress"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "BULK_USER_PROGRESS_BUT_NO_CONTENT_ACL",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "Whole batch must be preauthorized atomically before any upstream dispatch",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/service/progress/ReadingProgressService.java",
+        "needle": "validateResetPermission(bookIds, user, type);"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "BookController#updatePersonalRating",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/BookController.java",
+      "sourceLine": 330,
+      "fileBlobSha": "a0ac203df59263496dc406e4108775f450b5e203",
+      "declaredMethods": [
+        "PUT"
+      ],
+      "pathVariants": [
+        "/api/v1/books/personal-rating"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "BULK_USER_PROGRESS_BUT_NO_CONTENT_ACL",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "Per-ID book entitlement not proven despite user progress lookup",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/service/book/BookUpdateService.java",
+        "needle": "Set<Long> existingProgressBookIds = validateBooksAndGetExistingProgress(user.getId(), bookIds);"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "BookController#resetPersonalRating",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/BookController.java",
+      "sourceLine": 341,
+      "fileBlobSha": "a0ac203df59263496dc406e4108775f450b5e203",
+      "declaredMethods": [
+        "POST"
+      ],
+      "pathVariants": [
+        "/api/v1/books/reset-personal-rating"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "BULK_USER_PROGRESS_BUT_NO_CONTENT_ACL",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "Current per-book entitlement and all-or-nothing gateway preflight unproven",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/service/book/BookUpdateService.java",
+        "needle": "userBookProgressRepository.bulkUpdatePersonalRating(user.getId()"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "BookNoteController#createNote",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/BookNoteController.java",
+      "sourceLine": 35,
+      "fileBlobSha": "c7e14b70c4ece4c3d9d56bbe3332dd2fb63fb52d",
+      "declaredMethods": [
+        "POST"
+      ],
+      "pathVariants": [
+        "/api/v1/book-notes"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "USER_SCOPED_CREATE_NO_CONTENT_ACL",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "Create/update note checks caller record when existing but does not prove current book entitlement",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/service/book/BookNoteService.java",
+        "needle": "BookEntity book = bookRepository.findById(request.getBookId())"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "BookNoteController#deleteNote",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/BookNoteController.java",
+      "sourceLine": 43,
+      "fileBlobSha": "c7e14b70c4ece4c3d9d56bbe3332dd2fb63fb52d",
+      "declaredMethods": [
+        "DELETE"
+      ],
+      "pathVariants": [
+        "/api/v1/book-notes/{noteId}"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "USER_RECORD_LOOKUP_ONLY",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "Owner user checked; revoked-book read/write policy not proven",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/service/book/BookNoteService.java",
+        "needle": "BookNoteEntity note = bookNoteRepository.findByIdAndUserId(noteId, currentUser.getId())"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "BookNotesV2Controller#createNote",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/BookNotesV2Controller.java",
+      "sourceLine": 44,
+      "fileBlobSha": "3b949c52c73e253b472d4e988b2143b405ae0e1d",
+      "declaredMethods": [
+        "POST"
+      ],
+      "pathVariants": [
+        "/api/v2/book-notes"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "USER_SCOPED_CREATE_NO_CONTENT_ACL",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "Uses current user and requested book; lacks source proof of allowed library/content",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/service/book/BookNoteV2Service.java",
+        "needle": "validateNoDuplicateNote(request.getCfi(), request.getBookId(), userId);"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "BookNotesV2Controller#updateNote",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/BookNotesV2Controller.java",
+      "sourceLine": 52,
+      "fileBlobSha": "3b949c52c73e253b472d4e988b2143b405ae0e1d",
+      "declaredMethods": [
+        "PUT"
+      ],
+      "pathVariants": [
+        "/api/v2/book-notes/{noteId}"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "USER_RECORD_LOOKUP_ONLY",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "Record user check visible; current book content entitlement not proven",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/service/book/BookNoteV2Service.java",
+        "needle": "BookNoteV2Entity note = findNoteByIdAndUser(noteId);"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "BookNotesV2Controller#deleteNote",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/BookNotesV2Controller.java",
+      "sourceLine": 61,
+      "fileBlobSha": "3b949c52c73e253b472d4e988b2143b405ae0e1d",
+      "declaredMethods": [
+        "DELETE"
+      ],
+      "pathVariants": [
+        "/api/v2/book-notes/{noteId}"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "USER_RECORD_LOOKUP_ONLY",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "Record user check visible; current book content entitlement not proven",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/service/book/BookNoteV2Service.java",
+        "needle": "BookNoteV2Entity note = findNoteByIdAndUser(noteId);"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "KoboController#authenticateDevice",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+      "sourceLine": 116,
+      "fileBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
+      "declaredMethods": [
+        "POST"
+      ],
+      "pathVariants": [
+        "/api/kobo/{token}/v1/auth/device"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "TOKEN_ROUTED_THIRD_PARTY_AND_MUTABLE_CONTROLLER_STATE",
+      "sourceFindingRisk": "CRITICAL",
+      "sourceObservation": "Controller stores per-request token in mutable instance field; downstream auth/proxy trust and concurrent binding must be proved or blocked",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+        "needle": "private String token;"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "KoboController#updateState",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+      "sourceLine": 157,
+      "fileBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
+      "declaredMethods": [
+        "PUT"
+      ],
+      "pathVariants": [
+        "/api/kobo/{token}/v1/library/{bookId}/state"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "TOKEN_ROUTED_BOOK_ENTITLEMENT_GAP",
+      "sourceFindingRisk": "CRITICAL",
+      "sourceObservation": "Service uses request body entitlement IDs; bound path bookId/current book access must be checked before writes",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/service/kobo/KoboReadingStateService.java",
+        "needle": "repository.findByEntitlementIdAndUserId(entitlementId, userId);"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "KoboController#getTests",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+      "sourceLine": 172,
+      "fileBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
+      "declaredMethods": [
+        "POST"
+      ],
+      "pathVariants": [
+        "/api/kobo/{token}/v1/analytics/gettests"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "NON_BOOK_MUTATION_ANALYTICS_SYNTHETIC",
+      "sourceFindingRisk": "LOW",
+      "sourceObservation": "Synthetic analytics response does not write book state in pinned method; deny by default pending ingress scope",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+        "needle": ".testKey(RandomStringUtils.secure().nextAlphanumeric(24))"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "KoboController#pushEvent",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+      "sourceLine": 182,
+      "fileBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
+      "declaredMethods": [
+        "POST"
+      ],
+      "pathVariants": [
+        "/api/kobo/{token}/v1/analytics/event"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "NON_BOOK_MUTATION_ANALYTICS_NOOP",
+      "sourceFindingRisk": "LOW",
+      "sourceObservation": "Pinned method ignores event; syntax HTTP POST is not necessarily a persistent mutation",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+        "needle": "// Never pass along analytics events."
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "KoboController#deleteBookFromLibrary",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+      "sourceLine": 202,
+      "fileBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
+      "declaredMethods": [
+        "DELETE"
+      ],
+      "pathVariants": [
+        "/api/kobo/{token}/v1/library/{bookId}"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "TOKEN_ROUTED_SHELF_REMOVAL_GAP",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "Kobo shelf removal delegated; token and per-book current content/shelf permissions need proof",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+        "needle": "bookService.assignShelvesToBooks(Set.of(Long.valueOf(bookId))"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "KoboController#getNextRead",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+      "sourceLine": 219,
+      "fileBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
+      "declaredMethods": [
+        "POST"
+      ],
+      "pathVariants": [
+        "/api/kobo/{token}/v1/products/{bookId}/nextread"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "NON_BOOK_MUTATION_WITH_REMOTE_PROXY_OPTION",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "POST may proxy to third-party when enabled; destination/credential isolation unresolved",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+        "needle": "return koboServerProxy.proxyCurrentRequest();"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "KoboController#putRating",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+      "sourceLine": 258,
+      "fileBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
+      "declaredMethods": [
+        "POST"
+      ],
+      "pathVariants": [
+        "/api/kobo/{token}/v1/products/{bookId}/rating/{rating}"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "TOKEN_ROUTED_RATING_BOOK_ACL_GAP",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "Per-user rating service called; validate current book entitlement and token binding",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+        "needle": "return koboRatingService.updatePersonalRating(user, Long.parseLong(bookId), rating);"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "KoboController#catchAll",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+      "sourceLine": 277,
+      "fileBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
+      "declaredMethods": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "PATCH"
+      ],
+      "pathVariants": [
+        "/api/kobo/{token}/**"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "WILDCARD_MULTI_VERB_PROXY",
+      "sourceFindingRisk": "CRITICAL",
+      "sourceObservation": "Wildcard GET/POST/PUT/DELETE/PATCH may forward unreviewed paths; deny gateway wildcard and all aliases",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+        "needle": "return koboServerProxy.proxyCurrentRequest(body, false);"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "KomgaController#notImplemented",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/KomgaController.java",
+      "sourceLine": 251,
+      "fileBlobSha": "7631c4f5be35652dca87cda92b9a659c321e4a3b",
+      "declaredMethods": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "PATCH"
+      ],
+      "pathVariants": [
+        "/komga/api/v1/readlists",
+        "/komga/api/v1/series/new",
+        "/komga/api/v1/series/updated",
+        "/komga/api/v1/series/list",
+        "/komga/api/v1/series/genres",
+        "/komga/api/v1/books/ondeck",
+        "/komga/api/v1/books/list",
+        "/komga/api/v1/books/*/readlists",
+        "/komga/api/v1/books/*/manifest"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "SOURCE_UNIMPLEMENTED_NO_LOCAL_WRITE",
+      "sourceFindingRisk": "LOW",
+      "sourceObservation": "Static handler returns 501 for listed methods; not a service mutation, still deny unclassified ingress",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/KomgaController.java",
+        "needle": ".status(HttpStatus.NOT_IMPLEMENTED)"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "KomgaController#catchAll",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/KomgaController.java",
+      "sourceLine": 278,
+      "fileBlobSha": "7631c4f5be35652dca87cda92b9a659c321e4a3b",
+      "declaredMethods": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "PATCH"
+      ],
+      "pathVariants": [
+        "/komga/api/**"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "SOURCE_NOT_FOUND_NO_LOCAL_WRITE",
+      "sourceFindingRisk": "LOW",
+      "sourceObservation": "Static catchall returns 404; not persistent mutation, still no wildcard bridge",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/KomgaController.java",
+        "needle": ".status(HttpStatus.NOT_FOUND)"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "KoreaderController#createUser",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/KoreaderController.java",
+      "sourceLine": 37,
+      "fileBlobSha": "0175ecce89ef22761469eef0c58e1e327d781179",
+      "declaredMethods": [
+        "POST"
+      ],
+      "pathVariants": [
+        "/api/koreader/users/create"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "SOURCE_FORBIDDEN_WITH_SECRET_LOG_RISK",
+      "sourceFindingRisk": "CRITICAL",
+      "sourceObservation": "Returns 403 but logs credential-bearing body; deny before upstream and capture synthetic logs",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/KoreaderController.java",
+        "needle": "log.warn(\"Attempt to register user via Koreader blocked: {}\", userData);"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "KoreaderController#updateProgress",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/KoreaderController.java",
+      "sourceLine": 55,
+      "fileBlobSha": "0175ecce89ef22761469eef0c58e1e327d781179",
+      "declaredMethods": [
+        "PUT"
+      ],
+      "pathVariants": [
+        "/api/koreader/syncs/progress"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "KO_SYNC_USER_BOOK_ENTITLEMENT_GAP",
+      "sourceFindingRisk": "CRITICAL",
+      "sourceObservation": "KO auth+sync check visible; book hash resolves book without proven current user library entitlement",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/service/koreader/KoreaderService.java",
+        "needle": "BookEntity book = findBookByHash(bookHash);"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "LogoutController#logout",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/LogoutController.java",
+      "sourceLine": 30,
+      "fileBlobSha": "2aa1e574fa3217d3a95f45d004a431e81eaaaa3c",
+      "declaredMethods": [
+        "POST"
+      ],
+      "pathVariants": [
+        "/api/v1/auth/logout"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "AUTHENTICATED_LOGOUT_REFRESH_CONTEXT",
+      "sourceFindingRisk": "MEDIUM",
+      "sourceObservation": "Refresh token revocation and origin/authorization caller binding require isolated proof",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/LogoutController.java",
+        "needle": "LogoutResponse response = logoutService.logout(auth, refreshToken, origin);"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "MagicShelfController#createUpdateShelf",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/MagicShelfController.java",
+      "sourceLine": 42,
+      "fileBlobSha": "48468032540d1e9e507bb85e9659e27b8c8db76c",
+      "declaredMethods": [
+        "POST"
+      ],
+      "pathVariants": [
+        "/api/magic-shelves"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "USER_OWNER_CHECK_BUT_PUBLIC_FLAG_GAP",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "New public shelf path accepts DTO flag without demonstrated admin check; update owner check present",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/service/MagicShelfService.java",
+        "needle": "entity.setPublic(dto.getIsPublic());"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "MagicShelfController#deleteShelf",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/MagicShelfController.java",
+      "sourceLine": 49,
+      "fileBlobSha": "48468032540d1e9e507bb85e9659e27b8c8db76c",
+      "declaredMethods": [
+        "DELETE"
+      ],
+      "pathVariants": [
+        "/api/magic-shelves/{id}"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "USER_OWNER_CHECK_SOURCE",
+      "sourceFindingRisk": "MEDIUM",
+      "sourceObservation": "Delete verifies shelf owner by current user; isolate current access and request chain before gateway",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/service/MagicShelfService.java",
+        "needle": "if (!shelf.getUserId().equals(userId)) {"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "OidcAuthController#handleCallback",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/OidcAuthController.java",
+      "sourceLine": 55,
+      "fileBlobSha": "6de4b34e54133898e4d4b63486003bdc41598ce4",
+      "declaredMethods": [
+        "POST"
+      ],
+      "pathVariants": [
+        "/api/v1/auth/oidc/callback"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "PUBLIC_OIDC_STATE_CONSUMED",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "State consumption in controller visible; token verification/PKCE/client redirect validation downstream requires review",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/OidcAuthController.java",
+        "needle": "oidcStateService.validateAndConsume(request.state());"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "OidcAuthController#handleMobileCallback",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/OidcAuthController.java",
+      "sourceLine": 135,
+      "fileBlobSha": "6de4b34e54133898e4d4b63486003bdc41598ce4",
+      "declaredMethods": [
+        "POST"
+      ],
+      "pathVariants": [
+        "/api/v1/auth/oidc/mobile/callback"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "PUBLIC_OIDC_STATE_CONSUMED",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "State consumption visible; code verifier/redirect trust and token handling require review",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/OidcAuthController.java",
+        "needle": "oidcStateService.validateAndConsume(state);"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "OidcAuthController#backchannelLogout",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/OidcAuthController.java",
+      "sourceLine": 158,
+      "fileBlobSha": "6de4b34e54133898e4d4b63486003bdc41598ce4",
+      "declaredMethods": [
+        "POST"
+      ],
+      "pathVariants": [
+        "/api/v1/auth/oidc/backchannel-logout"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "PUBLIC_SIGNED_LOGOUT_TOKEN_HANDLER",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "Public OIDC logout token requires issuer/audience/signature replay and session binding proof",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/OidcAuthController.java",
+        "needle": "backchannelLogoutService.handleLogoutToken(logoutToken);"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "ReadingSessionController#recordReadingSession",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/ReadingSessionController.java",
+      "sourceLine": 33,
+      "fileBlobSha": "9d8c3766592037be1ed1653c44ff99854c1a13e4",
+      "declaredMethods": [
+        "POST"
+      ],
+      "pathVariants": [
+        "/api/v1/reading-sessions"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "USER_CONTEXT_BOOK_EXISTS_NO_ACCESS",
+      "sourceFindingRisk": "HIGH",
+      "sourceObservation": "Session write requires fresh book entitlement; current method finds book but no explicit access check visible",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/service/ReadingSessionService.java",
+        "needle": "BookEntity book = bookRepository.findById(request.getBookId())"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "SetupController#setupFirstUser",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/SetupController.java",
+      "sourceLine": 37,
+      "fileBlobSha": "5bf6e7ae568b57b6e679941d8f6e5550eb885c8f",
+      "declaredMethods": [
+        "POST"
+      ],
+      "pathVariants": [
+        "/api/v1/setup"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "PUBLIC_INITIAL_PROVISIONING_RACE_REVIEW",
+      "sourceFindingRisk": "CRITICAL",
+      "sourceObservation": "Public initial setup uses check before create; isolated concurrency/atomic proof needed; never proxy setup via gateway",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/controller/SetupController.java",
+        "needle": "if (userProvisioningService.isInitialUserAlreadyProvisioned()) {"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "ShelfController#createShelf",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/ShelfController.java",
+      "sourceLine": 50,
+      "fileBlobSha": "225bc96d51e1900ad57c5809ce5c8ae29e963ec5",
+      "declaredMethods": [
+        "POST"
+      ],
+      "pathVariants": [
+        "/api/v1/shelves"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "USER_SCOPED_CREATE_ADMIN_PUBLIC_GUARD",
+      "sourceFindingRisk": "MEDIUM",
+      "sourceObservation": "Creates caller-owned shelf and checks public shelf admin flag; validate source chain and scope",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/service/ShelfService.java",
+        "needle": "if (request.isPublicShelf() && !authenticationService.getAuthenticatedUser().getPermissions().isAdmin()) {"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    },
+    {
+      "handlerIdentity": "UserController#changePassword",
+      "sourcePath": "backend/src/main/java/org/booklore/controller/UserController.java",
+      "sourceLine": 89,
+      "fileBlobSha": "34e5829353c426b6d9eb3abdbf10fead4d58dece",
+      "declaredMethods": [
+        "PUT"
+      ],
+      "pathVariants": [
+        "/api/v1/users/change-password"
+      ],
+      "localSecurityAnnotationPresent": false,
+      "staticReviewDisposition": "REVIEWED_WITH_EVIDENCE__GATEWAY_DENIED",
+      "sourceFindingKind": "AUTHENTICATED_SELF_OLD_PASSWORD_CHECK",
+      "sourceFindingRisk": "MEDIUM",
+      "sourceObservation": "Service selects authenticated user and validates old password; brute force and session revocation still untested",
+      "sourceWitness": {
+        "sourcePath": "backend/src/main/java/org/booklore/service/user/UserService.java",
+        "needle": "if (!passwordEncoder.matches(changePasswordRequest.getCurrentPassword()"
+      },
+      "currentBookContentEntitlementApproved": false,
+      "globalChainRuntimeMatched": false,
+      "proxyAllowed": false,
+      "requiresIndependentReview": true
+    }
+  ]
+}
