@@ -1,3 +1,19 @@
+## CURRENT — PHASE 01 FOUNDATION IN PROGRESS (2026-10-29)
+
+**Authoritative GitHub:** [Draft PR #5](https://github.com/0xstillb/Grimmlink-Next/pull/5), `feat/next-phase-01` from merged integration HEAD `4b4a924cf225734dab0d17114f878b5b1982d4a9`. **Last verified code SHA:** [77a54dc070fa8e2660329c40ebd57c86b68dbdf5](https://github.com/0xstillb/Grimmlink-Next/commit/77a54dc070fa8e2660329c40ebd57c86b68dbdf5). This checkpoint commit must be read back LIVE before the next change.
+
+**Implementation actually committed:** pnpm TypeScript workspace; strict TypeBox config; local-only Fastify health with zero Official forwarding; Pino redaction plus log-sink canary and bounded ephemeral diagnostic leases; Drizzle SQLite local metadata schema/migrations/WAL/atomic local lease; React/Vite dark placeholder Control Center with keyboard buttons. No real metrics, sync, networking to Grimmory or physical devices.
+
+**Real isolated CI:** [Phase01 run 40868473874](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40868473874) **SUCCESS** on exact code SHA `77a54dc`: install (--no-frozen-lockfile), approved SQLite native rebuild, build, typecheck, injected mocks and unit tests. Earlier failed runs detected and were corrected: TS4058, TS2322/TS2742, pnpm10 native binding. This success is **not** a frozen-lock reproducible build and does not prove ARM64 or live integration.
+
+**State:** `CODE_COMMITTED_TESTS_PASS_ISOLATED` / `FOUNDATION_IN_PROGRESS`; **NOT** `FOUNDATION_REVIEWED`. No independent Phase01 review, approved reproducible pnpm lockfile, Docker ARM64 verification, OpenAPI, migration backup/restore test, complete domain packages, live health/dashboard binding or full accessibility review. [Phase01 Notion spec](https://app.notion.com/p/407c7efbc0098130a215ebe15c887e4f).
+
+**Safety invariant:** Phase00 `PASS_PHASE00_DESIGN_ONLY` permits foundation *only*. All Official static 403 route candidates remain DENY; no gateway, native KO progress, OPF apply, personal/session bridge or reset. [Issue #4](https://github.com/0xstillb/Grimmlink-Next/issues/4) is hard security gate for Phase02/05/07. Full Hermes/NAS/reader E2E deferred to Phase09; `main` and production untouched.
+
+**Next action:** obtain/review/commit deterministic pnpm-lock.yaml; switch CI to frozen lockfile; implement durable migration backup/restore, OpenAPI/config/error contracts, safe scoped diagnostics runtime control and remaining package modules; independently review exact source diff before exiting Phase01. Do not merge draft PR yet.
+
+---
+
 ## CURRENT — Phase00 DESIGN-ONLY CONTRACT LOCK (2026-10-29; fresh-context review)
 
 **Latest authoritative disposition:** `PASS_PHASE00_DESIGN_ONLY`, `CONTRACT_LOCKED_DESIGN_ONLY`, `PHASE01_AUTHORIZED=FOUNDATION_ONLY`. A separate GPT-6 fresh context reviewed pinned pre-review HEAD [f071229d](https://github.com/0xstillb/Grimmlink-Next/commit/f071229d9d9a1b7fb680cb68f83c763bc53138c6), upstream source, PR #2 and Phase00's Notion acceptance scope. [New independent design-only review](phase-00/FRESH-CONTEXT-DESIGN-LOCK-REVIEW-2026-10-29.md). **Not an approval by a separate GitHub human account.** Historical `CHANGES_REQUIRED` reviewer reports are preserved.
