@@ -1,0 +1,60 @@
+# Phase02 isolated single-port MOCK-ONLY gateway.
+# NO Official Grimmory service, NAS or reader is connected.
+# Host publication is loopback by design, NEVER production/LAN ingress.
+services:
+  gateway:
+    image: caddy:2.10.2-alpine
+    user: "1000:1000"
+    read_only: true
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+    environment:
+      XDG_DATA_HOME: /tmp/caddy-data
+      XDG_CONFIG_HOME: /tmp/caddy-config
+    volumes:
+      - ./gateway/Caddyfile.phase02.mock:/etc/caddy/Caddyfile:ro
+    tmpfs:
+      - /tmp:rw,nosuid,noexec,size=16m
+    ports:
+      - "127.0.0.1:6060:6060"
+    networks:
+      - isolated-mock
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+  adapter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: grimmlink-next:phase02-adapter-mock
+    # Share Caddy's network namespace: adapter binds loopback on 6061,
+    # so no second host port, no LAN/container direct adapter ingress.
+    network_mode: "service:gateway"
+    depends_on:
+      - gateway
+    environment:
+      HOST: 127.0.0.1
+      PORT: "6061"
+      LOG_LEVEL: info
+      SQLITE_PATH: /app/data/adapter.sqlite
+    read_only: true
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+    tmpfs:
+      - /tmp:rw,nosuid,noexec,size=16m
+      - /app/data:rw,nosuid,noexec,size=16m,uid=1000,gid=1000,mode=0700
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:6061/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+networks:
+  isolated-mock:
+    internal: true
