@@ -84,7 +84,7 @@ def validate(root,out):
         if current.get("phaseStatus")=="FOUNDATION_REVIEWED":
             attestation_path="docs/implementation/phase-01/FINAL-INDEPENDENT-REVIEW-ATTESTATION-2026-10-29.md"
             evidence_bytes=(root/attestation_path).read_bytes()
-            evidence_hash=hashlib.sha1(("blob "+str(len(evidence_bytes))+"\\0").encode()+evidence_bytes).hexdigest()
+            evidence_hash=hashlib.sha1(("blob "+str(len(evidence_bytes))+"\0").encode()+evidence_bytes).hexdigest()
             if evidence_hash!=PHASE01_REVIEW_ATTESTATION_BLOB:
                 raise ValueError("Phase01 independent review attestation tampered")
             expected_review={
