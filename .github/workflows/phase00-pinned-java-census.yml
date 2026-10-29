@@ -7,7 +7,7 @@ on:
       - ".github/workflows/phase00-pinned-java-census.yml"
   workflow_dispatch:
 permissions:
-  contents: write
+  contents: read
 jobs:
   pinned-source-ast-census:
     runs-on: ubuntu-24.04
@@ -16,7 +16,7 @@ jobs:
       - name: Checkout audit branch (no production credentials)
         uses: actions/checkout@v4
         with:
-          persist-credentials: true
+          persist-credentials: false
           fetch-depth: 1
       - name: Set up JDK for Java AST syntax-only parsing
         uses: actions/setup-java@v4
@@ -99,24 +99,36 @@ jobs:
 
           print('Content coverage verified; AST diagnostics require review and source semantics remain BLOCKED')
           PY
-      - name: Commit generated evidence only if branch is unchanged
+      - name: Verify reproducible generated source evidence without changing GitHub HEAD
         shell: bash
         run: |
           set -euo pipefail
-          git diff --check
-          git add docs/implementation/phase-00/JAVA-SOURCE-WIDE-CENSUS.json docs/implementation/phase-00/JAVA-SOURCE-WIDE-CENSUS-RECEIPT.md docs/implementation/phase-00/SOURCE-ROUTE-CANDIDATES.json docs/implementation/phase-00/SOURCE-ROUTE-OWNERSHIP-GAPS.md docs/implementation/phase-00/FIXTURE-STATIC-VALIDATION.json docs/implementation/phase-00/SOURCE-DECLARED-MAPPING-EXPANSION.json docs/implementation/phase-00/SOURCE-CONDITION-RESOLUTION.json docs/implementation/phase-00/SOURCE-AUTH-OWNERSHIP-LEDGER.json docs/implementation/phase-00/SOURCE-AUTH-REVIEW-QUEUE.md docs/implementation/phase-00/SOURCE-ACL-TRACE-VALIDATION.json docs/implementation/phase-00/JAVA-INHERITANCE-TYPE-TRIAGE.json docs/implementation/phase-00/REPOSITORY-REST-SOURCE-EXPOSURE.json docs/implementation/phase-00/AUTH-43-SOURCE-VERIFICATION.json docs/implementation/phase-00/AUTH-43-REVIEW-DISPOSITION.md docs/implementation/phase-00/SOURCE-403-SECURITY-CHAIN-CANDIDATES.json docs/implementation/phase-00/SOURCE-403-SECURITY-CHAIN-CANDIDATES.md docs/implementation/phase-00/PHASE00-GATE-STATUS.json
-          if git diff --cached --quiet; then echo "No changed evidence"; exit 0; fi
-          git fetch origin feat/next-phase-00
-          current="$(git rev-parse FETCH_HEAD)"
-          if [ "$current" != "$GITHUB_SHA" ]; then
-            echo "::error::Concurrent branch update. Refusing to overwrite; preserve run log for rebase."
-            exit 12
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "docs(phase-00): record pinned full-source AST scan evidence (unreviewed)"
-          git push origin HEAD:refs/heads/feat/next-phase-00
-
+          python3 - <<'PY'
+          import json,pathlib,subprocess,sys
+          base=pathlib.Path("docs/implementation/phase-00")
+          generated="""JAVA-SOURCE-WIDE-CENSUS.json SOURCE-ROUTE-CANDIDATES.json SOURCE-ROUTE-OWNERSHIP-GAPS.md JAVA-SOURCE-WIDE-CENSUS-RECEIPT.md FIXTURE-STATIC-VALIDATION.json SOURCE-DECLARED-MAPPING-EXPANSION.json SOURCE-CONDITION-RESOLUTION.json SOURCE-AUTH-OWNERSHIP-LEDGER.json SOURCE-AUTH-REVIEW-QUEUE.md SOURCE-ACL-TRACE-VALIDATION.json JAVA-INHERITANCE-TYPE-TRIAGE.json REPOSITORY-REST-SOURCE-EXPOSURE.json AUTH-43-SOURCE-VERIFICATION.json AUTH-43-REVIEW-DISPOSITION.md SOURCE-403-SECURITY-CHAIN-CANDIDATES.json SOURCE-403-SECURITY-CHAIN-CANDIDATES.md PHASE00-GATE-STATUS.json""".split()
+          drift=[]
+          for name in generated:
+              p=base/name
+              old=subprocess.check_output(["git","show","HEAD:"+p.as_posix()])
+              new=p.read_bytes()
+              if name=="JAVA-SOURCE-WIDE-CENSUS.json":
+                  old_obj=json.loads(old)
+                  new_obj=json.loads(new)
+                  # generatedUtc is a record of the last material evidence commit.
+                  # A fresh scan timestamp alone must not create a new reviewed HEAD.
+                  new_obj["generatedUtc"]=old_obj.get("generatedUtc")
+                  if old_obj!=new_obj: drift.append(name)
+              elif old!=new:
+                  drift.append(name)
+          if drift:
+              print("::error::Material generated evidence differs from checked-in source:")
+              for name in drift: print(" -",name)
+              print("Regenerate, inspect and commit material changes explicitly; CI must never silently push.")
+              sys.exit(2)
+          print("Pinned source evidence matches checked-in facts (volatile scan time excluded).")
+          print("READ_ONLY: no auto-push, no timestamp-only commit, HEAD remains stable.")
+          PY
       - name: Preserve failure status when AST diagnostics remain
         shell: bash
         run: |
