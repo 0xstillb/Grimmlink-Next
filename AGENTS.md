@@ -1,3 +1,13 @@
+## CURRENT — Phase02 MOCK_CLIENT_AUTH_IN_PROGRESS (2026-10-29; Draft PR #6)
+
+**Live source:** [Phase02 Draft PR #6](https://github.com/0xstillb/Grimmlink-Next/pull/6) based on merged Phase01 integration commit `0579f64afb2d53001c915a10079d00ecd9de0091`. Current Phase02 work is recorded in `docs/implementation/ACTIVE-SESSION.json.phase02Work`, [Phase02 RESULT](docs/implementation/phase-02/RESULT.md) and [HANDOFF](docs/implementation/phase-02/HANDOFF.json). The root `phase=01 / FOUNDATION_REVIEWED` fields remain as an immutable compatible foundation receipt until Phase02 state gate is formally reviewed; they do **not** indicate Phase02 is inactive.
+
+**Code:** local Fastify gateway pre-request deny-all for Official, strict canonical header/path/method/Range/WS/SSE checks, mock-only typed Official GET transport with no global fetch/no live endpoint, bounded retry/timeout and sanitized errors, pure Admin session-bound CSRF/Origin guard, Reader same-owner policy, synthetic tests. **No live session authentication is wired, no trusted Official REST transport or Gateway forwarding exists, no production route is authorized.** Latest source and CI result must be checked at exact GitHub branch HEAD; do not assume earlier bootstrap CI covers later code changes.
+
+**Security:** all 403 Phase00 *static source route candidates* still DENY; no new Spring runtime mapping equivalence, user/library/book/file/row atomic rights, host/IPv4/IPv6 ingress isolation or separate human/independent Phase02 technical verdict. [Issue #4](https://github.com/0xstillb/Grimmlink-Next/issues/4) remains open. Sensitive bridges OFF; full real Hermes/NAS/device E2E Phase09 only. PR stays DRAFT/UNMERGED, integration/main unchanged by Phase02.
+
+---
+
 ## CURRENT — Phase01 FOUNDATION_REVIEWED (2026-10-29; isolated foundation technical acceptance)
 
 **Authoritative latest state:** `docs/implementation/ACTIVE-SESSION.json` = `FOUNDATION_REVIEWED`, backed by [independent fresh GPT-6-context technical review ID 5699254459](https://github.com/0xstillb/Grimmlink-Next/pull/5) for reviewed application source [2eb613b0](https://github.com/0xstillb/Grimmlink-Next/commit/2eb613b0cac39b689710501cc3dbad812e5486a2). [Reviewed-source Phase00 #40888013634](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40888013634) and [Phase01 #40888013081](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40888013081) both SUCCESS. Closure-commit exact-HEAD CI must be checked in GitHub. [Final review attestation](docs/implementation/phase-01/FINAL-INDEPENDENT-REVIEW-ATTESTATION-2026-10-29.md) and [Phase01 handoff](docs/implementation/phase-01/HANDOFF.json).
