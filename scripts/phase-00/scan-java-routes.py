@@ -109,6 +109,55 @@ def scan(root,out):
                'openQuestions':['Review full mapping composition, meta annotations, inheritance, conditions and security ownership']})
         if any(e['sourcePath']==path for e in errors):
             row['scanStatus']='AST_PARSE_DIAGNOSTIC_ERROR'
+    # A lexical extends/implements flag is not an inherited Spring HTTP route.
+    # Emit exact CLASS AST evidence and keep all types reviewable; never self-clear P0.
+    direct_mapping_paths={x['sourcePath'] for x in signals if x['handlerMechanism']=='ANNOTATION_MAPPING'}
+    programmatic_paths={x['sourcePath'] for x in signals
+                        if x['handlerMechanism'] in ('PROGRAMMATIC_SOURCE_SIGNAL','FRAMEWORK_TYPE_SIGNAL')}
+    inheritance=[]
+    for row in ledger:
+        path=row['sourcePath']
+        if not any('Inherited/interface route annotations' in q for q in row['unresolvedSemanticQuestions']):
+            continue
+        if path.endswith('/WebMvcConfig.java') or path.endswith('/WebSocketConfig.java'):
+            category='WEB_CONFIGURATION_ROUTE_OR_STOMP_EXPOSURE'
+        elif '/config/security/filter/' in path or '/config/security/interceptor/' in path or '/interceptor/' in path:
+            category='SECURITY_FILTER_OR_INTERCEPTOR_NOT_STANDALONE_HANDLER'
+        elif '/repository/' in path:
+            category='DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW'
+        elif '/service/' in path:
+            category='SERVICE_OR_FRAMEWORK_IMPLEMENTATION'
+        elif '/task/' in path:
+            category='BACKGROUND_TASK_OR_FRAMEWORK_IMPLEMENTATION'
+        elif '/convertor/' in path:
+            category='ATTRIBUTE_CONVERTER_OR_DATA_LAYER'
+        elif '/model/' in path:
+            category='MODEL_DTO_OR_ENTITY_TYPE'
+        else:
+            category='OTHER_EXTENDS_OR_IMPLEMENTS_TYPE_REVIEW'
+        classes=[{'className':e['className'],'sourceLine':e['sourceLine'],
+                  'astDeclaration':e['expression']} for e in events[path] if e['kind']=='CLASS']
+        if not classes: raise RuntimeError('Class flag without CLASS event: '+path)
+        inheritance.append({'sourcePath':path,'fileBlobSha':row['fileBlobSha'],
+          'category':category,'classDeclarations':classes,
+          'hasDirectMethodMappingAnnotationInFile':path in direct_mapping_paths,
+          'hasCapturedProgrammaticOrFrameworkSignal':path in programmatic_paths,
+          'evidenceGrade':'PINNED_JAVA21_AST_SYNTAX_ONLY',
+          'typeResolution':'NOT_RUN','inheritedMetaAnnotations':'NOT_PROVEN',
+          'runtimeEndpointExposure':'NOT_RUN','authorizationApproved':False,
+          'sourceScopeStatus':'TRIAGED_NOT_ROUTE_CLOSED'})
+    inheritance_counts=dict(sorted(collections.Counter(x['category'] for x in inheritance).items()))
+    inheritance_report={'schemaVersion':1,'upstreamCommit':PIN,
+       'classificationMethod':'SOURCE_PATH_PLUS_CLASS_AST_EXTENDS_IMPLEMENTS; NOT TYPE BINDING',
+       'lexicalClassFlaggedFiles':len(inheritance),
+       'directMethodMappedFilesInFlaggedSet':sum(x['hasDirectMethodMappingAnnotationInFile'] for x in inheritance),
+       'programmaticOrFrameworkFilesInFlaggedSet':sum(x['hasCapturedProgrammaticOrFrameworkSignal'] for x in inheritance),
+       'categoryCounts':inheritance_counts,'sourceAnnotationComplete':False,
+       'runtimeRouteComplete':'NOT_RUN','items':inheritance}
+    if len(inheritance)!=160 or len(direct_mapping_paths)!=64 or inheritance_report['directMethodMappedFilesInFlaggedSet']!=0:
+        raise RuntimeError('Pinned inheritance/controller census changed, require fresh review: '+
+            str((len(inheritance),len(direct_mapping_paths),inheritance_report['directMethodMappedFilesInFlaggedSet'])))
+    write(out/'JAVA-INHERITANCE-TYPE-TRIAGE.json',inheritance_report)
     summary={'schemaVersion':1,'upstreamRepository':'grimmory-tools/grimmory',
         'upstreamCommit':PIN,'sourceScope':SCOPE+'**/*.java',
         'generatedUtc':datetime.datetime.now(datetime.timezone.utc).isoformat(),
