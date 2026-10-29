@@ -1,4 +1,5 @@
 name: Phase01 lockfile generator (one-shot feature branch only)
+# Second one-shot lock refresh after pinned ESLint and Prettier.
 on:
   push:
     branches: [feat/next-phase-01]
