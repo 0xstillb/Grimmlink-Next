@@ -60,8 +60,22 @@ def validate(root,out):
     if repo["pinnedGradleLockSpringDataRestDependencies"] or repo["pinnedGradleBuildSpringDataRestDeclarations"] or repo["springDataRestSourceSymbols"]:
         raise ValueError("NEW-P0-01 repository REST registration evidence changed")
     current=load(root,"docs/implementation/ACTIVE-SESSION.json")
-    if current.get("phase01Authorized") is not True or current.get("contractLocked") is not True or current.get("phaseStatus")!="CONTRACT_LOCKED_DESIGN_ONLY":
+    # Phase00 design acceptance remains invariant even after ACTIVE-SESSION
+    # transfers to Phase01. The old condition incorrectly required phaseStatus
+    # to remain Phase00 forever and broke the already-accepted phase handoff.
+    if current.get("phase01Authorized") is not True or current.get("contractLocked") is not True:
         raise ValueError("active status differs from independent design lock")
+    if current.get("phase")=="00":
+        if current.get("phaseStatus")!="CONTRACT_LOCKED_DESIGN_ONLY":
+            raise ValueError("active status differs from independent design lock")
+    elif current.get("phase")=="01":
+        if (current.get("phaseStatus")!="FOUNDATION_IN_PROGRESS"
+            or current.get("phase00Review")!="PASS_PHASE00_DESIGN_ONLY_RUNTIME_NOT_VERIFIED"
+            or current.get("phase01Scope")!="FOUNDATION_ONLY"
+            or current.get("safety",{}).get("officialGatewayForwarding")!="DENY_ALL"):
+            raise ValueError("active status differs from independent design lock")
+    else:
+        raise ValueError("unreviewed active phase transition")
     disabled=current.get("securityCapability",{})
     required=("kosyncProgress","metadataApply","personalBridge","sessionBridge","managedProjection","resetProgress","resetPersonalRating")
     if any("OFF" not in str(disabled.get(k,"")) for k in required):

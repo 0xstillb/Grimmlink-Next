@@ -17,7 +17,7 @@
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/5",
   "prStatus": "OPEN_DRAFT",
   "phase00Review": "PASS_PHASE00_DESIGN_ONLY_RUNTIME_NOT_VERIFIED",
-  "phase01Authorized": "FOUNDATION_ONLY",
+  "phase01Authorized": true,
   "codeImplemented": true,
   "codeStatus": "CODE_COMMITTED_ISOLATED_TESTS_PASS_NOT_REVIEWED",
   "unitTestRun": {
@@ -57,5 +57,16 @@
     "Docker ARM64, backup restore, OpenAPI, full modules remain"
   ],
   "nextAction": "Commit reviewed pnpm lock from CI artifact; freeze install; finish migration safety, OpenAPI, remaining packages and independent Phase01 review; no merge",
-  "updatedAt": "2026-10-29"
+  "updatedAt": "2026-10-29",
+  "contractLocked": true,
+  "phase01Scope": "FOUNDATION_ONLY",
+  "securityCapability": {
+    "kosyncProgress": "BLOCKED_OFF_TOCTOU",
+    "metadataApply": "BLOCKED_OFF",
+    "personalBridge": "BLOCKED_OFF",
+    "sessionBridge": "BLOCKED_OFF",
+    "managedProjection": "BLOCKED_OFF",
+    "resetProgress": "BLOCKED_OFF",
+    "resetPersonalRating": "BLOCKED_OFF"
+  }
 }

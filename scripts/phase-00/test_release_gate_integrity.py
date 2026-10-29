@@ -56,6 +56,18 @@ class GateTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"differs from independent design lock"):
             gate.validate(self.root,self.out)
 
+    def test_phase01_safety_handoff_fails_closed(self):
+        self.mutate("docs/implementation/ACTIVE-SESSION.json",
+                    lambda j:j["safety"].update(officialGatewayForwarding="ALLOW"))
+        with self.assertRaisesRegex(ValueError,"differs from independent design lock"):
+            gate.validate(self.root,self.out)
+
+    def test_phase01_sensitive_feature_enable_rejected(self):
+        self.mutate("docs/implementation/ACTIVE-SESSION.json",
+                    lambda j:j["securityCapability"].update(metadataApply="ON"))
+        with self.assertRaisesRegex(ValueError,"security feature unexpectedly enabled"):
+            gate.validate(self.root,self.out)
+
     def test_gateway_unreviewed_allow_rejected(self):
         self.mutate("docs/implementation/phase-00/SOURCE-403-SECURITY-CHAIN-CANDIDATES.json",lambda j:j["routes"][0].update(gatewayForwardDecision="ALLOW"))
         with self.assertRaisesRegex(ValueError,"route allow bypass"):
