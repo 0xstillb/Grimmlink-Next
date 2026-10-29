@@ -23,7 +23,7 @@ DYNAMIC = re.compile(
     r"PutExchange|DeleteExchange|PatchExchange|GraphQlController|SchemaMapping|"
     r"QueryMapping|MutationMapping|ControllerEndpoint|RestControllerEndpoint|"
     r"MessageMapping|SubscribeMapping|WebService|WebMethod)\b|"
-    r"@(?:Path|GET|POST|PUT|DELETE|PATCH)\s*(?:\(|\b)"
+    r"@(?:Path|GET|POST|PUT|DELETE|PATCH)\s*(?:\(|\b))"
 )
 KNOWN_PROGRAMMATIC = {
     "backend/src/main/java/org/booklore/config/WebMvcConfig.java": {
