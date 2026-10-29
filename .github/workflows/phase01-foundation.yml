@@ -2,8 +2,28 @@ name: Phase 01 Foundation (isolated)
 on:
   push:
     branches: [feat/next-phase-01]
+    paths:
+      - "apps/**"
+      - "packages/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - "Dockerfile"
+      - ".dockerignore"
+      - "compose.phase01.yml"
+      - ".github/workflows/phase01-foundation.yml"
   pull_request:
     branches: [integration/grimmlink-next]
+    paths:
+      - "apps/**"
+      - "packages/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - "Dockerfile"
+      - ".dockerignore"
+      - "compose.phase01.yml"
+      - ".github/workflows/phase01-foundation.yml"
 concurrency:
   group: phase01-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
