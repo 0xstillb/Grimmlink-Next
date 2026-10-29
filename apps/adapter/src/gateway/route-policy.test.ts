@@ -67,7 +67,6 @@ describe("Phase02 zero-forward gateway classifier", () => {
     expect(classify("GET", "/health", { [key]: "http://evil.test" })).toBe("INVALID_TARGET");
   });
 
-
   it.each([
     ["upgrade", "websocket"],
     ["sec-websocket-key", "synthetic-websocket-key"],
