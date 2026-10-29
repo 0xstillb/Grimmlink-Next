@@ -119,6 +119,8 @@ jobs:
                   # A fresh scan timestamp alone must not create a new reviewed HEAD.
                   new_obj["generatedUtc"]=old_obj.get("generatedUtc")
                   if old_obj!=new_obj: drift.append(name)
+              elif name.endswith(".json"):
+                  if json.loads(old)!=json.loads(new): drift.append(name)
               elif old!=new:
                   drift.append(name)
           if drift:
