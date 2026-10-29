@@ -1,6 +1,6 @@
 # GRIMMLINK NEXT — Phase 00 Architecture and Safety Contract
 
-**Status:** SOURCE_AUDITED_CANDIDATE / INDEPENDENT_REVIEW_PENDING (not CONTRACT_LOCKED).
+**Status:** CORRECTION_PASS_RE_REVIEW_PENDING / INDEPENDENT CHANGES_REQUIRED (NOT CONTRACT_LOCKED).
 **Date:** 2026-10-28. **Evidence baseline:** Grimmory Official v3.5.0 source commit `402e89b4452f8e2b17ab95f16c1621c003516cd2`; Readest v0.12.16 source commit `3cc39ad7a558e6612e1a8135058fbd6f3c90b3e3`. These are **audited source baselines, not confirmed installed versions**.
 
 ## Authority and constraints
@@ -50,3 +50,12 @@ Independent fresh-context reviewer must inspect changed diff and verify citation
 - The adjacent Sidecar writer is guarded by `isLocalStorage()`, *not* unconditional; still check global storage mode and persistence settings explicitly, rather than assume per-library NETWORK switches off every write path.
 
 Phase 00 status remains **SOURCE_AUDITED_REVIEW_PENDING**; exact installed version and independent gate not verified.
+
+
+## 2026-10-29 — Implementer clarification (no independent approval)
+
+The detailed [source correction response](phase-00/REMEDIATION.md) **supersedes conflicting earlier wording** in this document. In single-book metadata PUT, `mergeCategories` couples authors/categories/reviews; the [BookReviewUpdateService](https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/service/metadata/BookReviewUpdateService.java#L26-L61) ignores replaceMode, so empty-but-present reviews can clear. Require scalar-only allowlisted OPF default, omit unapproved collections/lock fields, mandatory `REPLACE_WHEN_PROVIDED` and explicit false clearFlags, approved old/new collection diff, locks, source fingerprint and readback. No automatic metadata apply.
+
+The [BookAccessAspect](https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/config/security/aspect/BookAccessAspect.java#L31-L68) checks library and content restrictions **only for annotated handlers**. Native KOSync and personal-data writes need separate entitlement proof, not only authentication; do not expose unverified Native passthrough through the public gateway. Native file progress is **attempted, not guaranteed**; no second Adapter writer by default. Low-% Native KOSync can reset manual READ to UNREAD. Exact CFI requires spine/text anchor and round-trip, not just a returned string. Sidecar **does have** [global isLocalStorage guard](https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/service/metadata/sidecar/SidecarMetadataWriter.java#L43-L46); separate move-on-update and read-only NAS checks remain necessary.
+
+Proposed fail-closed flags in REMEDIATION.md are **design-only, not implemented**, and are not evidence of runtime safety. Independent verdict **CHANGES_REQUIRED** remains until independent re-review. All E2E/real hardware Phase09 only.
