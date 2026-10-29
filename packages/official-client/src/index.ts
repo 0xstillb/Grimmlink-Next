@@ -8,7 +8,9 @@ export interface OfficialClient {
 export function createDisabledOfficialClient(): OfficialClient {
   return {
     getBookMetadata: async () => {
-      throw new UpstreamDisabledError("Official live REST connectivity is not authorized in Phase02");
+      throw new UpstreamDisabledError(
+        "Official live REST connectivity is not authorized in Phase02",
+      );
     },
   };
 }
