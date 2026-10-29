@@ -120,6 +120,14 @@ jobs:
           check_status 403 -H 'Range: bytes=0-4' http://127.0.0.1:6060/api/v1/books
           check_status 403 -H 'Upgrade: websocket' http://127.0.0.1:6060/ws
           check_status 403 -H 'Accept: text/event-stream' http://127.0.0.1:6060/api/v1/books
+          # Every sensitive GET and admin write remains denied at the single port.
+          check_status 403 http://127.0.0.1:6060/api/v1/books/foreign-book
+          check_status 403 http://127.0.0.1:6060/api/v1/libraries/foreign-library
+          check_status 403 http://127.0.0.1:6060/api/v1/files/foreign-file
+          check_status 403 http://127.0.0.1:6060/api/v1/app/notes/foreign-record
+          check_status 403 -X POST http://127.0.0.1:6060/api/grimmlink/v2/admin/reset
+          docker compose -f compose.phase02.mock.yml logs --no-color > /tmp/phase02-logs
+          ! grep -Eq 'CANARYSECRET|canary-key|canary-user' /tmp/phase02-logs
           ! curl --silent --fail --max-time 2 http://127.0.0.1:6061/health >/dev/null
           ! curl -g -6 --silent --fail --max-time 2 'http://[::1]:6060/health' >/dev/null
       - name: Isolated docker logs (on failure) and teardown
