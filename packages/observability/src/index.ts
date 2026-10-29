@@ -1,4 +1,4 @@
-import pino, { type Logger } from "pino";
+import pino, { type Logger, type DestinationStream } from "pino";
 
 const MAX_MS = { debug: 30 * 60_000, trace: 5 * 60_000 } as const;
 export type DiagnosticLevel = keyof typeof MAX_MS;
@@ -30,8 +30,8 @@ export class DiagnosticLeases {
 }
 
 /** Never serialize request bodies or raw headers in foundational logs. */
-export function createLogger(module: string, level: "info" | "warn" | "error" = "info"): Logger {
-  return pino({
+export function createLogger(module: string, level: "info" | "warn" | "error" = "info", destination?: DestinationStream): Logger {
+  const options = {
     name: module,
     level,
     base: { module },
@@ -51,5 +51,6 @@ export function createLogger(module: string, level: "info" | "warn" | "error" = 
         id: req.id, method: req.method, path: typeof req.url === "string" ? req.url.split("?")[0] : undefined
       })
     }
-  });
+  };
+  return destination ? pino(options, destination) : pino(options);
 }
