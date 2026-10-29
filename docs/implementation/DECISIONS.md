@@ -1,6 +1,6 @@
 # Architecture Decision Records — Phase 00
 
-**Design accepted; contract evidence review pending.** No deployed instance was contacted.
+**Architecture choices only; independent review CHANGES_REQUIRED and correction pending fresh review.** No deployed instance was contacted.
 
 | ADR | Decision | Status / qualification |
 | --- | --- | --- |
@@ -22,3 +22,19 @@
 
 ## Draft workspace layout (Phase 01 target, NOT created)
 `apps/adapter` (Fastify API, KOSync coordinator, official client); `apps/control-center` (React); `packages/contracts` (versioned Zod/TS schemas); `packages/locations` (Prose adapter); `packages/opf`; `packages/persistence`; `packages/observability`; `infra/gateway`; `fixtures/contracts`; `docs/implementation/phase-XX`. Lua changes remain on separate GrimmLink plugin branch, referenced by pinned SHA. SQLite stores non-cache durable state on persistent volume, Grimmory Official retains authoritative data.
+
+
+## Post-review ADR addenda (2026-10-29, design-only)
+
+| ADR | Additional decision | Gate |
+| --- | --- | --- |
+| ADR-016 | Scalar-only OPF metadata default; skip all unapproved collection and lock fields; reviews can change independent of replaceMode | metadataApply OFF, Phase03 mocks |
+| ADR-017 | Native KOSync is sole potential progress writer after entitlement; file-level CFI write is only attempted | managedProjection OFF |
+| ADR-018 | Require caller-to-book library+content ACL proof, including Native KOSync hash and personal REST; never admin impersonation | KOSync/personal bridge OFF |
+| ADR-019 | Native low-% status can reset manual READ: accepted source limitation, no invented percent | conflict-policy pending |
+| ADR-020 | Global Sidecar isLocalStorage guard and independent move settings; NAS RO with no adjacent export | adjacentNasWrite OFF |
+| ADR-021 | CFI EXACT only on same EPUB+spine+text-anchor round-trip; hashes must match actual files | Phase06 fixture; Phase09 real |
+| ADR-022 | Readest can request registration after 401 but Official returns 403; pre-provision KOSync; OPDS add-only | Phase02/05 fixtures |
+| ADR-023 | Correction pass cannot approve itself; prior CHANGES_REQUIRED stands | fresh review before CONTRACT_LOCKED or Phase01 |
+
+[Evidence and R-01–R-12 trace](phase-00/REMEDIATION.md).
