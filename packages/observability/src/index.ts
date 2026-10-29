@@ -32,6 +32,67 @@ export class DiagnosticLeases {
   }
 }
 
+/**
+ * Final sink allowlist. Pino redaction rules are defense-in-depth only: they
+ * cannot mask arbitrary-depth data, arbitrary child bindings or free-form
+ * message strings. Filter the complete serialized event BEFORE any sink sees
+ * it (including child loggers and Fastify's loggerInstance).
+ */
+function safeLogLine(line: string, module: string): string {
+  const fallback = '{"msg":"LOG_DETAILS_OMITTED"}\n';
+  if (line.length > 65_536) return fallback;
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(line) as unknown;
+  } catch {
+    return fallback;
+  }
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return fallback;
+  const raw = parsed as Record<string, unknown>;
+  const safe: Record<string, unknown> = {};
+  if (typeof raw.level === "number" && [10, 20, 30, 40, 50, 60].includes(raw.level)) {
+    safe.level = raw.level;
+  }
+  if (typeof raw.time === "number" && Number.isSafeInteger(raw.time)) safe.time = raw.time;
+  if (/^[a-z][a-z0-9_-]{0,63}$/.test(module)) safe.module = module;
+  const messages = ["SCOPED_DIAGNOSTIC", "Adapter startup failed", "Safe startup failure"];
+  safe.msg = typeof raw.msg === "string" && messages.includes(raw.msg)
+    ? raw.msg
+    : "LOG_DETAILS_OMITTED";
+  const codes = ["REQUEST_SUMMARY", "SQLITE_RETRY", "MIGRATION_STAGE"];
+  if (typeof raw.code === "string" && codes.includes(raw.code)) safe.code = raw.code;
+  if (typeof raw.count === "number" && Number.isSafeInteger(raw.count) && raw.count >= 0) {
+    safe.count = raw.count;
+  }
+  if (raw.err && typeof raw.err === "object" && !Array.isArray(raw.err)) {
+    const type = (raw.err as Record<string, unknown>).type;
+    const safeTypes = ["Error", "TypeError", "ConfigurationError", "UpstreamDisabledError"];
+    safe.err = { type: typeof type === "string" && safeTypes.includes(type) ? type : "Error" };
+  }
+  if (raw.req && typeof raw.req === "object" && !Array.isArray(raw.req)) {
+    const req = raw.req as Record<string, unknown>;
+    const safeReq: Record<string, string> = {};
+    if (typeof req.id === "string" && /^[0-9a-f-]{36}$/i.test(req.id)) safeReq.id = req.id;
+    if (typeof req.method === "string" && ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"].includes(req.method)) {
+      safeReq.method = req.method;
+    }
+    safe.req = safeReq;
+  }
+  const permitted = new Set(["level", "time", "pid", "hostname", "name", "module", "msg", "code", "count", "err", "req"]);
+  if (Object.keys(raw).some((key) => !permitted.has(key)) ||
+      raw.msg !== safe.msg ||
+      (raw.req && JSON.stringify(raw.req) !== JSON.stringify(safe.req)) ||
+      (raw.err && JSON.stringify(raw.err) !== JSON.stringify(safe.err))) {
+    safe.redacted = "[REDACTED]";
+  }
+  return JSON.stringify(safe) + "\n";
+}
+
+function safeDestination(module: string, destination?: DestinationStream): DestinationStream {
+  const sink = destination ?? process.stdout;
+  return { write(chunk: string) { sink.write(safeLogLine(chunk, module)); } };
+}
+
 /** Never serialize request bodies or raw headers in foundational logs. */
 export function createLogger(module: string, level: "info" | "warn" | "error" = "info", destination?: DestinationStream): Logger {
   const options = {
@@ -61,7 +122,7 @@ export function createLogger(module: string, level: "info" | "warn" | "error" = 
       })
     }
   };
-  return destination ? pino(options, destination) : pino(options);
+  return pino(options, safeDestination(module, destination));
 }
 
 export type SafeDiagnosticSignal = Readonly<{
