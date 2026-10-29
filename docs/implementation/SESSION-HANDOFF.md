@@ -1,5 +1,13 @@
 # GRIMMLINK NEXT — GPT Web Session Handoff
 
+## CURRENT CORRECTION CHECKPOINT — 2026-10-29 (supersedes earlier reviewed head below)
+
+- **The source-contract correction pass R-01–R-12 is committed** on [Draft PR #2](https://github.com/0xstillb/Grimmlink-Next/pull/2). Read [REMEDIATION.md](phase-00/REMEDIATION.md) alongside the prior [independent REVIEW.md](phase-00/REVIEW.md) and [HANDOFF.json](phase-00/HANDOFF.json).
+- **Prior independent verdict remains CHANGES_REQUIRED**. Correction author cannot approve their own work: **independent re-review NOT_RUN, NOT CONTRACT_LOCKED, Phase01 NOT AUTHORIZED**. Read GitHub LIVE HEAD, do not use any older SHA in this file as branch tip.
+- Important corrections: non-null empty bookReviews may clear despite safe replaceMode; BookAccessAspect only on annotated handlers, KOSync global hash requires book entitlement proof; Native file CFI write may be stale/null; manual READ can reset at low %; Sidecar writer has global isLocalStorage guard; EXACT CFI requires proven spine/text anchor.
+- Proposed Fail-Closed feature switches are **not implemented or tested**. No user-facing production API/NAS changes. Terminal/build/unit/mock/live/Hermes/NAS/physical/E2E NOT_RUN; all full E2E Phase09.
+- **Next:** fresh reviewer assesses correction diff and source links, records APPROVED/CHANGES_REQUIRED/BLOCKED as warranted. No PR merge or main edit.
+
 ## CURRENT VERIFIED GATE — 2026-10-29 (supersedes all historical snapshots below)
 
 - **Phase 00 independent review: CHANGES_REQUIRED. NOT APPROVED, NOT CONTRACT_LOCKED, PHASE 01 NOT AUTHORIZED.**
