@@ -3,18 +3,30 @@ import { checkSyntheticBatch, type ResourceClaim, type RightsSnapshot } from "./
 import type { VerifiedActor } from "./policy.js";
 
 const actor: VerifiedActor = {
-  kind: "reader", accountId: "reader1", deviceId: "device1", expiresAtMs: 100000,
+  kind: "reader",
+  accountId: "reader1",
+  deviceId: "device1",
+  expiresAtMs: 100000,
 };
 const claim: ResourceClaim = {
-  accountId: "reader1", libraryId: "library1", bookId: "book1",
-  fileId: "file1", recordId: "record1",
+  accountId: "reader1",
+  libraryId: "library1",
+  bookId: "book1",
+  fileId: "file1",
+  recordId: "record1",
 };
 const rights: RightsSnapshot = {
-  accountId: "reader1", libraryId: "library1", bookId: "book1",
-  fileIds: ["file1"], recordIds: ["record1"], current: true, revoked: false,
+  accountId: "reader1",
+  libraryId: "library1",
+  bookId: "book1",
+  fileIds: ["file1"],
+  recordIds: ["record1"],
+  current: true,
+  revoked: false,
 };
 const testAcl = (
-  c: ResourceClaim = claim, s: RightsSnapshot | null = rights,
+  c: ResourceClaim = claim,
+  s: RightsSnapshot | null = rights,
   a: VerifiedActor | null = actor,
 ) => checkSyntheticBatch(a, [c], [s], 50000);
 
@@ -38,12 +50,20 @@ describe("Phase02 synthetic current-rights all-or-none policy", () => {
     expect(testAcl(c, s)).toBe("DENY_ALL");
   });
   it("refuses admin escalation and unauthenticated reads", () => {
-    expect(testAcl(claim, rights, { ...actor, kind: "admin", csrfSha256: "a".repeat(64) } as VerifiedActor)).toBe("DENY_ALL");
+    expect(
+      testAcl(claim, rights, {
+        ...actor,
+        kind: "admin",
+        csrfSha256: "a".repeat(64),
+      } as VerifiedActor),
+    ).toBe("DENY_ALL");
     expect(testAcl(claim, rights, null)).toBe("DENY_ALL");
   });
   it("denies entire batch when ANY file or book is foreign, never partial authorizes", () => {
     const c2 = { ...claim, bookId: "book2", fileId: "foreign" };
-    expect(checkSyntheticBatch(actor, [claim, c2], [rights, { ...rights, bookId: "book2" }], 50000)).toBe("DENY_ALL");
+    expect(
+      checkSyntheticBatch(actor, [claim, c2], [rights, { ...rights, bookId: "book2" }], 50000),
+    ).toBe("DENY_ALL");
   });
   it("denies duplicate, empty and mismatched arrays", () => {
     expect(checkSyntheticBatch(actor, [claim, claim], [rights, rights], 50000)).toBe("DENY_ALL");
