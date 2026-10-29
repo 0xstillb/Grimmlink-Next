@@ -1,0 +1,73 @@
+name: Phase 00 pinned Java source route census
+on:
+  push:
+    branches: [feat/next-phase-00]
+    paths:
+      - "scripts/phase-00/**"
+      - ".github/workflows/phase00-pinned-java-census.yml"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  pinned-source-ast-census:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Checkout audit branch (no production credentials)
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 1
+      - name: Set up JDK for Java AST syntax-only parsing
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - name: Fetch exact pinned upstream source without executing it
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/grimmory-source
+          git -C /tmp/grimmory-source init -q
+          git -C /tmp/grimmory-source remote add origin https://github.com/grimmory-tools/grimmory.git
+          git -C /tmp/grimmory-source fetch --no-tags --depth=1 origin 402e89b4452f8e2b17ab95f16c1621c003516cd2
+          git -C /tmp/grimmory-source checkout --quiet --detach 402e89b4452f8e2b17ab95f16c1621c003516cd2
+          test "$(git -C /tmp/grimmory-source rev-parse HEAD)" = "402e89b4452f8e2b17ab95f16c1621c003516cd2"
+      - name: Generate content-verified AST census (no upstream code execution)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/phase-00/scan-java-routes.py --upstream /tmp/grimmory-source --output /tmp/phase00-static
+          python3 scripts/phase-00/validate-negative-fixtures.py docs/implementation/phase-00/SECURITY-NEGATIVE-FIXTURES.json /tmp/phase00-static/FIXTURE-STATIC-VALIDATION.json
+          for file in JAVA-SOURCE-WIDE-CENSUS.json SOURCE-ROUTE-CANDIDATES.json SOURCE-ROUTE-OWNERSHIP-GAPS.md JAVA-SOURCE-WIDE-CENSUS-RECEIPT.md FIXTURE-STATIC-VALIDATION.json; do
+            cp "/tmp/phase00-static/$file" "docs/implementation/phase-00/$file"
+          done
+          python3 - <<'PY'
+          import json
+          p='docs/implementation/phase-00/JAVA-SOURCE-WIDE-CENSUS.json'
+          j=json.load(open(p))
+          assert j['filesEnumerated']==923, j['filesEnumerated']
+          assert j['contentReadAndBlobShaVerified']==923
+          assert j['astParsedFiles']==923
+          assert not j['astErrors']
+          assert j['SOURCE_ANNOTATION_COMPLETE'] is False
+          assert j['RUNTIME_ROUTE_COMPLETE']=='NOT_RUN'
+          print('Static AST file-content receipt: PASS; semantic/gateway review: BLOCKED')
+          PY
+      - name: Commit generated evidence only if branch is unchanged
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --check
+          git add docs/implementation/phase-00/JAVA-SOURCE-WIDE-CENSUS.json docs/implementation/phase-00/JAVA-SOURCE-WIDE-CENSUS-RECEIPT.md docs/implementation/phase-00/SOURCE-ROUTE-CANDIDATES.json docs/implementation/phase-00/SOURCE-ROUTE-OWNERSHIP-GAPS.md docs/implementation/phase-00/FIXTURE-STATIC-VALIDATION.json
+          if git diff --cached --quiet; then echo "No changed evidence"; exit 0; fi
+          git fetch origin feat/next-phase-00
+          current="$(git rev-parse FETCH_HEAD)"
+          if [ "$current" != "$GITHUB_SHA" ]; then
+            echo "::error::Concurrent branch update. Refusing to overwrite; preserve run log for rebase."
+            exit 12
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "docs(phase-00): record pinned full-source AST scan evidence (unreviewed)"
+          git push origin HEAD:refs/heads/feat/next-phase-00
