@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "phase": "PHASE_02",
   "phaseName": "Single-Port Gateway, Auth & Official REST Client",
-  "status": "CODE_AND_ISOLATED_CI_PASS_REVIEW_PENDING",
+  "status": "MOCK_GATEWAY_ISOLATED_CODE_PASS_FOLLOWUP_CI_PENDING_REVIEW",
   "exitGate": "GATEWAY_CODE_REVIEWED_NOT_GRANTED",
   "baseIntegrationCommit": "0579f64afb2d53001c915a10079d00ecd9de0091",
   "branch": "feat/next-phase-02",
@@ -18,7 +18,12 @@
     "Injected mock-only typed Official GET transport with bounded retry, deadline and sanitized error classification",
     "Strict mock version/capability DTO and negative tests",
     "Pure admin Origin and server-bound CSRF policy with reader-owner isolation",
-    "Gateway Range/WebSocket/SSE deny-before-forward fixtures"
+    "Gateway Range/WebSocket/SSE deny-before-forward fixtures",
+    "Caddy one-host-port 6060 mock-only loopback gateway and adapter namespace-isolation on 6061",
+    "Mock Caddy image without inherited filecap under cap_drop ALL",
+    "Synthetic all-or-none user/library/book/file/row/revocation rights policy and tests",
+    "Runtime security evidence NOT_RUN receipt plus anti-forgery machine gate and Python tests",
+    "Docker Compose config and real isolated HTTP mock negative tests"
   ],
   "tests": {
     "githubPhase02Workflow": {
@@ -52,7 +57,19 @@
       "run": "40902171900",
       "sourceHead": "f3b0d8791a97c739f22459b3c5fd15cc2c7098aa",
       "result": "SUCCESS_DESIGN_ONLY"
-    }
+    },
+    "singlePortMockRun": {
+      "run": "40905567097",
+      "head": "150bd87f471b242903c8da1147597afffcb29af6",
+      "result": "SUCCESS_REAL_ISOLATED_CADDY_ADAPTER_MOCK_HTTP"
+    },
+    "phase00PreFollowupRun": {
+      "run": "40905566812",
+      "head": "150bd87f471b242903c8da1147597afffcb29af6",
+      "result": "SUCCESS_DESIGN_ONLY"
+    },
+    "newExtendedGatewayHTTP": "PENDING_EXACT_HEAD_CI",
+    "realOfficialRuntime": "NOT_RUN"
   },
   "safety": {
     "officialGatewayForwarding": "DENY_ALL",
@@ -65,15 +82,16 @@
     "productionDeployment": "NOT_AUTHORIZED"
   },
   "pending": [
-    "Read-only mock REST contract implemented but actual Official version/route schema still UNVERIFIED",
-    "Spring route/security-chain runtime export",
-    "Single port gateway and ingress/SNI proofs",
-    "Owner-scoped auth and full negative mocks",
-    "User vs admin isolation and CSRF",
-    "Range/WS/SSE tests",
-    "Independent fresh-context code review"
+    "Real Spring RequestMappingHandlerMapping + ordered SecurityFilterChain export and reconciliation",
+    "Official UI/API/OPDS/Kobo/Komga/KO route ownership and proven authorized forwarding",
+    "User/library/book/file/row rights atomic enforcement and live JWT/device mapping",
+    "Admin login verified session issuer, CSRF HTTP endpoint and independent approval",
+    "Public TLS/SNI and IPv4/IPv6/container direct ingress plus outbound egress isolation",
+    "Range/WebSocket/SSE compatibility through authorized fake upstream",
+    "Independent separate-context exact-source Phase02 review and signed authorization"
   ],
-  "next": "Latest committed code+docs CI passed at f3b0d879; re-check any later handoff-only HEAD CI. Continue remaining Phase02 runtime Spring, ingress, auth and ACL hard security gates, then fresh independent review. No live Official forwarding.",
+  "next": "Read CURRENT HEAD CI after extended security fixtures/docs. Preserve Draft PR and DENY_ALL. Source and security gateway mock implemented but Phase02 exit remains blocked on real Spring/ACL/ingress/auth and independent review.",
   "updatedAt": "2026-10-29",
-  "latestVerifiedCodeSourceHead": "f3b0d8791a97c739f22459b3c5fd15cc2c7098aa"
+  "latestVerifiedCodeSourceHead": "150bd87f471b242903c8da1147597afffcb29af6",
+  "networkEgressIsolation": "NOT_PROVEN_BRIDGE_LOOPBACK_MOCK_ONLY"
 }
