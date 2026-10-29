@@ -58,7 +58,9 @@ describe("isolated sealed session codec, not a login or pairing endpoint", () =>
     expect(() => codec.issueAdmin("../admin", csrf, now)).toThrow("SESSION_ISSUE_INVALID");
     expect(() => codec.issueAdmin("admin", "short", now)).toThrow("SESSION_ISSUE_INVALID");
     expect(() => codec.issueReader("reader", "../device", now)).toThrow("SESSION_ISSUE_INVALID");
-    expect(() => codec.issueReader("reader", "device", now, 86400000)).toThrow("SESSION_ISSUE_INVALID");
+    expect(() => codec.issueReader("reader", "device", now, 86400000)).toThrow(
+      "SESSION_ISSUE_INVALID",
+    );
     expect(codec.verify({ authorization: "unsafe" }, now)).toBeNull();
     expect(codec.verify("a".repeat(100000), now)).toBeNull();
   });
