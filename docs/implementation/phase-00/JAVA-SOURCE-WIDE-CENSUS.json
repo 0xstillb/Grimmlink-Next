@@ -3,7 +3,7 @@
   "upstreamRepository": "grimmory-tools/grimmory",
   "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
   "sourceScope": "backend/src/main/java/org/booklore/**/*.java",
-  "generatedUtc": "2026-10-29T06:53:41.739742+00:00",
+  "generatedUtc": "2026-10-29T08:49:52.976363+00:00",
   "filesEnumerated": 923,
   "contentReadAndBlobShaVerified": 923,
   "filesFailedContentRead": 0,
