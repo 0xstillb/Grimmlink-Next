@@ -59,7 +59,14 @@ export async function buildServer(logLevel: "info" | "warn" | "error" = "info") 
           200: {
             type: "object",
             additionalProperties: false,
-            required: ["phase", "officialConnected", "gatewayForwarding", "personalBridge", "nativeKosyncProgress", "fullE2e"],
+            required: [
+              "phase",
+              "officialConnected",
+              "gatewayForwarding",
+              "personalBridge",
+              "nativeKosyncProgress",
+              "fullE2e",
+            ],
             properties: {
               phase: { type: "string", const: "02" },
               officialConnected: { type: "boolean", const: false },
