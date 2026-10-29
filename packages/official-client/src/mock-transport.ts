@@ -163,6 +163,7 @@ export function isMockVersionCapabilities(value: unknown): value is MockVersionC
   if (value === null || typeof value !== "object" || Array.isArray(value)) return false;
   const candidate = value as Record<string, unknown>;
   return (
+    Object.keys(candidate).sort().join(",") === "capabilities,version" &&
     typeof candidate.version === "string" &&
     /^[a-zA-Z0-9][a-zA-Z0-9._-]{0,63}$/.test(candidate.version) &&
     Array.isArray(candidate.capabilities) &&
