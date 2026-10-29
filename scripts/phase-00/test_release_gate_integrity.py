@@ -14,6 +14,7 @@ FILES=[
 "docs/implementation/phase-00/JAVA-SOURCE-WIDE-CENSUS.json",
 "docs/implementation/phase-00/SOURCE-CONDITION-RESOLUTION.json",
 "docs/implementation/phase-00/SOURCE-AUTH-OWNERSHIP-LEDGER.json",
+"docs/implementation/phase-00/SOURCE-ROUTE-CANDIDATES.json",
 "docs/implementation/phase-00/AUTH-43-SOURCE-VERIFICATION.json",
 "docs/implementation/phase-00/SOURCE-403-SECURITY-CHAIN-CANDIDATES.json",
 "docs/implementation/phase-00/FIXTURE-STATIC-VALIDATION.json",
@@ -54,6 +55,12 @@ class GateTests(unittest.TestCase):
     def test_gateway_unreviewed_allow_rejected(self):
         self.mutate("docs/implementation/phase-00/SOURCE-403-SECURITY-CHAIN-CANDIDATES.json",lambda j:j["routes"][0].update(gatewayForwardDecision="ALLOW"))
         with self.assertRaisesRegex(ValueError,"route allow bypass"):
+            gate.validate(self.root,self.out)
+
+    def test_new_unowned_route_family_rejected(self):
+        self.mutate("docs/implementation/phase-00/SOURCE-ROUTE-CANDIDATES.json",
+                    lambda j:j["candidates"].append({"handlerMechanism":"OTHER_ENDPOINT_ANNOTATION","sourcePath":"unreviewed/Unknown.java"}))
+        with self.assertRaisesRegex(ValueError,"NEW-P0-01 alternate"):
             gate.validate(self.root,self.out)
 
     def test_immutable_reviewer_report(self):
