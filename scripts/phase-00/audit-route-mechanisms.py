@@ -13,7 +13,7 @@ CANDIDATE_TYPES = (
 # These mechanisms create routes outside ordinary mapped Java controllers,
 # or may expose alternate transports. New evidence must fail closed.
 DYNAMIC = re.compile(
-    r"\b(?:RouterFunctions\s*\.|RouterFunction\s*<|RequestMappingHandlerMapping\b|"
+    r"(?<!\w)(?:RouterFunctions\s*\.|RouterFunction\s*<|RequestMappingHandlerMapping\b|"
     r"registerMapping\s*\(|ServletRegistrationBean\b|ServletRegistration\s*\.\s*Dynamic\b|"
     r"SimpleUrlHandlerMapping\b|setUrlMap\s*\(|setMappings\s*\(|"
     r"addViewControllers?\s*\(|addRedirectViewController\s*\(|addPathPrefix\s*\(|"
@@ -71,7 +71,8 @@ def candidate_base_types(declarations):
     return [x for x in out if x]
 def inherited_endpoint_candidates(item):
     return sorted({type_name for type_name in candidate_base_types(item["classDeclarations"])
-        if any(type_name == name or type_name.endswith("." + name) for name in CANDIDATE_TYPES)})
+        if any(type_name == name or type_name.endswith("." + name) for name in CANDIDATE_TYPES)
+        or type_name.endswith(("HandlerMapping","HttpServlet","Controller","Servlet","HttpRequestHandler","WebSocketHandler"))})
 def census(upstream, evidence):
     if subprocess.check_output(["git", "-C", str(upstream), "rev-parse", "HEAD"],text=True).strip() != PIN:
         raise ValueError("wrong pinned Grimmory HEAD")

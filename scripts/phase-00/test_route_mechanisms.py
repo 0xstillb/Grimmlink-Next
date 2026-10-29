@@ -8,7 +8,7 @@ class TestRouteMechanisms(unittest.TestCase):
  def test_known_web_config_interface(self):
   self.assertEqual(m.inherited_endpoint_candidates(row("kind=CLASS;extends=null;implements=WebMvcConfigurer")),["WebMvcConfigurer"])
  def test_unknown_handler_mapping_must_be_flagged(self):
-  self.assertEqual(m.inherited_endpoint_candidates(row("kind=CLASS;extends=AbstractHandlerMapping;implements=")),[], "Base type must be explicit, not a wildcard-guess")
+  self.assertEqual(m.inherited_endpoint_candidates(row("kind=CLASS;extends=AbstractHandlerMapping;implements=")),["AbstractHandlerMapping"])
  def test_real_http_controller_extension_is_detected(self):
   self.assertEqual(m.inherited_endpoint_candidates(row("kind=CLASS;extends=Controller;implements=")),["Controller"])
  def test_repository_not_an_http_route(self):
