@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { chmodSync, mkdtempSync, rmSync, statSync, symlinkSync } from "node:fs";
+import { chmodSync, mkdirSync, mkdtempSync, rmSync, statSync, symlinkSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -42,6 +42,38 @@ describe("local durable SQLite", () => {
       chmodSync(dir, 0o755);
       expect(() => openLocalStore(join(dir, "wrong-dir.sqlite"), migrations)).toThrow("directory must be private");
       chmodSync(dir, 0o700);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+  it("rejects shared and symlinked backup/restore destination directories", async () => {
+    const dir = mkdtempSync(join(tmpdir(), "grimmlink-backup-dir-"));
+    try {
+      const store = openLocalStore(join(dir, "source.sqlite"), migrations);
+      const snapshot = join(dir, "snapshot.sqlite");
+      await createVerifiedBackup(store.sqlite, snapshot);
+
+      const shared = join(dir, "shared");
+      mkdirSync(shared, { mode: 0o755 });
+      await expect(createVerifiedBackup(store.sqlite, join(shared, "backup.sqlite")))
+        .rejects.toThrow("directory must be private");
+      expect(() => restoreBackupToNewLocation(snapshot, join(shared, "restored.sqlite")))
+        .toThrow("directory must be private");
+
+      const alias = join(dir, "alias");
+      symlinkSync(shared, alias, "dir");
+      await expect(createVerifiedBackup(store.sqlite, join(alias, "backup.sqlite")))
+        .rejects.toThrow("must not contain symlinks");
+      expect(() => restoreBackupToNewLocation(snapshot, join(alias, "restored.sqlite")))
+        .toThrow("must not contain symlinks");
+
+      const nested = join(dir, "nested");
+      mkdirSync(nested, { mode: 0o700 });
+      const nestedAlias = join(dir, "nested-alias");
+      symlinkSync(nested, nestedAlias, "dir");
+      expect(() => restoreBackupToNewLocation(snapshot, join(nestedAlias, "inner", "restore.sqlite")))
+        .toThrow("must not contain symlinks");
+      store.close();
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }
