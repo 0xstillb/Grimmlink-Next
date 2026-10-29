@@ -3574,6 +3574,143 @@
       "expectedMutationObservability": "NONE_ASSERTED_BY_MOCK",
       "expectedDurableState": "DENIED_NO_MUTATION",
       "expectedDiagnosticEvent": "security.deny_before_upstream"
+    },
+    {
+      "fixtureId": "ROUTE-WS_UPGRADE_UNREVIEWED",
+      "family": "ROUTE",
+      "request": {
+        "method": "GET",
+        "path": "/ws",
+        "headers": {
+          "Upgrade": "websocket",
+          "Connection": "Upgrade",
+          "Origin": "https://synthetic-test.invalid"
+        },
+        "body": null
+      },
+      "preconditions": "WebSocket handshake has no independently reviewed gateway authorization/ownership",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "route.denied",
+        "automaticRetryAttempts": 0
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/config/WebSocketConfig.java#L64",
+      "phaseOwner": "Phase02",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK",
+      "currentFeatureGate": "unreviewedWebSocketAndStaticApiRoutes=BLOCKED/OFF",
+      "testScenario": "FUTURE_IMPLEMENTED_BEHAVIOR",
+      "expectedUpstreamAttempts": 0,
+      "expectedMutationObservability": "NONE_ASSERTED_BY_MOCK",
+      "expectedDurableState": "UNCHANGED",
+      "expectedDiagnosticEvent": "route.denied",
+      "expectedHttpStatus": 403
+    },
+    {
+      "fixtureId": "ROUTE-WS_ORIGIN_WILDCARD",
+      "family": "ROUTE",
+      "request": {
+        "method": "GET",
+        "path": "/ws",
+        "headers": {
+          "Upgrade": "websocket",
+          "Connection": "Upgrade",
+          "Origin": "https://synthetic-other.invalid"
+        },
+        "body": null
+      },
+      "preconditions": "Conditional wildcard origins in Official source do not authorize bridge proxying",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "route.origin_denied",
+        "automaticRetryAttempts": 0
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/config/WebSocketConfig.java#L66",
+      "phaseOwner": "Phase02",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK",
+      "currentFeatureGate": "unreviewedWebSocketAndStaticApiRoutes=BLOCKED/OFF",
+      "testScenario": "FUTURE_IMPLEMENTED_BEHAVIOR",
+      "expectedUpstreamAttempts": 0,
+      "expectedMutationObservability": "NONE_ASSERTED_BY_MOCK",
+      "expectedDurableState": "UNCHANGED",
+      "expectedDiagnosticEvent": "route.origin_denied",
+      "expectedHttpStatus": 403
+    },
+    {
+      "fixtureId": "ROUTE-STATIC_FALLBACK_API_GUARD",
+      "family": "ROUTE",
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/not-reviewed-sensitive-alias",
+        "headers": {
+          "Accept": "text/html"
+        },
+        "body": null
+      },
+      "preconditions": "Official SPA /** resource fallback must not be used as unknown sensitive API passthrough",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "route.denied",
+        "automaticRetryAttempts": 0
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/config/WebMvcConfig.java#L38",
+      "phaseOwner": "Phase02",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK",
+      "currentFeatureGate": "unreviewedWebSocketAndStaticApiRoutes=BLOCKED/OFF",
+      "testScenario": "FUTURE_IMPLEMENTED_BEHAVIOR",
+      "expectedUpstreamAttempts": 0,
+      "expectedMutationObservability": "NONE_ASSERTED_BY_MOCK",
+      "expectedDurableState": "UNCHANGED",
+      "expectedDiagnosticEvent": "route.denied",
+      "expectedHttpStatus": 403
+    },
+    {
+      "fixtureId": "ROUTE-WS_CANONICAL_ALIAS",
+      "family": "ROUTE",
+      "request": {
+        "method": "GET",
+        "path": "/%77s",
+        "headers": {
+          "Upgrade": "websocket",
+          "Connection": "Upgrade"
+        },
+        "body": null
+      },
+      "preconditions": "Encoded alias must not evade canonicalized unreviewed WebSocket deny policy",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "route.denied",
+        "automaticRetryAttempts": 0
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/config/WebSocketConfig.java#L64",
+      "phaseOwner": "Phase02",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK",
+      "currentFeatureGate": "unreviewedWebSocketAndStaticApiRoutes=BLOCKED/OFF",
+      "testScenario": "FUTURE_IMPLEMENTED_BEHAVIOR",
+      "expectedUpstreamAttempts": 0,
+      "expectedMutationObservability": "NONE_ASSERTED_BY_MOCK",
+      "expectedDurableState": "UNCHANGED",
+      "expectedDiagnosticEvent": "route.denied",
+      "expectedHttpStatus": 403
     }
   ]
 }
