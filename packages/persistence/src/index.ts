@@ -1,7 +1,7 @@
 import Database from "better-sqlite3";
 import { drizzle, type BetterSQLite3Database } from "drizzle-orm/better-sqlite3";
 import { migrate } from "drizzle-orm/better-sqlite3/migrator";
-import { constants, copyFileSync, existsSync, mkdirSync, renameSync, rmSync, statSync } from "node:fs";
+import { constants, copyFileSync, chmodSync, existsSync, linkSync, lstatSync, mkdirSync, rmSync } from "node:fs";
 import { randomUUID } from "node:crypto";
 import { dirname, resolve } from "node:path";
 import * as schema from "./schema.js";
@@ -59,8 +59,10 @@ export async function createVerifiedBackup(sqlite: Database.Database, target: st
   try {
     await sqlite.backup(tmp);
     verifySqliteFile(tmp);
-    if (existsSync(finalPath)) throw new Error("Backup destination already exists");
-    renameSync(tmp, finalPath);
+    chmodSync(tmp, 0o600);
+    // Hard-link creation fails if a destination exists, even a dangling symlink.
+    linkSync(tmp, finalPath);
+    rmSync(tmp);
     return finalPath;
   } catch (error) {
     rmSync(tmp, { force: true });
@@ -79,6 +81,7 @@ export function restoreBackupToNewLocation(backup: string, destination: string):
   copyFileSync(source, target, constants.COPYFILE_EXCL);
   try {
     verifySqliteFile(target);
+    chmodSync(target, 0o600);
     return target;
   } catch (error) {
     rmSync(target, { force: true });
@@ -87,7 +90,7 @@ export function restoreBackupToNewLocation(backup: string, destination: string):
 }
 
 function verifySqliteFile(path: string): void {
-  if (!statSync(path).isFile()) throw new Error("Expected SQLite file");
+  if (!lstatSync(path).isFile()) throw new Error("Expected SQLite file");
   const db = new Database(path, { readonly: true, fileMustExist: true });
   try {
     const result = db.pragma("integrity_check(1)", { simple: true });

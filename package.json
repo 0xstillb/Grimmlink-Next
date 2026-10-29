@@ -10,11 +10,15 @@
     "build": "pnpm -r --if-present build",
     "typecheck": "pnpm -r --if-present typecheck",
     "test": "pnpm -r --if-present test",
-    "lint": "pnpm -r --if-present lint"
+    "lint": "eslint apps packages",
+    "format": "prettier --write apps packages"
   },
   "devDependencies": {
     "@types/node": "22.18.11",
     "typescript": "5.9.3",
-    "vitest": "3.2.4"
+    "vitest": "3.2.4",
+    "eslint": "9.38.0",
+    "typescript-eslint": "8.46.3",
+    "prettier": "3.6.2"
   }
 }
