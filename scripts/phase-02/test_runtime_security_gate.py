@@ -32,7 +32,16 @@ class RuntimeGateTests(unittest.TestCase):
     def test_verified_hold_is_not_runtime_pass(self):
         result = MOD.verify_hold(self.root)
         self.assertFalse(result["runtimeAuthorized"])
-        self.assertEqual(result["effectiveSpringRoutes"], "UNVERIFIED")
+        self.assertEqual(result["effectiveSpringRoutes"], "METADATA_CAPTURED_AUTHZ_NOT_PROVEN")
+
+    def test_runtime_provenance_tamper_fails(self):
+        relative = "docs/implementation/phase-02/RUNTIME-SECURITY-EVIDENCE.json"
+        path = self.root / relative
+        evidence = json.loads(path.read_text())
+        evidence["runtimeCapture"]["actualSpringHandlerCount"] = 403
+        path.write_text(json.dumps(evidence))
+        with self.assertRaises(ValueError):
+            MOD.verify_hold(self.root)
 
     def test_forged_runtime_pass_fails(self):
         self.mutate("docs/implementation/phase-02/RUNTIME-SECURITY-EVIDENCE.json",
