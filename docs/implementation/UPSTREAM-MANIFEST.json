@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "recordedAt": "2026-10-29",
-  "status": "FRESH_FINAL_INDEPENDENT_REVIEW_CHANGES_REQUIRED",
+  "status": "IMPLEMENTER_FINAL_REMEDIATION_COMMITTED_AWAITING_FRESH_INDEPENDENT_REVIEW",
   "repository": "0xstillb/Grimmlink-Next",
   "releasePolicy": "MANUAL_APPROVAL_ONLY",
   "currentInstalledVersions": {
@@ -82,7 +82,7 @@
     "caller_bound_book_entitlement_before_personal_writes"
   ],
   "acceptance": {
-    "phase00": "FINAL_FRESH_REVIEW_CHANGES_REQUIRED_NOT_CONTRACT_LOCKED",
+    "phase00": "INDEPENDENT_CHANGES_REQUIRED_NEW_REVIEW_PENDING_NOT_CONTRACT_LOCKED",
     "fullE2ePhase": "09",
     "fullE2eStatus": "DEFERRED_TO_PHASE_09",
     "production": "NOT_VERIFIED",
@@ -93,7 +93,11 @@
     "reReviewReport": "docs/implementation/phase-00/RE-REVIEW-2026-10-29.md",
     "followupDocReview": "INDEPENDENT_REVIEW_PERFORMED_CHANGES_REQUIRED",
     "followupReviewedHead": "cea648544547c4d2b3f5c652bfc75d408288b7c7",
-    "finalReport": "docs/implementation/phase-00/FINAL-INDEPENDENT-REVIEW-2026-10-29.md"
+    "finalReport": "docs/implementation/phase-00/FINAL-INDEPENDENT-REVIEW-2026-10-29.md",
+    "implementerFinalRemediationReport": "docs/implementation/phase-00/FINAL-REMEDIATION-2026-10-29.md",
+    "startingPriorHead": "f263e6208d9dc520e29e3113dcf6bd632f239b72",
+    "sourceVerified": true,
+    "deployedVerified": false
   },
   "designOnlySafetyDefaults_NOT_IMPLEMENTED": {
     "metadataApply": false,
@@ -103,6 +107,9 @@
     "personalBridgeWrites": false,
     "adjacentNasWrite": false,
     "sidecarExportOnNas": false,
-    "moveSourceFiles": false
+    "moveSourceFiles": false,
+    "sessionsBridgeWrite": false,
+    "personalBridgeReads": false,
+    "nativeKOSyncExternalGetPut": false
   }
 }

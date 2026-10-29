@@ -39,3 +39,8 @@
 | ADR-024 | External KOSync progress GET/PUT are deny-by-default before Official proxy; no alternative prefix/direct-port bypass. Require provisioned user-bound identity, exact hash/edition, assigned-library and content restriction prechecks for every request. | Phase02/05 design-to-code gate; no runtime enforcement in Phase00. If impossible without upstream changes, BLOCKED and OFF. |
 
 [Evidence and R-01–R-12 trace](phase-00/REMEDIATION.md).
+
+## 2026-10-29 — Implementer final remediation addendum (NOT independent approval)
+
+See [Phase00 field-level, route and retry contract](phase-00/FINAL-REMEDIATION-2026-10-29.md). LIVE source baseline: Grimmory `402e89b4452f8e2b17ab95f16c1621c003516cd2`, Readest `3cc39ad7a558e6612e1a8135058fbd6f3c90b3e3`. R-01 scalar-only allowlist and all unapproved collections omitted; R-02 KO user identity proven through same user's `/api/v1/koreader-users/me` plus own JWT but unclosed Native KOSync TOCTOU; R-09 UNCERTAIN outbox at-most-one dispatch; R-11 historical status separated. `metadataApply`, `unverifiedKOSyncPassThrough`, `personalBridgeWrites`, `sessionsBridgeWrite` remain OFF. No deploy/runtime claims. Independent verdict still CHANGES_REQUIRED, Phase01 unauthorized.
+

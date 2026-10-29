@@ -45,3 +45,8 @@ Every fixture has schema version, source tag SHA, request/response sanitized JSO
 
 - `gateway-deny-until-entitled` (Phase02/05): external canonical GET and PUT plus `/api/koreader` aliases and direct Official bypass attempts, invalid/unprovisioned user, foreign library, restricted content, hash collision, edition mismatch, stale mapping, concurrent writers and admin surrogate must be denied **before upstream** with no mutation or existence leak; allow only bound-user entitlement proven for the exact book.
 - `personal-bridge-entitlement` (Phase02/07): bookmarks/annotations GET-by-book and CRUD-by-item, sessions GET/POST, ratings/status/progress and foreign-owner IDs must enforce both per-book library/content authorization and per-row user ownership, no admin token substitution; test deny and no side effects.
+
+## 2026-10-29 — Implementer final remediation addendum (NOT independent approval)
+
+See [Phase00 field-level, route and retry contract](FINAL-REMEDIATION-2026-10-29.md). LIVE source baseline: Grimmory `402e89b4452f8e2b17ab95f16c1621c003516cd2`, Readest `3cc39ad7a558e6612e1a8135058fbd6f3c90b3e3`. R-01 scalar-only allowlist and all unapproved collections omitted; R-02 KO user identity proven through same user's `/api/v1/koreader-users/me` plus own JWT but unclosed Native KOSync TOCTOU; R-09 UNCERTAIN outbox at-most-one dispatch; R-11 historical status separated. `metadataApply`, `unverifiedKOSyncPassThrough`, `personalBridgeWrites`, `sessionsBridgeWrite` remain OFF. No deploy/runtime claims. Independent verdict still CHANGES_REQUIRED, Phase01 unauthorized.
+

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "phase": "PHASE_00",
-  "status": "FINAL_INDEPENDENT_REVIEW_CHANGES_REQUIRED_NOT_CONTRACT_LOCKED",
+  "status": "IMPLEMENTER_FINAL_REMEDIATION_COMMITTED_AWAITING_FRESH_INDEPENDENT_REVIEW",
   "baseCommit": "5efdaf3bef051d0d5c44f6274a2cd2bf22010de5",
   "headCommit": "FETCH_LIVE_GITHUB_NO_SELF_SHA",
   "branch": "feat/next-phase-00",
@@ -23,7 +23,8 @@
     "docs/implementation/phase-00/START-HERE.md",
     "AGENTS.md",
     "docs/implementation/phase-00/RE-REVIEW-PACKET.md",
-    "docs/implementation/phase-00/RE-REVIEW-2026-10-29.md"
+    "docs/implementation/phase-00/RE-REVIEW-2026-10-29.md",
+    "docs/implementation/phase-00/FINAL-REMEDIATION-2026-10-29.md"
   ],
   "requirementsCovered": [
     "source audit v3.5.0",
@@ -54,31 +55,13 @@
     "READBACK_NOT_RUN",
     "INTEGRATED_E2E_NOT_RUN_PHASE09"
   ],
-  "reviewStatus": "CHANGES_REQUIRED_FINAL_FRESH_REVIEW",
+  "reviewStatus": "INDEPENDENT_CHANGES_REQUIRED_FRESH_REVIEW_PENDING",
   "blockers": [
-    "Installed Grimmory image/DB/mount/version unknown",
-    "JWT DTO source verified; per-user permissions, expires units and refresh runtime remain unverified",
-    "Metadata collection/lock and NAS side-effect behaviors require review",
-    "CFI exactness real reader unverified",
-    "Nonempty OPF collection replace behavior requires explicit diff/merge rule C-016",
-    "C-017 collection merge/field mask design not independently reviewed",
-    "C-018 native/managed double projection risk",
-    "C-019 personal book ACL needs authorization verification",
-    "C-020 Native KOSync can reset manual READ at low percentage",
-    "PR #1 merged into integration while Phase00 independent reviewer was pending; no assumption that merge satisfied CONTRACT_LOCKED",
-    "Independent reviewer CHANGES_REQUIRED: inaccurate sidecar source guard wording in API inventory",
-    "Per-library ACL proof missing for KOSync, bookmarks, annotations, sessions, status and rating",
-    "Single-book OPF collection merge coupling lacks safe field mask/policy",
-    "Manual status preservation fixture contradicts Native KOSync thresholds",
-    "Native file-level progress is attempted, not proof of exact EPUB CFI",
-    "CFI EXACT anchor/round-trip proof not established",
-    "Obsolete PR#1/NOT_STARTED header in handoff and Notion historical section",
-    "Independent re-review of remediation diff is pending",
-    "Native KOSync book/library ACL proof missing (design fail closed)",
-    "Personal REST entitlement proof missing for bookmarks/annotations/sessions/status/rating",
-    "OPF reviews ignore replaceMode; safe scalar mask not yet implemented",
-    "No proven exact CFI DOM/anchor nor native file-level readback",
-    "Physical NAS/Hermes/reader and runtime state UNKNOWN until Phase09"
+    "R-02 Native KOSync user/book authorization TOCTOU remains BLOCKED/OFF pending independent security sign-off and Phase02/05 gateway + client tests",
+    "R-01 metadata apply OFF until Phase03 mocks and side-effect/lock proof",
+    "R-09 session bridge OFF until Phase07 durable at-most-once outbox implemented",
+    "External personal bridge REST OFF until Phase07 per-row and per-book checks",
+    "Live deployment versions and physical NAS/Hermes readers unverified until Phase09"
   ],
   "risks": [
     "unsafe metadata default",
@@ -89,7 +72,7 @@
     "nonempty collection can replace existing OPF authors/categories/tags"
   ],
   "handoffTo": "PHASE00_IMPLEMENTER_FOR_REQUIRED_CONTRACT_CORRECTIONS_THEN_NEW_INDEPENDENT_REVIEW",
-  "nextAction": "Resolve R-02 P0 same-user JWT/KO identity + book entitlement verifier, bypass-free :6060 gateway; R-01 scalar DTO allowlist, R-09 uncertain-ACK at-most-once protocol, R-11 current banners. Keep KOSync progress/personal bridge/metadata writes OFF. No Phase01 or PR merge before future independent CONTRACT_LOCKED.",
+  "nextAction": "NEW independent reviewer inspect f263e620..LIVE HEAD, final remediation, source and Notion; no Phase01 or merge. Security capability remains BLOCKED/OFF.",
   "evidence": [
     "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/MetadataController.java#L51-L59",
     "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/KoreaderController.java",
@@ -238,5 +221,38 @@
     "mergeAuthorized": false,
     "mainChanged": false,
     "reviewCommitSha": "FETCH_GITHUB_LIVE_NO_SELF_SHA"
+  },
+  "lastVerifiedPriorHead": "f263e6208d9dc520e29e3113dcf6bd632f239b72",
+  "finalRemediationReport": "docs/implementation/phase-00/FINAL-REMEDIATION-2026-10-29.md",
+  "implementerFinalRemediation": {
+    "date": "2026-10-29",
+    "startingHead": "f263e6208d9dc520e29e3113dcf6bd632f239b72",
+    "kind": "SOURCE_VERIFIED_DOC_ARCHITECTURE_NOT_DEPLOYED",
+    "ids": [
+      "R-01",
+      "R-02",
+      "R-09",
+      "R-11"
+    ],
+    "reviewedIndependently": false,
+    "capabilities": {
+      "kosync": "BLOCKED_OFF",
+      "metadata": "BLOCKED_OFF",
+      "personalRest": "BLOCKED_OFF",
+      "sessions": "BLOCKED_OFF"
+    },
+    "testsRun": [
+      "GITHUB_PINNED_SOURCE_READ",
+      "IN_PROCESS_JSON_PARSE"
+    ],
+    "testsNotRun": [
+      "BUILD",
+      "UNIT",
+      "MOCK",
+      "LIVE_API",
+      "HERMES_NAS_READERS",
+      "E2E_PHASE09"
+    ],
+    "reviewVerdictStill": "CHANGES_REQUIRED"
   }
 }

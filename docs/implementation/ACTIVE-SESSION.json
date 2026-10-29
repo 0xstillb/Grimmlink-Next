@@ -10,8 +10,8 @@
   "productionBranch": "main",
   "phase": "00",
   "phaseName": "Discovery, Contracts & Architecture Lock",
-  "phaseStatus": "FINAL_FRESH_INDEPENDENT_REVIEW_CHANGES_REQUIRED_NOT_CONTRACT_LOCKED",
-  "lastVerifiedPriorCommit": "5efdaf3bef051d0d5c44f6274a2cd2bf22010de5",
+  "phaseStatus": "IMPLEMENTER_FINAL_REMEDIATION_COMMITTED_AWAITING_FRESH_INDEPENDENT_REVIEW",
+  "lastVerifiedPriorCommit": "f263e6208d9dc520e29e3113dcf6bd632f239b72",
   "currentHead": "READ_LIVE_GITHUB_NO_SELF_SHA",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/2",
   "codeImplemented": false,
@@ -46,35 +46,28 @@
     "CORRECTION_INDEPENDENT_RE_REVIEW_NOT_RUN",
     "MOCK_CONTRACT_NOT_RUN",
     "PHASE09_ALL_REAL_E2E_DEFERRED",
-    "FOLLOWUP_REMEDIATION_INDEPENDENT_REVIEW_NOT_RUN"
+    "FOLLOWUP_REMEDIATION_INDEPENDENT_REVIEW_NOT_RUN",
+    "BUILD_NOT_RUN",
+    "MOCK_FIXTURE_NOT_RUN",
+    "DEPLOYED_SECURITY_NOT_RUN",
+    "FULL_E2E_PHASE09_ONLY"
   ],
   "blockers": [
-    "Installed Grimmory image/DB/mount/version unknown",
-    "JWT DTO source verified; per-user permissions, expires units and refresh runtime remain unverified",
-    "Metadata collection/lock and NAS side-effect behaviors require review",
-    "CFI exactness real reader unverified",
-    "Nonempty OPF collection replace behavior requires explicit diff/merge rule C-016",
-    "Metadata mergeCategories couples authors/categories/reviews; moods/tags merge flags false (C-017)",
-    "Native KOSync file progress/CFI projection may conflict with Adapter dual-write (C-018)",
-    "Personal create/session book-level ACL requires explicit audit (C-019)",
-    "Native KOSync low-percent update can change prior Read Status to UNREAD (C-020)",
-    "R-01 OPF merge/replace and clearFlags field mask source contradictions",
-    "R-02 per-library ACL proofs missing across native KOSync, bookmarks, annotations, sessions, status and rating",
-    "R-03 native KOSync attempts file progress but no guaranteed CFI; double-writer guard missing proof",
-    "R-04 manual Read Status fixture contradicts native status threshold behavior",
-    "R-05 Sidecar global isLocalStorage source guard incorrectly described in API Inventory",
-    "R-06 EXACT CFI text-anchor proof and pinned package required",
-    "R-11 obsolete PR#1/Notion status continuity needs correction"
+    "R-02 unclosed native KOSync same-user entitlement TOCTOU, no gateway runtime; BLOCKED/OFF",
+    "R-01 scalar policy now documented but metadata apply/protected source settings/isolated mocks unproven; OFF",
+    "R-09 durable outbox spec documented, not implemented; OFF",
+    "R-11 handoff documentation corrected; independent re-review still required",
+    "Installed versions and deployed ACL/network state UNKNOWN until Phase09"
   ],
   "notion": {
     "phase": "https://app.notion.com/p/407c7efbc00981e2b08ff8fb45c3f846",
     "spec": "https://app.notion.com/p/407c7efbc00981f1a9c6ccb0de5d6a54",
     "playbook": "https://app.notion.com/p/407c7efbc009814a9e18f0d945ee0ef0"
   },
-  "nextAction": "Phase00 fix R-01 scalar-field policy, R-02 secure book entitlement/gateway route isolation, R-09 uncertain ACK, R-11 stale banner. Keep KOSync/personal bridge/metadata OFF; request NEW independent review; no Phase01/merge.",
+  "nextAction": "Fresh Independent Reviewer: audit live HEAD diff from f263e620 and pinned sources; keep CHANGES_REQUIRED/PHASE01_NOT_AUTHORIZED until actual independent gate; NEVER merge PR #2.",
   "updatedAt": "2026-10-29",
   "sourceRecheck": "IMPLEMENTER_SOURCE_RECHECK_NOT_INDEPENDENT",
-  "prStatus": "OPEN_DRAFT_RECHECK",
+  "prStatus": "OPEN_DRAFT_UNMERGED",
   "priorMergedPr": "https://github.com/0xstillb/Grimmlink-Next/pull/1",
   "priorMergedPrCommit": "5470c7ad807cb701381ae8bcd9abe516f351b150",
   "reviewVerdict": "CHANGES_REQUIRED",
@@ -85,5 +78,14 @@
   "correctionScope": "R-01_TO_R-12_DOCS_ONLY",
   "reviewPacket": "docs/implementation/phase-00/RE-REVIEW-PACKET.md",
   "finalIndependentReviewedHead": "cea648544547c4d2b3f5c652bfc75d408288b7c7",
-  "finalIndependentReviewReport": "docs/implementation/phase-00/FINAL-INDEPENDENT-REVIEW-2026-10-29.md"
+  "finalIndependentReviewReport": "docs/implementation/phase-00/FINAL-INDEPENDENT-REVIEW-2026-10-29.md",
+  "finalRemediationReport": "docs/implementation/phase-00/FINAL-REMEDIATION-2026-10-29.md",
+  "remediationType": "SOURCE_BACKED_DESIGN_AND_DOCUMENT_CORRECTION_NOT_RUNTIME_IMPLEMENTATION",
+  "securityCapability": {
+    "kosyncProgress": "BLOCKED_OFF_TOCTOU_AND_GATEWAY_NOT_IMPLEMENTED",
+    "metadataApply": "BLOCKED_OFF",
+    "personalBridge": "BLOCKED_OFF",
+    "sessionBridge": "BLOCKED_OFF",
+    "managedProjection": "BLOCKED_OFF"
+  }
 }

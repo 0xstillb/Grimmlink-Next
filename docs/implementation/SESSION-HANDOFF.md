@@ -1,6 +1,11 @@
 <!-- Current 2026-10-29 reviewer packet: [RE-REVIEW-PACKET.md](phase-00/RE-REVIEW-PACKET.md). Prior checkpoints below historical. -->
 # GRIMMLINK NEXT — GPT Web Session Handoff
 
+## CURRENT — 2026-10-29 Implementer Final Remediation (RE-REVIEW REQUIRED)
+
+**Implementation-document checkpoint:** `IMPLEMENTER_FINAL_REMEDIATION_COMMITTED_AWAITING_FRESH_INDEPENDENT_REVIEW`. This is **not** reviewer approval. Last actual independent verdict [FINAL-INDEPENDENT-REVIEW-2026-10-29.md](phase-00/FINAL-INDEPENDENT-REVIEW-2026-10-29.md) = **CHANGES_REQUIRED / NOT_APPROVED / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED** (8 DOC_FIXED / 4 DOC_PARTIAL on cea6485). See [FINAL-REMEDIATION-2026-10-29.md](phase-00/FINAL-REMEDIATION-2026-10-29.md). Fetch live GitHub HEAD (prior starting SHA `f263e6208d9dc520e29e3113dcf6bd632f239b72`), do not embed self SHA. PR #1 merged into integration in history; PR #2 remains Draft. R-02 KOSync progress **BLOCKED/OFF** due to non-atomic no-fork ACL proof, other metadata/personal/session writes OFF. All real integrated E2E Phase09 only; no Phase01 or merge.
+
+
 ## CURRENT FRESH FINAL INDEPENDENT REVIEW — 2026-10-29 (supersedes review-pending banners below)
 
 - The independent reviewer inspected corrected source/document HEAD `cea648544547c4d2b3f5c652bfc75d408288b7c7` against `411b68bd1ed2ffeca28165c55cc52fda6d88ea6c` and independently read Grimmory v3.5.0 / Readest v0.12.16 source. [Final review](phase-00/FINAL-INDEPENDENT-REVIEW-2026-10-29.md): **CHANGES_REQUIRED, 8 DOC_FIXED / 4 DOC_PARTIAL / 0 DOC_UNFIXED**, not CONTRACT_LOCKED. Review own handoff edits are NOT self-approved.
