@@ -62,7 +62,9 @@ const safeSubject = (value: string): boolean => /^[a-zA-Z0-9_-]{1,128}$/.test(va
 const safeCorrelation = (value: string): boolean =>
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value);
 const defaultWait = (milliseconds: number): Promise<void> =>
-  new Promise((resolve) => { setTimeout(resolve, milliseconds); });
+  new Promise((resolve) => {
+    setTimeout(resolve, milliseconds);
+  });
 
 /** No ambient fetch is available from this factory. Mock-only by construction. */
 export function createMockOnlyOfficialClient(options: MockOnlyClientOptions) {
@@ -131,9 +133,10 @@ export function createMockOnlyOfficialClient(options: MockOnlyClientOptions) {
           if (!input.validate(response.json)) throw new OfficialClientError("INVALID_RESPONSE");
           return response.json;
         } catch (cause: unknown) {
-          const error = cause instanceof OfficialClientError
-            ? cause
-            : new OfficialClientError("NETWORK_FAILURE");
+          const error =
+            cause instanceof OfficialClientError
+              ? cause
+              : new OfficialClientError("NETWORK_FAILURE");
           if (
             attempt < maxAttempts &&
             (error.code === "NETWORK_FAILURE" || error.code === "TIMEOUT")
