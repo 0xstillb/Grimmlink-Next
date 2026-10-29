@@ -33,23 +33,27 @@ export function checkSyntheticBatch(
   snapshots: readonly (RightsSnapshot | null)[],
   nowMs: number,
 ): EntitlementDecision {
-  if (
-    claims.length === 0 ||
-    claims.length > 100 ||
-    claims.length !== snapshots.length
-  ) return "INVALID_BATCH";
+  if (claims.length === 0 || claims.length > 100 || claims.length !== snapshots.length)
+    return "INVALID_BATCH";
   const seen = new Set<string>();
   for (let i = 0; i < claims.length; i++) {
     const claim = claims[i];
     const rights = snapshots[i];
     if (!claim || !rights) return "DENY_ALL";
     if (
-      !token(claim.accountId) || !token(claim.libraryId) || !token(claim.bookId) ||
+      !token(claim.accountId) ||
+      !token(claim.libraryId) ||
+      !token(claim.bookId) ||
       (claim.fileId !== undefined && !token(claim.fileId)) ||
       (claim.recordId !== undefined && !token(claim.recordId))
-    ) return "DENY_ALL";
+    )
+      return "DENY_ALL";
     const composite = [
-      claim.accountId, claim.libraryId, claim.bookId, claim.fileId ?? "", claim.recordId ?? "",
+      claim.accountId,
+      claim.libraryId,
+      claim.bookId,
+      claim.fileId ?? "",
+      claim.recordId ?? "",
     ].join(":");
     if (seen.has(composite)) return "DENY_ALL";
     seen.add(composite);
@@ -64,7 +68,8 @@ export function checkSyntheticBatch(
       !Array.isArray(rights.recordIds) ||
       (claim.fileId !== undefined && !rights.fileIds.includes(claim.fileId)) ||
       (claim.recordId !== undefined && !rights.recordIds.includes(claim.recordId))
-    ) return "DENY_ALL";
+    )
+      return "DENY_ALL";
   }
   return "ALLOW_MOCK_ONLY";
 }
