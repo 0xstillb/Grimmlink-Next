@@ -34,6 +34,8 @@ jobs:
         run: pnpm typecheck
       - name: ESLint source audit
         run: pnpm lint
+      - name: Prettier source format check
+        run: pnpm format:check
       - name: Unit and injected mock tests only
         run: pnpm test
   arm64-image:
