@@ -22,7 +22,7 @@ def validate(root,out):
     if reviewed!=REVIEW_BLOB:raise ValueError("historical reviewer report was modified")
     if "CHANGES_REQUIRED" not in reviewer_bytes.decode("utf8"):raise ValueError("historical verdict not found")
     fresh_bytes=(root/(p+"FRESH-CONTEXT-DESIGN-LOCK-REVIEW-2026-10-29.md")).read_bytes()
-    fresh_hash=hashlib.sha1(("blob "+str(len(fresh_bytes))+"\\0").encode()+fresh_bytes).hexdigest()
+    fresh_hash=hashlib.sha1(("blob "+str(len(fresh_bytes))+"\0").encode()+fresh_bytes).hexdigest()
     if fresh_hash!=FRESH_DESIGN_REVIEW_BLOB:raise ValueError("independent design review attestation tampered")
     fresh=fresh_bytes.decode("utf8")
     if ("PASS_PHASE00_DESIGN_ONLY" not in fresh or REVIEWED_SOURCE_HEAD not in fresh
