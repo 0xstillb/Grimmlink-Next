@@ -105,6 +105,23 @@ class GateTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError,"differs from independent design lock"):
                     gate.validate(self.root,self.out)
 
+    def test_forged_phase00_handoff_cannot_bypass_safety_contract(self):
+        path="docs/implementation/ACTIVE-SESSION.json"
+        self.mutate(path,lambda j:j.update(phase="00",phaseStatus="CONTRACT_LOCKED_DESIGN_ONLY"))
+        # This otherwise accepted legacy-phase shape must not authorize an
+        # unsafe safety status simply by bypassing the Phase01-only branch.
+        self.mutate(path,lambda j:j["safety"].update(productionDeployment="AUTHORIZED"))
+        with self.assertRaisesRegex(ValueError,"differs from independent design lock"):
+            gate.validate(self.root,self.out)
+
+    def test_phase00_design_handoff_still_works_when_safety_is_closed(self):
+        path="docs/implementation/ACTIVE-SESSION.json"
+        self.mutate(path,lambda j:j.update(phase="00",phaseStatus="CONTRACT_LOCKED_DESIGN_ONLY"))
+        gate.validate(self.root,self.out)
+        output=json.loads(self.out.read_text())
+        self.assertTrue(output["phase01Authorized"])
+        self.assertEqual(output["gatewayRuntimeEnforcement"],"NOT_RUN")
+
     def test_phase01_sensitive_feature_enable_rejected(self):
         self.mutate("docs/implementation/ACTIVE-SESSION.json",
                     lambda j:j["securityCapability"].update(metadataApply="ON"))
