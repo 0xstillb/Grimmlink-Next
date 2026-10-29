@@ -1,3 +1,17 @@
+## CURRENT — PHASE 01 FOUNDATION IMPLEMENTED, REVIEW PENDING (2026-10-29)
+
+**Branch:** `feat/next-phase-01`, [Draft PR #5](https://github.com/0xstillb/Grimmlink-Next/pull/5) -> `integration/grimmlink-next`; base `4b4a924cf225734dab0d17114f878b5b1982d4a9`. Latest committed code changes through [223c0d5b](https://github.com/0xstillb/Grimmlink-Next/commit/223c0d5b2fa2fd5249f0e9719b5ca632f5d65209); branch tip has later CI/workflow-only commit, always fetch LIVE.
+
+**Verified exact-code CI:** [Run 40872300890](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40872300890) SUCCESS on `5dd677e5`: frozen pnpm install, native SQLite build, full workspace build/typecheck, ESLint, isolated unit/mock tests, Docker ARM64 build, no-network ARM64 architecture and compose policy check. [Phase00 source/design-lock gate](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40872891080) SUCCESS on newer pre-handoff `836c5268`. New error/diagnostic sanitizer change `223c0d5b` requires exact-HEAD CI readback before accepting.
+
+**Implemented:** TypeScript monorepo; Fastify /health and generated /openapi.json (loopback-only); strict TypeBox env; SQLite WAL + versioned Drizzle schema, transactional job leases, verified private backup/restore to NEW location, personal-outbox schema only; Pino credential/redaction canaries and bounded diagnostic controls; non-connected React/Vite dark control center; typed no-upstream modules; ARM64 container and bounded compose log caps. **No Official forwarding, no real sync.**
+
+**Status:** `FOUNDATION_CODE_IMPLEMENTED_REVIEW_PENDING`, not `FOUNDATION_REVIEWED`. Need independent fresh-context exact diff review and latest CI readback. Docker base still patch-tag not immutable digest; final integrated E2E only Phase09.
+
+**Security:** Phase00 `PASS_PHASE00_DESIGN_ONLY`, not runtime security pass. [Issue #4](https://github.com/0xstillb/Grimmlink-Next/issues/4) blocks gateway/security and personal/sync until Phases02/05/07. All bridges and proxy remain OFF; no main, integration merge or production.
+
+---
+
 ## CURRENT — PHASE 01 FOUNDATION IN PROGRESS (2026-10-29)
 
 **Authoritative GitHub:** [Draft PR #5](https://github.com/0xstillb/Grimmlink-Next/pull/5), `feat/next-phase-01` from merged integration HEAD `4b4a924cf225734dab0d17114f878b5b1982d4a9`. **Last verified code SHA:** [77a54dc070fa8e2660329c40ebd57c86b68dbdf5](https://github.com/0xstillb/Grimmlink-Next/commit/77a54dc070fa8e2660329c40ebd57c86b68dbdf5). This checkpoint commit must be read back LIVE before the next change.
