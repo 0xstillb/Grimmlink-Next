@@ -39,6 +39,14 @@ jobs:
         run: pnpm format:check
       - name: Isolated unit and injected gateway denial mocks
         run: pnpm test
+      - name: Phase02 runtime security remains explicitly blocked (with adversarial tests)
+        run: |
+          python3 -m unittest discover -s scripts/phase-02 -p 'test_*.py' -v
+          python3 scripts/phase-02/runtime_security_gate.py
+          if python3 scripts/phase-02/runtime_security_gate.py --require-exit; then
+            echo 'Unexpected security gate bypass'
+            exit 1
+          fi
       - name: Print exact Prettier patch for failed formatting (runner only, never committed)
         if: failure()
         run: |
