@@ -1,3 +1,15 @@
+## CURRENT — Phase02 Started on reviewed integration (2026-10-29)
+
+**GitHub:** [Draft PR #6](https://github.com/0xstillb/Grimmlink-Next/pull/6), `feat/next-phase-02` based on Phase01 merged integration SHA [0579f64](https://github.com/0xstillb/Grimmlink-Next/commit/0579f64afb2d53001c915a10079d00ecd9de0091). **Exit status:** `IN_PROGRESS_FAIL_CLOSED`, NOT `GATEWAY_CODE_REVIEWED`.
+
+**Code checkpoint:** a new deny-by-default `route-policy` classifier and `onRequest` Fastify pre-body rejection, `/api/grimmlink/v2/capabilities` reporting OFF/DENY, tests for path/header/method and synthetic KO secrets, plus dedicated Phase02 isolated CI. Exact SHA and live test conclusions must be checked on PR #6; initial test status was PENDING. [Phase02 RESULT](phase-02/RESULT.md) and [HANDOFF](phase-02/HANDOFF.json) are the checkpoint.
+
+**Gate compatibility:** the top-level `ACTIVE-SESSION.json` still retains immutable Phase01 `FOUNDATION_REVIEWED` because the Phase00 validator has no accepted Phase02 state. A separate `phase02Work` record identifies the active phase. Do NOT flip that root state and silently bypass the existing validator; a new gated phase-state transition must be introduced and reviewed.
+
+**Security:** no Official upstream transport or forwarding, no direct port, no real Grimmory API/NAS/readers, no metadata/personal/session writes, no Native KO progress. `officialGatewayForwarding=DENY_ALL`, everything sensitive OFF, production unauthorized. Outstanding hard gates: [Issue #4](https://github.com/0xstillb/Grimmlink-Next/issues/4) runtime Spring routes/filter chains, host/SNI and direct ingress, least privilege ACL, KO secret log-sink, typed Official REST mocks, separate admin/user auth+CSRF, Range/WebSocket/SSE, independent review. **Full E2E Phase09 only.** No merge into integration/main.
+
+---
+
 ## LATEST — Phase01 CLOSED AT TECHNICAL EXIT GATE (2026-10-29)
 
 **Current phase status:** `FOUNDATION_REVIEWED` (fresh-context independent GPT-6 technical PASS for isolated foundation); reviewed application source [2eb613b0](https://github.com/0xstillb/Grimmlink-Next/commit/2eb613b0cac39b689710501cc3dbad812e5486a2), independent GitHub reviewer `COMMENTED` ID `5699254459` (not a distinct human APPROVE). [Exact reviewed-source Phase00 CI #40888013634](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40888013634) SUCCESS; [Phase01 CI #40888013081](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40888013081) SUCCESS, including ARM64 offline health/SQLite WAL. The separate release-gate/metadata closure commits require exact final HEAD CI readback. See [RESULT](phase-01/RESULT.md), [HANDOFF](phase-01/HANDOFF.json), [final immutable attestation](phase-01/FINAL-INDEPENDENT-REVIEW-ATTESTATION-2026-10-29.md) and authoritative [ACTIVE-SESSION](ACTIVE-SESSION.json).
