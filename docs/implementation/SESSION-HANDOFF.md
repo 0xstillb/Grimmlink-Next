@@ -1,3 +1,13 @@
+## ACTIVE Phase02 follow-up — mock-only Official client and Admin/Reader policy (2026-10-29)
+
+[Draft PR #6](https://github.com/0xstillb/Grimmlink-Next/pull/6) remains **OPEN / DRAFT / UNMERGED**. The feature branch adds a typed injected fake-only Official GET client, bounded timeout/retry/error classification, strict mock capabilities DTO, pure server-bound Admin CSRF + exact Origin policy, separate Reader owner identity checks, and Gateway rejection of Range/WS/SSE header variants. [Phase02 RESULT](phase-02/RESULT.md) and [machine handoff](phase-02/HANDOFF.json) document file paths and unfinished tasks.
+
+**Current code validation:** New mock/auth source and test changes must pass their own exact latest-HEAD CI; pending at this checkpoint. Previously passing Phase02 CI #40899699146 applied to **older** bootstrap source. No live Official transport, no admin login/session resolver, no provisioned reader device, no production or runtime security approval. No human/independent Phase02 code review accepted.
+
+**Gate state remains NOT GATEWAY_CODE_REVIEWED.** Phase00 design-locked and Phase01 foundation-reviewed remain historical accepted artifacts; root `ACTIVE-SESSION.json.phaseStatus` stays `FOUNDATION_REVIEWED` to satisfy immutable Phase00 gate until a separately reviewed Phase02 state transition is added. Live security checks [Issue #4](https://github.com/0xstillb/Grimmlink-Next/issues/4) are not met; all Official proxy candidates DENY, native KO progress and sensitive personal/session/metadata/reset bridges OFF. Full integrated E2E Phase09 only.
+
+---
+
 ## CURRENT — Phase02 Started on reviewed integration (2026-10-29)
 
 **GitHub:** [Draft PR #6](https://github.com/0xstillb/Grimmlink-Next/pull/6), `feat/next-phase-02` based on Phase01 merged integration SHA [0579f64](https://github.com/0xstillb/Grimmlink-Next/commit/0579f64afb2d53001c915a10079d00ecd9de0091). **Exit status:** `IN_PROGRESS_FAIL_CLOSED`, NOT `GATEWAY_CODE_REVIEWED`.
