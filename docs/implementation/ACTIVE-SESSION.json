@@ -53,7 +53,7 @@
     "Historical Node base requires CVE/patch assessment before production",
     "Phase02/05/07 runtime security and Phase09 real integrated E2E remain NOT AUTHORIZED"
   ],
-  "nextAction": "Phase02 mock/auth and Gateway deny-all isolated CI green on reviewed-source checkpoint, but GATEWAY_CODE_REVIEWED not granted. Continue runtime Spring/security, single-port ingress, auth and ACL gates; separate independent review.",
+  "nextAction": "Phase02 single-port mock Caddy/adapter validated on prior exact HEAD. Recheck latest follow-up CI; keep all Official forwarding denied and runtime exit blocked until Spring/auth/ACL/ingress evidence plus independent review.",
   "updatedAt": "2026-10-29",
   "contractLocked": true,
   "phase01Scope": "FOUNDATION_ONLY",
@@ -95,7 +95,7 @@
   "phase01ReviewAttestation": "docs/implementation/phase-01/FINAL-INDEPENDENT-REVIEW-ATTESTATION-2026-10-29.md",
   "phase02Work": {
     "phase": "02",
-    "status": "CODE_AND_ISOLATED_CI_PASS_REVIEW_PENDING",
+    "status": "SINGLE_PORT_MOCK_CI_PASS_FOLLOWUP_PENDING_GATE_BLOCKED",
     "baseIntegrationCommit": "0579f64afb2d53001c915a10079d00ecd9de0091",
     "branch": "feat/next-phase-02",
     "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/6",
@@ -123,6 +123,15 @@
     ],
     "latestSourceCheckpoint": "af39311d18e83fe22f98926b1e00184d88bd4e38",
     "runtimeSecurityAuthorized": false,
-    "independentReview": "NOT_RUN"
+    "independentReview": "NOT_RUN",
+    "mockGatewayLastVerified": {
+      "run": "40905567097",
+      "sourceHead": "150bd87f471b242903c8da1147597afffcb29af6",
+      "conclusion": "SUCCESS",
+      "scope": "REAL_ISOLATED_MOCK_CADDY_AND_ADAPTER_ONLY"
+    },
+    "networkEgressIsolation": "NOT_PROVEN",
+    "latestHeadCI": "PENDING_RECHECK",
+    "runtimeEvidence": "docs/implementation/phase-02/RUNTIME-SECURITY-EVIDENCE.json"
   }
 }
