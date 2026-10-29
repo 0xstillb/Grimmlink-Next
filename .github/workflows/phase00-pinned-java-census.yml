@@ -33,6 +33,16 @@ jobs:
           git -C /tmp/grimmory-source fetch --no-tags --depth=1 origin 402e89b4452f8e2b17ab95f16c1621c003516cd2
           git -C /tmp/grimmory-source checkout --quiet --detach 402e89b4452f8e2b17ab95f16c1621c003516cd2
           test "$(git -C /tmp/grimmory-source rev-parse HEAD)" = "402e89b4452f8e2b17ab95f16c1621c003516cd2"
+      - name: Fetch immutable locked Spring MediaType source with Git blob verification
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/phase00-dependencies
+          curl --fail --location --silent --show-error --retry 2 --max-time 60 \
+            https://raw.githubusercontent.com/spring-projects/spring-framework/82a6b40b9366ec181ededdad282b307ee5381a52/spring-web/src/main/java/org/springframework/http/MediaType.java \
+            -o /tmp/phase00-dependencies/MediaType.java
+          test "$(git hash-object /tmp/phase00-dependencies/MediaType.java)" = "1d7ecf7fff9ad63926ea2ea00f54d39aecf12cff"
+          grep -q '^org.springframework:spring-web:7\.0\.9=' /tmp/grimmory-source/backend/gradle.lockfile
       - name: Generate content-verified AST census (no upstream code execution)
         shell: bash
         run: |
@@ -45,7 +55,7 @@ jobs:
           python3 -m unittest discover -s scripts/phase-00 -p "test_route_expansion.py" -v
           python3 scripts/phase-00/expand-route-mappings.py /tmp/phase00-static/SOURCE-ROUTE-CANDIDATES.json /tmp/phase00-static/SOURCE-DECLARED-MAPPING-EXPANSION.json
           python3 -m unittest discover -s scripts/phase-00 -p "test_source_semantics.py" -v
-          python3 scripts/phase-00/audit-source-semantics.py --upstream /tmp/grimmory-source --census /tmp/phase00-static/JAVA-SOURCE-WIDE-CENSUS.json --expansion /tmp/phase00-static/SOURCE-DECLARED-MAPPING-EXPANSION.json --output /tmp/phase00-static
+          python3 scripts/phase-00/audit-source-semantics.py --upstream /tmp/grimmory-source --census /tmp/phase00-static/JAVA-SOURCE-WIDE-CENSUS.json --expansion /tmp/phase00-static/SOURCE-DECLARED-MAPPING-EXPANSION.json --output /tmp/phase00-static --framework-media-type /tmp/phase00-dependencies/MediaType.java
           python3 scripts/phase-00/validate-negative-fixtures.py docs/implementation/phase-00/SECURITY-NEGATIVE-FIXTURES.json /tmp/phase00-static/FIXTURE-STATIC-VALIDATION.json
           for file in JAVA-SOURCE-WIDE-CENSUS.json SOURCE-ROUTE-CANDIDATES.json SOURCE-ROUTE-OWNERSHIP-GAPS.md JAVA-SOURCE-WIDE-CENSUS-RECEIPT.md FIXTURE-STATIC-VALIDATION.json SOURCE-DECLARED-MAPPING-EXPANSION.json SOURCE-CONDITION-RESOLUTION.json SOURCE-AUTH-OWNERSHIP-LEDGER.json SOURCE-AUTH-REVIEW-QUEUE.md; do
             cp "/tmp/phase00-static/$file" "docs/implementation/phase-00/$file"
