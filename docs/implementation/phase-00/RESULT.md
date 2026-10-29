@@ -1,3 +1,9 @@
+## SAME-AUTHOR REVIEW — 2026-10-29; CHANGES_REQUIRED, NO SELF-APPROVAL
+
+See [same-author security review](SAME-AUTHOR-SECURITY-REVIEW-2026-10-29.md) of `0a6d74b5a43c656045c009f38a9e77ea85dde1bf`. Source/static CI PASS is verified, but the original independent review requirement is unsatisfied and NEW-P0-01 source-semantic completion is not approved. The machine gate now distinguishes 43/43 priority source-reviewed handlers from 348/348 handlers denied by a documentary ledger; no full authorization approval. **CONTRACT_LOCKED=false / PHASE01_AUTHORIZED=false**. Do not merge/deploy/enable blocked routes. Separate independent review remains required; full integrated E2E Phase09 only.
+
+---
+
 ## HEAD source CI and independent closure — 2026-10-29 (NOT APPROVED)
 
 See [Closure Decision Queue](PHASE00-CLOSURE-DECISION-2026-10-29.md). Added read-only CI for every feature push/PR update with negative tests for status self-unlock, route forwarding and review tampering. This checks source/static evidence only; the historical independent CHANGES_REQUIRED verdict remains. No gateway/authorization runtime tests, no real E2E (Phase09 only). Do not merge, change Contract Lock or authorize Phase01 until a separate genuine independent PASS with exact reviewed HEAD.

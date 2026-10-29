@@ -4,7 +4,7 @@
   "sourcePin": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
   "independentReviewReportGitBlob": "085c8bedb16513df38575fcff2a432ab72de2ad8",
   "phase00SourceCensusVerified": true,
-  "phase00SourceAuthorizationReviewComplete": true,
+  "phase00SourceAuthorizationReviewComplete": false,
   "securityContractReadyForIndependentAcceptance": false,
   "sourceAnnotationComplete": false,
   "runtimeSpringRouteComplete": "NOT_RUN",
@@ -93,5 +93,7 @@
       "owner": "Independent",
       "reason": "Prior immutable report CHANGES_REQUIRED"
     }
-  ]
+  ],
+  "phase00Priority43SourceReviewComplete": true,
+  "sourceAuthorizationCoverage": "43_PRIORITY_REVIEWED_348_SOURCE_RECORDS_DENY_UNTIL_PHASE02"
 }

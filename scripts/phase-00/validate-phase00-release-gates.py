@@ -56,7 +56,9 @@ def validate(root,out):
     ]
     obj={"schemaVersion":1,"basis":"PINNED_EVIDENCE_WITH_FAIL_CLOSED_RELEASE_POLICY",
       "sourcePin":PIN,"independentReviewReportGitBlob":REVIEW_BLOB,
-      "phase00SourceCensusVerified":True,"phase00SourceAuthorizationReviewComplete":True,
+      "phase00SourceCensusVerified":True,"phase00SourceAuthorizationReviewComplete":False,
+      "phase00Priority43SourceReviewComplete":True,
+      "sourceAuthorizationCoverage":"43_PRIORITY_REVIEWED_348_SOURCE_RECORDS_DENY_UNTIL_PHASE02",
       "securityContractReadyForIndependentAcceptance":False,
       "sourceAnnotationComplete":False,"runtimeSpringRouteComplete":"NOT_RUN",
       "authorizationRuntimeProof":"NOT_RUN","gatewayRuntimeEnforcement":"NOT_RUN",
