@@ -7,7 +7,8 @@ SCOPE='backend/src/main/java/org/booklore/'
 MAPPINGS={'RequestMapping':['UNSPECIFIED'],'GetMapping':['GET'],'PostMapping':['POST'],
           'PutMapping':['PUT'],'PatchMapping':['PATCH'],'DeleteMapping':['DELETE']}
 CONTROLLERS={'Controller','RestController'}
-HINT=re.compile(r'(?i)(RouterFunctions|RouterFunction|RequestMappingHandlerMapping|HandlerMapping|WebMvcConfigurer|ServletRegistration|FilterRegistration|Endpoint|addPathPrefix|registerMapping|setUrlMap)')
+ALT_ENDPOINTS={'MessageMapping','SubscribeMapping','ServerEndpoint','Endpoint','QueryMapping','MutationMapping','SchemaMapping','BatchMapping','ControllerEndpoint','RestControllerEndpoint'}
+HINT=re.compile(r'(?i)(RouterFunctions|RouterFunction|RequestMappingHandlerMapping|HandlerMapping|WebMvcConfigurer|ServletRegistration|FilterRegistration|Endpoint|WebSocketMessageBrokerConfigurer|WebSocketConfigurer|StompEndpointRegistry|addPathPrefix|registerMapping|setUrlMap|addResourceHandler|addInterceptor|addPathPatterns|addEndpoint|enableSimpleBroker|setApplicationDestinationPrefixes|setUserDestinationPrefix|setAllowedOriginPatterns|registerStompEndpoints|registerWebSocketHandlers|MessageMapping)')
 
 def cmd(root,*args):
     return subprocess.run(['git','-C',str(root),*args],check=True,capture_output=True).stdout
@@ -85,6 +86,7 @@ def scan(root,out):
                 at=e['expression'].split('||',1)[0].split('.')[-1]
                 if at in MAPPINGS:kind='ANNOTATION_MAPPING';methods=MAPPINGS[at]
                 elif at in CONTROLLERS:kind='CONTROLLER_MARKER';methods=[]
+                elif at in ALT_ENDPOINTS:kind='OTHER_ENDPOINT_ANNOTATION';methods=[]
                 else:continue
                 typ=at
             elif e['kind'] in ('CALL','NEW') and HINT.search(e['expression']):

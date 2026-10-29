@@ -10,3 +10,10 @@ Pinned: `402e89b4452f8e2b17ab95f16c1621c003516cd2`. The previously unresolved [K
 ## Completeness status
 
 Pinned recursive tree of `backend/src/main/java/org/booklore` inspected, 1017 tree entries and 923 Java files reported; 64 files named `*Controller.java` were discovered, including 56 root and 8 App. This **name census** does not prove that other Java classes lack `@Controller`, functional `RouterFunction`, framework-generated routes, servlet/filter endpoints, Actuator or static routes; no exhaustive source-text scan of all 923 Java files or runtime exporter has been performed in this correction. Thus `RECOGNIZED_CONTROLLER_NAME_CENSUS=64/348`, `SOURCE_ANNOTATION_COMPLETE_BACKEND=UNVERIFIED`, `RUNTIME_ROUTE_COMPLETE=NOT_RUN`. Gateways default-deny unclassified sensitive requests. Exact runtime map comparison is owned by Phase02 isolated tests, not an E2E claim.
+
+
+## Source-wide AST follow-up — resource/WebSocket mechanisms (implementer, 2026-10-29)
+
+An actual pinned-content SHA check and JDK21-preview AST parse of all 923 Java bodies succeeded (0 parse diagnostics), giving 348 method mapping annotation occurrences, 63 class-level mapping annotations and 64 Controller markers. These are *occurrences*, not expanded HTTP routes. The earlier statement that the 859 bodies were not scanned is historical and now superseded for **content coverage only**. Semantic mapping ownership is still unverified and SOURCE_ANNOTATION_COMPLETE remains FALSE. See SOURCE-WIDE-MECHANISM-RECONCILIATION-2026-10-29.md.
+
+Non-Controller mechanisms identified: pinned WebMvcConfig.java lines 37–62 registers a static / ** resource fallback (literal /**), index.html resolver and OPDS/Komga interceptors. Pinned WebSocketConfig.java lines 62–75 registers /ws STOMP handshake, with conditional origin policy; /app and /user are messaging prefixes, not independently proven HTTP paths. These must be reviewed under explicit Gateway ownership, not treated as benign unknown wildcard routes. Runtime exporter NOT_RUN.

@@ -11,3 +11,10 @@
 5. Phase02 (not Phase00 assertion) isolated Spring `RequestMappingHandlerMapping` exporter with `RequestMappingInfo` for path/HTTP method/params/headers/consumes/produces, plus functional servlets/Actuator mappings; compare all runtime routes and gateway normalized aliases. Treat HEAD/OPTIONS, rewrite, forwarded host/SNI and direct ingress as distinct cases.
 
 **Phase00 acceptance:** exhaustive source-backed classified ledger OR explicit BLOCKED P0; no contract lock if source-sensitive variants remain unowned. **Phase02:** runtime exporter/mock negative cases, not Phase09 full integrated E2E. Current status `NEW-P0-01=CORRECTION_PARTIAL`.
+
+
+## Source-wide AST follow-up — resource/WebSocket mechanisms (implementer, 2026-10-29)
+
+An actual pinned-content SHA check and JDK21-preview AST parse of all 923 Java bodies succeeded (0 parse diagnostics), giving 348 method mapping annotation occurrences, 63 class-level mapping annotations and 64 Controller markers. These are *occurrences*, not expanded HTTP routes. The earlier statement that the 859 bodies were not scanned is historical and now superseded for **content coverage only**. Semantic mapping ownership is still unverified and SOURCE_ANNOTATION_COMPLETE remains FALSE. See SOURCE-WIDE-MECHANISM-RECONCILIATION-2026-10-29.md.
+
+Non-Controller mechanisms identified: pinned WebMvcConfig.java lines 37–62 registers a static / ** resource fallback (literal /**), index.html resolver and OPDS/Komga interceptors. Pinned WebSocketConfig.java lines 62–75 registers /ws STOMP handshake, with conditional origin policy; /app and /user are messaging prefixes, not independently proven HTTP paths. These must be reviewed under explicit Gateway ownership, not treated as benign unknown wildcard routes. Runtime exporter NOT_RUN.

@@ -54,7 +54,7 @@ public final class JavaRouteAstScanner {
           }
           @Override public Void visitMethodInvocation(MethodInvocationTree n,Void p) {
             String name=n.getMethodSelect().toString();
-            if(name.matches("(?s).*(?:route|routes|register|addViewControllers|addResourceHandlers|addResourceHandler|addInterceptor|addPathPatterns|registerMapping|addServlet|addFilter|addHandler|setUrlMap|setUrlMappings|addUrlMappings|addMapping|addPathPrefix)"))
+            if(name.matches("(?s).*(?:route|routes|register|addViewControllers|addResourceHandlers|addResourceHandler|addInterceptor|addPathPatterns|addEndpoint|registerStompEndpoints|enableSimpleBroker|setApplicationDestinationPrefixes|setUserDestinationPrefix|registerWebSocketHandlers|setAllowedOriginPatterns|registerMapping|addServlet|addFilter|addHandler|setUrlMap|setUrlMappings|addUrlMappings|addMapping|addPathPrefix)"))
               emitNode("CALL",n,n.toString());
             return super.visitMethodInvocation(n,p);
           }
