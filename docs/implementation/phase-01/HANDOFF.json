@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "phase": "PHASE_01",
-  "status": "FOUNDATION_CODE_CORRECTED_EXACT_HEAD_CI_PENDING_INDEPENDENT_REVIEW_PENDING",
+  "status": "REVIEW_FINDINGS_REMEDIATED_EXACT_HEAD_CI_AND_INDEPENDENT_REREVIEW_PENDING",
   "startFromIntegrationHead": "4b4a924cf225734dab0d17114f878b5b1982d4a9",
-  "currentCodeCheckpoint": "04d72a3a31953b8be4d6a7295d17ea7435194f20",
+  "currentCodeCheckpoint": "d14a84d7bf1359e22846db6729fc4d6b6f060dd8",
   "branch": "feat/next-phase-01",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/5",
   "implemented": [
@@ -89,16 +89,16 @@
     "LATEST_EXACT_HEAD_CI_PENDING"
   ],
   "riskFlags": [
-    "Formatting command exists but Prettier check is not yet a CI hard gate",
     "Historical Node base digest requires future security patch/CVE review and deliberate rotation",
     "Pino redaction is defense-in-depth, not upstream authorization or a permit to log arbitrary secret-bearing strings",
     "Local job leases must never be reused for UNCERTAIN session outbox retry policy",
     "Actual migration rollback under power loss and deployed SQLite file paths are not verified",
-    "Latest exact-head isolated CI on final handoff documentation commit still required"
+    "Latest exact-head isolated CI on final handoff documentation commit still required",
+    "Formatting now enforced in CI; verify final HEAD before treating it as passed"
   ],
   "securityGates": "PHASE00_DESIGN_ONLY_PASS; ALL_OFFICIAL_FORWARDING_DENY; PHASE02_05_07_HARD_SECURITY_GATES",
-  "exitGate": "NOT_MET_FRESH_INDEPENDENT_REVIEW_REQUIRED",
-  "next": "Read latest PR HEAD and run exact-head isolated CI; separate fresh-context reviewer must inspect full diff and write REVIEW.md. No self-PASS/merge/Phase02/production.",
+  "exitGate": "NOT_MET_INDEPENDENT_REREVIEW_AND_EXACT_DOCS_HEAD_CI_REQUIRED",
+  "next": "Recheck latest Draft PR head, Phase01 and Phase00 CI on exact docs HEAD, resolve any failures, then request fresh independent re-review; do not self-PASS, merge, deploy, or start Phase02",
   "followupCorrections": [
     {
       "commit": "c9dd8cd08a7c8b64933660d5c1f0bee6a994a1d4",
@@ -120,9 +120,18 @@
     }
   ],
   "pendingValidation": {
-    "run": "40876891637",
-    "commit": "04d72a3a31953b8be4d6a7295d17ea7435194f20",
-    "result": "PENDING",
-    "scope": "frozen/build/typecheck/lint/unit+mock/arm64/compose"
-  }
+    "run": "40883141411",
+    "commit": "d14a84d7bf1359e22846db6729fc4d6b6f060dd8",
+    "result": "PENDING_AT_REMEDIATION_RECEIPT_LATEST_DOCS_HEAD_REQUIRES_CI"
+  },
+  "reviewVerdict": "CHANGES_REQUIRED_AT_7160ECA_REMEDIATION_NOT_YET_REVIEWED",
+  "reviewReport": "docs/implementation/phase-01/REVIEW.md",
+  "remediationReceipt": "docs/implementation/phase-01/REMEDIATION-2026-10-29.md",
+  "reviewCorrections": [
+    "P1-01 sink-allowlisted Pino messages and deep nested/child secret canaries",
+    "P1-02 exact Phase00 disabled capability dictionary plus adversarial gate tests",
+    "P2-03 symlink-safe and private owner-only SQLite backup/restore directory preparation",
+    "P2-04 Prettier check CI, formatted 44 files, offline ARM64 boot and migration smoke",
+    "P2-05 typed local-only metrics definitions with validated low-cardinality module names"
+  ]
 }
