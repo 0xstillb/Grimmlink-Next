@@ -2,19 +2,23 @@
   "schemaVersion": 1,
   "phase": "PHASE_02",
   "phaseName": "Single-Port Gateway, Auth & Official REST Client",
-  "status": "CODE_COMMITTED_ISOLATED_CI_PASS_REVIEW_PENDING",
+  "status": "CODE_EXTENDED_MOCK_CLIENT_AUTH_GATE_CI_PENDING_REVIEW",
   "exitGate": "GATEWAY_CODE_REVIEWED_NOT_GRANTED",
   "baseIntegrationCommit": "0579f64afb2d53001c915a10079d00ecd9de0091",
   "branch": "feat/next-phase-02",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/6",
-  "lastVerifiedPriorCommit": "345c845443205ec022d13fed5d5aba4b393aa663",
+  "lastVerifiedPriorCommit": "af39311d18e83fe22f98926b1e00184d88bd4e38",
   "currentHead": "READ_LIVE_GITHUB_NO_SELF_SHA",
   "implemented": [
     "Fail-closed gateway pre-forward classifier",
     "Fastify onRequest deny before body",
     "Local capabilities endpoint stating DENY_ALL",
     "Isolated unit and HTTP-inject negative tests",
-    "Phase02 isolated CI workflow"
+    "Phase02 isolated CI workflow",
+    "Injected mock-only typed Official GET transport with bounded retry, deadline and sanitized error classification",
+    "Strict mock version/capability DTO and negative tests",
+    "Pure admin Origin and server-bound CSRF policy with reader-owner isolation",
+    "Gateway Range/WebSocket/SSE deny-before-forward fixtures"
   ],
   "tests": {
     "githubPhase02Workflow": {
@@ -30,7 +34,11 @@
       "run": "40899384123",
       "sourceHead": "83f5a80eba3dacabf3739cc46fb4f59e21a1d58a",
       "result": "SUCCESS_DESIGN_GATE_ONLY"
-    }
+    },
+    "mockClientAndAuth": "PENDING_EXACT_HEAD_CI",
+    "liveOfficialTransport": "NOT_IMPLEMENTED",
+    "liveSessionVerifier": "NOT_IMPLEMENTED",
+    "protocolFakeUpstreamE2E": "NOT_RUN"
   },
   "safety": {
     "officialGatewayForwarding": "DENY_ALL",
@@ -43,15 +51,15 @@
     "productionDeployment": "NOT_AUTHORIZED"
   },
   "pending": [
+    "Read-only mock REST contract implemented but actual Official version/route schema still UNVERIFIED",
     "Spring route/security-chain runtime export",
     "Single port gateway and ingress/SNI proofs",
     "Owner-scoped auth and full negative mocks",
     "User vs admin isolation and CSRF",
-    "Typed Official REST with fake upstream",
     "Range/WS/SSE tests",
     "Independent fresh-context code review"
   ],
-  "next": "Confirm exact current HEAD CI after docs/handoff checkpoint, implement the remaining Phase02 mock-only security gates; seek independent review only after implementation is complete. Never enable Official forwarding.",
+  "next": "Check exact latest-head Phase02 CI; keep live Official and sessions OFF; complete safe single-port mock gateway and runtime Spring/ACL verification then separate fresh-context review.",
   "updatedAt": "2026-10-29",
   "latestVerifiedCodeSourceHead": "83f5a80eba3dacabf3739cc46fb4f59e21a1d58a"
 }
