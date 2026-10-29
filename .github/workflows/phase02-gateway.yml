@@ -1,0 +1,48 @@
+name: Phase02 Gateway (isolated, NO upstream)
+on:
+  push:
+    branches: [feat/next-phase-02]
+  pull_request:
+    branches: [integration/grimmlink-next]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: phase02-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  gateway-mocks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.18.3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+      - name: Deterministic install
+        run: pnpm install --frozen-lockfile
+      - name: SQLite native build (local only)
+        run: pnpm rebuild better-sqlite3
+      - name: Compile TypeScript and UI
+        run: pnpm build
+      - name: Strict TypeScript
+        run: pnpm typecheck
+      - name: Static lint
+        run: pnpm lint
+      - name: Format check
+        run: pnpm format:check
+      - name: Isolated unit and injected gateway denial mocks
+        run: pnpm test
+      - name: Verify no public second port or Official connection is enabled
+        run: |
+          set -euo pipefail
+          ! grep -Eq '^\s+ports:' compose.phase01.yml
+          grep -q 'network_mode: none' compose.phase01.yml
+          grep -q 'DENY_ALL' apps/adapter/src/server.ts
+          echo "NO real Official/NAS/readers E2E; Phase09 only"
