@@ -1,0 +1,24 @@
+{
+  "sourceFile": "docs/implementation/phase-00/SECURITY-NEGATIVE-FIXTURES.json",
+  "totalDefinitions": 109,
+  "uniqueFixtureIds": 109,
+  "families": {
+    "R02A": 30,
+    "APP": 18,
+    "KOSYNC": 22,
+    "ROUTE": 12,
+    "METADATA": 15,
+    "SESSIONS": 12
+  },
+  "testScenarios": {
+    "FUTURE_IMPLEMENTED_BEHAVIOR": 81,
+    "CURRENT_DISABLED_BEHAVIOR": 20,
+    "CRASH_NO_HTTP_RESPONSE": 8
+  },
+  "failures": [],
+  "execution": "STATIC_ONLY",
+  "actualNegativeTests": "NOT_RUN",
+  "runtimeHttpTests": "NOT_RUN",
+  "schemaEngine": "NOT_RUN",
+  "sourceAstScannerSeparate": true
+}

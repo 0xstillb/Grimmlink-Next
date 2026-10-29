@@ -1,4 +1,130 @@
+## CURRENT — Phase00 DESIGN-ONLY CONTRACT LOCK (2026-10-29; fresh-context review)
+
+**Latest authoritative disposition:** `PASS_PHASE00_DESIGN_ONLY`, `CONTRACT_LOCKED_DESIGN_ONLY`, `PHASE01_AUTHORIZED=FOUNDATION_ONLY`. A separate GPT-6 fresh context reviewed pinned pre-review HEAD [f071229d](https://github.com/0xstillb/Grimmlink-Next/commit/f071229d9d9a1b7fb680cb68f83c763bc53138c6), upstream source, PR #2 and Phase00's Notion acceptance scope. [New independent design-only review](phase-00/FRESH-CONTEXT-DESIGN-LOCK-REVIEW-2026-10-29.md). **Not an approval by a separate GitHub human account.** Historical `CHANGES_REQUIRED` reviewer reports are preserved.
+
+**Only Phase01 TS core, persistence and observability may begin.** No upstream HTTP exposure or sensitive feature is authorized. Source census 923 SHA/AST files, 403 static method/path/verb variants, 348 handler mappings, 43 priority source reviews and 109 fixture definitions were verified by prior source/static CI. These are NOT effective runtime routes, applied authorization, or live negative tests. All 403 gateway forwarding candidates remain DENY; KO Native progress, metadataApply, personal/app reset/rating, managedProjection and session bridge remain BLOCKED/OFF by **design, not deployed enforcement**. Actual Spring runtime SecurityFilterChain, gateway isolation, per-user/book/file ACL, KO secret-safe logging and SQLite faults remain Phase02/05/07 hard gates; full Hermes/NAS/device integrated E2E Phase09. No main/production changes. PR #2 integration merge is a separate action after exact HEAD CI and policy review.
+
+---
+
+## NEW-P0-01 SOURCE MECHANISM SUBGATE — VERIFIED 2026-10-29 (NOT A SECURITY PASS)
+
+[Actual pinned source audit CI 40853316961](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40853316961) SUCCESS on source audit commit `8653ecd8c5f719643fd5950f36aeea58a732e8a9`. [Per-HEAD source/static integrity CI 40853316919](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40853316919) SUCCESS. [Auditor](../../scripts/phase-00/audit-route-mechanisms.py) / [mechanism reconciliation](phase-00/NEW-P0-01-SOURCE-MECHANISM-RECONCILIATION.md) use pinned source and 30-day `new-p0-01-source-mechanism-receipt` artifact. **923 SHA/AST files, 715 source signals, 17 programmatic/type signals, 160 inherited/interface flags, 65 repository interfaces and 403 method/path/verb candidates** reconciled; new unknown mechanism fails CI. 43/43 priority auth source dispositions stay 0 allowed. This is a **source mechanism enumeration subgate only**: `SOURCE_ANNOTATION_COMPLETE=false`, Spring runtime, direct backend ingress, current book ACL and Gateway enforcement NOT_RUN/NOT_PROVEN. NEW-P0-01 formal security acceptance remains pending distinct independent reviewer adjudication of Phase00-vs-Phase02 boundary. **Historical CHANGES_REQUIRED, CONTRACT_LOCKED=false and PHASE01_AUTHORIZED=false are unchanged.** No runtime/production/merge authorization.
+
+---
+
+## PHASE00 LATEST REVIEW-GATE EVIDENCE — 2026-10-29: INDEPENDENT PASS STILL REQUIRED
+
+[GitHub Actions 40831672425](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40831672425) SUCCESS: 403/403 pinned Official method/path/verb source variants classified against ordered SecurityConfig source chain candidates; all 403 DENY gateway forwarding, not executable runtime Spring authorization. **348 mapping records but only 346 unique method names** due to overloaded BookCoverController#regenerateCovers and FileUploadController#uploadFile. Fixed source-key collision by using file + mapping line + handler. Exactly one representative matcher ambiguity for /api/v1/opds versus OPDS /** root; runtime decision NOT_RUN.
+
+[GitHub Actions 40831960179](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40831960179) SUCCESS: machine [Phase00 gate integrity checklist](phase-00/PHASE00-GATE-STATUS.json) verifies 923/923 SHA+AST, 15/15 source constants, 43/43 auth source triage with 0 authorized, 348/348 source handler records, 403/403 route candidates, 160 inheritance flags, 65 repositories, 109/109 static fixture definitions, unmodified independent review report. It correctly enforces **contractLocked=false and phase01Authorized=false** pending real proof.
+
+[Fresh independent review request](phase-00/PHASE00-FRESH-INDEPENDENT-REVIEW-REQUEST-2026-10-29.md) requires a separate reviewer to determine whether a Phase00 design-only contract can accept deferral of runtime Gateway/Spring/log-sink/authorization tests to Phase02/05/07/09, or whether NEW-P0-01 remains an independent Phase00 blocker. **Reviewer not yet run.** Existing verdict **CHANGES_REQUIRED / CORRECTION_INCOMPLETE / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED** remains. Do not merge/deploy/unblock Phase01 or sensitive features. Older historical checkpoints below remain historical.
+
+---
+
+## 2026-10-29 — AUTHORIZATION SOURCE REVIEW 43/43 STATIC_CLOSED; SECURITY GATE REMAINS BLOCKED
+
+**Source-level Authorization Review:** [CI 40830006159](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40830006159) SUCCESS verifies **43/43 prioritized no-local-annotation mutating handler source dispositions** (all controller/method positions and pinned supporting service witnesses, zero missing). Implementer triage: **6 CRITICAL / 29 HIGH / 4 MEDIUM / 4 LOW**, not CVSS/exploit confirmation. **ZERO of the 43 may be forwarded / approved**; 348 handlers remain documentary deny-by-default pending precise runtime chain and per-book/user authorization. [Full source finding and gate receipt](phase-00/PHASE00-AUTHORIZATION-REVIEW-43-STATIC-DISPOSITION-2026-10-29.md).
+
+**New risk source flags:** mutable request token stored on KoboController singleton-like field; nested file ID progress not visibly bound to requested book; KO book hash not visibly checked against current user library/content; Magic Shelf public-create privilege absent in inspected creation branch; Kobo path/body entitlement mismatch; race safety of public first-admin setup unproven; KO registration request body/header log disclosure risks. No production exploitation asserted. Added 6 synthetic regression contracts: **109/109 fixtures STATIC_PASS in [CI 40830218540](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40830218540)**; actual Gateway/mock HTTP/log-sink/concurrency/SQLite tests **NOT_RUN**. Preserve earlier 923 Java AST/SHA, 403 static route declarations, 15/15 symbolic source constants, 160 classified inheritance files as source evidence, not runtime gates.
+
+**Phase status remains CORRECTION_INCOMPLETE / CHANGES_REQUIRED (prior independent verdict) / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED.** NEW-P0-01 BLOCKED; no independent re-review, no PR merge/deploy/production or Phase01. Previous checkpoint counts (103 fixtures, 43 unreviewed source dispositions) below are historical.
+
+---
+
+## LATEST VERIFIED PHASE00 CHECKPOINT — 2026-10-29 (IMPLEMENTER SOURCE ONLY)
+
+[CI 40828172115](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40828172115) SUCCESS: 923/923 pinned Java bodies SHA+AST; 348 source method handlers/403 declared method-path-verb variants (NOT runtime route count); 15/15 source constants. **160 lexical extends/implements files now classified by source AST**: 65 repository types, 49 service types, 10 security filter/interceptors, 9 model, 7 task, 7 converter, 11 other, 2 Web configuration. **0 direct method-mapping files** among those 160, yet inherited/alternate semantics remain NOT_PROVEN. Full pinned 923-file + Gradle scan found no Spring Data REST source symbols or direct dependency declarations, narrow source indicator only, NOT no-REST runtime proof.
+
+**Critical KO logging source risk:** Registration handler logs incoming userData map at WARN; Official request logging config includes payload (10k limit) and headers but excludes neither x-auth-user nor x-auth-key by name. Actual output depends on runtime logger/chain, NOT_RUN. Added 2 synthetic KO payload/header log-sink fixtures; **103/103 fixture definitions static PASS**, actual HTTP/Gateway/log-sink tests NOT_RUN. [Detailed pinned source receipt](phase-00/PHASE00-INHERITANCE-AND-KO-LOGGING-TRIAGE-2026-10-29.md). Other 348 authorization owners still DENY_BY_DEFAULT, 43 mutating handlers require ACL, 9 call chains/37 source witnesses verified only narrowly.
+
+**NEW-P0-01 BLOCKED, CORRECTION_INCOMPLETE / CHANGES_REQUIRED (last independent verdict) / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED**. PR #2 remains Draft, no merge/deploy/Phase01. Earlier counts (101 fixtures / unclassified 160) in historical sections below are superseded. This is not independent approval.
+
+---
+
+## LATEST IMPLEMENTER PROOF — 2026-10-29, Phase00 REMAINS SECURITY-BLOCKED
+
+[CI 40821817455](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40821817455) SUCCESS (source/static only): **923/923 pinned Java contents Git-SHA/AST-verified, 348 method handlers, 403 static method/path/verb declarations (NOT runtime routes)**. All **15/15 symbolic mapping constant expressions** have exact value evidence: 9 from pinned Official OpdsController, 6 from locked spring-web 7.0.9 and pinned Spring Framework MediaType source SHA. Source-only value interpretation is complete; Spring runtime classpath/matcher NOT_RUN.
+
+**348 source authorization ownership entries remain deny-by-default**, with **43 mutating handlers without local annotation** requiring global/service/record checks. **9 sensitive call chains / 37 source witnesses** validated in pinned Official; only narrower library-ID/user-record source checks are proven, current content revocation and complete gateway entitlement are NOT. **160 lexical inheritance/interface files** remain scope-review flags; **101 synthetic fixture definitions** pass static validation, all actual mock HTTP/SQLite/Gateway tests NOT_RUN. [Full source receipt](phase-00/PHASE00-PINNED-SOURCE-SEMANTIC-ACL-RECEIPT-2026-10-29.md).
+
+**NEW-P0-01 remains BLOCKED; CORRECTION_INCOMPLETE / CHANGES_REQUIRED (last independent verdict) / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED.** Feature HEAD before documentation sync `e052e9223a72785dc0ca16989c46db1547c132ac` (fetch live after commit). PR #2 Draft/Unmerged, no official backend exposure, no main/integration edits, no Phase01. Prior checkpoints below are historical, particularly 97 fixtures and 15 symbolic conditions being unresolved.
+
+---
+
+## LATEST VERIFIED STATIC EVIDENCE — Phase00 Route Semantics, 2026-10-29 (NOT Independent Approval)
+
+[CI run 40819253130](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40819253130): pinned 923/923 Java bodies SHA-verified and AST parsed (0 errors), 64 Controller markers, 63 class +348 method =411 mapping annotations, **403 static method/path/verb declarations (not runtime route count)**. All method paths resolved; **15 symbolic consumes/produces conditions** still require semantic resolution. **223 security annotation signals**, **15 programmatic** and **2 framework-type signals**; **43 mutation handlers without local annotations** require global/service ACL investigation (not proof of unauthenticated access).
+
+**101 security fixture definitions** (97 prior +4 WebSocket/static), static validator zero failures, every actual security/mock HTTP/SQLite test NOT_RUN. [Source auth audit](phase-00/SOURCE-ROUTE-SEMANTIC-AND-AUTH-REVIEW-2026-10-29.md) has pinned SecurityConfig chain evidence. SOURCE_ANNOTATION_COMPLETE=false; RUNTIME_ROUTE_COMPLETE=NOT_RUN; NEW-P0-01 BLOCKED. CORRECTION_INCOMPLETE / CHANGES_REQUIRED (last independent verdict) / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED; no PR merge. Older checkpoints below are historical and superseded only as to 859 unread bodies and 97 current fixtures.
+
+---
+
+## CURRENT EVIDENCE — 2026-10-29 pinned full Java body scan (implementer, NOT reviewer approval)
+
+**Verified static CI:** [Actions run 40817012499](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40817012499) and [source evidence commit](https://github.com/0xstillb/Grimmlink-Next/commit/0b6fef1002c8a86fa5e15a2c416c16ff1b64ae9a). All **923/923** pinned Java bodies were read, SHA checked and AST parsed, **0 errors**. Exactly **64 Controller markers, 348 method mapping +63 class mapping =411 mapping annotation occurrences**, NOT 411 HTTP routes. Additional **15 programmatic signals**, including WebMvcConfig static **/*** resource fallback, OPDS/Komga interceptors and WebSocketConfig **/ws** handshake; see [source mechanism reconciliation](phase-00/SOURCE-WIDE-MECHANISM-RECONCILIATION-2026-10-29.md) and [per-file ledger](phase-00/JAVA-SOURCE-WIDE-CENSUS.json). (Links here are relative to docs/implementation for documents in that directory; Phase00 files use local equivalents.) **97 fixtures** static validated, zero static failures, all actual negative tests **NOT_RUN**.
+
+**IMPORTANT:** prior statements describing 859 unread Java bodies are historical and superseded *only as to content-read coverage*. The source has **161 files with lexical inheritance/semantic questions**; 348 method mappings, aliases/conditional/proxy, WebSocket/static, gateway auth ownership and Spring runtime evidence are **NOT yet contract complete**. `SOURCE_ANNOTATION_COMPLETE=false`, `RUNTIME_ROUTE_COMPLETE=NOT_RUN`. **NEW-P0-01 remains P0 BLOCKED**. Historical Independent verdict **CHANGES_REQUIRED** unchanged. **CORRECTION_INCOMPLETE / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED**. Do not self-approve/merge PR #2, start Phase 01 or expose Official backend. Feature gates for personal writes, native KO progress, metadata apply and session outbox remain OFF/BLOCKED.
+
+## CURRENT — Phase00 Final Security Correction Checkpoint (2026-10-29; implementer, not independent approval)
+
+Start `1370f9f38482af1442a3ecd7570e7dbbc4ac3bdd` (independent report commit); independently reviewed immutable HEAD `9682f9ce9305ea5242af82418bec7e504bf1ca03` is distinct; fixture/security-design correction commit `496681b307dd71fefedb649d951079557dc431f9`. **97 synthetic fixture definitions (70 original + 27 added, 11 modified); all execution NOT_RUN**. See [final correction report](phase-00/FINAL-SECURITY-CORRECTION-2026-10-29.md), [KO contract](phase-00/KO-CREDENTIAL-GATEWAY-CONTRACT.md), [App ACL](phase-00/APP-AUTHORIZATION-MATRIX.md), [Phase acceptance](phase-00/CONTRACT-LOCK-ACCEPTANCE-CRITERIA.md). **NEW-P0-01 remains P0 BLOCKER**: 923 Java files in pinned tree but only 64 named controllers/348 annotations previously read, full remaining source-wide audit not completed; runtime Spring routes NOT_RUN. NO SOURCE_ANNOTATION_COMPLETE claim. KO logging mitigations are DESIGN_SPECIFIED, not deployed; metadata/session post-send fixtures now use UNKNOWN remote mutation. Native KO progress, metadataApply, personal bridges, resets and session writes BLOCKED/OFF (design-only). **Independent verdict remains CHANGES_REQUIRED / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED.** PR #2 Draft / do not merge; full E2E Phase09 only.
+
+---
+
+## CURRENT — 2026-10-29 Complete App Route & Security Contract Correction (implementer; pending independent review)
+
+**Branch pre-correction HEAD:** `9eb7790367d2272e430ee78d2323952960234c00`; subsequent commits must be checked LIVE on [Draft PR #2](https://github.com/0xstillb/Grimmlink-Next/pull/2). Prior independent verdict **CHANGES_REQUIRED / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED** remains authoritative. **Recognized controller file census 64/348 method-level annotations** (56/321 root + 8/27 App; source annotation completeness across all Java and runtime mappings UNVERIFIED). [App census](phase-00/ROUTE-CENSUS-APP.md) · [Mapping expansion](phase-00/ROUTE-MAPPING-EXPANSION.md) · [Route ownership](phase-00/SECURITY-ROUTE-OWNERSHIP.md) · [Correction report](phase-00/ROUTE-COVERAGE-SECURITY-CORRECTION-2026-10-29.md) · [Reviewer packet](phase-00/NEXT-INDEPENDENT-REVIEW-PACKET.md).
+
+**Feature gates (DESIGN_SPECIFIED, not runtime OFF switches):** `NATIVE_KOSYNC_PROGRESS=BLOCKED/OFF`, metadata apply OFF, reset-progress/rating OFF, personal bridge reads/writes OFF, sessions bridge OFF. No atomic native KOSync ACL proof; Gateway precheck is not atomic; no zero-lost-update proof for Official metadata REST; session 202 is not immutable idempotent receipt. Runtime, unit/mocks, gateway, network and E2E NOT_RUN. Phase09 only full E2E/Hermes/NAS/devices. Do not merge PR #2, approve Phase01, or mark new findings independently APPROVED.
+
+---
+
+## Latest Phase00 Security Remediation — 2026-10-29 (NOT independent approval)
+
+**R-02A NEW P0:** Official `POST /api/v1/books/reset-progress` (BOOKLORE/KOREADER/KOBO) and `POST /api/v1/books/reset-personal-rating` require deny-before-upstream gateway coverage, current assigned-library/content eligibility for EVERY book ID, own-record eligibility and all-or-nothing mixed-batch rejection. Other sensitive routes include viewer-setting, shelves, notes v1/v2, PDF annotations, session reads/writes and KO profile. **56 source Controller files / 321 method-level annotations** inspected; runtime Spring mapping/aliases NOT_RUN. No generic sensitive fallback. **NATIVE_KOSYNC_PROGRESS=BLOCKED/OFF**: precheck TOCTOU not atomic. `metadataApply=OFF`, `personalBridgeWrites=OFF`, `sessionsBridgeWrite=OFF`; design != executable enforcement. Historical **CHANGES_REQUIRED / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED** unchanged; no merge or Phase01. Correction baseline `59773bd65eb265dbe4850204a65649b7c8a5c51c`, read LIVE HEAD for new commits.
+
+[Security remediation](phase-00/SECURITY-REMEDIATION-2026-10-29.md) · [Full annotation census](phase-00/ROUTE-CENSUS-INDEX.md) · [ADR-025](ADR-025-NATIVE-KOSYNC-SECURITY.md)
+
+<!-- Current 2026-10-29 reviewer packet: [RE-REVIEW-PACKET.md](phase-00/RE-REVIEW-PACKET.md). Prior checkpoints below historical. -->
 # GRIMMLINK NEXT — GPT Web Session Handoff
+
+## HISTORICAL — 2026-10-29 Implementer Final Remediation (RE-REVIEW REQUIRED)
+
+**Implementation-document checkpoint:** `IMPLEMENTER_FINAL_REMEDIATION_COMMITTED_AWAITING_FRESH_INDEPENDENT_REVIEW`. This is **not** reviewer approval. Last actual independent verdict [FINAL-INDEPENDENT-REVIEW-2026-10-29.md](phase-00/FINAL-INDEPENDENT-REVIEW-2026-10-29.md) = **CHANGES_REQUIRED / NOT_APPROVED / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED** (8 DOC_FIXED / 4 DOC_PARTIAL on cea6485). See [FINAL-REMEDIATION-2026-10-29.md](phase-00/FINAL-REMEDIATION-2026-10-29.md). Fetch live GitHub HEAD (prior starting SHA `f263e6208d9dc520e29e3113dcf6bd632f239b72`), do not embed self SHA. PR #1 merged into integration in history; PR #2 remains Draft. R-02 KOSync progress **BLOCKED/OFF** due to non-atomic no-fork ACL proof, other metadata/personal/session writes OFF. All real integrated E2E Phase09 only; no Phase01 or merge.
+
+
+## HISTORICAL FRESH FINAL INDEPENDENT REVIEW — 2026-10-29 (supersedes review-pending banners below)
+
+- The independent reviewer inspected corrected source/document HEAD `cea648544547c4d2b3f5c652bfc75d408288b7c7` against `411b68bd1ed2ffeca28165c55cc52fda6d88ea6c` and independently read Grimmory v3.5.0 / Readest v0.12.16 source. [Final review](phase-00/FINAL-INDEPENDENT-REVIEW-2026-10-29.md): **CHANGES_REQUIRED, 8 DOC_FIXED / 4 DOC_PARTIAL / 0 DOC_UNFIXED**, not CONTRACT_LOCKED. Review own handoff edits are NOT self-approved.
+- Remaining: R-01 P0 scalar allowlist, R-02 P0 authoritative user-to-book entitlement and bypass-free public :6060 gateway, R-09 P1 uncertain-session ACK/at-most-once, R-11 P1 stale historical handoff. **External KOSync progress BLOCKED/OFF**, personal bridge/metadata writes OFF. Never allow blind Official passthrough, impersonation, or source NAS writes.
+- Phase00 corrections need a NEW independent review before CONTRACT_LOCKED. **Do not merge Draft PR #2, modify main, or start Phase01.** Source-only review + JSON validation; build/unit/mock/live API NOT_RUN; integrated Hermes/NAS/physical readers/full E2E Phase09 only. Obtain the real current branch SHA from GitHub, not from this file.
+
+
+## NEW INDEPENDENT RE-REVIEW — 2026-10-29 (read first)
+
+- [Re-review report](phase-00/RE-REVIEW-2026-10-29.md) evaluated original correction HEAD `411b68bd1ed2ffeca28165c55cc52fda6d88ea6c` and issued **CHANGES_REQUIRED**. Review documents R-01–R-12 and source evidence, not hardware/runtime PASS.
+- Same session authored **subsequent** contract/gateway/metadata/Sidecar clarity fixes. Those new changes are **not independently re-reviewed**; new reviewer must inspect actual diff after `411b68` and assess the remaining design-level auth gate. **NOT CONTRACT_LOCKED, NO Phase01, no merge**; full integrated E2E Phase09 only. Fetch live HEAD.
+
+
+## HISTORICAL CORRECTION CHECKPOINT — 2026-10-29 (supersedes earlier reviewed head below)
+
+- **The source-contract correction pass R-01–R-12 is committed** on [Draft PR #2](https://github.com/0xstillb/Grimmlink-Next/pull/2). Read [REMEDIATION.md](phase-00/REMEDIATION.md) alongside the prior [independent REVIEW.md](phase-00/REVIEW.md) and [HANDOFF.json](phase-00/HANDOFF.json).
+- **Prior independent verdict remains CHANGES_REQUIRED**. Correction author cannot approve their own work: **independent re-review NOT_RUN, NOT CONTRACT_LOCKED, Phase01 NOT AUTHORIZED**. Read GitHub LIVE HEAD, do not use any older SHA in this file as branch tip.
+- Important corrections: non-null empty bookReviews may clear despite safe replaceMode; BookAccessAspect only on annotated handlers, KOSync global hash requires book entitlement proof; Native file CFI write may be stale/null; manual READ can reset at low %; Sidecar writer has global isLocalStorage guard; EXACT CFI requires proven spine/text anchor.
+- Proposed Fail-Closed feature switches are **not implemented or tested**. No user-facing production API/NAS changes. Terminal/build/unit/mock/live/Hermes/NAS/physical/E2E NOT_RUN; all full E2E Phase09.
+- **Next:** fresh reviewer assesses correction diff and source links, records APPROVED/CHANGES_REQUIRED/BLOCKED as warranted. No PR merge or main edit.
+
+## CURRENT VERIFIED GATE — 2026-10-29 (supersedes all historical snapshots below)
+
+- **Phase 00 independent review: CHANGES_REQUIRED. NOT APPROVED, NOT CONTRACT_LOCKED, PHASE 01 NOT AUTHORIZED.**
+- Active [Draft PR #2](https://github.com/0xstillb/Grimmlink-Next/pull/2) on `feat/next-phase-00`. Reviewed original head: `5eccac25c8e85e16cfa913b72ae36bc6a3ceeed8`; **fetch the live head for the latest review/handoff commit SHA**.
+- Historical [PR #1](https://github.com/0xstillb/Grimmlink-Next/pull/1) merged to `integration/grimmlink-next` only at `5470c7ad807cb701381ae8bcd9abe516f351b150` **without independent gate**. `main` not modified by this review.
+- **Read [Independent REVIEW.md](phase-00/REVIEW.md) first**, then [HANDOFF.json](phase-00/HANDOFF.json) and source-linked discrepancies C-001..C-021. Reviewer issues **R-01..R-12** include metadata collections, per-user ACL (including KOSync/rating/status), native KOSync double-write, manual read status, global Sidecar guard, CFI EXACTness, and obsolete handoff headers.
+- **Next action:** Correct Phase00 source contract/fixtures/ACL gaps on feature branch, add evidence and request fresh independent re-review. Unsafe metadata, managed CFI/progress, unverified cross-user bridge and NAS file mutation remain disabled. Do **not** merge PR #2 or commence Phase01 without subsequent evidenced gate.
+- **Executed:** read-only source/tag/PR/Notion inspection and GitHub documentation commits. **NOT_RUN:** shell/build/unit/mock/live API/Hermes/NAS/real readers; full E2E strictly Phase09. Source tag is **not** deployed version.
+
+## Historical implementer checkpoint notes — superseded where conflicting
 
 **2026-10-28; PHASE 00 SOURCE_AUDITED_REVIEW_PENDING (NOT CONTRACT_LOCKED).** Not a release. `main` and `integration/grimmlink-next` intentionally untouched. Draft PR [#1](https://github.com/0xstillb/Grimmlink-Next/pull/1) from `feat/next-phase-00`.
 
@@ -28,3 +154,15 @@ Audit performed by connected GitHub source reads and in-process JSON validation.
 
 ## Follow-up source check
 Verified JWT source DTO shape, Bearer filter, nonempty collection replacement under REPLACE_WHEN_PROVIDED, and SidecarMetadataWriter direct Files.writeString path; see [API-INVENTORY.md](API-INVENTORY.md) and discrepancy **C-016**. No runtime tests. Review these paths before contract lock.
+
+
+## 2026-10-29 — Targeted source recheck checkpoint (implementer)
+
+Following a live HEAD check at prior commit `7a3647a6aff08c7d0868fc976646e09a31eb7665`, reviewed Grimmory Official v3.5.0 metadata merge, Native KOSync and personal service source. Added [SOURCE-RECHECK-2026-10-29.md](phase-00/SOURCE-RECHECK-2026-10-29.md), new discrepancies C-017..C-021, guardrail and fixture clarifications. **Phase remains SOURCE_AUDITED_REVIEW_PENDING, not CONTRACT_LOCKED.** This continuation is not a fresh independent review; `REVIEW.md` verdict remains PENDING. Unit/terminal/live API/physical E2E NOT_RUN. Production and integration/main untouched.
+
+**Next:** obtain genuinely separate reviewer review of entire PR and new findings; after documented corrections and approval, user-controlled integration PR gate. Do not start Phase01 or pretend that installed Grimmory/DB/NAS status is known. Retrieve current live HEAD rather than trusting this checkpoint.
+
+
+## 2026-10-29 PR continuity correction
+
+GitHub live check found [PR #1](https://github.com/0xstillb/Grimmlink-Next/pull/1) **merged into non-production integration** on 2026-10-28 17:02:39Z at merge SHA `5470c7ad807cb701381ae8bcd9abe516f351b150`. That merge did **not** supply the required independent-review evidence or approve Phase01. The subsequent recheck commit `a5eb72d4b0f8e01f876fb20c8895813df33c8ddb` is proposed separately through **[Draft PR #2](https://github.com/0xstillb/Grimmlink-Next/pull/2)**, still review-pending. `main` remains untouched. Use PR #2 for current Phase00 improvements, PR #1 as historical audit foundation. Continue to read live heads before any mutation.

@@ -1,0 +1,80 @@
+## PHASE00 LATEST REVIEW-GATE EVIDENCE — 2026-10-29: INDEPENDENT PASS STILL REQUIRED
+
+[GitHub Actions 40831672425](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40831672425) SUCCESS: 403/403 pinned Official method/path/verb source variants classified against ordered SecurityConfig source chain candidates; all 403 DENY gateway forwarding, not executable runtime Spring authorization. **348 mapping records but only 346 unique method names** due to overloaded BookCoverController#regenerateCovers and FileUploadController#uploadFile. Fixed source-key collision by using file + mapping line + handler. Exactly one representative matcher ambiguity for /api/v1/opds versus OPDS /** root; runtime decision NOT_RUN.
+
+[GitHub Actions 40831960179](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40831960179) SUCCESS: machine [Phase00 gate integrity checklist](PHASE00-GATE-STATUS.json) verifies 923/923 SHA+AST, 15/15 source constants, 43/43 auth source triage with 0 authorized, 348/348 source handler records, 403/403 route candidates, 160 inheritance flags, 65 repositories, 109/109 static fixture definitions, unmodified independent review report. It correctly enforces **contractLocked=false and phase01Authorized=false** pending real proof.
+
+[Fresh independent review request](PHASE00-FRESH-INDEPENDENT-REVIEW-REQUEST-2026-10-29.md) requires a separate reviewer to determine whether a Phase00 design-only contract can accept deferral of runtime Gateway/Spring/log-sink/authorization tests to Phase02/05/07/09, or whether NEW-P0-01 remains an independent Phase00 blocker. **Reviewer not yet run.** Existing verdict **CHANGES_REQUIRED / CORRECTION_INCOMPLETE / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED** remains. Do not merge/deploy/unblock Phase01 or sensitive features. Older historical checkpoints below remain historical.
+
+---
+
+## 2026-10-29 — AUTHORIZATION SOURCE REVIEW 43/43 STATIC_CLOSED; SECURITY GATE REMAINS BLOCKED
+
+**Source-level Authorization Review:** [CI 40830006159](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40830006159) SUCCESS verifies **43/43 prioritized no-local-annotation mutating handler source dispositions** (all controller/method positions and pinned supporting service witnesses, zero missing). Implementer triage: **6 CRITICAL / 29 HIGH / 4 MEDIUM / 4 LOW**, not CVSS/exploit confirmation. **ZERO of the 43 may be forwarded / approved**; 348 handlers remain documentary deny-by-default pending precise runtime chain and per-book/user authorization. [Full source finding and gate receipt](PHASE00-AUTHORIZATION-REVIEW-43-STATIC-DISPOSITION-2026-10-29.md).
+
+**New risk source flags:** mutable request token stored on KoboController singleton-like field; nested file ID progress not visibly bound to requested book; KO book hash not visibly checked against current user library/content; Magic Shelf public-create privilege absent in inspected creation branch; Kobo path/body entitlement mismatch; race safety of public first-admin setup unproven; KO registration request body/header log disclosure risks. No production exploitation asserted. Added 6 synthetic regression contracts: **109/109 fixtures STATIC_PASS in [CI 40830218540](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40830218540)**; actual Gateway/mock HTTP/log-sink/concurrency/SQLite tests **NOT_RUN**. Preserve earlier 923 Java AST/SHA, 403 static route declarations, 15/15 symbolic source constants, 160 classified inheritance files as source evidence, not runtime gates.
+
+**Phase status remains CORRECTION_INCOMPLETE / CHANGES_REQUIRED (prior independent verdict) / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED.** NEW-P0-01 BLOCKED; no independent re-review, no PR merge/deploy/production or Phase01. Previous checkpoint counts (103 fixtures, 43 unreviewed source dispositions) below are historical.
+
+---
+
+## LATEST — SOURCE INHERITANCE & KO LOG-SINK CORRECTION EVIDENCE (2026-10-29; NO REVIEWER APPROVAL)
+
+**Static CI [40828172115](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40828172115) SUCCESS**: 160 extends/implements source files classified, 0 direct annotation-mapped handlers in flagged set; 65 repository interfaces have no observed Spring Data REST dependency/source registration indicators, **not proof of no alternate exposure**. Exactly 2 web config files have source programmatic registration signals. KO registration logs userData at WARN, while separate generic request logger is configured for payload and headers without explicit x-auth-user/x-auth-key exclusions; operational log emission and ingress NOT_RUN. **103 unique synthetic fixtures static PASS**, real gateway/http/log-sink tests NOT_RUN. [Full source and log-risk receipt](PHASE00-INHERITANCE-AND-KO-LOGGING-TRIAGE-2026-10-29.md).
+
+Still **NEW-P0-01 BLOCKED / CHANGES_REQUIRED / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED**. Owner and per-book ACL proof still missing; no self-PASS, no PR merge. Historic records below preserved.
+
+---
+
+## LATEST VERIFIED STATIC EVIDENCE — Phase00 Route Semantics, 2026-10-29 (NOT Independent Approval)
+
+[CI run 40819253130](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40819253130): pinned 923/923 Java bodies SHA-verified and AST parsed (0 errors), 64 Controller markers, 63 class +348 method =411 mapping annotations, **403 static method/path/verb declarations (not runtime route count)**. All method paths resolved; **15 symbolic consumes/produces conditions** remain. **223 security annotation signals**, **15 programmatic** and **2 framework-type signals**; **43 mutation handlers without local annotations** require global/service ACL investigation, not proof of unauthenticated access.
+
+**101 security fixtures** (97 prior +4 WebSocket/static), static validator zero failures; every actual mock/HTTP/security/SQLite test NOT_RUN. [Source auth audit](SOURCE-ROUTE-SEMANTIC-AND-AUTH-REVIEW-2026-10-29.md) details pinned SecurityConfig chains. SOURCE_ANNOTATION_COMPLETE=false; RUNTIME_ROUTE_COMPLETE=NOT_RUN; NEW-P0-01 BLOCKED. CORRECTION_INCOMPLETE / CHANGES_REQUIRED (last independent verdict) / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED. Older checkpoints below are historical when referring to 859 unread Java bodies or 97 current fixtures.
+
+---
+
+## CURRENT — Phase00 Final Security Correction Checkpoint (2026-10-29; implementer, not independent approval)
+
+Start `1370f9f38482af1442a3ecd7570e7dbbc4ac3bdd` (independent report commit); independently reviewed immutable HEAD `9682f9ce9305ea5242af82418bec7e504bf1ca03` is distinct; fixture/security-design correction commit `496681b307dd71fefedb649d951079557dc431f9`. **97 synthetic fixture definitions (70 original + 27 added, 11 modified); all execution NOT_RUN**. See [final correction report](FINAL-SECURITY-CORRECTION-2026-10-29.md), [KO contract](KO-CREDENTIAL-GATEWAY-CONTRACT.md), [App ACL](APP-AUTHORIZATION-MATRIX.md), [Phase acceptance](CONTRACT-LOCK-ACCEPTANCE-CRITERIA.md). **NEW-P0-01 remains P0 BLOCKER**: 923 Java files in pinned tree but only 64 named controllers/348 annotations previously read, full remaining source-wide audit not completed; runtime Spring routes NOT_RUN. NO SOURCE_ANNOTATION_COMPLETE claim. KO logging mitigations are DESIGN_SPECIFIED, not deployed; metadata/session post-send fixtures now use UNKNOWN remote mutation. Native KO progress, metadataApply, personal bridges, resets and session writes BLOCKED/OFF (design-only). **Independent verdict remains CHANGES_REQUIRED / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED.** PR #2 Draft / do not merge; full E2E Phase09 only.
+
+---
+
+# Security-sensitive Route Ownership Matrix — Phase00 DESIGN_SPECIFIED
+
+Pinned Grimmory `402e89b4452f8e2b17ab95f16c1621c003516cd2`. **Not an executable Gateway, not deployed, not reviewed.** Never forward an unknown sensitive method/path to Official. For Official UI, only individually justified explicit route policies after authorization review; do not fix compatibility with wildcard allow.
+
+| Methods and externally visible routes | Owner | Admission and safety policy | Current decision |
+| --- | --- | --- | --- |
+| POST `/api/v1/books/reset-progress?type=BOOKLORE` | Official + Gateway | Own Official JWT; validate IDs (1–500, unique, positive); every ID current assigned-library+content eligible; full-batch denial before Official | BLOCKED/OFF |
+| POST `/api/v1/books/reset-progress?type=KOREADER` | Official + Gateway | Same full-batch policy; KO fields distinguished | BLOCKED/OFF |
+| POST `/api/v1/books/reset-progress?type=KOBO` | Official + Gateway | Same; user-scoped Kobo state deletion must not be claimed global | BLOCKED/OFF |
+| POST `/api/v1/books/reset-personal-rating` | Official + Gateway | Same whole-batch current eligibility; own row is insufficient | BLOCKED/OFF |
+| GET/PUT `/api/v1/app/books/{bookId}/progress` | Official + Gateway | JWT + current book/library/content entitlement; exact file ID; side-effect only PUT | BLOCKED pending ACL proof |
+| PUT `/api/v1/app/books/{bookId}/status`, `/rating` | Official + Gateway | JWT + per-book current entitlement; no manual status fabrication | BLOCKED pending ACL proof |
+| GET `/api/v1/app/notebook/books/{bookId}/entries` | Official + Gateway | JWT + row scoping AND current book entitlement; suppress stale-row data | BLOCKED pending ACL proof |
+| PUT/DELETE `/api/v1/app/notebook/entries/{entryId}?type=...` | Official + Gateway | Resolve type + entry owner + linked book + content eligibility, deny foreign item BEFORE delegate | BLOCKED pending ACL proof |
+| GET `/api/v1/app/books`, `/ids`, `/{bookId}`, `/search`, `/continue-*`, `/recently-*`, `/random` | Official UI data | JWT and response visibility/data scoping review; do not assume library filter covers content restrictions | EXPLICIT_REVIEW_REQUIRED |
+| GET `/api/v1/app/authors/**`, `/series/**`, `/filter-options`, `/libraries`, `/shelves/**`, `/users/me` | Official UI data | JWT, assigned library, public shelf visibility and private fields review | EXPLICIT_REVIEW_REQUIRED |
+| `/api/v1/bookmarks/**`, `/annotations/**`, `/book-notes/**`, `/pdf-annotations/**`, `/reading-sessions/**`, `/shelves/**`, user/settings/KO-profile routes | Official personal | Exact method/path inventory before forwarding; own user + book entitlement + per-item owner + read vs mutation | BLOCKED unless separately reviewed |
+| GET/PUT `/api/koreader/syncs/progress/**` | Official Native KO + Gateway | KO MD5 credentials not a JWT; strict per-user and per-book atomic entitlement unavailable | NATIVE_KOSYNC_PROGRESS=BLOCKED/OFF |
+| GET `/api/koreader/users/auth` and POST `/api/koreader/users/create` | Official KO protocol | explicit read/auth policy and disabled registration, no KO secret echo; not a progress bypass | REVIEWED_POLICY_REQUIRED |
+| `/komga/api/**`, `/api/kobo/{token}/**` | Official compatibility / third-party | class prefix, methods, proxy/catchall, token secrecy and network policy; never use as personal bypass | EXPLICIT_REVIEW_REQUIRED |
+| Unknown method or path under sensitive prefixes | Gateway | strict default deny; 404 or 405 according to fixed policy, zero upstream calls | REQUIRED_GATEWAY |
+
+## Canonicalization and network contract
+
+1. At first trusted ingress, match normalized **method + canonical path + exact query conditions** before upstream dispatch. Reject encoded slash, double-encoding, dot segments, semicolon matrix params, ambiguous trailing slash, duplicate separators, suspicious Unicode, invalid percent escapes; compare raw and normalized representations. Handle path variables and ordering without confused-deputy aliases.
+2. Host/SNI and scheme allowlist; no client-controlled Forwarded/X-Forwarded-*; proxy strip/repopulate; no alternate IPv4/IPv6 ingress, hostNetwork, direct container/backend port or proxy rewrite bypass. Single external :6060 listener. Validate with Phase02 mocked/static and Phase09 network tests.
+3. HEAD, OPTIONS, preflight and CORS policies are explicit, never automatic privileged mutation. Reject unsupported methods uniformly. Avoid book-existence timing/status differences where denial could leak personal information.
+4. Apply user entitlement on **all** requested bookIds and their file/edition identity. A precheck is NOT atomic authorization inside Official's write transaction; when this guarantee is mandatory and absent, leave route OFF. No item-by-item replays after batch denial.
+5. Evidence levels: SOURCE_VERIFIED for cited upstream handlers; DESIGN_SPECIFIED for policies; IMPLEMENTED_VERIFIED/DEPLOYED_VERIFIED **NONE**; tests NOT_RUN. App read/list privacy and Official UI compatibility still under review.
+
+Sources: [BookController:318–348](https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/BookController.java#L318); [AppBookController:58–155](https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppBookController.java#L58); [AppBookService:161–228](https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/service/AppBookService.java#L161); [AppNotebookController:44–75](https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppNotebookController.java#L44); [AppNotebookService:75–159](https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/service/AppNotebookService.java#L75); [KoreaderService:271–293](https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/service/koreader/KoreaderService.java#L271).
+
+
+## Source-wide AST follow-up — resource/WebSocket mechanisms (implementer, 2026-10-29)
+
+An actual pinned-content SHA check and JDK21-preview AST parse of all 923 Java bodies succeeded (0 parse diagnostics), giving 348 method mapping annotation occurrences, 63 class-level mapping annotations and 64 Controller markers. These are *occurrences*, not expanded HTTP routes. The earlier statement that the 859 bodies were not scanned is historical and now superseded for **content coverage only**. Semantic mapping ownership is still unverified and SOURCE_ANNOTATION_COMPLETE remains FALSE. See SOURCE-WIDE-MECHANISM-RECONCILIATION-2026-10-29.md.
+
+Non-Controller mechanisms identified: pinned WebMvcConfig.java lines 37–62 registers a static / ** resource fallback (literal /**), index.html resolver and OPDS/Komga interceptors. Pinned WebSocketConfig.java lines 62–75 registers /ws STOMP handshake, with conditional origin policy; /app and /user are messaging prefixes, not independently proven HTTP paths. These must be reviewed under explicit Gateway ownership, not treated as benign unknown wildcard routes. Runtime exporter NOT_RUN.

@@ -1,0 +1,3532 @@
+{
+  "schemaVersion": 1,
+  "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+  "classificationMethod": "SOURCE_PATH_PLUS_CLASS_AST_EXTENDS_IMPLEMENTS; NOT TYPE BINDING",
+  "lexicalClassFlaggedFiles": 160,
+  "directMethodMappedFilesInFlaggedSet": 0,
+  "programmaticOrFrameworkFilesInFlaggedSet": 2,
+  "categoryCounts": {
+    "ATTRIBUTE_CONVERTER_OR_DATA_LAYER": 7,
+    "BACKGROUND_TASK_OR_FRAMEWORK_IMPLEMENTATION": 7,
+    "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW": 65,
+    "MODEL_DTO_OR_ENTITY_TYPE": 9,
+    "OTHER_EXTENDS_OR_IMPLEMENTS_TYPE_REVIEW": 11,
+    "SECURITY_FILTER_OR_INTERCEPTOR_NOT_STANDALONE_HANDLER": 10,
+    "SERVICE_OR_FRAMEWORK_IMPLEMENTATION": 49,
+    "WEB_CONFIGURATION_ROUTE_OR_STOMP_EXPOSURE": 2
+  },
+  "sourceAnnotationComplete": false,
+  "runtimeRouteComplete": "NOT_RUN",
+  "items": [
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/browse/RelSerializer.java",
+      "fileBlobSha": "82e7ebc4b6747bd0e03ceaf131e4dab873f1a249",
+      "category": "OTHER_EXTENDS_OR_IMPLEMENTS_TYPE_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "RelSerializer",
+          "sourceLine": 11,
+          "astDeclaration": "kind=CLASS;extends=ValueSerializer<List<String>>;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/config/KomgaCleanBeanPropertyWriter.java",
+      "fileBlobSha": "1871586f760505b81dd82d8ef49c098ee9f0f39f",
+      "category": "OTHER_EXTENDS_OR_IMPLEMENTS_TYPE_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "KomgaCleanBeanPropertyWriter",
+          "sourceLine": 17,
+          "astDeclaration": "kind=CLASS;extends=BeanPropertyWriter;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/config/WebMvcConfig.java",
+      "fileBlobSha": "8b5960e4f505ed25514eb5e13c2a4f408fdf2abd",
+      "category": "WEB_CONFIGURATION_ROUTE_OR_STOMP_EXPOSURE",
+      "classDeclarations": [
+        {
+          "className": "WebMvcConfig",
+          "sourceLine": 22,
+          "astDeclaration": "kind=CLASS;extends=null;implements=WebMvcConfigurer"
+        },
+        {
+          "className": "WebMvcConfig.",
+          "sourceLine": 41,
+          "astDeclaration": "kind=CLASS;extends=null;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": true,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/config/WebSocketConfig.java",
+      "fileBlobSha": "8ec1884a2dc72261963bf75c1e877d6ef8aa7694",
+      "category": "WEB_CONFIGURATION_ROUTE_OR_STOMP_EXPOSURE",
+      "classDeclarations": [
+        {
+          "className": "WebSocketConfig",
+          "sourceLine": 23,
+          "astDeclaration": "kind=CLASS;extends=null;implements=WebSocketMessageBrokerConfigurer"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": true,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/config/logging/filter/RequestLoggingFilter.java",
+      "fileBlobSha": "1aad5b5e0413df1a5e8f82bee919e8cd0064045e",
+      "category": "OTHER_EXTENDS_OR_IMPLEMENTS_TYPE_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "RequestLoggingFilter",
+          "sourceLine": 9,
+          "astDeclaration": "kind=CLASS;extends=CommonsRequestLoggingFilter;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/config/security/filter/AuthenticationCheckFilter.java",
+      "fileBlobSha": "e54ad45b5b1191209dec8740162bd841dd77a868",
+      "category": "SECURITY_FILTER_OR_INTERCEPTOR_NOT_STANDALONE_HANDLER",
+      "classDeclarations": [
+        {
+          "className": "AuthenticationCheckFilter",
+          "sourceLine": 15,
+          "astDeclaration": "kind=CLASS;extends=OncePerRequestFilter;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/config/security/filter/JwtAuthenticationFilter.java",
+      "fileBlobSha": "3fa471b6635d94335b68e55ba4b62487da8d4eb0",
+      "category": "SECURITY_FILTER_OR_INTERCEPTOR_NOT_STANDALONE_HANDLER",
+      "classDeclarations": [
+        {
+          "className": "JwtAuthenticationFilter",
+          "sourceLine": 24,
+          "astDeclaration": "kind=CLASS;extends=OncePerRequestFilter;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/config/security/filter/KoboAuthFilter.java",
+      "fileBlobSha": "18f13d2b6f973f26a0206d4111506fe69c932fdd",
+      "category": "SECURITY_FILTER_OR_INTERCEPTOR_NOT_STANDALONE_HANDLER",
+      "classDeclarations": [
+        {
+          "className": "KoboAuthFilter",
+          "sourceLine": 27,
+          "astDeclaration": "kind=CLASS;extends=OncePerRequestFilter;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/config/security/filter/KoreaderAuthFilter.java",
+      "fileBlobSha": "b309784c13e0938aae5c91d49f8403661c406d34",
+      "category": "SECURITY_FILTER_OR_INTERCEPTOR_NOT_STANDALONE_HANDLER",
+      "classDeclarations": [
+        {
+          "className": "KoreaderAuthFilter",
+          "sourceLine": 24,
+          "astDeclaration": "kind=CLASS;extends=OncePerRequestFilter;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/config/security/filter/QueryParameterJwtFilter.java",
+      "fileBlobSha": "075fcefe57e14c5ea07ad17787b5d09ede397d6b",
+      "category": "SECURITY_FILTER_OR_INTERCEPTOR_NOT_STANDALONE_HANDLER",
+      "classDeclarations": [
+        {
+          "className": "QueryParameterJwtFilter",
+          "sourceLine": 24,
+          "astDeclaration": "kind=CLASS;extends=OncePerRequestFilter;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/config/security/filter/SharedArrayBufferHeaderFilter.java",
+      "fileBlobSha": "362e2a48a38f5019875c66b80361bd140621dc7d",
+      "category": "SECURITY_FILTER_OR_INTERCEPTOR_NOT_STANDALONE_HANDLER",
+      "classDeclarations": [
+        {
+          "className": "SharedArrayBufferHeaderFilter",
+          "sourceLine": 18,
+          "astDeclaration": "kind=CLASS;extends=OncePerRequestFilter;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/config/security/interceptor/WebSocketAuthInterceptor.java",
+      "fileBlobSha": "21ccd1dd7af680ba51212c28f61657033ed4ac9a",
+      "category": "SECURITY_FILTER_OR_INTERCEPTOR_NOT_STANDALONE_HANDLER",
+      "classDeclarations": [
+        {
+          "className": "WebSocketAuthInterceptor",
+          "sourceLine": 21,
+          "astDeclaration": "kind=CLASS;extends=null;implements=ChannelInterceptor"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/config/security/service/OpdsUserDetailsService.java",
+      "fileBlobSha": "87ee98cc0bae2dca4a1f56a0be418de36873920b",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "OpdsUserDetailsService",
+          "sourceLine": 18,
+          "astDeclaration": "kind=CLASS;extends=null;implements=UserDetailsService"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/config/security/userdetails/KoreaderUserDetails.java",
+      "fileBlobSha": "b6db395c9d8e87512d3d6e49cea99940fd34709f",
+      "category": "OTHER_EXTENDS_OR_IMPLEMENTS_TYPE_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "KoreaderUserDetails",
+          "sourceLine": 9,
+          "astDeclaration": "kind=CLASS;extends=null;implements=UserDetails"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/config/security/userdetails/OpdsUserDetails.java",
+      "fileBlobSha": "46e6dc995430ffa1e90189bca9251e599dc1aef8",
+      "category": "OTHER_EXTENDS_OR_IMPLEMENTS_TYPE_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "OpdsUserDetails",
+          "sourceLine": 13,
+          "astDeclaration": "kind=CLASS;extends=null;implements=UserDetails"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/config/security/userdetails/UserAuthenticationDetails.java",
+      "fileBlobSha": "90ffff2df97c6b8521ea8dd8202f01823b37c452",
+      "category": "OTHER_EXTENDS_OR_IMPLEMENTS_TYPE_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "UserAuthenticationDetails",
+          "sourceLine": 7,
+          "astDeclaration": "kind=CLASS;extends=WebAuthenticationDetails;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/convertor/AudioFileChapterListConverter.java",
+      "fileBlobSha": "d95e873db7d6b64b0182f9083c8f6eed109c93de",
+      "category": "ATTRIBUTE_CONVERTER_OR_DATA_LAYER",
+      "classDeclarations": [
+        {
+          "className": "AudioFileChapterListConverter",
+          "sourceLine": 14,
+          "astDeclaration": "kind=CLASS;extends=null;implements=AttributeConverter<List<AudioFileChapter>, String>"
+        },
+        {
+          "className": "AudioFileChapterListConverter.",
+          "sourceLine": 20,
+          "astDeclaration": "kind=CLASS;extends=null;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/convertor/BookRecommendationIdsListConverter.java",
+      "fileBlobSha": "33bf4398c329f8e563633ec9a60ea6521e362d45",
+      "category": "ATTRIBUTE_CONVERTER_OR_DATA_LAYER",
+      "classDeclarations": [
+        {
+          "className": "BookRecommendationIdsListConverter",
+          "sourceLine": 14,
+          "astDeclaration": "kind=CLASS;extends=null;implements=AttributeConverter<Set<BookRecommendationLite>, String>"
+        },
+        {
+          "className": "BookRecommendationIdsListConverter.",
+          "sourceLine": 20,
+          "astDeclaration": "kind=CLASS;extends=null;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/convertor/FormatPriorityConverter.java",
+      "fileBlobSha": "70734f2213f4a9429056350242c56726c6cff34b",
+      "category": "ATTRIBUTE_CONVERTER_OR_DATA_LAYER",
+      "classDeclarations": [
+        {
+          "className": "FormatPriorityConverter",
+          "sourceLine": 15,
+          "astDeclaration": "kind=CLASS;extends=null;implements=AttributeConverter<List<BookFileType>, String>"
+        },
+        {
+          "className": "FormatPriorityConverter.",
+          "sourceLine": 21,
+          "astDeclaration": "kind=CLASS;extends=null;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/convertor/JpaJsonConverter.java",
+      "fileBlobSha": "68f22a18e5cc3caafd3484e6824c7ac141312911",
+      "category": "ATTRIBUTE_CONVERTER_OR_DATA_LAYER",
+      "classDeclarations": [
+        {
+          "className": "JpaJsonConverter",
+          "sourceLine": 13,
+          "astDeclaration": "kind=CLASS;extends=null;implements=AttributeConverter<Map<String, Object>, String>"
+        },
+        {
+          "className": "JpaJsonConverter.",
+          "sourceLine": 19,
+          "astDeclaration": "kind=CLASS;extends=null;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/convertor/KoboSpanMapJsonConverter.java",
+      "fileBlobSha": "3f29130c2f7dad3221cffbb0478ffeb288e44c53",
+      "category": "ATTRIBUTE_CONVERTER_OR_DATA_LAYER",
+      "classDeclarations": [
+        {
+          "className": "KoboSpanMapJsonConverter",
+          "sourceLine": 10,
+          "astDeclaration": "kind=CLASS;extends=null;implements=AttributeConverter<KoboSpanPositionMap, String>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/convertor/MapToStringConverter.java",
+      "fileBlobSha": "9d8b177837cfd6bad0046e0858ac1f98b76fdec9",
+      "category": "ATTRIBUTE_CONVERTER_OR_DATA_LAYER",
+      "classDeclarations": [
+        {
+          "className": "MapToStringConverter",
+          "sourceLine": 13,
+          "astDeclaration": "kind=CLASS;extends=null;implements=AttributeConverter<Map<String, Object>, String>"
+        },
+        {
+          "className": "MapToStringConverter.",
+          "sourceLine": 19,
+          "astDeclaration": "kind=CLASS;extends=null;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/convertor/SortConverter.java",
+      "fileBlobSha": "86fdb96b115fe334a091733b4ac2b038f8c10e72",
+      "category": "ATTRIBUTE_CONVERTER_OR_DATA_LAYER",
+      "classDeclarations": [
+        {
+          "className": "SortConverter",
+          "sourceLine": 8,
+          "astDeclaration": "kind=CLASS;extends=null;implements=AttributeConverter<Sort, String>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/exception/APIException.java",
+      "fileBlobSha": "60dac23e10f4e77a98774fa667b084b19bff26e8",
+      "category": "OTHER_EXTENDS_OR_IMPLEMENTS_TYPE_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "APIException",
+          "sourceLine": 6,
+          "astDeclaration": "kind=CLASS;extends=RuntimeException;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/interceptor/KomgaCleanInterceptor.java",
+      "fileBlobSha": "a4875ac8dac741d4c40d598088f36ce540d746cd",
+      "category": "SECURITY_FILTER_OR_INTERCEPTOR_NOT_STANDALONE_HANDLER",
+      "classDeclarations": [
+        {
+          "className": "KomgaCleanInterceptor",
+          "sourceLine": 15,
+          "astDeclaration": "kind=CLASS;extends=null;implements=HandlerInterceptor"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/interceptor/KomgaEnabledInterceptor.java",
+      "fileBlobSha": "8291f01060a13fd5e6a172a8f2e595a6cdb3c2ba",
+      "category": "SECURITY_FILTER_OR_INTERCEPTOR_NOT_STANDALONE_HANDLER",
+      "classDeclarations": [
+        {
+          "className": "KomgaEnabledInterceptor",
+          "sourceLine": 10,
+          "astDeclaration": "kind=CLASS;extends=null;implements=HandlerInterceptor"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/interceptor/OpdsEnabledInterceptor.java",
+      "fileBlobSha": "df9a03eb6dce792350c4874e6bc36f67201fae4d",
+      "category": "SECURITY_FILTER_OR_INTERCEPTOR_NOT_STANDALONE_HANDLER",
+      "classDeclarations": [
+        {
+          "className": "OpdsEnabledInterceptor",
+          "sourceLine": 10,
+          "astDeclaration": "kind=CLASS;extends=null;implements=HandlerInterceptor"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/model/dto/kobo/ChangedEntitlement.java",
+      "fileBlobSha": "242912ed1218c9cd313d93032396cd3cd74772a6",
+      "category": "MODEL_DTO_OR_ENTITY_TYPE",
+      "classDeclarations": [
+        {
+          "className": "ChangedEntitlement",
+          "sourceLine": 10,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Entitlement"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/model/dto/kobo/ChangedProductMetadata.java",
+      "fileBlobSha": "c9bac954f5f553efa7c55ec34d401c52a3ee0eaa",
+      "category": "MODEL_DTO_OR_ENTITY_TYPE",
+      "classDeclarations": [
+        {
+          "className": "ChangedProductMetadata",
+          "sourceLine": 11,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Entitlement"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/model/dto/kobo/ChangedReadingState.java",
+      "fileBlobSha": "bffc12b2c74102124c394386a2cc5888fa23c5b2",
+      "category": "MODEL_DTO_OR_ENTITY_TYPE",
+      "classDeclarations": [
+        {
+          "className": "ChangedReadingState",
+          "sourceLine": 10,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Entitlement"
+        },
+        {
+          "className": "ChangedReadingState.WrappedReadingState",
+          "sourceLine": 19,
+          "astDeclaration": "kind=CLASS;extends=null;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/model/dto/kobo/KoboReadingStateList.java",
+      "fileBlobSha": "0e07beae2159bc8ab0a0a33941e12ac17f2db4a2",
+      "category": "MODEL_DTO_OR_ENTITY_TYPE",
+      "classDeclarations": [
+        {
+          "className": "KoboReadingStateList",
+          "sourceLine": 10,
+          "astDeclaration": "kind=CLASS;extends=ArrayList<KoboReadingState>;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/model/dto/kobo/KoboTagWrapper.java",
+      "fileBlobSha": "562b64eb2334359d3589dab1dffa6edfb86175b1",
+      "category": "MODEL_DTO_OR_ENTITY_TYPE",
+      "classDeclarations": [
+        {
+          "className": "KoboTagWrapper",
+          "sourceLine": 11,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Entitlement"
+        },
+        {
+          "className": "KoboTagWrapper.WrappedTag",
+          "sourceLine": 22,
+          "astDeclaration": "kind=CLASS;extends=null;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/model/dto/kobo/NewEntitlement.java",
+      "fileBlobSha": "84694ba11146ea0ed5362e8178003286d4ed0449",
+      "category": "MODEL_DTO_OR_ENTITY_TYPE",
+      "classDeclarations": [
+        {
+          "className": "NewEntitlement",
+          "sourceLine": 11,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Entitlement"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/model/entity/BookMetadataAuthorKey.java",
+      "fileBlobSha": "e57c995e3bd102b1ac64b848d6771a6b2c89aaa2",
+      "category": "MODEL_DTO_OR_ENTITY_TYPE",
+      "classDeclarations": [
+        {
+          "className": "BookMetadataAuthorKey",
+          "sourceLine": 10,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Serializable"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/model/entity/BookMetadataCategoryKey.java",
+      "fileBlobSha": "d49df55efc21d0e774b85c567612573b04c85f53",
+      "category": "MODEL_DTO_OR_ENTITY_TYPE",
+      "classDeclarations": [
+        {
+          "className": "BookMetadataCategoryKey",
+          "sourceLine": 10,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Serializable"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/model/entity/BookShelfKey.java",
+      "fileBlobSha": "154bc736c237a323d4670f318b9bfd471bf37a31",
+      "category": "MODEL_DTO_OR_ENTITY_TYPE",
+      "classDeclarations": [
+        {
+          "className": "BookShelfKey",
+          "sourceLine": 10,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Serializable"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/AnnotationRepository.java",
+      "fileBlobSha": "0eae49e7ee32bcf8f0461d08a63a970868d1ff49",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "AnnotationRepository",
+          "sourceLine": 13,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<AnnotationEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/AppMigrationRepository.java",
+      "fileBlobSha": "6c102ea4f105797b75a5f46fb33dec5ba3b0cf6d",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "AppMigrationRepository",
+          "sourceLine": 6,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<AppMigrationEntity, String>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/AppSettingsRepository.java",
+      "fileBlobSha": "1358c68f528bb0547f2cf516f512fce6a5ff076c",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "AppSettingsRepository",
+          "sourceLine": 7,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<AppSettingEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/AuditLogRepository.java",
+      "fileBlobSha": "647aa31c22a65f5e8542a9a991423f2f7b5c347c",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "AuditLogRepository",
+          "sourceLine": 15,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<AuditLogEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/AuthorRepository.java",
+      "fileBlobSha": "89f0ef023cf2d9673f76ba5fae35c7cd37dc9f96",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "AuthorRepository",
+          "sourceLine": 13,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<AuthorEntity, Long>"
+        },
+        {
+          "className": "AuthorRepository.AuthorBookProjection",
+          "sourceLine": 37,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookAdditionalFileRepository.java",
+      "fileBlobSha": "621ce09897b1050433f2321a138ca0ab47a3b746",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "BookAdditionalFileRepository",
+          "sourceLine": 14,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookFileEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookFileRepository.java",
+      "fileBlobSha": "45268ede35cbf03ce77ce8195d5bbf8a92e43e47",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "BookFileRepository",
+          "sourceLine": 14,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookFileEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookMarkRepository.java",
+      "fileBlobSha": "ecf5582f9e95c3b512e98e872f326a8b2e718102",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "BookMarkRepository",
+          "sourceLine": 11,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookMarkEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookMetadataAuthorMappingRepository.java",
+      "fileBlobSha": "841b2c288858dbd3e5fbf7b981f216713c63826c",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "BookMetadataAuthorMappingRepository",
+          "sourceLine": 11,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookMetadataAuthorMapping, BookMetadataAuthorKey>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookMetadataCategoryMappingRepository.java",
+      "fileBlobSha": "2c69c0b635d49d1c77592905af00ca54b61b43d0",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "BookMetadataCategoryMappingRepository",
+          "sourceLine": 11,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookMetadataCategoryMapping, BookMetadataCategoryKey>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookMetadataRepository.java",
+      "fileBlobSha": "3efcc8290c902875f599b63ee602d8ec23cc5dde",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "BookMetadataRepository",
+          "sourceLine": 13,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookMetadataEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookNoteRepository.java",
+      "fileBlobSha": "10e20ebb92890481b63975ec0df6e74229db7b4e",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "BookNoteRepository",
+          "sourceLine": 11,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookNoteEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookNoteV2Repository.java",
+      "fileBlobSha": "feed5a52624e1d51c64afbd344b40c1fc790fcfd",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "BookNoteV2Repository",
+          "sourceLine": 13,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookNoteV2Entity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookOpdsRepository.java",
+      "fileBlobSha": "531f5c6536452e761f27c1045aefd28a78ff1465",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "BookOpdsRepository",
+          "sourceLine": 17,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookEntity, Long>,JpaSpecificationExecutor<BookEntity>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookRepository.java",
+      "fileBlobSha": "0a711faa87ac3d6b23f2695bb161d895232284aa",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "BookRepository",
+          "sourceLine": 22,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookEntity, Long>,JpaSpecificationExecutor<BookEntity>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookReviewRepository.java",
+      "fileBlobSha": "950f2f4a9913a97ac831e6f8ed150c2ed74ee674",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "BookReviewRepository",
+          "sourceLine": 12,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookReviewEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookShelfMappingRepository.java",
+      "fileBlobSha": "2a8ef1d10d13d4ee54e0e83259c02878c40465c0",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "BookShelfMappingRepository",
+          "sourceLine": 8,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookShelfMapping, BookShelfKey>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookdropFileRepository.java",
+      "fileBlobSha": "09c628cdda45acda9f7939884f9d99c3eeb32239",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "BookdropFileRepository",
+          "sourceLine": 18,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookdropFileEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/CategoryRepository.java",
+      "fileBlobSha": "64f5af00cfa4058beb12974ae13e213243d54d77",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "CategoryRepository",
+          "sourceLine": 9,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<CategoryEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/CbxViewerPreferencesRepository.java",
+      "fileBlobSha": "629bdbebdd5275f8063d01708a3f952fb17e376a",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "CbxViewerPreferencesRepository",
+          "sourceLine": 9,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<CbxViewerPreferencesEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/ComicCharacterRepository.java",
+      "fileBlobSha": "0bd9edd480478b79fb12a70af75b7c1e3f1aaa86",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "ComicCharacterRepository",
+          "sourceLine": 10,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<ComicCharacterEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/ComicCreatorMappingRepository.java",
+      "fileBlobSha": "67d422f8f568446c22a57ae99bfd7303df9ec600",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "ComicCreatorMappingRepository",
+          "sourceLine": 13,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<ComicCreatorMappingEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/ComicCreatorRepository.java",
+      "fileBlobSha": "52b42331d62660fa82b22aca080c1b3359889fbc",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "ComicCreatorRepository",
+          "sourceLine": 10,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<ComicCreatorEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/ComicLocationRepository.java",
+      "fileBlobSha": "c4374b489f6f2ed701ceda3a91be546150349fd8",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "ComicLocationRepository",
+          "sourceLine": 10,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<ComicLocationEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/ComicMetadataRepository.java",
+      "fileBlobSha": "442d120469637f7fdee68f13217ab4ccfa887f49",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "ComicMetadataRepository",
+          "sourceLine": 10,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<ComicMetadataEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/ComicTeamRepository.java",
+      "fileBlobSha": "4508e396e9903ec2cb14191aa99106f85a53536a",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "ComicTeamRepository",
+          "sourceLine": 10,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<ComicTeamEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/CustomFontRepository.java",
+      "fileBlobSha": "8f525fd9862fc6b41213dab177044bb36891e3ce",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "CustomFontRepository",
+          "sourceLine": 10,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<CustomFontEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/EbookViewerPreferenceRepository.java",
+      "fileBlobSha": "7ce9ab8775470538fa07469ec7432365b5dbef5d",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "EbookViewerPreferenceRepository",
+          "sourceLine": 9,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<EbookViewerPreferenceEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/EmailProviderV2Repository.java",
+      "fileBlobSha": "6da7e97c43268a50c4947246248caeb2628bc600",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "EmailProviderV2Repository",
+          "sourceLine": 12,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<EmailProviderV2Entity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/EmailRecipientV2Repository.java",
+      "fileBlobSha": "922ecd182e712a02cf19dd082acea87ddfd76197",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "EmailRecipientV2Repository",
+          "sourceLine": 13,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<EmailRecipientV2Entity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/EpubViewerPreferencesRepository.java",
+      "fileBlobSha": "77741438764efd4d80231abdb4b91173ab93cccc",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "EpubViewerPreferencesRepository",
+          "sourceLine": 9,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<EpubViewerPreferencesEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/JwtSecretRepository.java",
+      "fileBlobSha": "2fb43ab13dfc5129ec5c718b4070dda20fde7c81",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "JwtSecretRepository",
+          "sourceLine": 10,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<JwtSecretEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/KoboDeletedBookProgressRepository.java",
+      "fileBlobSha": "33507d5ced87e330fc9539ac9e0d338108ebeb07",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "KoboDeletedBookProgressRepository",
+          "sourceLine": 11,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<KoboDeletedBookProgressEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/KoboLibrarySnapshotRepository.java",
+      "fileBlobSha": "5daa464d494e2282677e22b4c3e285f84f5ac1be",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "KoboLibrarySnapshotRepository",
+          "sourceLine": 9,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<KoboLibrarySnapshotEntity, String>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/KoboReadingStateRepository.java",
+      "fileBlobSha": "09421fb4191f45cdf77717589c0986a90f992613",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "KoboReadingStateRepository",
+          "sourceLine": 9,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<KoboReadingStateEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/KoboSnapshotBookRepository.java",
+      "fileBlobSha": "5f66aaec5792a723d22fee906d12c0852938326c",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "KoboSnapshotBookRepository",
+          "sourceLine": 16,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<KoboSnapshotBookEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/KoboSpanMapRepository.java",
+      "fileBlobSha": "9e2c2e3f04b1ff14aaec3069d93dcb8cbe152b2a",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "KoboSpanMapRepository",
+          "sourceLine": 13,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<KoboSpanMapEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/KoboUserSettingsRepository.java",
+      "fileBlobSha": "e20bd7dc127305070af50cd0987805ec03d5a55e",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "KoboUserSettingsRepository",
+          "sourceLine": 10,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<KoboUserSettingsEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/KoreaderUserRepository.java",
+      "fileBlobSha": "b04751275bd1bbd911e0337f1dc3ec172ff8541f",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "KoreaderUserRepository",
+          "sourceLine": 9,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<KoreaderUserEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/LibraryPathRepository.java",
+      "fileBlobSha": "8fe5dd85ce56dff6431532f55cee78fd83889c4f",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "LibraryPathRepository",
+          "sourceLine": 11,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<LibraryPathEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/LibraryRepository.java",
+      "fileBlobSha": "072df431010a4a988a8fdcb1cc2de9586eb976be",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "LibraryRepository",
+          "sourceLine": 14,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<LibraryEntity, Long>,JpaSpecificationExecutor<LibraryEntity>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/MagicShelfRepository.java",
+      "fileBlobSha": "7e9ae6ba1378a8b5cdb2a11c5856b1a0485cbf04",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "MagicShelfRepository",
+          "sourceLine": 9,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<MagicShelfEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/MetadataFetchJobRepository.java",
+      "fileBlobSha": "f01079e090e7d152968507d3f6cfd0eb162c8404",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "MetadataFetchJobRepository",
+          "sourceLine": 13,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<MetadataFetchJobEntity, String>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/MetadataFetchProposalRepository.java",
+      "fileBlobSha": "f0881570213e51ee773f0e290e83db816fc20c91",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "MetadataFetchProposalRepository",
+          "sourceLine": 7,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<MetadataFetchProposalEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/MoodRepository.java",
+      "fileBlobSha": "6f77e3e46640f4fea141064c05f1ddc1ee016c67",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "MoodRepository",
+          "sourceLine": 9,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<MoodEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/NewPdfViewerPreferencesRepository.java",
+      "fileBlobSha": "e3358ad97b746e4fdcf9f2fc0990ba933b88c309",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "NewPdfViewerPreferencesRepository",
+          "sourceLine": 9,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<NewPdfViewerPreferencesEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/NotebookEntryRepository.java",
+      "fileBlobSha": "80cbc652b829f2a987ed73681d0beb9cd768e6c0",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "NotebookEntryRepository",
+          "sourceLine": 15,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=Repository<NotebookEntryView, Long>"
+        },
+        {
+          "className": "NotebookEntryRepository.EntryProjection",
+          "sourceLine": 17,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements="
+        },
+        {
+          "className": "NotebookEntryRepository.BookProjection",
+          "sourceLine": 32,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements="
+        },
+        {
+          "className": "NotebookEntryRepository.BookWithCountProjection",
+          "sourceLine": 37,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/OidcGroupMappingRepository.java",
+      "fileBlobSha": "45c99d3cedbb2db04dcb830bcbf64289208d3ed8",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "OidcGroupMappingRepository",
+          "sourceLine": 10,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<OidcGroupMappingEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/OidcSessionRepository.java",
+      "fileBlobSha": "3fa15015c0679b726e91bf3c44ee019007dfe9f3",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "OidcSessionRepository",
+          "sourceLine": 15,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<OidcSessionEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/OpdsUserV2Repository.java",
+      "fileBlobSha": "a396f4ae023b4a1e99f05ab0f929e6a77e6483d4",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "OpdsUserV2Repository",
+          "sourceLine": 12,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<OpdsUserV2Entity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/PdfAnnotationRepository.java",
+      "fileBlobSha": "9729cc7c773b53fd593ec08aa256c60981c49565",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "PdfAnnotationRepository",
+          "sourceLine": 12,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<PdfAnnotationEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/PdfViewerPreferencesRepository.java",
+      "fileBlobSha": "1c574aa0da83e9848f09df9a46ce8fcc1ae86815",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "PdfViewerPreferencesRepository",
+          "sourceLine": 9,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<PdfViewerPreferencesEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/ReadingSessionRepository.java",
+      "fileBlobSha": "cc59976b5e3fa87de2a61f3dcb8cc7ed0fd8333a",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "ReadingSessionRepository",
+          "sourceLine": 20,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<ReadingSessionEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/RefreshTokenRepository.java",
+      "fileBlobSha": "fdf1da6ac40bee0d0c025b3fa905a5b140a43ad2",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "RefreshTokenRepository",
+          "sourceLine": 14,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<RefreshTokenEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/ShelfRepository.java",
+      "fileBlobSha": "146fbf86e10bd2231ceab71be754f2047c0bcc82",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "ShelfRepository",
+          "sourceLine": 13,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<ShelfEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/TagRepository.java",
+      "fileBlobSha": "f81c3f49a4492c6f148c18f7163b5dbac64e10d5",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "TagRepository",
+          "sourceLine": 9,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<TagEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/TaskCronConfigurationRepository.java",
+      "fileBlobSha": "824f91165b267b4b1e3e31e250817e5bc67343a1",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "TaskCronConfigurationRepository",
+          "sourceLine": 11,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<TaskCronConfigurationEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/TaskHistoryRepository.java",
+      "fileBlobSha": "112277111d82a3a01b4cf34e9409300bdde23f2b",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "TaskHistoryRepository",
+          "sourceLine": 11,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<TaskHistoryEntity, String>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/UserBookFileProgressRepository.java",
+      "fileBlobSha": "24da245bfc622904133047ab78055a73d8a23184",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "UserBookFileProgressRepository",
+          "sourceLine": 15,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<UserBookFileProgressEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/UserBookProgressRepository.java",
+      "fileBlobSha": "8134a52d6d65691a1463445fbd112fe874a8e60e",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "UserBookProgressRepository",
+          "sourceLine": 25,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<UserBookProgressEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/UserContentRestrictionRepository.java",
+      "fileBlobSha": "1ce7f48ea831402c6d2fcafcefa6428cb047cb19",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "UserContentRestrictionRepository",
+          "sourceLine": 15,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<UserContentRestrictionEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/UserEmailProviderPreferenceRepository.java",
+      "fileBlobSha": "bf0268ed6683c8b2161eda34381a7721f22e9816",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "UserEmailProviderPreferenceRepository",
+          "sourceLine": 13,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<UserEmailProviderPreferenceEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/UserRepository.java",
+      "fileBlobSha": "e5c9b94818a3b7d81a9f475e0643f532d3134fdd",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "UserRepository",
+          "sourceLine": 10,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookLoreUserEntity, Long>,UserRepositoryCustom"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/UserRepositoryImpl.java",
+      "fileBlobSha": "9226ce4bf9b84cff1fc23f48c075bf6f616ebd40",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "UserRepositoryImpl",
+          "sourceLine": 12,
+          "astDeclaration": "kind=CLASS;extends=null;implements=UserRepositoryCustom"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/UserSettingRepository.java",
+      "fileBlobSha": "63c22dccb172e22dcc3917f0f3a25be937dd6bc8",
+      "category": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "UserSettingRepository",
+          "sourceLine": 6,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<UserSettingEntity, Long>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/ArchiveService.java",
+      "fileBlobSha": "78000be2266f8819f0aa20cd79e17b9236179a6e",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "ArchiveService",
+          "sourceLine": 29,
+          "astDeclaration": "kind=CLASS;extends=null;implements="
+        },
+        {
+          "className": "ArchiveService.Entry",
+          "sourceLine": 42,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        },
+        {
+          "className": "ArchiveService.BoundedOutputStream",
+          "sourceLine": 220,
+          "astDeclaration": "kind=CLASS;extends=OutputStream;implements="
+        },
+        {
+          "className": "ArchiveService.BoundedOutputStream.LimitReachedException",
+          "sourceLine": 248,
+          "astDeclaration": "kind=CLASS;extends=IOException;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/bookdrop/BookdropEventHandlerService.java",
+      "fileBlobSha": "28c16ef1207dda52f2b930883b509cf79d20c722",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "BookdropEventHandlerService",
+          "sourceLine": 26,
+          "astDeclaration": "kind=CLASS;extends=null;implements=SmartLifecycle"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/bookdrop/BookdropMonitoringService.java",
+      "fileBlobSha": "73cb3582e7aa0f36c7ac8ba11d0d3394273a57ee",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "BookdropMonitoringService",
+          "sourceLine": 23,
+          "astDeclaration": "kind=CLASS;extends=null;implements=SmartLifecycle"
+        },
+        {
+          "className": "BookdropMonitoringService.BookdropFileVisitor",
+          "sourceLine": 251,
+          "astDeclaration": "kind=CLASS;extends=null;implements=FileVisitor<Path>"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/fileprocessor/AbstractFileProcessor.java",
+      "fileBlobSha": "74f235e77e69e4508b65c1de9a69066ee00d6d73",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "AbstractFileProcessor",
+          "sourceLine": 28,
+          "astDeclaration": "kind=CLASS;extends=null;implements=BookFileProcessor"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/fileprocessor/AudiobookProcessor.java",
+      "fileBlobSha": "87971ba12049ae2b58bf5e94380c82fce6e03af1",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "AudiobookProcessor",
+          "sourceLine": 38,
+          "astDeclaration": "kind=CLASS;extends=AbstractFileProcessor;implements=BookFileProcessor"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/fileprocessor/Azw3Processor.java",
+      "fileBlobSha": "1d6c1485d81392888c08c44345539c447a050c7e",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "Azw3Processor",
+          "sourceLine": 30,
+          "astDeclaration": "kind=CLASS;extends=AbstractFileProcessor;implements=BookFileProcessor"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/fileprocessor/CbxProcessor.java",
+      "fileBlobSha": "3780c7e93c2d78b54d7092be2266c42f697d5008",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "CbxProcessor",
+          "sourceLine": 36,
+          "astDeclaration": "kind=CLASS;extends=AbstractFileProcessor;implements=BookFileProcessor"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/fileprocessor/EpubProcessor.java",
+      "fileBlobSha": "5bd269d1d82dcba9082130db32d0a2553b454fd7",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "EpubProcessor",
+          "sourceLine": 33,
+          "astDeclaration": "kind=CLASS;extends=AbstractFileProcessor;implements=BookFileProcessor"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/fileprocessor/Fb2Processor.java",
+      "fileBlobSha": "3d49dc25c719ed7b4e9728278421de2701bacf58",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "Fb2Processor",
+          "sourceLine": 30,
+          "astDeclaration": "kind=CLASS;extends=AbstractFileProcessor;implements=BookFileProcessor"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/fileprocessor/MobiProcessor.java",
+      "fileBlobSha": "276096be9e9db50ed8a5003c623ec3f4348a2562",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "MobiProcessor",
+          "sourceLine": 30,
+          "astDeclaration": "kind=CLASS;extends=AbstractFileProcessor;implements=BookFileProcessor"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/fileprocessor/PdfProcessor.java",
+      "fileBlobSha": "bd3b4ae20c6384506aa0c8029edde6653633d341",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "PdfProcessor",
+          "sourceLine": 31,
+          "astDeclaration": "kind=CLASS;extends=AbstractFileProcessor;implements=BookFileProcessor"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/DuckDuckGoCoverService.java",
+      "fileBlobSha": "4c61f1d94bb94e58ee2a38f50a35949c017abc32",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "DuckDuckGoCoverService",
+          "sourceLine": 25,
+          "astDeclaration": "kind=CLASS;extends=null;implements=BookCoverProvider"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/extractor/AudiobookMetadataExtractor.java",
+      "fileBlobSha": "bb9b2915f71d70e4499354cc548bf4658b77b20e",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "AudiobookMetadataExtractor",
+          "sourceLine": 37,
+          "astDeclaration": "kind=CLASS;extends=null;implements=FileMetadataExtractor"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/extractor/Azw3MetadataExtractor.java",
+      "fileBlobSha": "01e5b83effb27404422c9029c398834a810d88fa",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "Azw3MetadataExtractor",
+          "sourceLine": 9,
+          "astDeclaration": "kind=CLASS;extends=MobiBaseMetadataExtractor;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/extractor/CbxMetadataExtractor.java",
+      "fileBlobSha": "2c3fb88724a34ba95363e17d493d00c748514116",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "CbxMetadataExtractor",
+          "sourceLine": 30,
+          "astDeclaration": "kind=CLASS;extends=null;implements=FileMetadataExtractor"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/extractor/EpubMetadataExtractor.java",
+      "fileBlobSha": "6e2dda99a4d8209956a01d81812cbbab1ccbfdd7",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "EpubMetadataExtractor",
+          "sourceLine": 34,
+          "astDeclaration": "kind=CLASS;extends=null;implements=FileMetadataExtractor"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/extractor/Fb2MetadataExtractor.java",
+      "fileBlobSha": "bf72fc31bc2d3e061f9ea61d8605d7c9a461d21b",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "Fb2MetadataExtractor",
+          "sourceLine": 27,
+          "astDeclaration": "kind=CLASS;extends=null;implements=FileMetadataExtractor"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/extractor/MobiBaseMetadataExtractor.java",
+      "fileBlobSha": "ef82181ad6e69705f6d512ed31892894aa3f689e",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "MobiBaseMetadataExtractor",
+          "sourceLine": 16,
+          "astDeclaration": "kind=CLASS;extends=null;implements=FileMetadataExtractor"
+        },
+        {
+          "className": "MobiBaseMetadataExtractor.PalmDB",
+          "sourceLine": 414,
+          "astDeclaration": "kind=CLASS;extends=null;implements="
+        },
+        {
+          "className": "MobiBaseMetadataExtractor.PalmDBRecord",
+          "sourceLine": 420,
+          "astDeclaration": "kind=CLASS;extends=null;implements="
+        },
+        {
+          "className": "MobiBaseMetadataExtractor.MobiHeader",
+          "sourceLine": 427,
+          "astDeclaration": "kind=CLASS;extends=null;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/extractor/MobiMetadataExtractor.java",
+      "fileBlobSha": "b332d0118f49199ec93f5e8ebeb1ec95883de1e1",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "MobiMetadataExtractor",
+          "sourceLine": 6,
+          "astDeclaration": "kind=CLASS;extends=MobiBaseMetadataExtractor;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/extractor/PdfMetadataExtractor.java",
+      "fileBlobSha": "c41484f2333de0c15264d303f3eb5dbae5cd3193",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "PdfMetadataExtractor",
+          "sourceLine": 36,
+          "astDeclaration": "kind=CLASS;extends=null;implements=FileMetadataExtractor"
+        },
+        {
+          "className": "PdfMetadataExtractor.RawXmpMetadata",
+          "sourceLine": 381,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/parser/AmazonBookParser.java",
+      "fileBlobSha": "22f4f61514d93ef16163e301c63cc1402450d966",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "AmazonBookParser",
+          "sourceLine": 40,
+          "astDeclaration": "kind=CLASS;extends=null;implements=BookParser,DetailedMetadataProvider"
+        },
+        {
+          "className": "AmazonBookParser.AmazonAntiScrapingException",
+          "sourceLine": 46,
+          "astDeclaration": "kind=CLASS;extends=RuntimeException;implements="
+        },
+        {
+          "className": "AmazonBookParser.LocaleInfo",
+          "sourceLine": 130,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        },
+        {
+          "className": "AmazonBookParser.TitleInfo",
+          "sourceLine": 131,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        },
+        {
+          "className": "AmazonBookParser.SeriesInfo",
+          "sourceLine": 132,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/parser/AppleBooksParser.java",
+      "fileBlobSha": "c281ae23e70fcc24bdfcdd50986d36d27b1fb57d",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "AppleBooksParser",
+          "sourceLine": 37,
+          "astDeclaration": "kind=CLASS;extends=null;implements=BookParser"
+        },
+        {
+          "className": "AppleBooksParser.ResultItem",
+          "sourceLine": 41,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        },
+        {
+          "className": "AppleBooksParser.ResultsWrapper",
+          "sourceLine": 61,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/parser/AudibleParser.java",
+      "fileBlobSha": "ca2c841773146d4a693bcf8848c1ede741fed318",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "AudibleParser",
+          "sourceLine": 34,
+          "astDeclaration": "kind=CLASS;extends=null;implements=BookParser,DetailedMetadataProvider"
+        },
+        {
+          "className": "AudibleParser.AudibleSeries",
+          "sourceLine": 88,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        },
+        {
+          "className": "AudibleParser.AudibleContributor",
+          "sourceLine": 95,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        },
+        {
+          "className": "AudibleParser.AudibleRatingDistribution",
+          "sourceLine": 101,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        },
+        {
+          "className": "AudibleParser.AudibleRating",
+          "sourceLine": 107,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        },
+        {
+          "className": "AudibleParser.AudibleCategory",
+          "sourceLine": 115,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        },
+        {
+          "className": "AudibleParser.AudibleCategoryLadder",
+          "sourceLine": 120,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        },
+        {
+          "className": "AudibleParser.AudibleProduct",
+          "sourceLine": 126,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        },
+        {
+          "className": "AudibleParser.AudibleProductContainer",
+          "sourceLine": 156,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        },
+        {
+          "className": "AudibleParser.AudibleProductList",
+          "sourceLine": 161,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/parser/AudnexusAuthorParser.java",
+      "fileBlobSha": "b4388192fa8c4a45ad6e523daa2cb42aabe2bd45",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "AudnexusAuthorParser",
+          "sourceLine": 18,
+          "astDeclaration": "kind=CLASS;extends=null;implements=AuthorParser"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/parser/ComicvineBookParser.java",
+      "fileBlobSha": "70712fbd71db015e640f4d70377f3153b1bf995c",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "ComicvineBookParser",
+          "sourceLine": 37,
+          "astDeclaration": "kind=CLASS;extends=null;implements=BookParser,DetailedMetadataProvider"
+        },
+        {
+          "className": "ComicvineBookParser.CachedVolumes",
+          "sourceLine": 84,
+          "astDeclaration": "kind=CLASS;extends=null;implements="
+        },
+        {
+          "className": "ComicvineBookParser.SeriesAndIssue",
+          "sourceLine": 1052,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/parser/DoubanBookParser.java",
+      "fileBlobSha": "33fbcebc888521d3194aa090de7f2a105d3efbb6",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "DoubanBookParser",
+          "sourceLine": 38,
+          "astDeclaration": "kind=CLASS;extends=null;implements=BookParser"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/parser/GoodReadsParser.java",
+      "fileBlobSha": "db4fec9aae25cde1c7706a918c971873595923c1",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "GoodReadsParser",
+          "sourceLine": 40,
+          "astDeclaration": "kind=CLASS;extends=null;implements=BookParser,DetailedMetadataProvider"
+        },
+        {
+          "className": "GoodReadsParser.",
+          "sourceLine": 44,
+          "astDeclaration": "kind=CLASS;extends=null;implements="
+        },
+        {
+          "className": "GoodReadsParser.TitleInfo",
+          "sourceLine": 98,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        },
+        {
+          "className": "GoodReadsParser.GoodreadsAutocompleteEntry",
+          "sourceLine": 100,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/parser/GoogleParser.java",
+      "fileBlobSha": "4dc7a919e9b56a1176cb946180530dab9a2a664d",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "GoogleParser",
+          "sourceLine": 33,
+          "astDeclaration": "kind=CLASS;extends=null;implements=BookParser"
+        },
+        {
+          "className": "GoogleParser.SeriesData",
+          "sourceLine": 301,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/parser/HardcoverParser.java",
+      "fileBlobSha": "cc9ad0d39103e79860f73bd28b764ac5815dcb11",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "HardcoverParser",
+          "sourceLine": 30,
+          "astDeclaration": "kind=CLASS;extends=null;implements=BookParser"
+        },
+        {
+          "className": "HardcoverParser.ScoredDocument",
+          "sourceLine": 522,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/parser/LubimyCzytacParser.java",
+      "fileBlobSha": "8c587a52b42ca4e684465324fe79d87abbfced3b",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "LubimyCzytacParser",
+          "sourceLine": 32,
+          "astDeclaration": "kind=CLASS;extends=null;implements=BookParser"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/parser/OpenLibraryParser.java",
+      "fileBlobSha": "d96e65caf3b3000b73979f48338f7887e0123a05",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "OpenLibraryParser",
+          "sourceLine": 36,
+          "astDeclaration": "kind=CLASS;extends=null;implements=BookParser"
+        },
+        {
+          "className": "OpenLibraryParser.OpenLibraryTypedValueDeserializer",
+          "sourceLine": 65,
+          "astDeclaration": "kind=CLASS;extends=StdDeserializer<OpenLibraryTypedValue>;implements="
+        },
+        {
+          "className": "OpenLibraryParser.OpenLibraryTypedValue",
+          "sourceLine": 99,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        },
+        {
+          "className": "OpenLibraryParser.OpenLibraryReference",
+          "sourceLine": 105,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        },
+        {
+          "className": "OpenLibraryParser.OpenLibrarySearchDocumentEditions",
+          "sourceLine": 109,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        },
+        {
+          "className": "OpenLibraryParser.OpenLibrarySearchDocument",
+          "sourceLine": 114,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        },
+        {
+          "className": "OpenLibraryParser.OpenLibrarySearchResult",
+          "sourceLine": 121,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        },
+        {
+          "className": "OpenLibraryParser.OpenLibraryAuthor",
+          "sourceLine": 126,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        },
+        {
+          "className": "OpenLibraryParser.OpenLibraryEdition",
+          "sourceLine": 132,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        },
+        {
+          "className": "OpenLibraryParser.OpenLibrarySeries",
+          "sourceLine": 163,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        },
+        {
+          "className": "OpenLibraryParser.OpenLibraryWorkAuthor",
+          "sourceLine": 169,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        },
+        {
+          "className": "OpenLibraryParser.OpenLibraryWorkSeries",
+          "sourceLine": 174,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        },
+        {
+          "className": "OpenLibraryParser.OpenLibraryWork",
+          "sourceLine": 179,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/parser/RanobeDbParser.java",
+      "fileBlobSha": "d72606ecbc7adb5541158341ac11caca14ee2916",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "RanobeDbParser",
+          "sourceLine": 39,
+          "astDeclaration": "kind=CLASS;extends=null;implements=BookParser"
+        },
+        {
+          "className": "RanobeDbParser.SearchTerms",
+          "sourceLine": 64,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/writer/AudiobookMetadataWriter.java",
+      "fileBlobSha": "79b40ea1af78b22fae658962464dfbbcd4139d8d",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "AudiobookMetadataWriter",
+          "sourceLine": 31,
+          "astDeclaration": "kind=CLASS;extends=null;implements=MetadataWriter"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/writer/CbxMetadataWriter.java",
+      "fileBlobSha": "b4d90140501756d32fe1b3c14170fa3ba067caa1",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "CbxMetadataWriter",
+          "sourceLine": 37,
+          "astDeclaration": "kind=CLASS;extends=null;implements=MetadataWriter"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/writer/EpubMetadataWriter.java",
+      "fileBlobSha": "a46bfa3fee8aaae33de3aa80042066f2bf701f01",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "EpubMetadataWriter",
+          "sourceLine": 51,
+          "astDeclaration": "kind=CLASS;extends=null;implements=MetadataWriter"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/metadata/writer/PdfMetadataWriter.java",
+      "fileBlobSha": "fa791167672632a083ade11dd870545084902116",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "PdfMetadataWriter",
+          "sourceLine": 27,
+          "astDeclaration": "kind=CLASS;extends=null;implements=MetadataWriter"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/migration/migrations/GenerateCoverHashMigration.java",
+      "fileBlobSha": "530813d5bb399064c00a3aaee297468b1194a20d",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "GenerateCoverHashMigration",
+          "sourceLine": 14,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Migration"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/migration/migrations/MigrateProgressToFileProgressMigration.java",
+      "fileBlobSha": "c9e76bf7c45985687e8a9e236b703f60c1ecc91e",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "MigrateProgressToFileProgressMigration",
+          "sourceLine": 19,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Migration"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/migration/migrations/OIDCClientSecretSeparateKey.java",
+      "fileBlobSha": "46253fb00a8a3f7d85cf979bd0e7e23508b9d6d5",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "OIDCClientSecretSeparateKey",
+          "sourceLine": 13,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Migration"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/migration/migrations/PopulateAuthorSortNameMigration.java",
+      "fileBlobSha": "1aa08354848e4d2e505a5b8c442a6d932438228b",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "PopulateAuthorSortNameMigration",
+          "sourceLine": 13,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Migration"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/migration/migrations/PopulateCoversAndResizeThumbnailsMigration.java",
+      "fileBlobSha": "75138a7978a3831d6e8716f4cade17c1e48cfc54",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "PopulateCoversAndResizeThumbnailsMigration",
+          "sourceLine": 20,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Migration"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/migration/migrations/PopulateFileHashesMigration.java",
+      "fileBlobSha": "150f1b6afebcde5780d5e29751e4ca6f5e4b09f9",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "PopulateFileHashesMigration",
+          "sourceLine": 15,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Migration"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/migration/migrations/PopulateMetadataScoresMigration.java",
+      "fileBlobSha": "36643b07f6a4396b8f0d6c45cd6b5f7d210db9ac",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "PopulateMetadataScoresMigration",
+          "sourceLine": 14,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Migration"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/migration/migrations/PopulateMissingFileSizesMigration.java",
+      "fileBlobSha": "82fcf1927d06482192389bd6cc041509ccb94652",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "PopulateMissingFileSizesMigration",
+          "sourceLine": 13,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Migration"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/migration/migrations/PopulateSearchTextMigration.java",
+      "fileBlobSha": "462fab8742e5fc48cfbee9b50cb3f48595537b86",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "PopulateSearchTextMigration",
+          "sourceLine": 15,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Migration"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/migration/migrations/RemoveBundledCustomSvgIconsMigration.java",
+      "fileBlobSha": "61a7f4964908c22789c8b7c9226b31e4e8b620e4",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "RemoveBundledCustomSvgIconsMigration",
+          "sourceLine": 21,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Migration"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/monitoring/LibraryWatchService.java",
+      "fileBlobSha": "4fc5ac0d9a29ed07317c37747779ca1820ba7eeb",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "LibraryWatchService",
+          "sourceLine": 21,
+          "astDeclaration": "kind=CLASS;extends=null;implements=SmartLifecycle"
+        },
+        {
+          "className": "LibraryWatchService.WatchEntry",
+          "sourceLine": 36,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/service/watcher/LibraryFileEventProcessor.java",
+      "fileBlobSha": "7305f19aaf96c8694fa7e0d5b1650cf529e847f1",
+      "category": "SERVICE_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "LibraryFileEventProcessor",
+          "sourceLine": 29,
+          "astDeclaration": "kind=CLASS;extends=null;implements=SmartLifecycle"
+        },
+        {
+          "className": "LibraryFileEventProcessor.FolderAnalysis",
+          "sourceLine": 494,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        },
+        {
+          "className": "LibraryFileEventProcessor.FileEvent",
+          "sourceLine": 593,
+          "astDeclaration": "kind=RECORD;extends=null;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/task/tasks/BookRecommendationUpdaterTask.java",
+      "fileBlobSha": "a1cb3ebdd45d8ab61716e96e418dec38355520ab",
+      "category": "BACKGROUND_TASK_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "BookRecommendationUpdaterTask",
+          "sourceLine": 26,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Task"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/task/tasks/BookdropPeriodicScanTask.java",
+      "fileBlobSha": "9e3495387bf2eceea24a8c2824b6956d11bc5520",
+      "category": "BACKGROUND_TASK_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "BookdropPeriodicScanTask",
+          "sourceLine": 17,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Task"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/task/tasks/DeletedBooksCleanupTask.java",
+      "fileBlobSha": "ebdef15afdd667c480a9443ac90be9958bc995f4",
+      "category": "BACKGROUND_TASK_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "DeletedBooksCleanupTask",
+          "sourceLine": 19,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Task"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/task/tasks/LibraryRescanTask.java",
+      "fileBlobSha": "91deb7eba7c9c0f962f941e40dea84b14d86645a",
+      "category": "BACKGROUND_TASK_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "LibraryRescanTask",
+          "sourceLine": 22,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Task"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/task/tasks/LibraryScanTask.java",
+      "fileBlobSha": "f96cef2a45e93a969c757f18127190e8bfac782d",
+      "category": "BACKGROUND_TASK_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "LibraryScanTask",
+          "sourceLine": 18,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Task"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/task/tasks/RefreshMetadataTask.java",
+      "fileBlobSha": "95eadebe27c6e782c5f89ae28b2037e635180b85",
+      "category": "BACKGROUND_TASK_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "RefreshMetadataTask",
+          "sourceLine": 17,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Task"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/task/tasks/TempFetchedMetadataCleanupTask.java",
+      "fileBlobSha": "c6627bdbec018ecd1ca824a1687a15e89156dc72",
+      "category": "BACKGROUND_TASK_OR_FRAMEWORK_IMPLEMENTATION",
+      "classDeclarations": [
+        {
+          "className": "TempFetchedMetadataCleanupTask",
+          "sourceLine": 20,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Task"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/util/PathPatternResolver.java",
+      "fileBlobSha": "e6c65a315ca604918f371496c5e27f1b65227827",
+      "category": "OTHER_EXTENDS_OR_IMPLEMENTS_TYPE_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "PathPatternResolver",
+          "sourceLine": 20,
+          "astDeclaration": "kind=CLASS;extends=null;implements="
+        },
+        {
+          "className": "PathPatternResolver.MetadataProvider",
+          "sourceLine": 448,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements="
+        },
+        {
+          "className": "PathPatternResolver.BookMetadataProvider",
+          "sourceLine": 488,
+          "astDeclaration": "kind=RECORD;extends=null;implements=MetadataProvider"
+        },
+        {
+          "className": "PathPatternResolver.BookMetadataEntityProvider",
+          "sourceLine": 546,
+          "astDeclaration": "kind=RECORD;extends=null;implements=MetadataProvider"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/util/epub/EpubContentReader.java",
+      "fileBlobSha": "5d8f93070c98e579f159a544ef411f5992188fab",
+      "category": "OTHER_EXTENDS_OR_IMPLEMENTS_TYPE_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "EpubContentReader",
+          "sourceLine": 31,
+          "astDeclaration": "kind=CLASS;extends=null;implements="
+        },
+        {
+          "className": "EpubContentReader.EpubReadException",
+          "sourceLine": 168,
+          "astDeclaration": "kind=CLASS;extends=RuntimeException;implements="
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/util/koreader/JsoupDocumentNavigator.java",
+      "fileBlobSha": "a29bca9254408a69d8f4f30f2dcaad1a9b87406c",
+      "category": "OTHER_EXTENDS_OR_IMPLEMENTS_TYPE_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "JsoupDocumentNavigator",
+          "sourceLine": 16,
+          "astDeclaration": "kind=CLASS;extends=null;implements=DocumentNavigator"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/util/koreader/XPointerResult.java",
+      "fileBlobSha": "06063e3339fe45614fe2ed8388d4106030a4041d",
+      "category": "OTHER_EXTENDS_OR_IMPLEMENTS_TYPE_REVIEW",
+      "classDeclarations": [
+        {
+          "className": "XPointerResult",
+          "sourceLine": 12,
+          "astDeclaration": "kind=CLASS;extends=null;implements=Serializable"
+        }
+      ],
+      "hasDirectMethodMappingAnnotationInFile": false,
+      "hasCapturedProgrammaticOrFrameworkSignal": false,
+      "evidenceGrade": "PINNED_JAVA21_AST_SYNTAX_ONLY",
+      "typeResolution": "NOT_RUN",
+      "inheritedMetaAnnotations": "NOT_PROVEN",
+      "runtimeEndpointExposure": "NOT_RUN",
+      "authorizationApproved": false,
+      "sourceScopeStatus": "TRIAGED_NOT_ROUTE_CLOSED"
+    }
+  ]
+}

@@ -1,0 +1,152 @@
+name: Phase 00 pinned Java source route census
+on:
+  push:
+    branches: [feat/next-phase-00]
+    paths:
+      - "scripts/phase-00/**"
+      - ".github/workflows/phase00-pinned-java-census.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pinned-source-ast-census:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Checkout audit branch (no production credentials)
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Set up JDK for Java AST syntax-only parsing
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - name: Fetch exact pinned upstream source without executing it
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/grimmory-source
+          git -C /tmp/grimmory-source init -q
+          git -C /tmp/grimmory-source remote add origin https://github.com/grimmory-tools/grimmory.git
+          git -C /tmp/grimmory-source fetch --no-tags --depth=1 origin 402e89b4452f8e2b17ab95f16c1621c003516cd2
+          git -C /tmp/grimmory-source checkout --quiet --detach 402e89b4452f8e2b17ab95f16c1621c003516cd2
+          test "$(git -C /tmp/grimmory-source rev-parse HEAD)" = "402e89b4452f8e2b17ab95f16c1621c003516cd2"
+      - name: Fetch immutable locked Spring MediaType source with Git blob verification
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/phase00-dependencies
+          curl --fail --location --silent --show-error --retry 2 --max-time 60 \
+            https://raw.githubusercontent.com/spring-projects/spring-framework/82a6b40b9366ec181ededdad282b307ee5381a52/spring-web/src/main/java/org/springframework/http/MediaType.java \
+            -o /tmp/phase00-dependencies/MediaType.java
+          test "$(git hash-object /tmp/phase00-dependencies/MediaType.java)" = "1d7ecf7fff9ad63926ea2ea00f54d39aecf12cff"
+          grep -q '^org.springframework:spring-web:7\.0\.9=' /tmp/grimmory-source/backend/gradle.lockfile
+      - name: Generate content-verified AST census (no upstream code execution)
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +e
+          python3 scripts/phase-00/scan-java-routes.py --upstream /tmp/grimmory-source --output /tmp/phase00-static
+          scan_exit=$?
+          set -e
+          if [ "$scan_exit" -ne 0 ] && [ "$scan_exit" -ne 3 ]; then exit "$scan_exit"; fi
+          python3 -m unittest discover -s scripts/phase-00 -p "test_route_expansion.py" -v
+          python3 scripts/phase-00/expand-route-mappings.py /tmp/phase00-static/SOURCE-ROUTE-CANDIDATES.json /tmp/phase00-static/SOURCE-DECLARED-MAPPING-EXPANSION.json
+          python3 -m unittest discover -s scripts/phase-00 -p "test_source_semantics.py" -v
+          python3 scripts/phase-00/audit-source-semantics.py --upstream /tmp/grimmory-source --census /tmp/phase00-static/JAVA-SOURCE-WIDE-CENSUS.json --expansion /tmp/phase00-static/SOURCE-DECLARED-MAPPING-EXPANSION.json --output /tmp/phase00-static --framework-media-type /tmp/phase00-dependencies/MediaType.java
+          python3 -m unittest discover -s scripts/phase-00 -p "test_security_chain_candidates.py" -v
+          python3 scripts/phase-00/audit-security-chain-candidates.py --upstream /tmp/grimmory-source --expanded /tmp/phase00-static/SOURCE-DECLARED-MAPPING-EXPANSION.json --auth /tmp/phase00-static/SOURCE-AUTH-OWNERSHIP-LEDGER.json --output /tmp/phase00-static
+          python3 scripts/phase-00/validate-manual-acl-traces.py --upstream /tmp/grimmory-source --manual docs/implementation/phase-00/SOURCE-ACL-CALLCHAIN-TRACE.json --ledger /tmp/phase00-static/SOURCE-AUTH-OWNERSHIP-LEDGER.json --output /tmp/phase00-static/SOURCE-ACL-TRACE-VALIDATION.json
+          python3 scripts/phase-00/audit-repository-exposure.py --upstream /tmp/grimmory-source --census /tmp/phase00-static/JAVA-SOURCE-WIDE-CENSUS.json --inheritance /tmp/phase00-static/JAVA-INHERITANCE-TYPE-TRIAGE.json --output /tmp/phase00-static/REPOSITORY-REST-SOURCE-EXPOSURE.json
+          python3 scripts/phase-00/audit-route-mechanisms.py --upstream /tmp/grimmory-source --evidence /tmp/phase00-static --output /tmp/phase00-static/NEW-P0-01-SOURCE-MECHANISM-EVIDENCE.json
+          python3 scripts/phase-00/verify-auth43-source-review.py --upstream /tmp/grimmory-source --ledger /tmp/phase00-static/SOURCE-AUTH-OWNERSHIP-LEDGER.json --manual docs/implementation/phase-00/AUTH-43-SOURCE-DISPOSITION.json --output /tmp/phase00-static
+          python3 scripts/phase-00/validate-negative-fixtures.py docs/implementation/phase-00/SECURITY-NEGATIVE-FIXTURES.json /tmp/phase00-static/FIXTURE-STATIC-VALIDATION.json
+          for file in JAVA-SOURCE-WIDE-CENSUS.json SOURCE-ROUTE-CANDIDATES.json SOURCE-ROUTE-OWNERSHIP-GAPS.md JAVA-SOURCE-WIDE-CENSUS-RECEIPT.md FIXTURE-STATIC-VALIDATION.json SOURCE-DECLARED-MAPPING-EXPANSION.json SOURCE-CONDITION-RESOLUTION.json SOURCE-AUTH-OWNERSHIP-LEDGER.json SOURCE-AUTH-REVIEW-QUEUE.md SOURCE-ACL-TRACE-VALIDATION.json JAVA-INHERITANCE-TYPE-TRIAGE.json REPOSITORY-REST-SOURCE-EXPOSURE.json AUTH-43-SOURCE-VERIFICATION.json AUTH-43-REVIEW-DISPOSITION.md SOURCE-403-SECURITY-CHAIN-CANDIDATES.json SOURCE-403-SECURITY-CHAIN-CANDIDATES.md; do
+            cp "/tmp/phase00-static/$file" "docs/implementation/phase-00/$file"
+          done
+          python3 scripts/phase-00/validate-phase00-release-gates.py --repo . --output docs/implementation/phase-00/PHASE00-GATE-STATUS.json
+          python3 - <<'PY'
+          import json
+          p='docs/implementation/phase-00/JAVA-SOURCE-WIDE-CENSUS.json'
+          j=json.load(open(p))
+          assert j['filesEnumerated']==923, j['filesEnumerated']
+          assert j['contentReadAndBlobShaVerified']==923
+          assert j['astParsedFiles']==923
+          print('AST diagnostic errors:',len(j['astErrors']))
+          for error in j['astErrors'][:30]: print(error)
+          assert j['SOURCE_ANNOTATION_COMPLETE'] is False
+          assert j['RUNTIME_ROUTE_COMPLETE']=='NOT_RUN'
+          i=json.load(open('docs/implementation/phase-00/JAVA-INHERITANCE-TYPE-TRIAGE.json'))
+          assert i['lexicalClassFlaggedFiles']==160
+          assert i['directMethodMappedFilesInFlaggedSet']==0
+          assert i['sourceAnnotationComplete'] is False
+          assert i['runtimeRouteComplete']=='NOT_RUN'
+          assert len(i['items'])==160
+          print('Inheritance lexical classification:',i['categoryCounts'])
+          a=json.load(open('docs/implementation/phase-00/AUTH-43-SOURCE-VERIFICATION.json'))
+          assert a['totalReviewed']==43 and a['missingSourceWitnesses']==0
+          assert a['sourceReviewClosed'] is True and a['securityAuthorizationApproved'] is False
+          assert a['gatewayAllowed'] is False and a['runtimeChainProof']=='NOT_RUN'
+          assert a['PHASE01_AUTHORIZED'] is False
+          print('43/43 prioritized source handlers triaged; 0 approved')
+          c=json.load(open('docs/implementation/phase-00/SOURCE-403-SECURITY-CHAIN-CANDIDATES.json'))
+          assert c['sourceRouteVariants']==403 and c['sourceMethodHandlers']==348
+          assert c['allRouteForwardingDenied'] is True and c['PHASE01_AUTHORIZED'] is False
+          assert c['runtimeSpringMatching']=='NOT_RUN' and c['completeSecurityContract'] is False
+          assert len(c['routes'])==403
+          print('403/403 route chain candidates, all deny, runtime not proved')
+
+          print('Content coverage verified; AST diagnostics require review and source semantics remain BLOCKED')
+          PY
+      - name: Verify reproducible generated source evidence without changing GitHub HEAD
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json,pathlib,subprocess,sys
+          base=pathlib.Path("docs/implementation/phase-00")
+          generated="""JAVA-SOURCE-WIDE-CENSUS.json SOURCE-ROUTE-CANDIDATES.json SOURCE-ROUTE-OWNERSHIP-GAPS.md JAVA-SOURCE-WIDE-CENSUS-RECEIPT.md FIXTURE-STATIC-VALIDATION.json SOURCE-DECLARED-MAPPING-EXPANSION.json SOURCE-CONDITION-RESOLUTION.json SOURCE-AUTH-OWNERSHIP-LEDGER.json SOURCE-AUTH-REVIEW-QUEUE.md SOURCE-ACL-TRACE-VALIDATION.json JAVA-INHERITANCE-TYPE-TRIAGE.json REPOSITORY-REST-SOURCE-EXPOSURE.json AUTH-43-SOURCE-VERIFICATION.json AUTH-43-REVIEW-DISPOSITION.md SOURCE-403-SECURITY-CHAIN-CANDIDATES.json SOURCE-403-SECURITY-CHAIN-CANDIDATES.md PHASE00-GATE-STATUS.json""".split()
+          drift=[]
+          for name in generated:
+              p=base/name
+              old=subprocess.check_output(["git","show","HEAD:"+p.as_posix()])
+              new=p.read_bytes()
+              if name=="JAVA-SOURCE-WIDE-CENSUS.json":
+                  old_obj=json.loads(old)
+                  new_obj=json.loads(new)
+                  # generatedUtc is a record of the last material evidence commit.
+                  # A fresh scan timestamp alone must not create a new reviewed HEAD.
+                  new_obj["generatedUtc"]=old_obj.get("generatedUtc")
+                  if old_obj!=new_obj: drift.append(name)
+              elif name.endswith(".json"):
+                  if json.loads(old)!=json.loads(new): drift.append(name)
+              elif old!=new:
+                  drift.append(name)
+          if drift:
+              print("::error::Material generated evidence differs from checked-in source:")
+              for name in drift: print(" -",name)
+              print("Regenerate, inspect and commit material changes explicitly; CI must never silently push.")
+              sys.exit(2)
+          print("Pinned source evidence matches checked-in facts (volatile scan time excluded).")
+          print("READ_ONLY: no auto-push, no timestamp-only commit, HEAD remains stable.")
+          PY
+      - name: Preserve failure status when AST diagnostics remain
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json,sys
+          j=json.load(open('docs/implementation/phase-00/JAVA-SOURCE-WIDE-CENSUS.json'))
+          count=len(j['astErrors'])
+          if count: print('::error::Unresolved Java AST diagnostics: '+str(count))
+          sys.exit(3 if count else 0)
+          PY
+
+      - name: Upload NEW-P0-01 pinned source mechanism evidence (no credentials)
+        uses: actions/upload-artifact@v4
+        with:
+          name: new-p0-01-source-mechanism-receipt
+          path: /tmp/phase00-static/NEW-P0-01-SOURCE-MECHANISM-EVIDENCE.json
+          retention-days: 30
+          if-no-files-found: error

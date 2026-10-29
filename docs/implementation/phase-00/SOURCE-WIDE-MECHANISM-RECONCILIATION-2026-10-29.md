@@ -1,0 +1,58 @@
+## NEW-P0-01 SOURCE MECHANISM SUBGATE — VERIFIED 2026-10-29 (NOT A SECURITY PASS)
+
+[Actual pinned source audit CI 40853316961](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40853316961) SUCCESS on source audit commit `8653ecd8c5f719643fd5950f36aeea58a732e8a9`. [Per-HEAD source/static integrity CI 40853316919](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40853316919) SUCCESS. [Auditor](../../../scripts/phase-00/audit-route-mechanisms.py) / [mechanism reconciliation](NEW-P0-01-SOURCE-MECHANISM-RECONCILIATION.md) use pinned source and 30-day `new-p0-01-source-mechanism-receipt` artifact. **923 SHA/AST files, 715 source signals, 17 programmatic/type signals, 160 inherited/interface flags, 65 repository interfaces and 403 method/path/verb candidates** reconciled; new unknown mechanism fails CI. 43/43 priority auth source dispositions stay 0 allowed. This is a **source mechanism enumeration subgate only**: `SOURCE_ANNOTATION_COMPLETE=false`, Spring runtime, direct backend ingress, current book ACL and Gateway enforcement NOT_RUN/NOT_PROVEN. NEW-P0-01 formal security acceptance remains pending distinct independent reviewer adjudication of Phase00-vs-Phase02 boundary. **Historical CHANGES_REQUIRED, CONTRACT_LOCKED=false and PHASE01_AUTHORIZED=false are unchanged.** No runtime/production/merge authorization.
+
+---
+
+## CURRENT SOURCE PROOF CHECKPOINT — 2026-10-29 (IMPLEMENTER; NOT INDEPENDENT PASS)
+
+[CI 40821817455](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40821817455) verifies **923/923 pinned Java bodies SHA+AST**, 348 method handlers/403 source declarations (NOT runtime routes), **15/15 source symbolic constants** (9 pinned OPDS +6 locked spring-web 7.0.9 MediaType), **9 sensitive call chains and 37 source witnesses**, **101 fixture definitions STATIC_PASS, actual tests NOT_RUN**. [Source ACL evidence receipt](PHASE00-PINNED-SOURCE-SEMANTIC-ACL-RECEIPT-2026-10-29.md). 43 mutating handlers without local auth annotations and 160 lexical inheritance class flags remain source-review priorities. No runtime ACL/gateway proof, no independent re-review PASS. **NEW-P0-01 BLOCKED / CHANGES_REQUIRED / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED**. Historical older checkpoint contents below are superseded for 15 symbolic values and 97 current fixtures only.
+
+---
+
+## LATEST VERIFIED STATIC EVIDENCE — Phase00 Route Semantics, 2026-10-29 (NOT Independent Approval)
+
+[CI run 40819253130](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40819253130): pinned 923/923 Java bodies SHA-verified and AST parsed (0 errors), 64 Controller markers, 63 class +348 method =411 mapping annotations, **403 static method/path/verb declarations (not runtime route count)**. All method paths resolved; **15 symbolic consumes/produces conditions** remain. **223 security annotation signals**, **15 programmatic** and **2 framework-type signals**; **43 mutation handlers without local annotations** require global/service ACL investigation, not proof of unauthenticated access.
+
+**101 security fixtures** (97 prior +4 WebSocket/static), static validator zero failures; every actual mock/HTTP/security/SQLite test NOT_RUN. [Source auth audit](SOURCE-ROUTE-SEMANTIC-AND-AUTH-REVIEW-2026-10-29.md) details pinned SecurityConfig chains. SOURCE_ANNOTATION_COMPLETE=false; RUNTIME_ROUTE_COMPLETE=NOT_RUN; NEW-P0-01 BLOCKED. CORRECTION_INCOMPLETE / CHANGES_REQUIRED (last independent verdict) / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED. Older checkpoints below are historical when referring to 859 unread Java bodies or 97 current fixtures.
+
+---
+
+# Grimmory Pinned Source-wide Mechanism Reconciliation — 29 October 2026
+
+## Reproducible source coverage (not review acceptance)
+
+- Pinned Grimmory v3.5.0 commit: 402e89b4452f8e2b17ab95f16c1621c003516cd2.
+- Git tree: truncated=false; 923 Java files in backend/src/main/java/org/booklore/.
+- Pinned content bodies read and Git blob SHA verified: 923/923; Java21 preview AST parse: 923/923; syntax diagnostics: zero in last completed run.
+- Existing named Controller census reconciles mechanically: 64 Controller annotations, 63 class-level mapping annotations, 348 method-level annotations = 411 total mapping annotations. This is not an expanded HTTP route count.
+- The Java AST tool is *syntax-only*. It cannot claim complete type-resolved inheritance, meta-annotation semantics, Spring runtime expansion or app-authorization proof.
+- Source mapping AST candidates, per-file hash ledger and exact lines: JAVA-SOURCE-WIDE-CENSUS.json and SOURCE-ROUTE-CANDIDATES.json.
+- Scanner enhanced to include resource, interceptor, STOMP/WebSocket and alternate endpoint signal families. Source signal output requires rerun/readback.
+
+## Independently read non-Controller mechanisms
+
+| Pinned upstream file and lines | Source behavior | Gateway and proof disposition |
+| --- | --- | --- |
+| config/WebMvcConfig.java:37–50 | addResourceHandler("/**") serves classpath:/static/ and fallback index.html | Source-confirmed static fallback; **not** blanket API proxy; explicitly review Official UI GET/HEAD only, path normalization/canonicalization; runtime matcher NOT_RUN |
+| config/WebMvcConfig.java:56–62 | interceptors for /api/v1/opds/**, /api/v2/opds/**, /komga/api/** | Interceptors affect dispatch/policy, are not standalone handler routes; preserve existing security decisions, do not infer entitlement |
+| config/WebSocketConfig.java:62–75 | STOMP /ws endpoint and conditional CORS allowed-origin logic | WebSocket handshake is an alternate exposure not represented in 348 HTTP method annotations; DENY unless explicit, source-reviewed ownership and auth validation |
+| config/WebSocketConfig.java:44–49 | Broker /queue and /topic; application prefix /app; user prefix /user | STOMP destinations, not automatically HTTP routes. Inspect message authorization/handlers; no public pass-through assumed |
+| config/security/annotation/CheckBookAccess.java:5–10 | @interface CheckBookAccess targeting methods; no @RequestMapping meta-annotation | Security/authorization annotation, not a composed HTTP route declaration in inspected definition |
+| config/security/annotation/CheckLibraryAccess.java:6–11 | @interface CheckLibraryAccess targeting methods; no @RequestMapping meta-annotation | Security/authorization annotation, not a composed HTTP route declaration in inspected definition |
+
+Source permalink prefix: https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/
+
+## Security and contract limits
+
+- Sensitive unknown route/alias/proxy/WS dispatch: **DENY_BY_DEFAULT**. Legitimate Official UI paths require a narrow explicit gateway policy and independent review.
+- KomgaController.java:251–264 retains **9 path variants x 5 declared verbs**, distinct from one annotation; Komga:278 and Kobo:277 catchalls remain sensitive. AdditionalFileController:38,50 params=isBook is conditional and not automatically an actual collision.
+- All 97 fixture definitions have passed the static field/causal validator without changes; actual negative/gateway/HTTP/security execution is NOT_RUN.
+- NEW-P0-01 content-read subgate met, but *semantic route ownership/gateway proof remains P0 blocked*. SOURCE_ANNOTATION_COMPLETE=false; RUNTIME_ROUTE_COMPLETE=NOT_RUN.
+- NEW-P0-02 KO registration deny/redact is design-only; R-02A App batch, R-02 native KO atomic entitlement, R-01 metadata CAS and R-09 SQLite session outbox remain OFF/BLOCKED pending their gates.
+- Current implementer status: CORRECTION_INCOMPLETE. Last independent reviewer verdict CHANGES_REQUIRED. NOT_CONTRACT_LOCKED, PHASE01_NOT_AUTHORIZED.
+- No historical reviewer report edited, no Production/hermes/NAS/deployed testing.
+
+## Next exact source work
+
+Re-run amended scanner. Inspect every noncontroller programmatic/WS candidate and every symbolic/conditional/composed/inherited mapping; produce exhaustive class+method path and conditions table; reconcile per-route auth/proxy/side effects with source-backed gateway-owner decisions, then seek a **separate fresh Independent Review**. Do not self-approve or merge PR #2.

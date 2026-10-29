@@ -1,0 +1,818 @@
+{
+  "schemaVersion": 1,
+  "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+  "sourceOnly": true,
+  "reposWithLexicalInterfaceOrExtendsFlag": 65,
+  "javaFilesChecked": 923,
+  "pinnedGradleLockSpringDataRestDependencies": [],
+  "pinnedGradleBuildSpringDataRestDeclarations": [],
+  "springDataRestSourceSymbols": [],
+  "sourceDirectRepositoryRestExposureEvidence": "NOT_FOUND",
+  "otherRouteMechanismsExcludedByThisProof": false,
+  "typeBoundInheritance": "NOT_RUN",
+  "springRuntimeHandlerRegistration": "NOT_RUN",
+  "classification": "NO_SOURCE_DATA_REST_REGISTRATION_INDICATOR_IS_NOT_PROOF_OF_NO_OTHER_ENDPOINTS",
+  "SOURCE_ANNOTATION_COMPLETE": false,
+  "repositoryFiles": [
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/AnnotationRepository.java",
+      "fileBlobSha": "0eae49e7ee32bcf8f0461d08a63a970868d1ff49",
+      "classDeclarations": [
+        {
+          "className": "AnnotationRepository",
+          "sourceLine": 13,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<AnnotationEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/AppMigrationRepository.java",
+      "fileBlobSha": "6c102ea4f105797b75a5f46fb33dec5ba3b0cf6d",
+      "classDeclarations": [
+        {
+          "className": "AppMigrationRepository",
+          "sourceLine": 6,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<AppMigrationEntity, String>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/AppSettingsRepository.java",
+      "fileBlobSha": "1358c68f528bb0547f2cf516f512fce6a5ff076c",
+      "classDeclarations": [
+        {
+          "className": "AppSettingsRepository",
+          "sourceLine": 7,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<AppSettingEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/AuditLogRepository.java",
+      "fileBlobSha": "647aa31c22a65f5e8542a9a991423f2f7b5c347c",
+      "classDeclarations": [
+        {
+          "className": "AuditLogRepository",
+          "sourceLine": 15,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<AuditLogEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/AuthorRepository.java",
+      "fileBlobSha": "89f0ef023cf2d9673f76ba5fae35c7cd37dc9f96",
+      "classDeclarations": [
+        {
+          "className": "AuthorRepository",
+          "sourceLine": 13,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<AuthorEntity, Long>"
+        },
+        {
+          "className": "AuthorRepository.AuthorBookProjection",
+          "sourceLine": 37,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements="
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookAdditionalFileRepository.java",
+      "fileBlobSha": "621ce09897b1050433f2321a138ca0ab47a3b746",
+      "classDeclarations": [
+        {
+          "className": "BookAdditionalFileRepository",
+          "sourceLine": 14,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookFileEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookFileRepository.java",
+      "fileBlobSha": "45268ede35cbf03ce77ce8195d5bbf8a92e43e47",
+      "classDeclarations": [
+        {
+          "className": "BookFileRepository",
+          "sourceLine": 14,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookFileEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookMarkRepository.java",
+      "fileBlobSha": "ecf5582f9e95c3b512e98e872f326a8b2e718102",
+      "classDeclarations": [
+        {
+          "className": "BookMarkRepository",
+          "sourceLine": 11,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookMarkEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookMetadataAuthorMappingRepository.java",
+      "fileBlobSha": "841b2c288858dbd3e5fbf7b981f216713c63826c",
+      "classDeclarations": [
+        {
+          "className": "BookMetadataAuthorMappingRepository",
+          "sourceLine": 11,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookMetadataAuthorMapping, BookMetadataAuthorKey>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookMetadataCategoryMappingRepository.java",
+      "fileBlobSha": "2c69c0b635d49d1c77592905af00ca54b61b43d0",
+      "classDeclarations": [
+        {
+          "className": "BookMetadataCategoryMappingRepository",
+          "sourceLine": 11,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookMetadataCategoryMapping, BookMetadataCategoryKey>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookMetadataRepository.java",
+      "fileBlobSha": "3efcc8290c902875f599b63ee602d8ec23cc5dde",
+      "classDeclarations": [
+        {
+          "className": "BookMetadataRepository",
+          "sourceLine": 13,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookMetadataEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookNoteRepository.java",
+      "fileBlobSha": "10e20ebb92890481b63975ec0df6e74229db7b4e",
+      "classDeclarations": [
+        {
+          "className": "BookNoteRepository",
+          "sourceLine": 11,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookNoteEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookNoteV2Repository.java",
+      "fileBlobSha": "feed5a52624e1d51c64afbd344b40c1fc790fcfd",
+      "classDeclarations": [
+        {
+          "className": "BookNoteV2Repository",
+          "sourceLine": 13,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookNoteV2Entity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookOpdsRepository.java",
+      "fileBlobSha": "531f5c6536452e761f27c1045aefd28a78ff1465",
+      "classDeclarations": [
+        {
+          "className": "BookOpdsRepository",
+          "sourceLine": 17,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookEntity, Long>,JpaSpecificationExecutor<BookEntity>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookRepository.java",
+      "fileBlobSha": "0a711faa87ac3d6b23f2695bb161d895232284aa",
+      "classDeclarations": [
+        {
+          "className": "BookRepository",
+          "sourceLine": 22,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookEntity, Long>,JpaSpecificationExecutor<BookEntity>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookReviewRepository.java",
+      "fileBlobSha": "950f2f4a9913a97ac831e6f8ed150c2ed74ee674",
+      "classDeclarations": [
+        {
+          "className": "BookReviewRepository",
+          "sourceLine": 12,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookReviewEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookShelfMappingRepository.java",
+      "fileBlobSha": "2a8ef1d10d13d4ee54e0e83259c02878c40465c0",
+      "classDeclarations": [
+        {
+          "className": "BookShelfMappingRepository",
+          "sourceLine": 8,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookShelfMapping, BookShelfKey>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/BookdropFileRepository.java",
+      "fileBlobSha": "09c628cdda45acda9f7939884f9d99c3eeb32239",
+      "classDeclarations": [
+        {
+          "className": "BookdropFileRepository",
+          "sourceLine": 18,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookdropFileEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/CategoryRepository.java",
+      "fileBlobSha": "64f5af00cfa4058beb12974ae13e213243d54d77",
+      "classDeclarations": [
+        {
+          "className": "CategoryRepository",
+          "sourceLine": 9,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<CategoryEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/CbxViewerPreferencesRepository.java",
+      "fileBlobSha": "629bdbebdd5275f8063d01708a3f952fb17e376a",
+      "classDeclarations": [
+        {
+          "className": "CbxViewerPreferencesRepository",
+          "sourceLine": 9,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<CbxViewerPreferencesEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/ComicCharacterRepository.java",
+      "fileBlobSha": "0bd9edd480478b79fb12a70af75b7c1e3f1aaa86",
+      "classDeclarations": [
+        {
+          "className": "ComicCharacterRepository",
+          "sourceLine": 10,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<ComicCharacterEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/ComicCreatorMappingRepository.java",
+      "fileBlobSha": "67d422f8f568446c22a57ae99bfd7303df9ec600",
+      "classDeclarations": [
+        {
+          "className": "ComicCreatorMappingRepository",
+          "sourceLine": 13,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<ComicCreatorMappingEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/ComicCreatorRepository.java",
+      "fileBlobSha": "52b42331d62660fa82b22aca080c1b3359889fbc",
+      "classDeclarations": [
+        {
+          "className": "ComicCreatorRepository",
+          "sourceLine": 10,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<ComicCreatorEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/ComicLocationRepository.java",
+      "fileBlobSha": "c4374b489f6f2ed701ceda3a91be546150349fd8",
+      "classDeclarations": [
+        {
+          "className": "ComicLocationRepository",
+          "sourceLine": 10,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<ComicLocationEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/ComicMetadataRepository.java",
+      "fileBlobSha": "442d120469637f7fdee68f13217ab4ccfa887f49",
+      "classDeclarations": [
+        {
+          "className": "ComicMetadataRepository",
+          "sourceLine": 10,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<ComicMetadataEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/ComicTeamRepository.java",
+      "fileBlobSha": "4508e396e9903ec2cb14191aa99106f85a53536a",
+      "classDeclarations": [
+        {
+          "className": "ComicTeamRepository",
+          "sourceLine": 10,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<ComicTeamEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/CustomFontRepository.java",
+      "fileBlobSha": "8f525fd9862fc6b41213dab177044bb36891e3ce",
+      "classDeclarations": [
+        {
+          "className": "CustomFontRepository",
+          "sourceLine": 10,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<CustomFontEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/EbookViewerPreferenceRepository.java",
+      "fileBlobSha": "7ce9ab8775470538fa07469ec7432365b5dbef5d",
+      "classDeclarations": [
+        {
+          "className": "EbookViewerPreferenceRepository",
+          "sourceLine": 9,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<EbookViewerPreferenceEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/EmailProviderV2Repository.java",
+      "fileBlobSha": "6da7e97c43268a50c4947246248caeb2628bc600",
+      "classDeclarations": [
+        {
+          "className": "EmailProviderV2Repository",
+          "sourceLine": 12,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<EmailProviderV2Entity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/EmailRecipientV2Repository.java",
+      "fileBlobSha": "922ecd182e712a02cf19dd082acea87ddfd76197",
+      "classDeclarations": [
+        {
+          "className": "EmailRecipientV2Repository",
+          "sourceLine": 13,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<EmailRecipientV2Entity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/EpubViewerPreferencesRepository.java",
+      "fileBlobSha": "77741438764efd4d80231abdb4b91173ab93cccc",
+      "classDeclarations": [
+        {
+          "className": "EpubViewerPreferencesRepository",
+          "sourceLine": 9,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<EpubViewerPreferencesEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/JwtSecretRepository.java",
+      "fileBlobSha": "2fb43ab13dfc5129ec5c718b4070dda20fde7c81",
+      "classDeclarations": [
+        {
+          "className": "JwtSecretRepository",
+          "sourceLine": 10,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<JwtSecretEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/KoboDeletedBookProgressRepository.java",
+      "fileBlobSha": "33507d5ced87e330fc9539ac9e0d338108ebeb07",
+      "classDeclarations": [
+        {
+          "className": "KoboDeletedBookProgressRepository",
+          "sourceLine": 11,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<KoboDeletedBookProgressEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/KoboLibrarySnapshotRepository.java",
+      "fileBlobSha": "5daa464d494e2282677e22b4c3e285f84f5ac1be",
+      "classDeclarations": [
+        {
+          "className": "KoboLibrarySnapshotRepository",
+          "sourceLine": 9,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<KoboLibrarySnapshotEntity, String>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/KoboReadingStateRepository.java",
+      "fileBlobSha": "09421fb4191f45cdf77717589c0986a90f992613",
+      "classDeclarations": [
+        {
+          "className": "KoboReadingStateRepository",
+          "sourceLine": 9,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<KoboReadingStateEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/KoboSnapshotBookRepository.java",
+      "fileBlobSha": "5f66aaec5792a723d22fee906d12c0852938326c",
+      "classDeclarations": [
+        {
+          "className": "KoboSnapshotBookRepository",
+          "sourceLine": 16,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<KoboSnapshotBookEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/KoboSpanMapRepository.java",
+      "fileBlobSha": "9e2c2e3f04b1ff14aaec3069d93dcb8cbe152b2a",
+      "classDeclarations": [
+        {
+          "className": "KoboSpanMapRepository",
+          "sourceLine": 13,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<KoboSpanMapEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/KoboUserSettingsRepository.java",
+      "fileBlobSha": "e20bd7dc127305070af50cd0987805ec03d5a55e",
+      "classDeclarations": [
+        {
+          "className": "KoboUserSettingsRepository",
+          "sourceLine": 10,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<KoboUserSettingsEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/KoreaderUserRepository.java",
+      "fileBlobSha": "b04751275bd1bbd911e0337f1dc3ec172ff8541f",
+      "classDeclarations": [
+        {
+          "className": "KoreaderUserRepository",
+          "sourceLine": 9,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<KoreaderUserEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/LibraryPathRepository.java",
+      "fileBlobSha": "8fe5dd85ce56dff6431532f55cee78fd83889c4f",
+      "classDeclarations": [
+        {
+          "className": "LibraryPathRepository",
+          "sourceLine": 11,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<LibraryPathEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/LibraryRepository.java",
+      "fileBlobSha": "072df431010a4a988a8fdcb1cc2de9586eb976be",
+      "classDeclarations": [
+        {
+          "className": "LibraryRepository",
+          "sourceLine": 14,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<LibraryEntity, Long>,JpaSpecificationExecutor<LibraryEntity>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/MagicShelfRepository.java",
+      "fileBlobSha": "7e9ae6ba1378a8b5cdb2a11c5856b1a0485cbf04",
+      "classDeclarations": [
+        {
+          "className": "MagicShelfRepository",
+          "sourceLine": 9,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<MagicShelfEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/MetadataFetchJobRepository.java",
+      "fileBlobSha": "f01079e090e7d152968507d3f6cfd0eb162c8404",
+      "classDeclarations": [
+        {
+          "className": "MetadataFetchJobRepository",
+          "sourceLine": 13,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<MetadataFetchJobEntity, String>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/MetadataFetchProposalRepository.java",
+      "fileBlobSha": "f0881570213e51ee773f0e290e83db816fc20c91",
+      "classDeclarations": [
+        {
+          "className": "MetadataFetchProposalRepository",
+          "sourceLine": 7,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<MetadataFetchProposalEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/MoodRepository.java",
+      "fileBlobSha": "6f77e3e46640f4fea141064c05f1ddc1ee016c67",
+      "classDeclarations": [
+        {
+          "className": "MoodRepository",
+          "sourceLine": 9,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<MoodEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/NewPdfViewerPreferencesRepository.java",
+      "fileBlobSha": "e3358ad97b746e4fdcf9f2fc0990ba933b88c309",
+      "classDeclarations": [
+        {
+          "className": "NewPdfViewerPreferencesRepository",
+          "sourceLine": 9,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<NewPdfViewerPreferencesEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/NotebookEntryRepository.java",
+      "fileBlobSha": "80cbc652b829f2a987ed73681d0beb9cd768e6c0",
+      "classDeclarations": [
+        {
+          "className": "NotebookEntryRepository",
+          "sourceLine": 15,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=Repository<NotebookEntryView, Long>"
+        },
+        {
+          "className": "NotebookEntryRepository.EntryProjection",
+          "sourceLine": 17,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements="
+        },
+        {
+          "className": "NotebookEntryRepository.BookProjection",
+          "sourceLine": 32,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements="
+        },
+        {
+          "className": "NotebookEntryRepository.BookWithCountProjection",
+          "sourceLine": 37,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements="
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/OidcGroupMappingRepository.java",
+      "fileBlobSha": "45c99d3cedbb2db04dcb830bcbf64289208d3ed8",
+      "classDeclarations": [
+        {
+          "className": "OidcGroupMappingRepository",
+          "sourceLine": 10,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<OidcGroupMappingEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/OidcSessionRepository.java",
+      "fileBlobSha": "3fa15015c0679b726e91bf3c44ee019007dfe9f3",
+      "classDeclarations": [
+        {
+          "className": "OidcSessionRepository",
+          "sourceLine": 15,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<OidcSessionEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/OpdsUserV2Repository.java",
+      "fileBlobSha": "a396f4ae023b4a1e99f05ab0f929e6a77e6483d4",
+      "classDeclarations": [
+        {
+          "className": "OpdsUserV2Repository",
+          "sourceLine": 12,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<OpdsUserV2Entity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/PdfAnnotationRepository.java",
+      "fileBlobSha": "9729cc7c773b53fd593ec08aa256c60981c49565",
+      "classDeclarations": [
+        {
+          "className": "PdfAnnotationRepository",
+          "sourceLine": 12,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<PdfAnnotationEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/PdfViewerPreferencesRepository.java",
+      "fileBlobSha": "1c574aa0da83e9848f09df9a46ce8fcc1ae86815",
+      "classDeclarations": [
+        {
+          "className": "PdfViewerPreferencesRepository",
+          "sourceLine": 9,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<PdfViewerPreferencesEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/ReadingSessionRepository.java",
+      "fileBlobSha": "cc59976b5e3fa87de2a61f3dcb8cc7ed0fd8333a",
+      "classDeclarations": [
+        {
+          "className": "ReadingSessionRepository",
+          "sourceLine": 20,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<ReadingSessionEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/RefreshTokenRepository.java",
+      "fileBlobSha": "fdf1da6ac40bee0d0c025b3fa905a5b140a43ad2",
+      "classDeclarations": [
+        {
+          "className": "RefreshTokenRepository",
+          "sourceLine": 14,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<RefreshTokenEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/ShelfRepository.java",
+      "fileBlobSha": "146fbf86e10bd2231ceab71be754f2047c0bcc82",
+      "classDeclarations": [
+        {
+          "className": "ShelfRepository",
+          "sourceLine": 13,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<ShelfEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/TagRepository.java",
+      "fileBlobSha": "f81c3f49a4492c6f148c18f7163b5dbac64e10d5",
+      "classDeclarations": [
+        {
+          "className": "TagRepository",
+          "sourceLine": 9,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<TagEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/TaskCronConfigurationRepository.java",
+      "fileBlobSha": "824f91165b267b4b1e3e31e250817e5bc67343a1",
+      "classDeclarations": [
+        {
+          "className": "TaskCronConfigurationRepository",
+          "sourceLine": 11,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<TaskCronConfigurationEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/TaskHistoryRepository.java",
+      "fileBlobSha": "112277111d82a3a01b4cf34e9409300bdde23f2b",
+      "classDeclarations": [
+        {
+          "className": "TaskHistoryRepository",
+          "sourceLine": 11,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<TaskHistoryEntity, String>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/UserBookFileProgressRepository.java",
+      "fileBlobSha": "24da245bfc622904133047ab78055a73d8a23184",
+      "classDeclarations": [
+        {
+          "className": "UserBookFileProgressRepository",
+          "sourceLine": 15,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<UserBookFileProgressEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/UserBookProgressRepository.java",
+      "fileBlobSha": "8134a52d6d65691a1463445fbd112fe874a8e60e",
+      "classDeclarations": [
+        {
+          "className": "UserBookProgressRepository",
+          "sourceLine": 25,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<UserBookProgressEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/UserContentRestrictionRepository.java",
+      "fileBlobSha": "1ce7f48ea831402c6d2fcafcefa6428cb047cb19",
+      "classDeclarations": [
+        {
+          "className": "UserContentRestrictionRepository",
+          "sourceLine": 15,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<UserContentRestrictionEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/UserEmailProviderPreferenceRepository.java",
+      "fileBlobSha": "bf0268ed6683c8b2161eda34381a7721f22e9816",
+      "classDeclarations": [
+        {
+          "className": "UserEmailProviderPreferenceRepository",
+          "sourceLine": 13,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<UserEmailProviderPreferenceEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/UserRepository.java",
+      "fileBlobSha": "e5c9b94818a3b7d81a9f475e0643f532d3134fdd",
+      "classDeclarations": [
+        {
+          "className": "UserRepository",
+          "sourceLine": 10,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<BookLoreUserEntity, Long>,UserRepositoryCustom"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/UserRepositoryImpl.java",
+      "fileBlobSha": "9226ce4bf9b84cff1fc23f48c075bf6f616ebd40",
+      "classDeclarations": [
+        {
+          "className": "UserRepositoryImpl",
+          "sourceLine": 12,
+          "astDeclaration": "kind=CLASS;extends=null;implements=UserRepositoryCustom"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    },
+    {
+      "sourcePath": "backend/src/main/java/org/booklore/repository/UserSettingRepository.java",
+      "fileBlobSha": "63c22dccb172e22dcc3917f0f3a25be937dd6bc8",
+      "classDeclarations": [
+        {
+          "className": "UserSettingRepository",
+          "sourceLine": 6,
+          "astDeclaration": "kind=INTERFACE;extends=null;implements=JpaRepository<UserSettingEntity, Long>"
+        }
+      ],
+      "sourceClassification": "DATA_REPOSITORY_INTERFACE_EXPOSURE_REQUIRES_DEPENDENCY_REVIEW"
+    }
+  ]
+}

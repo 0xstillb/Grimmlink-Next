@@ -1,0 +1,760 @@
+{
+  "schemaVersion": 1,
+  "upstreamCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+  "sourceReviewCoverage": "43_OF_43",
+  "totalReviewed": 43,
+  "missingSourceWitnesses": 0,
+  "riskCounts": {
+    "CRITICAL": 6,
+    "HIGH": 29,
+    "LOW": 4,
+    "MEDIUM": 4
+  },
+  "findingKindCounts": {
+    "AUTHENTICATED_LOGOUT_REFRESH_CONTEXT": 1,
+    "AUTHENTICATED_SELF_OLD_PASSWORD_CHECK": 1,
+    "BULK_USER_PROGRESS_BUT_NO_CONTENT_ACL": 4,
+    "KO_SYNC_USER_BOOK_ENTITLEMENT_GAP": 1,
+    "NON_BOOK_MUTATION_ANALYTICS_NOOP": 1,
+    "NON_BOOK_MUTATION_ANALYTICS_SYNTHETIC": 1,
+    "NON_BOOK_MUTATION_WITH_REMOTE_PROXY_OPTION": 1,
+    "PUBLIC_AUTH_BOOTSTRAP": 1,
+    "PUBLIC_INITIAL_PROVISIONING_RACE_REVIEW": 1,
+    "PUBLIC_OIDC_STATE_CONSUMED": 2,
+    "PUBLIC_SIGNED_LOGOUT_TOKEN_HANDLER": 1,
+    "PUBLIC_TOKEN_REFRESH": 1,
+    "SHELF_OWNER_BUT_BOOK_CONTENT_GAP": 1,
+    "SOURCE_FORBIDDEN_WITH_SECRET_LOG_RISK": 1,
+    "SOURCE_NOT_FOUND_NO_LOCAL_WRITE": 1,
+    "SOURCE_UNIMPLEMENTED_NO_LOCAL_WRITE": 1,
+    "TOKEN_ROUTED_BOOK_ENTITLEMENT_GAP": 1,
+    "TOKEN_ROUTED_RATING_BOOK_ACL_GAP": 1,
+    "TOKEN_ROUTED_SHELF_REMOVAL_GAP": 1,
+    "TOKEN_ROUTED_THIRD_PARTY_AND_MUTABLE_CONTROLLER_STATE": 1,
+    "USER_CONTEXT_BOOK_EXISTS_NO_ACCESS": 1,
+    "USER_LIBRARY_ONLY": 2,
+    "USER_LIBRARY_ONLY_WITH_NESTED_FILE_ID_GAP": 1,
+    "USER_OWNER_CHECK_BUT_PUBLIC_FLAG_GAP": 1,
+    "USER_OWNER_CHECK_SOURCE": 1,
+    "USER_PROGRESS_NO_LIBRARY_ACL": 1,
+    "USER_RECORD_LOOKUP_ONLY": 7,
+    "USER_SCOPED_CREATE_ADMIN_PUBLIC_GUARD": 1,
+    "USER_SCOPED_CREATE_NO_CONTENT_ACL": 3,
+    "WILDCARD_MULTI_VERB_PROXY": 1
+  },
+  "sourceReviewClosed": true,
+  "securityAuthorizationApproved": false,
+  "gatewayAllowed": false,
+  "runtimeChainProof": "NOT_RUN",
+  "runtimeOwnershipTests": "NOT_RUN",
+  "independentVerdict": "CHANGES_REQUIRED_HISTORICAL",
+  "PHASE01_AUTHORIZED": false,
+  "rows": [
+    {
+      "handlerIdentity": "AppBookController#updateBookProgress",
+      "controllerPath": "backend/src/main/java/org/booklore/app/controller/AppBookController.java",
+      "mappingLine": 65,
+      "methodDeclarationLine": 66,
+      "controllerGitBlobSha": "6fa5c48d2e66268198aa3e629e7af0f09fc22348",
+      "witnessPath": "backend/src/main/java/org/booklore/app/service/AppBookService.java",
+      "witnessLines": [
+        216,
+        754
+      ],
+      "witnessGitBlobSha": "8268ab766093d9ee4988916080229aff1396a9a0",
+      "findingKind": "USER_LIBRARY_ONLY_WITH_NESTED_FILE_ID_GAP",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "AppBookController#updateStatus",
+      "controllerPath": "backend/src/main/java/org/booklore/app/controller/AppBookController.java",
+      "mappingLine": 141,
+      "methodDeclarationLine": 142,
+      "controllerGitBlobSha": "6fa5c48d2e66268198aa3e629e7af0f09fc22348",
+      "witnessPath": "backend/src/main/java/org/booklore/app/service/AppBookService.java",
+      "witnessLines": [
+        726,
+        740
+      ],
+      "witnessGitBlobSha": "8268ab766093d9ee4988916080229aff1396a9a0",
+      "findingKind": "USER_LIBRARY_ONLY",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "AppBookController#updateRating",
+      "controllerPath": "backend/src/main/java/org/booklore/app/controller/AppBookController.java",
+      "mappingLine": 155,
+      "methodDeclarationLine": 156,
+      "controllerGitBlobSha": "6fa5c48d2e66268198aa3e629e7af0f09fc22348",
+      "witnessPath": "backend/src/main/java/org/booklore/app/service/AppBookService.java",
+      "witnessLines": [
+        726,
+        740
+      ],
+      "witnessGitBlobSha": "8268ab766093d9ee4988916080229aff1396a9a0",
+      "findingKind": "USER_LIBRARY_ONLY",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "AppNotebookController#updateEntry",
+      "controllerPath": "backend/src/main/java/org/booklore/app/controller/AppNotebookController.java",
+      "mappingLine": 61,
+      "methodDeclarationLine": 62,
+      "controllerGitBlobSha": "dc199fcd21bbd2a79a01934eb339deee2b550674",
+      "witnessPath": "backend/src/main/java/org/booklore/app/service/AppNotebookService.java",
+      "witnessLines": [
+        100
+      ],
+      "witnessGitBlobSha": "8937b5bd3def2a3fa62225e4c083314eda67543e",
+      "findingKind": "USER_RECORD_LOOKUP_ONLY",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "AppNotebookController#deleteEntry",
+      "controllerPath": "backend/src/main/java/org/booklore/app/controller/AppNotebookController.java",
+      "mappingLine": 75,
+      "methodDeclarationLine": 76,
+      "controllerGitBlobSha": "dc199fcd21bbd2a79a01934eb339deee2b550674",
+      "witnessPath": "backend/src/main/java/org/booklore/app/service/AppNotebookService.java",
+      "witnessLines": [
+        154
+      ],
+      "witnessGitBlobSha": "8937b5bd3def2a3fa62225e4c083314eda67543e",
+      "findingKind": "USER_RECORD_LOOKUP_ONLY",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "AnnotationController#createAnnotation",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/AnnotationController.java",
+      "mappingLine": 44,
+      "methodDeclarationLine": 45,
+      "controllerGitBlobSha": "cde4677af982af542df6a1d5ac2927374a708cf9",
+      "witnessPath": "backend/src/main/java/org/booklore/service/book/AnnotationService.java",
+      "witnessLines": [
+        53
+      ],
+      "witnessGitBlobSha": "25899aebe65bf5a821c43fdc3c50f3a85ff94de8",
+      "findingKind": "USER_SCOPED_CREATE_NO_CONTENT_ACL",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "AnnotationController#updateAnnotation",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/AnnotationController.java",
+      "mappingLine": 52,
+      "methodDeclarationLine": 53,
+      "controllerGitBlobSha": "cde4677af982af542df6a1d5ac2927374a708cf9",
+      "witnessPath": "backend/src/main/java/org/booklore/service/book/AnnotationService.java",
+      "witnessLines": [
+        75,
+        85
+      ],
+      "witnessGitBlobSha": "25899aebe65bf5a821c43fdc3c50f3a85ff94de8",
+      "findingKind": "USER_RECORD_LOOKUP_ONLY",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "AnnotationController#deleteAnnotation",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/AnnotationController.java",
+      "mappingLine": 61,
+      "methodDeclarationLine": 62,
+      "controllerGitBlobSha": "cde4677af982af542df6a1d5ac2927374a708cf9",
+      "witnessPath": "backend/src/main/java/org/booklore/service/book/AnnotationService.java",
+      "witnessLines": [
+        75,
+        85
+      ],
+      "witnessGitBlobSha": "25899aebe65bf5a821c43fdc3c50f3a85ff94de8",
+      "findingKind": "USER_RECORD_LOOKUP_ONLY",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "AuthenticationController#loginUser",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/AuthenticationController.java",
+      "mappingLine": 55,
+      "methodDeclarationLine": 56,
+      "controllerGitBlobSha": "b977b9babdc9e17765f626ea38767e6ab830015c",
+      "witnessPath": "backend/src/main/java/org/booklore/controller/AuthenticationController.java",
+      "witnessLines": [
+        58
+      ],
+      "witnessGitBlobSha": "b977b9babdc9e17765f626ea38767e6ab830015c",
+      "findingKind": "PUBLIC_AUTH_BOOTSTRAP",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "AuthenticationController#refreshToken",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/AuthenticationController.java",
+      "mappingLine": 63,
+      "methodDeclarationLine": 64,
+      "controllerGitBlobSha": "b977b9babdc9e17765f626ea38767e6ab830015c",
+      "witnessPath": "backend/src/main/java/org/booklore/controller/AuthenticationController.java",
+      "witnessLines": [
+        66
+      ],
+      "witnessGitBlobSha": "b977b9babdc9e17765f626ea38767e6ab830015c",
+      "findingKind": "PUBLIC_TOKEN_REFRESH",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "BookController#addBookToShelf",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/BookController.java",
+      "mappingLine": 281,
+      "methodDeclarationLine": 282,
+      "controllerGitBlobSha": "a0ac203df59263496dc406e4108775f450b5e203",
+      "witnessPath": "backend/src/main/java/org/booklore/service/book/BookUpdateService.java",
+      "witnessLines": [
+        108
+      ],
+      "witnessGitBlobSha": "e669815b627871bdd39649041ec94f17b4a3b8d3",
+      "findingKind": "SHELF_OWNER_BUT_BOOK_CONTENT_GAP",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "BookController#addBookToProgress",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/BookController.java",
+      "mappingLine": 289,
+      "methodDeclarationLine": 290,
+      "controllerGitBlobSha": "a0ac203df59263496dc406e4108775f450b5e203",
+      "witnessPath": "backend/src/main/java/org/booklore/service/progress/ReadingProgressService.java",
+      "witnessLines": [
+        203
+      ],
+      "witnessGitBlobSha": "f26587d32bd0a973a66e7e2eef265e8673821aa0",
+      "findingKind": "USER_PROGRESS_NO_LIBRARY_ACL",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "BookController#updateReadStatus",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/BookController.java",
+      "mappingLine": 308,
+      "methodDeclarationLine": 309,
+      "controllerGitBlobSha": "a0ac203df59263496dc406e4108775f450b5e203",
+      "witnessPath": "backend/src/main/java/org/booklore/service/book/BookUpdateService.java",
+      "witnessLines": [
+        66,
+        80,
+        94
+      ],
+      "witnessGitBlobSha": "e669815b627871bdd39649041ec94f17b4a3b8d3",
+      "findingKind": "BULK_USER_PROGRESS_BUT_NO_CONTENT_ACL",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "BookController#resetProgress",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/BookController.java",
+      "mappingLine": 318,
+      "methodDeclarationLine": 319,
+      "controllerGitBlobSha": "a0ac203df59263496dc406e4108775f450b5e203",
+      "witnessPath": "backend/src/main/java/org/booklore/service/progress/ReadingProgressService.java",
+      "witnessLines": [
+        283
+      ],
+      "witnessGitBlobSha": "f26587d32bd0a973a66e7e2eef265e8673821aa0",
+      "findingKind": "BULK_USER_PROGRESS_BUT_NO_CONTENT_ACL",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "BookController#updatePersonalRating",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/BookController.java",
+      "mappingLine": 330,
+      "methodDeclarationLine": 331,
+      "controllerGitBlobSha": "a0ac203df59263496dc406e4108775f450b5e203",
+      "witnessPath": "backend/src/main/java/org/booklore/service/book/BookUpdateService.java",
+      "witnessLines": [
+        66,
+        80,
+        94
+      ],
+      "witnessGitBlobSha": "e669815b627871bdd39649041ec94f17b4a3b8d3",
+      "findingKind": "BULK_USER_PROGRESS_BUT_NO_CONTENT_ACL",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "BookController#resetPersonalRating",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/BookController.java",
+      "mappingLine": 341,
+      "methodDeclarationLine": 342,
+      "controllerGitBlobSha": "a0ac203df59263496dc406e4108775f450b5e203",
+      "witnessPath": "backend/src/main/java/org/booklore/service/book/BookUpdateService.java",
+      "witnessLines": [
+        83,
+        97
+      ],
+      "witnessGitBlobSha": "e669815b627871bdd39649041ec94f17b4a3b8d3",
+      "findingKind": "BULK_USER_PROGRESS_BUT_NO_CONTENT_ACL",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "BookNoteController#createNote",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/BookNoteController.java",
+      "mappingLine": 35,
+      "methodDeclarationLine": 36,
+      "controllerGitBlobSha": "c7e14b70c4ece4c3d9d56bbe3332dd2fb63fb52d",
+      "witnessPath": "backend/src/main/java/org/booklore/service/book/BookNoteService.java",
+      "witnessLines": [
+        44
+      ],
+      "witnessGitBlobSha": "31f6b435930af7292a81be36432d30eaa7529603",
+      "findingKind": "USER_SCOPED_CREATE_NO_CONTENT_ACL",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "BookNoteController#deleteNote",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/BookNoteController.java",
+      "mappingLine": 43,
+      "methodDeclarationLine": 44,
+      "controllerGitBlobSha": "c7e14b70c4ece4c3d9d56bbe3332dd2fb63fb52d",
+      "witnessPath": "backend/src/main/java/org/booklore/service/book/BookNoteService.java",
+      "witnessLines": [
+        73
+      ],
+      "witnessGitBlobSha": "31f6b435930af7292a81be36432d30eaa7529603",
+      "findingKind": "USER_RECORD_LOOKUP_ONLY",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "BookNotesV2Controller#createNote",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/BookNotesV2Controller.java",
+      "mappingLine": 44,
+      "methodDeclarationLine": 45,
+      "controllerGitBlobSha": "3b949c52c73e253b472d4e988b2143b405ae0e1d",
+      "witnessPath": "backend/src/main/java/org/booklore/service/book/BookNoteV2Service.java",
+      "witnessLines": [
+        53
+      ],
+      "witnessGitBlobSha": "36828488ec6a0fe413bcc3693043855635dce681",
+      "findingKind": "USER_SCOPED_CREATE_NO_CONTENT_ACL",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "BookNotesV2Controller#updateNote",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/BookNotesV2Controller.java",
+      "mappingLine": 52,
+      "methodDeclarationLine": 53,
+      "controllerGitBlobSha": "3b949c52c73e253b472d4e988b2143b405ae0e1d",
+      "witnessPath": "backend/src/main/java/org/booklore/service/book/BookNoteV2Service.java",
+      "witnessLines": [
+        73,
+        83
+      ],
+      "witnessGitBlobSha": "36828488ec6a0fe413bcc3693043855635dce681",
+      "findingKind": "USER_RECORD_LOOKUP_ONLY",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "BookNotesV2Controller#deleteNote",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/BookNotesV2Controller.java",
+      "mappingLine": 61,
+      "methodDeclarationLine": 62,
+      "controllerGitBlobSha": "3b949c52c73e253b472d4e988b2143b405ae0e1d",
+      "witnessPath": "backend/src/main/java/org/booklore/service/book/BookNoteV2Service.java",
+      "witnessLines": [
+        73,
+        83
+      ],
+      "witnessGitBlobSha": "36828488ec6a0fe413bcc3693043855635dce681",
+      "findingKind": "USER_RECORD_LOOKUP_ONLY",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "KoboController#authenticateDevice",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+      "mappingLine": 116,
+      "methodDeclarationLine": 117,
+      "controllerGitBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
+      "witnessPath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+      "witnessLines": [
+        42
+      ],
+      "witnessGitBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
+      "findingKind": "TOKEN_ROUTED_THIRD_PARTY_AND_MUTABLE_CONTROLLER_STATE",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "KoboController#updateState",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+      "mappingLine": 157,
+      "methodDeclarationLine": 158,
+      "controllerGitBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
+      "witnessPath": "backend/src/main/java/org/booklore/service/kobo/KoboReadingStateService.java",
+      "witnessLines": [
+        91
+      ],
+      "witnessGitBlobSha": "6f3cd607a60cac175d7fb647574714e9c344567f",
+      "findingKind": "TOKEN_ROUTED_BOOK_ENTITLEMENT_GAP",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "KoboController#getTests",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+      "mappingLine": 172,
+      "methodDeclarationLine": 173,
+      "controllerGitBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
+      "witnessPath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+      "witnessLines": [
+        176
+      ],
+      "witnessGitBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
+      "findingKind": "NON_BOOK_MUTATION_ANALYTICS_SYNTHETIC",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "KoboController#pushEvent",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+      "mappingLine": 182,
+      "methodDeclarationLine": 183,
+      "controllerGitBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
+      "witnessPath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+      "witnessLines": [
+        184
+      ],
+      "witnessGitBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
+      "findingKind": "NON_BOOK_MUTATION_ANALYTICS_NOOP",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "KoboController#deleteBookFromLibrary",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+      "mappingLine": 202,
+      "methodDeclarationLine": 203,
+      "controllerGitBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
+      "witnessPath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+      "witnessLines": [
+        207
+      ],
+      "witnessGitBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
+      "findingKind": "TOKEN_ROUTED_SHELF_REMOVAL_GAP",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "KoboController#getNextRead",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+      "mappingLine": 219,
+      "methodDeclarationLine": 220,
+      "controllerGitBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
+      "witnessPath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+      "witnessLines": [
+        223,
+        269
+      ],
+      "witnessGitBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
+      "findingKind": "NON_BOOK_MUTATION_WITH_REMOTE_PROXY_OPTION",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "KoboController#putRating",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+      "mappingLine": 258,
+      "methodDeclarationLine": 259,
+      "controllerGitBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
+      "witnessPath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+      "witnessLines": [
+        265
+      ],
+      "witnessGitBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
+      "findingKind": "TOKEN_ROUTED_RATING_BOOK_ACL_GAP",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "KoboController#catchAll",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+      "mappingLine": 277,
+      "methodDeclarationLine": 278,
+      "controllerGitBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
+      "witnessPath": "backend/src/main/java/org/booklore/controller/KoboController.java",
+      "witnessLines": [
+        119,
+        164,
+        280
+      ],
+      "witnessGitBlobSha": "590fb03ffedc9c0bfe5c9298b8945cb46a3d0729",
+      "findingKind": "WILDCARD_MULTI_VERB_PROXY",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "KomgaController#notImplemented",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/KomgaController.java",
+      "mappingLine": 251,
+      "methodDeclarationLine": 265,
+      "controllerGitBlobSha": "7631c4f5be35652dca87cda92b9a659c321e4a3b",
+      "witnessPath": "backend/src/main/java/org/booklore/controller/KomgaController.java",
+      "witnessLines": [
+        267
+      ],
+      "witnessGitBlobSha": "7631c4f5be35652dca87cda92b9a659c321e4a3b",
+      "findingKind": "SOURCE_UNIMPLEMENTED_NO_LOCAL_WRITE",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "KomgaController#catchAll",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/KomgaController.java",
+      "mappingLine": 278,
+      "methodDeclarationLine": 279,
+      "controllerGitBlobSha": "7631c4f5be35652dca87cda92b9a659c321e4a3b",
+      "witnessPath": "backend/src/main/java/org/booklore/controller/KomgaController.java",
+      "witnessLines": [
+        281
+      ],
+      "witnessGitBlobSha": "7631c4f5be35652dca87cda92b9a659c321e4a3b",
+      "findingKind": "SOURCE_NOT_FOUND_NO_LOCAL_WRITE",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "KoreaderController#createUser",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/KoreaderController.java",
+      "mappingLine": 37,
+      "methodDeclarationLine": 38,
+      "controllerGitBlobSha": "0175ecce89ef22761469eef0c58e1e327d781179",
+      "witnessPath": "backend/src/main/java/org/booklore/controller/KoreaderController.java",
+      "witnessLines": [
+        39
+      ],
+      "witnessGitBlobSha": "0175ecce89ef22761469eef0c58e1e327d781179",
+      "findingKind": "SOURCE_FORBIDDEN_WITH_SECRET_LOG_RISK",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "KoreaderController#updateProgress",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/KoreaderController.java",
+      "mappingLine": 55,
+      "methodDeclarationLine": 56,
+      "controllerGitBlobSha": "0175ecce89ef22761469eef0c58e1e327d781179",
+      "witnessPath": "backend/src/main/java/org/booklore/service/koreader/KoreaderService.java",
+      "witnessLines": [
+        50,
+        82
+      ],
+      "witnessGitBlobSha": "41523ae90308f7a9dd50ea18f67a72f51d1ee4ee",
+      "findingKind": "KO_SYNC_USER_BOOK_ENTITLEMENT_GAP",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "LogoutController#logout",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/LogoutController.java",
+      "mappingLine": 30,
+      "methodDeclarationLine": 31,
+      "controllerGitBlobSha": "2aa1e574fa3217d3a95f45d004a431e81eaaaa3c",
+      "witnessPath": "backend/src/main/java/org/booklore/controller/LogoutController.java",
+      "witnessLines": [
+        35
+      ],
+      "witnessGitBlobSha": "2aa1e574fa3217d3a95f45d004a431e81eaaaa3c",
+      "findingKind": "AUTHENTICATED_LOGOUT_REFRESH_CONTEXT",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "MagicShelfController#createUpdateShelf",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/MagicShelfController.java",
+      "mappingLine": 42,
+      "methodDeclarationLine": 43,
+      "controllerGitBlobSha": "48468032540d1e9e507bb85e9659e27b8c8db76c",
+      "witnessPath": "backend/src/main/java/org/booklore/service/MagicShelfService.java",
+      "witnessLines": [
+        108
+      ],
+      "witnessGitBlobSha": "4861cb332a5a7a455ad837c7be21543c75e27525",
+      "findingKind": "USER_OWNER_CHECK_BUT_PUBLIC_FLAG_GAP",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "MagicShelfController#deleteShelf",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/MagicShelfController.java",
+      "mappingLine": 49,
+      "methodDeclarationLine": 50,
+      "controllerGitBlobSha": "48468032540d1e9e507bb85e9659e27b8c8db76c",
+      "witnessPath": "backend/src/main/java/org/booklore/service/MagicShelfService.java",
+      "witnessLines": [
+        82
+      ],
+      "witnessGitBlobSha": "4861cb332a5a7a455ad837c7be21543c75e27525",
+      "findingKind": "USER_OWNER_CHECK_SOURCE",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "OidcAuthController#handleCallback",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/OidcAuthController.java",
+      "mappingLine": 55,
+      "methodDeclarationLine": 56,
+      "controllerGitBlobSha": "6de4b34e54133898e4d4b63486003bdc41598ce4",
+      "witnessPath": "backend/src/main/java/org/booklore/controller/OidcAuthController.java",
+      "witnessLines": [
+        60
+      ],
+      "witnessGitBlobSha": "6de4b34e54133898e4d4b63486003bdc41598ce4",
+      "findingKind": "PUBLIC_OIDC_STATE_CONSUMED",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "OidcAuthController#handleMobileCallback",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/OidcAuthController.java",
+      "mappingLine": 135,
+      "methodDeclarationLine": 136,
+      "controllerGitBlobSha": "6de4b34e54133898e4d4b63486003bdc41598ce4",
+      "witnessPath": "backend/src/main/java/org/booklore/controller/OidcAuthController.java",
+      "witnessLines": [
+        90,
+        144
+      ],
+      "witnessGitBlobSha": "6de4b34e54133898e4d4b63486003bdc41598ce4",
+      "findingKind": "PUBLIC_OIDC_STATE_CONSUMED",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "OidcAuthController#backchannelLogout",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/OidcAuthController.java",
+      "mappingLine": 158,
+      "methodDeclarationLine": 159,
+      "controllerGitBlobSha": "6de4b34e54133898e4d4b63486003bdc41598ce4",
+      "witnessPath": "backend/src/main/java/org/booklore/controller/OidcAuthController.java",
+      "witnessLines": [
+        161
+      ],
+      "witnessGitBlobSha": "6de4b34e54133898e4d4b63486003bdc41598ce4",
+      "findingKind": "PUBLIC_SIGNED_LOGOUT_TOKEN_HANDLER",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "ReadingSessionController#recordReadingSession",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/ReadingSessionController.java",
+      "mappingLine": 33,
+      "methodDeclarationLine": 34,
+      "controllerGitBlobSha": "9d8c3766592037be1ed1653c44ff99854c1a13e4",
+      "witnessPath": "backend/src/main/java/org/booklore/service/ReadingSessionService.java",
+      "witnessLines": [
+        131
+      ],
+      "witnessGitBlobSha": "2715f045bcfa463a57b818b53fb240b272b1700b",
+      "findingKind": "USER_CONTEXT_BOOK_EXISTS_NO_ACCESS",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "SetupController#setupFirstUser",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/SetupController.java",
+      "mappingLine": 37,
+      "methodDeclarationLine": 38,
+      "controllerGitBlobSha": "5bf6e7ae568b57b6e679941d8f6e5550eb885c8f",
+      "witnessPath": "backend/src/main/java/org/booklore/controller/SetupController.java",
+      "witnessLines": [
+        40
+      ],
+      "witnessGitBlobSha": "5bf6e7ae568b57b6e679941d8f6e5550eb885c8f",
+      "findingKind": "PUBLIC_INITIAL_PROVISIONING_RACE_REVIEW",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "ShelfController#createShelf",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/ShelfController.java",
+      "mappingLine": 50,
+      "methodDeclarationLine": 51,
+      "controllerGitBlobSha": "225bc96d51e1900ad57c5809ce5c8ae29e963ec5",
+      "witnessPath": "backend/src/main/java/org/booklore/service/ShelfService.java",
+      "witnessLines": [
+        47,
+        65
+      ],
+      "witnessGitBlobSha": "843622eafe6bf500665b4cd8574f693ab100369d",
+      "findingKind": "USER_SCOPED_CREATE_ADMIN_PUBLIC_GUARD",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    },
+    {
+      "handlerIdentity": "UserController#changePassword",
+      "controllerPath": "backend/src/main/java/org/booklore/controller/UserController.java",
+      "mappingLine": 89,
+      "methodDeclarationLine": 90,
+      "controllerGitBlobSha": "34e5829353c426b6d9eb3abdbf10fead4d58dece",
+      "witnessPath": "backend/src/main/java/org/booklore/service/user/UserService.java",
+      "witnessLines": [
+        170
+      ],
+      "witnessGitBlobSha": "01a9cf94357b9e81858ecc0c34245ececce7419b",
+      "findingKind": "AUTHENTICATED_SELF_OLD_PASSWORD_CHECK",
+      "reviewState": "STATIC_SOURCE_TRIAGED__RUNTIME_AUTH_NOT_RUN",
+      "gatewayAllowed": false,
+      "authorizationApproved": false
+    }
+  ]
+}
