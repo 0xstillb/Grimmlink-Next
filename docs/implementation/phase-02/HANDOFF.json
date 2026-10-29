@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "phase": "PHASE_02",
   "phaseName": "Single-Port Gateway, Auth & Official REST Client",
-  "status": "MOCK_CODE_AND_ISOLATED_CI_GREEN_INDEPENDENT_REVIEW_PENDING",
+  "status": "SPRING_RUNTIME_METADATA_CAPTURED_MOCK_GATEWAY_CI_PASS_EXIT_BLOCKED",
   "exitGate": "GATEWAY_CODE_REVIEWED_NOT_GRANTED",
   "baseIntegrationCommit": "0579f64afb2d53001c915a10079d00ecd9de0091",
   "branch": "feat/next-phase-02",
@@ -23,7 +23,11 @@
     "Mock Caddy image without inherited filecap under cap_drop ALL",
     "Synthetic all-or-none user/library/book/file/row/revocation rights policy and tests",
     "Runtime security evidence NOT_RUN receipt plus anti-forgery machine gate and Python tests",
-    "Docker Compose config and real isolated HTTP mock negative tests"
+    "Docker Compose config and real isolated HTTP mock negative tests",
+    "Pinned Grimmory Spring Boot Java25 H2 runtime probe: 352 real HandlerMapping entries and 12 ordered SecurityFilterChains; 346 source handler identities matched",
+    "Unexposed loopback JSON HTTP transport with bounded response and no redirect/cookie/token forwarding",
+    "HMAC Admin/Reader session codec and pure tests; NOT wired to live auth or device pairing",
+    "Machine reconciliation of runtime registry against 403 pinned static source route candidates (handler identity only)"
   ],
   "tests": {
     "githubPhase02Workflow": {
@@ -78,7 +82,26 @@
       "run": "40906176944",
       "sourceHead": "69ded85e584263f885ce51a2a322adc0d20ce60e",
       "result": "SUCCESS_DESIGN_ONLY"
-    }
+    },
+    "actualSpringRuntime": {
+      "run": "40918459916",
+      "sourceHead": "30b7d22c2297d2e022dd68538c4fc26072606080",
+      "artifactId": "12918045157",
+      "pinnedUpstreamSha": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+      "result": "SUCCESS_352_HANDLERS_12_CHAINS_346_SOURCE_HANDLER_IDENTITIES",
+      "limitations": "NO_EFFECTIVE_HTTP_METHOD_PATH_AUTH_OR_CURRENT_RECORD_RIGHTS"
+    },
+    "gatewayCodeLatest": {
+      "run": "40919435611",
+      "sourceHead": "add509230058d2d033690445b0cd733fa744a141",
+      "result": "SUCCESS_ISOLATED_MOCK_GATEWAY"
+    },
+    "phase00Latest": {
+      "run": "40919435185",
+      "sourceHead": "add509230058d2d033690445b0cd733fa744a141",
+      "result": "SUCCESS_DESIGN_ONLY"
+    },
+    "liveOfficialRuntime": "NOT_RUN"
   },
   "safety": {
     "officialGatewayForwarding": "DENY_ALL",
@@ -91,15 +114,14 @@
     "productionDeployment": "NOT_AUTHORIZED"
   },
   "pending": [
-    "Real Spring RequestMappingHandlerMapping + ordered SecurityFilterChain export and reconciliation",
-    "Official UI/API/OPDS/Kobo/Komga/KO route ownership and proven authorized forwarding",
-    "User/library/book/file/row rights atomic enforcement and live JWT/device mapping",
-    "Admin login verified session issuer, CSRF HTTP endpoint and independent approval",
-    "Public TLS/SNI and IPv4/IPv6/container direct ingress plus outbound egress isolation",
-    "Range/WebSocket/SSE compatibility through authorized fake upstream",
-    "Independent separate-context exact-source Phase02 review and signed authorization"
+    "Effective method/path/security chain semantics plus HEAD OPTIONS OPDS aliases and feature route ownership",
+    "Actual current user/library/book/file/row ACL atomically enforced with negative runtime requests",
+    "Verified Official/admin login and device pairing/revocation with protected HTTP CSRF endpoint",
+    "TLS/SNI and direct ingress IPv4/IPv6/container + egress isolation on realistic deployment",
+    "Independent fresh-context line-level security review and owner acceptance",
+    "Real Hermes NAS readers integrated E2E reserved to Phase09"
   ],
-  "next": "Mock implementation passes isolated exact-code CI on 69ded85e. Later docs-only commits require separate exact-head CI. GATEWAY_CODE_REVIEWED is BLOCKED on genuine Spring/ownership/ingress/session evidence and independent review; do not merge or deploy.",
+  "next": "Read current branch HEAD CI after docs commit; review runtime artifact and reconcile effective method/path/security decisions, then full rights/session/ingress proof and independent review. No Official forwarding or merge.",
   "updatedAt": "2026-10-29",
   "latestVerifiedCodeSourceHead": "69ded85e584263f885ce51a2a322adc0d20ce60e",
   "networkEgressIsolation": "NOT_PROVEN_BRIDGE_LOOPBACK_MOCK_ONLY"
