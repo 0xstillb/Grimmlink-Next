@@ -34,6 +34,7 @@ export function claimJob(sqlite: Database.Database, leaseOwner: string, now: num
   if (!leaseOwner || !Number.isSafeInteger(now) || !Number.isSafeInteger(ttlMs) || ttlMs <= 0 || ttlMs > 300000) {
     throw new Error("Invalid lease request");
   }
+  if (!Number.isSafeInteger(now + ttlMs)) throw new Error("Lease expiry out of range");
   const tx = sqlite.transaction(() => {
     const row = sqlite.prepare(
       "SELECT id FROM jobs WHERE status = 'PENDING' OR (status = 'LEASED' AND lease_until <= ?) ORDER BY created_at ASC LIMIT 1"
