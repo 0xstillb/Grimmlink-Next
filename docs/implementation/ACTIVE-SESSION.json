@@ -10,8 +10,8 @@
   "productionBranch": "main",
   "phase": "00",
   "phaseName": "Discovery, Contracts & Architecture Lock",
-  "phaseStatus": "IMPLEMENTER_SECURITY_REMEDIATION_COMMITTED_FRESH_INDEPENDENT_REVIEW_REQUIRED",
-  "lastVerifiedPriorCommit": "59773bd65eb265dbe4850204a65649b7c8a5c51c",
+  "phaseStatus": "IMPLEMENTER_ROUTE_SECURITY_CORRECTION_COMMITTED_FRESH_INDEPENDENT_REVIEW_REQUIRED",
+  "lastVerifiedPriorCommit": "f27dea9b5cd6c441405a6ad62d6703e33d9ef47c",
   "currentHead": "READ_LIVE_GITHUB_NO_SELF_SHA",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/2",
   "codeImplemented": false,
@@ -54,24 +54,26 @@
     "GATEWAY_AUTHORIZATION_FIXTURES",
     "RUNTIME_SPRING_REQUESTMAPPING_CENSUS",
     "RESET_MODE_TESTS",
-    "SESSION_CRASH_TESTS"
+    "SESSION_CRASH_TESTS",
+    "ALL_923_JAVA_FILES_HANDLER_SEARCH",
+    "APP_ACCESS_FIXTURES",
+    "RUNTIME_SPRING_HANDLER_MAPPING",
+    "NEGATIVE_FIXTURES_DESIGNED_ONLY"
   ],
   "blockers": [
-    "R-02 unclosed native KOSync same-user entitlement TOCTOU, no gateway runtime; BLOCKED/OFF",
-    "R-01 scalar policy now documented but metadata apply/protected source settings/isolated mocks unproven; OFF",
-    "R-09 durable outbox spec documented, not implemented; OFF",
-    "R-11 handoff documentation corrected; independent re-review still required",
-    "Installed versions and deployed ACL/network state UNKNOWN until Phase09",
-    "R-02A P0: reset-progress all modes and reset-personal-rating gateway interception and library/content authorization not implemented",
-    "R-02: no atomic Native KOSync book entitlement; permanently OFF unless independent authorized redesign",
-    "56 controller annotations catalogued (321), live Spring runtime mapping NOT_RUN"
+    "NEW-P0-01 incomplete source-wide/Java handler census: named 64/348 annotations only; runtime exporter NOT_RUN",
+    "All App personal GET/PUT/DELETE need current book/record ACL and direct-backend bypass proof; no gateway runtime",
+    "R-02A all reset modes/rating OFF; whole batch precheck non-atomic",
+    "R-02 Native KO atomic book entitlement unavailable: OFF",
+    "R-01 OPF CAS/side effects not proven: metadataApply OFF",
+    "R-09 outbox/uncertain no retry not implemented: session bridge OFF"
   ],
   "notion": {
     "phase": "https://app.notion.com/p/407c7efbc00981e2b08ff8fb45c3f846",
     "spec": "https://app.notion.com/p/407c7efbc00981f1a9c6ccb0de5d6a54",
     "playbook": "https://app.notion.com/p/407c7efbc009814a9e18f0d945ee0ef0"
   },
-  "nextAction": "Fresh Independent Reviewer: audit live HEAD diff from f263e620 and pinned sources; keep CHANGES_REQUIRED/PHASE01_NOT_AUTHORIZED until actual independent gate; NEVER merge PR #2.",
+  "nextAction": "Fresh independent reviewer: compare 9eb7790 to live HEAD; assess NEW-P0-01 source-wide completeness and R-02A/App/KO/OPF/outbox; no Phase01, no merge",
   "updatedAt": "2026-10-29",
   "sourceRecheck": "IMPLEMENTER_SOURCE_RECHECK_NOT_INDEPENDENT",
   "prStatus": "OPEN_DRAFT_UNMERGED",
@@ -81,9 +83,9 @@
   "reviewedPreReviewHead": "5eccac25c8e85e16cfa913b72ae36bc6a3ceeed8",
   "reviewReport": "docs/implementation/phase-00/FINAL-INDEPENDENT-REVIEW-2026-10-29.md",
   "independentReReview": "FRESH_REVIEW_PERFORMED_ON_CEA6485_CHANGES_REQUIRED",
-  "correctionReport": "docs/implementation/phase-00/REMEDIATION.md",
+  "correctionReport": "docs/implementation/phase-00/ROUTE-COVERAGE-SECURITY-CORRECTION-2026-10-29.md",
   "correctionScope": "R-01_TO_R-12_DOCS_ONLY",
-  "reviewPacket": "docs/implementation/phase-00/RE-REVIEW-PACKET.md",
+  "reviewPacket": "docs/implementation/phase-00/NEXT-INDEPENDENT-REVIEW-PACKET.md",
   "finalIndependentReviewedHead": "cea648544547c4d2b3f5c652bfc75d408288b7c7",
   "finalIndependentReviewReport": "docs/implementation/phase-00/FINAL-INDEPENDENT-REVIEW-2026-10-29.md",
   "finalRemediationReport": "docs/implementation/phase-00/FINAL-REMEDIATION-2026-10-29.md",
@@ -100,5 +102,13 @@
   "phase01Authorized": false,
   "securityRemediationReport": "docs/implementation/phase-00/SECURITY-REMEDIATION-2026-10-29.md",
   "routeCensus": "docs/implementation/phase-00/ROUTE-CENSUS-INDEX.md",
-  "nativeKosyncAdr": "docs/implementation/ADR-025-NATIVE-KOSYNC-SECURITY.md"
+  "nativeKosyncAdr": "docs/implementation/ADR-025-NATIVE-KOSYNC-SECURITY.md",
+  "controllerCensus": {
+    "recognizedControllerFiles": 64,
+    "methodAnnotations": 348,
+    "appFiles": 8,
+    "appAnnotations": 27,
+    "sourceFull": "UNVERIFIED",
+    "runtime": "NOT_RUN"
+  }
 }

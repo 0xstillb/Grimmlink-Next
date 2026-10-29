@@ -1,3 +1,10 @@
+## CURRENT — 2026-10-29 Complete App Route & Security Contract Correction (implementer; pending independent review)
+
+**Branch pre-correction HEAD:** `9eb7790367d2272e430ee78d2323952960234c00`; subsequent commits must be checked LIVE on [Draft PR #2](https://github.com/0xstillb/Grimmlink-Next/pull/2). Prior independent verdict **CHANGES_REQUIRED / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED** remains authoritative. **Recognized controller file census 64/348 method-level annotations** (56/321 root + 8/27 App; source annotation completeness across all Java and runtime mappings UNVERIFIED). [App census](phase-00/ROUTE-CENSUS-APP.md) · [Mapping expansion](phase-00/ROUTE-MAPPING-EXPANSION.md) · [Route ownership](phase-00/SECURITY-ROUTE-OWNERSHIP.md) · [Correction report](phase-00/ROUTE-COVERAGE-SECURITY-CORRECTION-2026-10-29.md) · [Reviewer packet](phase-00/NEXT-INDEPENDENT-REVIEW-PACKET.md).
+
+**Feature gates (DESIGN_SPECIFIED, not runtime OFF switches):** `NATIVE_KOSYNC_PROGRESS=BLOCKED/OFF`, metadata apply OFF, reset-progress/rating OFF, personal bridge reads/writes OFF, sessions bridge OFF. No atomic native KOSync ACL proof; Gateway precheck is not atomic; no zero-lost-update proof for Official metadata REST; session 202 is not immutable idempotent receipt. Runtime, unit/mocks, gateway, network and E2E NOT_RUN. Phase09 only full E2E/Hermes/NAS/devices. Do not merge PR #2, approve Phase01, or mark new findings independently APPROVED.
+
+---
 
 ## Latest Phase00 Security Remediation — 2026-10-29 (NOT independent approval)
 
@@ -8,12 +15,12 @@
 <!-- Current 2026-10-29 reviewer packet: [RE-REVIEW-PACKET.md](phase-00/RE-REVIEW-PACKET.md). Prior checkpoints below historical. -->
 # GRIMMLINK NEXT — GPT Web Session Handoff
 
-## CURRENT — 2026-10-29 Implementer Final Remediation (RE-REVIEW REQUIRED)
+## HISTORICAL — 2026-10-29 Implementer Final Remediation (RE-REVIEW REQUIRED)
 
 **Implementation-document checkpoint:** `IMPLEMENTER_FINAL_REMEDIATION_COMMITTED_AWAITING_FRESH_INDEPENDENT_REVIEW`. This is **not** reviewer approval. Last actual independent verdict [FINAL-INDEPENDENT-REVIEW-2026-10-29.md](phase-00/FINAL-INDEPENDENT-REVIEW-2026-10-29.md) = **CHANGES_REQUIRED / NOT_APPROVED / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED** (8 DOC_FIXED / 4 DOC_PARTIAL on cea6485). See [FINAL-REMEDIATION-2026-10-29.md](phase-00/FINAL-REMEDIATION-2026-10-29.md). Fetch live GitHub HEAD (prior starting SHA `f263e6208d9dc520e29e3113dcf6bd632f239b72`), do not embed self SHA. PR #1 merged into integration in history; PR #2 remains Draft. R-02 KOSync progress **BLOCKED/OFF** due to non-atomic no-fork ACL proof, other metadata/personal/session writes OFF. All real integrated E2E Phase09 only; no Phase01 or merge.
 
 
-## CURRENT FRESH FINAL INDEPENDENT REVIEW — 2026-10-29 (supersedes review-pending banners below)
+## HISTORICAL FRESH FINAL INDEPENDENT REVIEW — 2026-10-29 (supersedes review-pending banners below)
 
 - The independent reviewer inspected corrected source/document HEAD `cea648544547c4d2b3f5c652bfc75d408288b7c7` against `411b68bd1ed2ffeca28165c55cc52fda6d88ea6c` and independently read Grimmory v3.5.0 / Readest v0.12.16 source. [Final review](phase-00/FINAL-INDEPENDENT-REVIEW-2026-10-29.md): **CHANGES_REQUIRED, 8 DOC_FIXED / 4 DOC_PARTIAL / 0 DOC_UNFIXED**, not CONTRACT_LOCKED. Review own handoff edits are NOT self-approved.
 - Remaining: R-01 P0 scalar allowlist, R-02 P0 authoritative user-to-book entitlement and bypass-free public :6060 gateway, R-09 P1 uncertain-session ACK/at-most-once, R-11 P1 stale historical handoff. **External KOSync progress BLOCKED/OFF**, personal bridge/metadata writes OFF. Never allow blind Official passthrough, impersonation, or source NAS writes.
@@ -26,7 +33,7 @@
 - Same session authored **subsequent** contract/gateway/metadata/Sidecar clarity fixes. Those new changes are **not independently re-reviewed**; new reviewer must inspect actual diff after `411b68` and assess the remaining design-level auth gate. **NOT CONTRACT_LOCKED, NO Phase01, no merge**; full integrated E2E Phase09 only. Fetch live HEAD.
 
 
-## CURRENT CORRECTION CHECKPOINT — 2026-10-29 (supersedes earlier reviewed head below)
+## HISTORICAL CORRECTION CHECKPOINT — 2026-10-29 (supersedes earlier reviewed head below)
 
 - **The source-contract correction pass R-01–R-12 is committed** on [Draft PR #2](https://github.com/0xstillb/Grimmlink-Next/pull/2). Read [REMEDIATION.md](phase-00/REMEDIATION.md) alongside the prior [independent REVIEW.md](phase-00/REVIEW.md) and [HANDOFF.json](phase-00/HANDOFF.json).
 - **Prior independent verdict remains CHANGES_REQUIRED**. Correction author cannot approve their own work: **independent re-review NOT_RUN, NOT CONTRACT_LOCKED, Phase01 NOT AUTHORIZED**. Read GitHub LIVE HEAD, do not use any older SHA in this file as branch tip.

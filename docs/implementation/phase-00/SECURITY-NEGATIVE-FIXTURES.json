@@ -1,0 +1,2003 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "402e89b4452f8e2b17ab95f16c1621c003516cd2",
+  "description": "DESIGN_SPECIFIED expected outcomes for future isolated/mock fixtures; no request executed, no runtime Gateway exists. 200/202 successes are hypothetical WHEN_ENABLED_MOCK, not current live behavior.",
+  "status": "NOT_RUN",
+  "fixtures": [
+    {
+      "fixtureId": "R02A-RESET_BOOKLORE_OWN",
+      "family": "R02A",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/books/reset-progress?type=BOOKLORE",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": [
+          101
+        ]
+      },
+      "preconditions": "caller JWT, current assigned library + content entitlement, known owned book",
+      "expected": {
+        "httpStatus": 200,
+        "upstreamCallCount": 1,
+        "mutationCount": 1,
+        "durableState": "UPSTREAM_RESPONSE_OBSERVED_NOT_DURABLE_PROOF",
+        "diagnosticEvent": "reset.admitted"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/BookController.java#L318",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "R02A-RESET_BOOKLORE_REVOKED",
+      "family": "R02A",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/books/reset-progress?type=BOOKLORE",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": [
+          102
+        ]
+      },
+      "preconditions": "previous own progress row exists; library revoked",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "reset.denied.entitlement"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/BookController.java#L318",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "R02A-RESET_BOOKLORE_MIXED",
+      "family": "R02A",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/books/reset-progress?type=BOOKLORE",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": [
+          101,
+          102
+        ]
+      },
+      "preconditions": "first ID authorized, second revoked",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "reset.denied.batch"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/BookController.java#L318",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "R02A-RESET_KOREADER_OWN",
+      "family": "R02A",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/books/reset-progress?type=KOREADER",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": [
+          101
+        ]
+      },
+      "preconditions": "caller JWT, current assigned library + content entitlement, known owned book",
+      "expected": {
+        "httpStatus": 200,
+        "upstreamCallCount": 1,
+        "mutationCount": 1,
+        "durableState": "UPSTREAM_RESPONSE_OBSERVED_NOT_DURABLE_PROOF",
+        "diagnosticEvent": "reset.admitted"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/BookController.java#L318",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "R02A-RESET_KOREADER_REVOKED",
+      "family": "R02A",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/books/reset-progress?type=KOREADER",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": [
+          102
+        ]
+      },
+      "preconditions": "previous own progress row exists; library revoked",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "reset.denied.entitlement"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/BookController.java#L318",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "R02A-RESET_KOREADER_MIXED",
+      "family": "R02A",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/books/reset-progress?type=KOREADER",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": [
+          101,
+          102
+        ]
+      },
+      "preconditions": "first ID authorized, second revoked",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "reset.denied.batch"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/BookController.java#L318",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "R02A-RESET_KOBO_OWN",
+      "family": "R02A",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/books/reset-progress?type=KOBO",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": [
+          101
+        ]
+      },
+      "preconditions": "caller JWT, current assigned library + content entitlement, known owned book",
+      "expected": {
+        "httpStatus": 200,
+        "upstreamCallCount": 1,
+        "mutationCount": 1,
+        "durableState": "UPSTREAM_RESPONSE_OBSERVED_NOT_DURABLE_PROOF",
+        "diagnosticEvent": "reset.admitted"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/BookController.java#L318",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "R02A-RESET_KOBO_REVOKED",
+      "family": "R02A",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/books/reset-progress?type=KOBO",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": [
+          102
+        ]
+      },
+      "preconditions": "previous own progress row exists; library revoked",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "reset.denied.entitlement"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/BookController.java#L318",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "R02A-RESET_KOBO_MIXED",
+      "family": "R02A",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/books/reset-progress?type=KOBO",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": [
+          101,
+          102
+        ]
+      },
+      "preconditions": "first ID authorized, second revoked",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "reset.denied.batch"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/BookController.java#L318",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "R02A-RESET_KOBO_USER_SCOPE",
+      "family": "R02A",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/books/reset-progress?type=KOBO",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": [
+          101
+        ]
+      },
+      "preconditions": "user A entitled; user B Kobo state exists on same book",
+      "expected": {
+        "httpStatus": 200,
+        "upstreamCallCount": 1,
+        "mutationCount": 1,
+        "durableState": "USER_B_KOBO_STATE_UNCHANGED",
+        "diagnosticEvent": "reset.kobo.user_scoped"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/service/progress/ReadingProgressService.java#L488",
+      "phaseOwner": "Phase07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "R02A-INVALID_EMPTY",
+      "family": "R02A",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/books/reset-progress?type=BOOKLORE",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": []
+      },
+      "preconditions": "empty list",
+      "expected": {
+        "httpStatus": 400,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "reset.denied.invalid_input"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/BookController.java#L318",
+      "phaseOwner": "Phase02",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "R02A-INVALID_DUP",
+      "family": "R02A",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/books/reset-progress?type=BOOKLORE",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": [
+          101,
+          101
+        ]
+      },
+      "preconditions": "duplicate",
+      "expected": {
+        "httpStatus": 400,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "reset.denied.invalid_input"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/BookController.java#L318",
+      "phaseOwner": "Phase02",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "R02A-INVALID_ZERO",
+      "family": "R02A",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/books/reset-progress?type=BOOKLORE",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": [
+          0
+        ]
+      },
+      "preconditions": "nonpositive ID",
+      "expected": {
+        "httpStatus": 400,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "reset.denied.invalid_input"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/BookController.java#L318",
+      "phaseOwner": "Phase02",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "R02A-INVALID_TOO_LARGE",
+      "family": "R02A",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/books/reset-progress?type=BOOKLORE",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "generate": "501 IDs"
+        }
+      },
+      "preconditions": "501 book IDs",
+      "expected": {
+        "httpStatus": 400,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "reset.denied.invalid_input"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/BookController.java#L318",
+      "phaseOwner": "Phase02",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "R02A-INVALID_TYPE",
+      "family": "R02A",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/books/reset-progress?type=UNKNOWN",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": [
+          101
+        ]
+      },
+      "preconditions": "unrecognized reset mode",
+      "expected": {
+        "httpStatus": 400,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "reset.denied.invalid_input"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/BookController.java#L318",
+      "phaseOwner": "Phase02",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "R02A-REVERSE_MIXED",
+      "family": "R02A",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/books/reset-progress?type=KOREADER",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": [
+          102,
+          101
+        ]
+      },
+      "preconditions": "first revoked, second allowed",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "reset.denied.batch"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/BookController.java#L318",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "R02A-RATING_OWN",
+      "family": "R02A",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/books/reset-personal-rating",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": [
+          101
+        ]
+      },
+      "preconditions": "current owner + eligibility",
+      "expected": {
+        "httpStatus": 200,
+        "upstreamCallCount": 1,
+        "mutationCount": 1,
+        "durableState": "UPSTREAM_RESPONSE_OBSERVED",
+        "diagnosticEvent": "rating.admitted"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/BookController.java#L341",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "R02A-RATING_REVOKED",
+      "family": "R02A",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/books/reset-personal-rating",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": [
+          102
+        ]
+      },
+      "preconditions": "own row but revoked library",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "rating.denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/BookController.java#L341",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "R02A-RATING_RESTRICTED",
+      "family": "R02A",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/books/reset-personal-rating",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": [
+          103
+        ]
+      },
+      "preconditions": "content restriction denies",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "rating.denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/BookController.java#L341",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "R02A-RATING_FOREIGN",
+      "family": "R02A",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/books/reset-personal-rating",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": [
+          104
+        ]
+      },
+      "preconditions": "other user progress row",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "rating.denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/BookController.java#L341",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "R02A-RATING_MIXED",
+      "family": "R02A",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/books/reset-personal-rating",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": [
+          101,
+          102
+        ]
+      },
+      "preconditions": "authorized/revoked mixed",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "rating.denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/BookController.java#L341",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "R02A-RATING_MIXED_REVERSED",
+      "family": "R02A",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/books/reset-personal-rating",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": [
+          102,
+          101
+        ]
+      },
+      "preconditions": "revoked/authorized mixed",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "rating.denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/BookController.java#L341",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "R02A-RATING_EMPTY",
+      "family": "R02A",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/books/reset-personal-rating",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": []
+      },
+      "preconditions": "empty input",
+      "expected": {
+        "httpStatus": 400,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "rating.denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/BookController.java#L341",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "APP-BOOK_PROGRESS_GET",
+      "family": "APP",
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/app/books/102/progress",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": null
+      },
+      "preconditions": "library revoked but own progress exists",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "app.book_progress_get.denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppBookController.java#L58",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "APP-BOOK_PROGRESS_PUT",
+      "family": "APP",
+      "request": {
+        "method": "PUT",
+        "path": "/api/v1/app/books/103/progress",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "fileProgress": {
+            "bookFileId": 99,
+            "progressPercent": 4
+          }
+        }
+      },
+      "preconditions": "restricted content",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "app.book_progress_put.denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppBookController.java#L58",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "APP-BOOK_STATUS",
+      "family": "APP",
+      "request": {
+        "method": "PUT",
+        "path": "/api/v1/app/books/102/status",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "status": "READ"
+        }
+      },
+      "preconditions": "library revoked",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "app.book_status.denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppBookController.java#L58",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "APP-BOOK_RATING",
+      "family": "APP",
+      "request": {
+        "method": "PUT",
+        "path": "/api/v1/app/books/103/rating",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "rating": 4
+        }
+      },
+      "preconditions": "content restricted",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "app.book_rating.denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppBookController.java#L58",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "APP-NOTEBOOK_GET",
+      "family": "APP",
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/app/notebook/books/102/entries",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": null
+      },
+      "preconditions": "former own notebook row after library revocation",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "app.notebook_get.denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppNotebookController.java#L44",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "APP-NOTEBOOK_PUT",
+      "family": "APP",
+      "request": {
+        "method": "PUT",
+        "path": "/api/v1/app/notebook/entries/900?type=NOTE",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "note": "test"
+        }
+      },
+      "preconditions": "entry belongs to foreign user",
+      "expected": {
+        "httpStatus": 404,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "app.notebook_put.denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppNotebookController.java#L44",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "APP-NOTEBOOK_DELETE",
+      "family": "APP",
+      "request": {
+        "method": "DELETE",
+        "path": "/api/v1/app/notebook/entries/900?type=BOOKMARK",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": null
+      },
+      "preconditions": "entry belongs to foreign user",
+      "expected": {
+        "httpStatus": 404,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "app.notebook_delete.denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppNotebookController.java#L44",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "APP-NO_BOOK_LEAK",
+      "family": "APP",
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/app/books/999/progress",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": null
+      },
+      "preconditions": "unknown versus forbidden book indistinguishable response policy",
+      "expected": {
+        "httpStatus": 404,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "app.no_book_leak.denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppBookController.java#L58",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "APP-FILE_EDITION_MISMATCH",
+      "family": "APP",
+      "request": {
+        "method": "PUT",
+        "path": "/api/v1/app/books/101/progress",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "fileProgress": {
+            "bookFileId": 44,
+            "progressPercent": 8
+          }
+        }
+      },
+      "preconditions": "foreign bookFileId",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "app.file_edition_mismatch.denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppBookController.java#L58",
+      "phaseOwner": "Phase02/07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "KOSYNC-KO_JWT_MISMATCH",
+      "family": "KOSYNC",
+      "request": {
+        "method": "PUT",
+        "path": "/api/koreader/syncs/progress",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "document": "hash-A",
+          "percentage": 0.2
+        }
+      },
+      "preconditions": "KO user differs linked JWT user",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "OFF",
+        "diagnosticEvent": "kosync.denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/KoreaderController.java#L40",
+      "phaseOwner": "Phase02/05",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "REQUIRED_GATEWAY_DESIGN_OFF"
+    },
+    {
+      "fixtureId": "KOSYNC-KO_ROTATED",
+      "family": "KOSYNC",
+      "request": {
+        "method": "GET",
+        "path": "/api/koreader/syncs/progress/hash-A",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": null
+      },
+      "preconditions": "KO credentials rotated",
+      "expected": {
+        "httpStatus": 401,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "OFF",
+        "diagnosticEvent": "kosync.denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/KoreaderController.java#L40",
+      "phaseOwner": "Phase02/05",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "REQUIRED_GATEWAY_DESIGN_OFF"
+    },
+    {
+      "fixtureId": "KOSYNC-HASH_COLLISION",
+      "family": "KOSYNC",
+      "request": {
+        "method": "PUT",
+        "path": "/api/koreader/syncs/progress",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "document": "collision",
+          "percentage": 0.2
+        }
+      },
+      "preconditions": "hash resolves multiple books",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "OFF",
+        "diagnosticEvent": "kosync.denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/KoreaderController.java#L40",
+      "phaseOwner": "Phase02/05",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "REQUIRED_GATEWAY_DESIGN_OFF"
+    },
+    {
+      "fixtureId": "KOSYNC-EDITION_MISMATCH",
+      "family": "KOSYNC",
+      "request": {
+        "method": "GET",
+        "path": "/api/koreader/syncs/progress/hash-A",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": null
+      },
+      "preconditions": "edition changed after mapping",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "OFF",
+        "diagnosticEvent": "kosync.denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/KoreaderController.java#L40",
+      "phaseOwner": "Phase02/05",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "REQUIRED_GATEWAY_DESIGN_OFF"
+    },
+    {
+      "fixtureId": "KOSYNC-REVOKED_AFTER_CHECK",
+      "family": "KOSYNC",
+      "request": {
+        "method": "PUT",
+        "path": "/api/koreader/syncs/progress",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "document": "hash-A",
+          "percentage": 0.2
+        }
+      },
+      "preconditions": "revocation after precheck; no atomic ACL",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "OFF",
+        "diagnosticEvent": "kosync.denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/KoreaderController.java#L40",
+      "phaseOwner": "Phase02/05",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "REQUIRED_GATEWAY_DESIGN_OFF"
+    },
+    {
+      "fixtureId": "KOSYNC-ENCODED_PATH",
+      "family": "KOSYNC",
+      "request": {
+        "method": "PUT",
+        "path": "/api/koreader%2Fsyncs/progress",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "document": "hash-A"
+        }
+      },
+      "preconditions": "encoded slash bypass attempt",
+      "expected": {
+        "httpStatus": 400,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "OFF",
+        "diagnosticEvent": "kosync.denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/KoreaderController.java#L40",
+      "phaseOwner": "Phase02/05",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "REQUIRED_GATEWAY_DESIGN_OFF"
+    },
+    {
+      "fixtureId": "KOSYNC-DOUBLE_ENCODING",
+      "family": "KOSYNC",
+      "request": {
+        "method": "PUT",
+        "path": "/api/koreader%252Fsyncs/progress",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "document": "hash-A"
+        }
+      },
+      "preconditions": "double encoded slash",
+      "expected": {
+        "httpStatus": 400,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "OFF",
+        "diagnosticEvent": "kosync.denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/KoreaderController.java#L40",
+      "phaseOwner": "Phase02/05",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "REQUIRED_GATEWAY_DESIGN_OFF"
+    },
+    {
+      "fixtureId": "KOSYNC-UNKNOWN_ALIAS",
+      "family": "KOSYNC",
+      "request": {
+        "method": "GET",
+        "path": "/proxy/api/koreader/syncs/progress/hash-A",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": null
+      },
+      "preconditions": "unregistered proxy rewrite",
+      "expected": {
+        "httpStatus": 404,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "OFF",
+        "diagnosticEvent": "kosync.denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/KoreaderController.java#L40",
+      "phaseOwner": "Phase02/05",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "REQUIRED_GATEWAY_DESIGN_OFF"
+    },
+    {
+      "fixtureId": "KOSYNC-HEAD_OPTIONS",
+      "family": "KOSYNC",
+      "request": {
+        "method": "OPTIONS",
+        "path": "/api/koreader/syncs/progress/hash-A",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": null
+      },
+      "preconditions": "unexpected preflight",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "OFF",
+        "diagnosticEvent": "kosync.denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/KoreaderController.java#L40",
+      "phaseOwner": "Phase02/05",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "REQUIRED_GATEWAY_DESIGN_OFF"
+    },
+    {
+      "fixtureId": "KOSYNC-NO_SECRET_LOG",
+      "family": "KOSYNC",
+      "request": {
+        "method": "GET",
+        "path": "/api/koreader/users/auth",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": null
+      },
+      "preconditions": "test KO password hash in header; mocked invalid authentication",
+      "expected": {
+        "httpStatus": 401,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "OFF",
+        "diagnosticEvent": "auth.redacted_no_secret"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/config/security/filter/KoreaderAuthFilter.java#L33",
+      "phaseOwner": "Phase02/05",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "ROUTE-UNKNOWN_SENSITIVE",
+      "family": "ROUTE",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/app/books/101/unknown",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "preconditions": "unknown sensitive path",
+      "expected": {
+        "httpStatus": 404,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "route.denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppBookController.java#L58",
+      "phaseOwner": "Phase02",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "ROUTE-INVALID_METHOD",
+      "family": "ROUTE",
+      "request": {
+        "method": "PATCH",
+        "path": "/api/v1/app/books/101/progress",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "preconditions": "unsupported method",
+      "expected": {
+        "httpStatus": 405,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCHANGED",
+        "diagnosticEvent": "route.method_denied"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppBookController.java#L58",
+      "phaseOwner": "Phase02",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "ROUTE-CONDITIONAL_PARAMS",
+      "family": "ROUTE",
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/books/101/files?isBook=true",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": null
+      },
+      "preconditions": "conditional GET mapping source semantics; method request",
+      "expected": {
+        "httpStatus": 200,
+        "upstreamCallCount": 1,
+        "mutationCount": 0,
+        "durableState": "NO_MUTATION",
+        "diagnosticEvent": "route.conditional_selected"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/AdditionalFileController.java#L50",
+      "phaseOwner": "Phase02",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "ROUTE-KOMGA_MULTI",
+      "family": "ROUTE",
+      "request": {
+        "method": "POST",
+        "path": "/komga/api/v1/series/new",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "preconditions": "Komga declared multi-method/multi-path handler enabled",
+      "expected": {
+        "httpStatus": 501,
+        "upstreamCallCount": 1,
+        "mutationCount": 0,
+        "durableState": "NO_MUTATION",
+        "diagnosticEvent": "route.komga.not_implemented"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/KomgaController.java#L251",
+      "phaseOwner": "Phase02",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "ROUTE-KOBO_CATCHALL",
+      "family": "ROUTE",
+      "request": {
+        "method": "GET",
+        "path": "/api/kobo/test-token/unknown",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": null
+      },
+      "preconditions": "proxy mode disabled, token private in diagnostic",
+      "expected": {
+        "httpStatus": 200,
+        "upstreamCallCount": 1,
+        "mutationCount": 0,
+        "durableState": "NO_MUTATION",
+        "diagnosticEvent": "route.kobo.no_token_logging"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/KoboController.java#L277",
+      "phaseOwner": "Phase02",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "WHEN_GATEWAY_IMPLEMENTED_MOCK"
+    },
+    {
+      "fixtureId": "METADATA-NULL_EMPTY_MISSING",
+      "family": "METADATA",
+      "request": {
+        "method": "PUT",
+        "path": "/api/v1/books/101/metadata?replaceMode=REPLACE_WHEN_PROVIDED",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "metadata": {
+            "title": null
+          }
+        }
+      },
+      "preconditions": "null scalar prohibited",
+      "expected": {
+        "httpStatus": 400,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "METADATA_APPLY_OFF",
+        "diagnosticEvent": "metadata.null_empty_missing"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/MetadataController.java#L51",
+      "phaseOwner": "Phase03/04",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "BLOCKED_OFF_UNTIL_CAS_AND_SIDEEFFECT_PROOF"
+    },
+    {
+      "fixtureId": "METADATA-LOCKED_SCALAR",
+      "family": "METADATA",
+      "request": {
+        "method": "PUT",
+        "path": "/api/v1/books/101/metadata?replaceMode=REPLACE_WHEN_PROVIDED",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "metadata": {
+            "title": "A"
+          }
+        }
+      },
+      "preconditions": "field locked current state",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "METADATA_APPLY_OFF",
+        "diagnosticEvent": "metadata.locked_scalar"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/MetadataController.java#L51",
+      "phaseOwner": "Phase03/04",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "BLOCKED_OFF_UNTIL_CAS_AND_SIDEEFFECT_PROOF"
+    },
+    {
+      "fixtureId": "METADATA-ALL_FIELDS_LOCK",
+      "family": "METADATA",
+      "request": {
+        "method": "PUT",
+        "path": "/api/v1/books/101/metadata?replaceMode=REPLACE_WHEN_PROVIDED",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "metadata": {
+            "subtitle": "B"
+          }
+        }
+      },
+      "preconditions": "all metadata fields locked",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "METADATA_APPLY_OFF",
+        "diagnosticEvent": "metadata.all_fields_lock"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/MetadataController.java#L51",
+      "phaseOwner": "Phase03/04",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "BLOCKED_OFF_UNTIL_CAS_AND_SIDEEFFECT_PROOF"
+    },
+    {
+      "fixtureId": "METADATA-COLLECTION",
+      "family": "METADATA",
+      "request": {
+        "method": "PUT",
+        "path": "/api/v1/books/101/metadata?replaceMode=REPLACE_WHEN_PROVIDED",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "metadata": {
+            "authors": [
+              "Someone"
+            ]
+          }
+        }
+      },
+      "preconditions": "non-scalar field",
+      "expected": {
+        "httpStatus": 400,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "METADATA_APPLY_OFF",
+        "diagnosticEvent": "metadata.collection"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/MetadataController.java#L51",
+      "phaseOwner": "Phase03/04",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "BLOCKED_OFF_UNTIL_CAS_AND_SIDEEFFECT_PROOF"
+    },
+    {
+      "fixtureId": "METADATA-REVIEWS_EMPTY",
+      "family": "METADATA",
+      "request": {
+        "method": "PUT",
+        "path": "/api/v1/books/101/metadata?replaceMode=REPLACE_WHEN_PROVIDED",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "metadata": {
+            "bookReviews": []
+          }
+        }
+      },
+      "preconditions": "destructive empty collection",
+      "expected": {
+        "httpStatus": 400,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "METADATA_APPLY_OFF",
+        "diagnosticEvent": "metadata.reviews_empty"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/MetadataController.java#L51",
+      "phaseOwner": "Phase03/04",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "BLOCKED_OFF_UNTIL_CAS_AND_SIDEEFFECT_PROOF"
+    },
+    {
+      "fixtureId": "METADATA-CLEAR_FLAGS",
+      "family": "METADATA",
+      "request": {
+        "method": "PUT",
+        "path": "/api/v1/books/101/metadata?replaceMode=REPLACE_WHEN_PROVIDED",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "metadata": {
+            "title": "A"
+          },
+          "clearFlags": {
+            "title": true
+          }
+        }
+      },
+      "preconditions": "destructive clear flag",
+      "expected": {
+        "httpStatus": 400,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "METADATA_APPLY_OFF",
+        "diagnosticEvent": "metadata.clear_flags"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/MetadataController.java#L51",
+      "phaseOwner": "Phase03/04",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "BLOCKED_OFF_UNTIL_CAS_AND_SIDEEFFECT_PROOF"
+    },
+    {
+      "fixtureId": "METADATA-STALE_OPF",
+      "family": "METADATA",
+      "request": {
+        "method": "PUT",
+        "path": "/api/v1/books/101/metadata?replaceMode=REPLACE_WHEN_PROVIDED",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "metadata": {
+            "title": "A"
+          }
+        }
+      },
+      "preconditions": "source fingerprint stale",
+      "expected": {
+        "httpStatus": 409,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "METADATA_APPLY_OFF",
+        "diagnosticEvent": "metadata.stale_opf"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/MetadataController.java#L51",
+      "phaseOwner": "Phase03/04",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "BLOCKED_OFF_UNTIL_CAS_AND_SIDEEFFECT_PROOF"
+    },
+    {
+      "fixtureId": "METADATA-CONCURRENT_TARGET",
+      "family": "METADATA",
+      "request": {
+        "method": "PUT",
+        "path": "/api/v1/books/101/metadata?replaceMode=REPLACE_WHEN_PROVIDED",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "metadata": {
+            "title": "A"
+          }
+        }
+      },
+      "preconditions": "Official target modified between preflight/PUT",
+      "expected": {
+        "httpStatus": 409,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "METADATA_APPLY_OFF",
+        "diagnosticEvent": "metadata.concurrent_target"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/MetadataController.java#L51",
+      "phaseOwner": "Phase03/04",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "BLOCKED_OFF_UNTIL_CAS_AND_SIDEEFFECT_PROOF"
+    },
+    {
+      "fixtureId": "METADATA-UNAUTHORIZED",
+      "family": "METADATA",
+      "request": {
+        "method": "PUT",
+        "path": "/api/v1/books/101/metadata?replaceMode=REPLACE_WHEN_PROVIDED",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "metadata": {
+            "title": "A"
+          }
+        }
+      },
+      "preconditions": "caller lacks edit permission",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "METADATA_APPLY_OFF",
+        "diagnosticEvent": "metadata.unauthorized"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/MetadataController.java#L51",
+      "phaseOwner": "Phase03/04",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "BLOCKED_OFF_UNTIL_CAS_AND_SIDEEFFECT_PROOF"
+    },
+    {
+      "fixtureId": "METADATA-SOURCE_RO_CHANGED",
+      "family": "METADATA",
+      "request": {
+        "method": "PUT",
+        "path": "/api/v1/books/101/metadata?replaceMode=REPLACE_WHEN_PROVIDED",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "metadata": {
+            "title": "A"
+          }
+        }
+      },
+      "preconditions": "NAS identity/mount changed",
+      "expected": {
+        "httpStatus": 409,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "METADATA_APPLY_OFF",
+        "diagnosticEvent": "metadata.source_ro_changed"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/MetadataController.java#L51",
+      "phaseOwner": "Phase03/04",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "BLOCKED_OFF_UNTIL_CAS_AND_SIDEEFFECT_PROOF"
+    },
+    {
+      "fixtureId": "METADATA-SIDECAR_MOVE",
+      "family": "METADATA",
+      "request": {
+        "method": "PUT",
+        "path": "/api/v1/books/101/metadata?replaceMode=REPLACE_WHEN_PROVIDED",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "metadata": {
+            "title": "A"
+          }
+        }
+      },
+      "preconditions": "embedded writer/sidecar/move setting unsafe",
+      "expected": {
+        "httpStatus": 403,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "METADATA_APPLY_OFF",
+        "diagnosticEvent": "metadata.sidecar_move"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/MetadataController.java#L51",
+      "phaseOwner": "Phase03/04",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "BLOCKED_OFF_UNTIL_CAS_AND_SIDEEFFECT_PROOF"
+    },
+    {
+      "fixtureId": "METADATA-UNCERTAIN_RESPONSE",
+      "family": "METADATA",
+      "request": {
+        "method": "PUT",
+        "path": "/api/v1/books/101/metadata?replaceMode=REPLACE_WHEN_PROVIDED",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "metadata": {
+            "title": "A"
+          }
+        }
+      },
+      "preconditions": "network ACK lost; must not replay",
+      "expected": {
+        "httpStatus": 503,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "METADATA_APPLY_OFF",
+        "diagnosticEvent": "metadata.uncertain_response"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/MetadataController.java#L51",
+      "phaseOwner": "Phase03/04",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "BLOCKED_OFF_UNTIL_CAS_AND_SIDEEFFECT_PROOF"
+    },
+    {
+      "fixtureId": "METADATA-READBACK_MISMATCH",
+      "family": "METADATA",
+      "request": {
+        "method": "PUT",
+        "path": "/api/v1/books/101/metadata?replaceMode=REPLACE_WHEN_PROVIDED",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "metadata": {
+            "title": "A"
+          }
+        }
+      },
+      "preconditions": "write response does not match source/target readback",
+      "expected": {
+        "httpStatus": 409,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "METADATA_APPLY_OFF",
+        "diagnosticEvent": "metadata.readback_mismatch"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/MetadataController.java#L51",
+      "phaseOwner": "Phase03/04",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "BLOCKED_OFF_UNTIL_CAS_AND_SIDEEFFECT_PROOF"
+    },
+    {
+      "fixtureId": "SESSIONS-SAME_ID_SAME_PAYLOAD",
+      "family": "SESSIONS",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/reading-sessions",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "logicalEventId": "test-session-A",
+          "bookId": 101,
+          "startedAt": "2026-10-29T00:00:00Z"
+        }
+      },
+      "preconditions": "same eventId and hash inserted twice",
+      "expected": {
+        "httpStatus": 202,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "ONE_LOCAL_EVENT",
+        "diagnosticEvent": "session.same_id_same_payload"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/ReadingSessionController.java#L28",
+      "phaseOwner": "Phase07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "ISOLATED_CRASH_TEST_NOT_RUN"
+    },
+    {
+      "fixtureId": "SESSIONS-SAME_ID_DIFFERENT_PAYLOAD",
+      "family": "SESSIONS",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/reading-sessions",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "logicalEventId": "test-session-A",
+          "bookId": 101,
+          "startedAt": "2026-10-29T00:00:00Z"
+        }
+      },
+      "preconditions": "same eventId, conflicting payload hash",
+      "expected": {
+        "httpStatus": 409,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "CONFLICT_RECORDED",
+        "diagnosticEvent": "session.same_id_different_payload"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/ReadingSessionController.java#L28",
+      "phaseOwner": "Phase07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "ISOLATED_CRASH_TEST_NOT_RUN"
+    },
+    {
+      "fixtureId": "SESSIONS-CONCURRENT_DISPATCH",
+      "family": "SESSIONS",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/reading-sessions",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "logicalEventId": "test-session-A",
+          "bookId": 101,
+          "startedAt": "2026-10-29T00:00:00Z"
+        }
+      },
+      "preconditions": "two dispatchers race claim",
+      "expected": {
+        "httpStatus": 202,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "ONE_CLAIM",
+        "diagnosticEvent": "session.concurrent_dispatch"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/ReadingSessionController.java#L28",
+      "phaseOwner": "Phase07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "ISOLATED_CRASH_TEST_NOT_RUN"
+    },
+    {
+      "fixtureId": "SESSIONS-CRASH_PRE_CLAIM",
+      "family": "SESSIONS",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/reading-sessions",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "logicalEventId": "test-session-A",
+          "bookId": 101,
+          "startedAt": "2026-10-29T00:00:00Z"
+        }
+      },
+      "preconditions": "crash before durable claim",
+      "expected": {
+        "httpStatus": null,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "PENDING_RESTARTABLE",
+        "diagnosticEvent": "session.crash_pre_claim"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/ReadingSessionController.java#L28",
+      "phaseOwner": "Phase07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "ISOLATED_CRASH_TEST_NOT_RUN"
+    },
+    {
+      "fixtureId": "SESSIONS-CRASH_AFTER_CLAIM_PRE_SEND",
+      "family": "SESSIONS",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/reading-sessions",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "logicalEventId": "test-session-A",
+          "bookId": 101,
+          "startedAt": "2026-10-29T00:00:00Z"
+        }
+      },
+      "preconditions": "crash after durable claim, before network send",
+      "expected": {
+        "httpStatus": null,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCERTAIN_MAY_BE_LOST",
+        "diagnosticEvent": "session.crash_after_claim_pre_send"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/ReadingSessionController.java#L28",
+      "phaseOwner": "Phase07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "ISOLATED_CRASH_TEST_NOT_RUN"
+    },
+    {
+      "fixtureId": "SESSIONS-CRASH_AFTER_SEND",
+      "family": "SESSIONS",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/reading-sessions",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "logicalEventId": "test-session-A",
+          "bookId": 101,
+          "startedAt": "2026-10-29T00:00:00Z"
+        }
+      },
+      "preconditions": "crash after network send, before ACK",
+      "expected": {
+        "httpStatus": null,
+        "upstreamCallCount": 1,
+        "mutationCount": 1,
+        "durableState": "UNCERTAIN_NO_RETRY",
+        "diagnosticEvent": "session.crash_after_send"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/ReadingSessionController.java#L28",
+      "phaseOwner": "Phase07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "ISOLATED_CRASH_TEST_NOT_RUN"
+    },
+    {
+      "fixtureId": "SESSIONS-LOST_202",
+      "family": "SESSIONS",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/reading-sessions",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "logicalEventId": "test-session-A",
+          "bookId": 101,
+          "startedAt": "2026-10-29T00:00:00Z"
+        }
+      },
+      "preconditions": "Official may insert and return 202 lost in transit",
+      "expected": {
+        "httpStatus": null,
+        "upstreamCallCount": 1,
+        "mutationCount": 1,
+        "durableState": "UNCERTAIN_NO_RETRY",
+        "diagnosticEvent": "session.lost_202"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/ReadingSessionController.java#L28",
+      "phaseOwner": "Phase07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "ISOLATED_CRASH_TEST_NOT_RUN"
+    },
+    {
+      "fixtureId": "SESSIONS-HIDDEN_RETRY",
+      "family": "SESSIONS",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/reading-sessions",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "logicalEventId": "test-session-A",
+          "bookId": 101,
+          "startedAt": "2026-10-29T00:00:00Z"
+        }
+      },
+      "preconditions": "HTTP/proxy auto retry attempts; must be disabled",
+      "expected": {
+        "httpStatus": null,
+        "upstreamCallCount": 1,
+        "mutationCount": 1,
+        "durableState": "UNCERTAIN_NO_RETRY",
+        "diagnosticEvent": "session.hidden_retry"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/ReadingSessionController.java#L28",
+      "phaseOwner": "Phase07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "ISOLATED_CRASH_TEST_NOT_RUN"
+    },
+    {
+      "fixtureId": "SESSIONS-RECONCILE",
+      "family": "SESSIONS",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/reading-sessions",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "logicalEventId": "test-session-A",
+          "bookId": 101,
+          "startedAt": "2026-10-29T00:00:00Z"
+        }
+      },
+      "preconditions": "no independently attributable receipt",
+      "expected": {
+        "httpStatus": null,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "UNCERTAIN_OPERATOR_REVIEW",
+        "diagnosticEvent": "session.reconcile"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/ReadingSessionController.java#L28",
+      "phaseOwner": "Phase07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "ISOLATED_CRASH_TEST_NOT_RUN"
+    },
+    {
+      "fixtureId": "SESSIONS-DURABLE_LEDGER",
+      "family": "SESSIONS",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/reading-sessions",
+        "headers": {
+          "Authorization": "Bearer <SAME_USER_TEST_JWT>",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "logicalEventId": "test-session-A",
+          "bookId": 101,
+          "startedAt": "2026-10-29T00:00:00Z"
+        }
+      },
+      "preconditions": "SQLite restart recovery after crash",
+      "expected": {
+        "httpStatus": null,
+        "upstreamCallCount": 0,
+        "mutationCount": 0,
+        "durableState": "RECOVERED_WITHOUT_RESEND",
+        "diagnosticEvent": "session.durable_ledger"
+      },
+      "sourceReference": "https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/ReadingSessionController.java#L28",
+      "phaseOwner": "Phase07",
+      "implementationPath": null,
+      "executionState": "NOT_RUN",
+      "testMode": "ISOLATED_CRASH_TEST_NOT_RUN"
+    }
+  ]
+}

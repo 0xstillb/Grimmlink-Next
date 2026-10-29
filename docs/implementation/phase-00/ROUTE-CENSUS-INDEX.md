@@ -1,3 +1,17 @@
+# Pinned Official Route Census — CURRENT CORRECTED SCOPE
+
+**Grimmory v3.5.0 @ `402e89b4452f8e2b17ab95f16c1621c003516cd2`: recognized 64 named `*Controller.java` classes / 348 method-level Spring mapping annotations, NOT expanded runtime HTTP routes.** Legacy 56/321 measured **root** `org/booklore/controller` only; App `org/booklore/app/controller` contributes **8/27**. Source completeness for all 923 Java files and runtime mapping NOT_VERIFIED. No SOURCE_ANNOTATION_COMPLETE or RUNTIME_ROUTE_COMPLETE claim.
+
+- [Root parts 1–4](ROUTE-CENSUS-PART-1.md) (56/321; unchanged historical annexes)
+- [App routes 8/27](ROUTE-CENSUS-APP.md) and [machine inventory](APP-CONTROLLER-ROUTES.json)
+- [Komga 9×5, catchalls, conditional GET](ROUTE-MAPPING-EXPANSION.md)
+- [Sensitive route gateway ownership](SECURITY-ROUTE-OWNERSHIP.md)
+- [Negative fixture contract](SECURITY-NEGATIVE-FIXTURES.json)
+- [Correction report](ROUTE-COVERAGE-SECURITY-CORRECTION-2026-10-29.md), [new review packet](NEXT-INDEPENDENT-REVIEW-PACKET.md)
+
+**Old 56/321 INDEX below is HISTORICAL ROOT-PACKAGE SUBSET, not a complete backend controller census.**
+
+---
 # Pinned Official Controller Method-level Route Census — INDEX
 **Grimmory Official v3.5.0 commit:** `402e89b4452f8e2b17ab95f16c1621c003516cd2`. All **56** controller files in `backend/src/main/java/org/booklore/controller/*Controller.java` enumerated from pinned recursive Git tree and fetched individually on 2026-10-29. All **321** method-level `@GetMapping/@PostMapping/@PutMapping/@PatchMapping/@DeleteMapping/@RequestMapping` annotations recorded with source path:line: part 1 = **109** (15 controllers), part 2 = **77** (15), part 3 = **72** (15), part 4 = **63** (11).
 

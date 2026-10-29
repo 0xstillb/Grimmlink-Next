@@ -1,3 +1,7 @@
+## CURRENT PHASE00 — IMPLEMENTER ROUTE/SECURITY CORRECTION (2026-10-29)
+
+Phase00 only; read `docs/implementation/phase-00/NEXT-INDEPENDENT-REVIEW-PACKET.md` before new independent review. Recognized 64 named controllers / 348 mapping annotations, full source+runtime completeness unverified. All sensitive feature gates remain blocked/design-only. PR #2 Draft to integration; NEVER merge, modify main, or approve Phase01. No real E2E until Phase09. Historical reviews immutable.
+
 # Repository Agent Instructions — GrimmLink Next
 
 > [Latest security remediation](docs/implementation/phase-00/SECURITY-REMEDIATION-2026-10-29.md): R-02A new P0, 56 source controllers/321 annotations; Native KOSync + personal reset routes BLOCKED/OFF, no review approval.

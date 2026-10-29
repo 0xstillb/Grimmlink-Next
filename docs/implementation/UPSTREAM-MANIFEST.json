@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "recordedAt": "2026-10-29",
-  "status": "IMPLEMENTER_SECURITY_REMEDIATION_COMMITTED_FRESH_INDEPENDENT_REVIEW_REQUIRED",
+  "status": "IMPLEMENTER_ROUTE_SECURITY_CORRECTION_COMMITTED_FRESH_INDEPENDENT_REVIEW_REQUIRED",
   "repository": "0xstillb/Grimmlink-Next",
   "releasePolicy": "MANUAL_APPROVAL_ONLY",
   "currentInstalledVersions": {
@@ -82,9 +82,14 @@
     "caller_bound_book_entitlement_before_personal_writes",
     "reset_progress_all_three_modes_acl",
     "reset_personal_rating_acl",
-    "controller_census_56_321",
     "spring_runtime_mapping_diff_not_run",
-    "native_kosync_atomic_acl_or_off"
+    "native_kosync_atomic_acl_or_off",
+    "recognized_controller_census_64_348_not_runtime",
+    "other_java_handler_mechanism_scan_pending",
+    "app_api_all_sensitive_routes",
+    "komga_multiple_mapping_conditions",
+    "metadata_zero_lost_update_blocker",
+    "session_pre_send_loss_window"
   ],
   "acceptance": {
     "phase00": "CHANGES_REQUIRED_NOT_CONTRACT_LOCKED_FRESH_INDEPENDENT_REVIEW_REQUIRED",
@@ -105,11 +110,16 @@
     "deployedVerified": false,
     "securityRemediationReport": "docs/implementation/phase-00/SECURITY-REMEDIATION-2026-10-29.md",
     "routeCensus": "docs/implementation/phase-00/ROUTE-CENSUS-INDEX.md",
-    "controllerFiles": 56,
-    "methodAnnotations": 321,
+    "controllerFiles": 64,
+    "methodAnnotations": 348,
     "nativeKosyncAdr": "docs/implementation/ADR-025-NATIVE-KOSYNC-SECURITY.md",
     "implementedVerified": false,
-    "runtimeRouteMapping": "NOT_RUN"
+    "runtimeRouteMapping": "NOT_RUN",
+    "appControllerFiles": 8,
+    "appMethodAnnotations": 27,
+    "sourceAnnotationComplete": "UNVERIFIED_ALTERNATE_HANDLERS",
+    "newSecurityReport": "docs/implementation/phase-00/ROUTE-COVERAGE-SECURITY-CORRECTION-2026-10-29.md",
+    "fixtureMatrix": "docs/implementation/phase-00/SECURITY-NEGATIVE-FIXTURES.json"
   },
   "designOnlySafetyDefaults_NOT_IMPLEMENTED": {
     "metadataApply": false,
@@ -128,14 +138,19 @@
     "nativeKOSyncProgress": false
   },
   "blockers": [
-    "R-02A P0: reset-progress all modes and reset-personal-rating gateway interception and library/content authorization not implemented",
-    "R-02: no atomic Native KOSync book entitlement; permanently OFF unless independent authorized redesign",
-    "56 controller annotations catalogued (321), live Spring runtime mapping NOT_RUN"
+    "NEW-P0-01 incomplete source-wide/Java handler census: named 64/348 annotations only; runtime exporter NOT_RUN",
+    "All App personal GET/PUT/DELETE need current book/record ACL and direct-backend bypass proof; no gateway runtime",
+    "R-02A all reset modes/rating OFF; whole batch precheck non-atomic",
+    "R-02 Native KO atomic book entitlement unavailable: OFF",
+    "R-01 OPF CAS/side effects not proven: metadataApply OFF",
+    "R-09 outbox/uncertain no retry not implemented: session bridge OFF"
   ],
   "testsNotRun": [
     "GATEWAY_AUTHORIZATION_FIXTURES",
     "RUNTIME_SPRING_REQUESTMAPPING_CENSUS",
     "RESET_MODE_TESTS",
-    "SESSION_CRASH_TESTS"
+    "SESSION_CRASH_TESTS",
+    "APP_ROUTE_NEGATIVE_FIXTURES",
+    "FULL_SOURCE_HANDLER_SEARCH"
   ]
 }

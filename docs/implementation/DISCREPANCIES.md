@@ -1,3 +1,12 @@
+## CURRENT — 2026-10-29 Complete App Route & Security Contract Correction (implementer; pending independent review)
+
+**Branch pre-correction HEAD:** `9eb7790367d2272e430ee78d2323952960234c00`; subsequent commits must be checked LIVE on [Draft PR #2](https://github.com/0xstillb/Grimmlink-Next/pull/2). Prior independent verdict **CHANGES_REQUIRED / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED** remains authoritative. **Recognized controller file census 64/348 method-level annotations** (56/321 root + 8/27 App; source annotation completeness across all Java and runtime mappings UNVERIFIED). [App census](phase-00/ROUTE-CENSUS-APP.md) · [Mapping expansion](phase-00/ROUTE-MAPPING-EXPANSION.md) · [Route ownership](phase-00/SECURITY-ROUTE-OWNERSHIP.md) · [Correction report](phase-00/ROUTE-COVERAGE-SECURITY-CORRECTION-2026-10-29.md) · [Reviewer packet](phase-00/NEXT-INDEPENDENT-REVIEW-PACKET.md).
+
+**Feature gates (DESIGN_SPECIFIED, not runtime OFF switches):** `NATIVE_KOSYNC_PROGRESS=BLOCKED/OFF`, metadata apply OFF, reset-progress/rating OFF, personal bridge reads/writes OFF, sessions bridge OFF. No atomic native KOSync ACL proof; Gateway precheck is not atomic; no zero-lost-update proof for Official metadata REST; session 202 is not immutable idempotent receipt. Runtime, unit/mocks, gateway, network and E2E NOT_RUN. Phase09 only full E2E/Hermes/NAS/devices. Do not merge PR #2, approve Phase01, or mark new findings independently APPROVED.
+
+---
+**NEW-P0-01 P0 OPEN — incomplete backend route census:** earlier 56/321 root-only claim; pinned app contributes 8/27. New observed 64/348 `*Controller.java` methods; 923 Java source files exist, exhaustive alternate handler mechanisms and runtime exporter NOT_RUN. Requires independent cross-file source completeness and Phase02 runtime/alias diff; no `SOURCE_ANNOTATION_COMPLETE_BACKEND` or `RUNTIME_ROUTE_COMPLETE` claim. R-02A / R-02 / R-01 P0 and R-09 / R-11 P1 retain independent unresolved status. Gateway design only; all relevant features OFF. [Evidence and fixture matrix](phase-00/ROUTE-COVERAGE-SECURITY-CORRECTION-2026-10-29.md).
+
 
 ## Latest Phase00 Security Remediation — 2026-10-29 (NOT independent approval)
 

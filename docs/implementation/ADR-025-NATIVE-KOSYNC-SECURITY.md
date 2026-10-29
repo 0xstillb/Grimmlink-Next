@@ -1,3 +1,8 @@
+## CURRENT CORRECTION — Native KOSync remains BLOCKED/OFF (Phase00; 2026-10-29)
+
+The expanded App API route census adds alternate personal progress, status, rating and notebook endpoints; all must be explicitly classified by the gateway [matrix](phase-00/SECURITY-ROUTE-OWNERSHIP.md) before any Official dispatch. Original KO MD5 authentication is not an Official JWT; neither single-user JWT preflight, recheck, local mutex, lease nor cache makes Native GET/PUT atomically authorized in pinned Official. Enforce **NATIVE_KOSYNC_PROGRESS=BLOCKED/OFF** in future Gateway implementation; this file does not enforce it. KO credential DTO secrets never appear in logs, PR, Notion or browser. No alternate writer. New design relaxation requires separately approved ADR. [App source](https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/app/controller/AppBookController.java#L58-L155). Independent re-review pending.
+
+---
 # ADR-025 — Native KOSync No-Fork Security Feasibility (2026-10-29)
 Status: **REJECT ENABLEMENT / BLOCKED_OFF**. Decision owner: Phase00 Architecture + Application Security; implementation gates Phase02 (Gateway), Phase05 (identity), Phase07 (personal REST). **Design-only**, not independently approved or deployed.
 

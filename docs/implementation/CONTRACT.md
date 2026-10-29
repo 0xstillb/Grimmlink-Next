@@ -1,3 +1,14 @@
+## CURRENT — 2026-10-29 Complete App Route & Security Contract Correction (implementer; pending independent review)
+
+**Branch pre-correction HEAD:** `9eb7790367d2272e430ee78d2323952960234c00`; subsequent commits must be checked LIVE on [Draft PR #2](https://github.com/0xstillb/Grimmlink-Next/pull/2). Prior independent verdict **CHANGES_REQUIRED / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED** remains authoritative. **Recognized controller file census 64/348 method-level annotations** (56/321 root + 8/27 App; source annotation completeness across all Java and runtime mappings UNVERIFIED). [App census](phase-00/ROUTE-CENSUS-APP.md) · [Mapping expansion](phase-00/ROUTE-MAPPING-EXPANSION.md) · [Route ownership](phase-00/SECURITY-ROUTE-OWNERSHIP.md) · [Correction report](phase-00/ROUTE-COVERAGE-SECURITY-CORRECTION-2026-10-29.md) · [Reviewer packet](phase-00/NEXT-INDEPENDENT-REVIEW-PACKET.md).
+
+**Feature gates (DESIGN_SPECIFIED, not runtime OFF switches):** `NATIVE_KOSYNC_PROGRESS=BLOCKED/OFF`, metadata apply OFF, reset-progress/rating OFF, personal bridge reads/writes OFF, sessions bridge OFF. No atomic native KOSync ACL proof; Gateway precheck is not atomic; no zero-lost-update proof for Official metadata REST; session 202 is not immutable idempotent receipt. Runtime, unit/mocks, gateway, network and E2E NOT_RUN. Phase09 only full E2E/Hermes/NAS/devices. Do not merge PR #2, approve Phase01, or mark new findings independently APPROVED.
+
+---
+**R-01 metadata apply fails closed:** scalar property allowlist exactly `title, subtitle, publisher, publishedDate, description, seriesName, seriesNumber, isbn13, isbn10, language`. Exclude `seriesTotal,pageCount` pending provenance. Type-check each value; user-approved source+target fingerprint, immutable OPF, current server field-lock readback, exact book/file/edition, editing user, explicit `REPLACE_WHEN_PROVIDED`, no null/blank/unknown/nested fields/lock bits/clearFlags; OMIT authors/categories/moods/tags/bookReviews including `[]`. No Official REST compare-and-swap proof, so do not promise zero lost updates; metadataApply OFF. Independently audit embedded-file, Sidecar, move and NAS RO settings. Phase03 payload builder not implemented.
+
+**R-02A:** Reset BOOKLORE/KOREADER/KOBO and personal rating all require total input validation (positive unique 1–500 IDs), same-user identity, current assigned library and content restriction for every ID, record ownership, exact file/edition as needed; reject any mixed batch before upstream, never claim preflight transaction atomicity. KOBO deletion uses user-scoped state. **R-09:** logical event UUID/digest unique, SQLite WAL/FULL fsync, atomic pre-send claim and at-most-one physical attempt; after crash post-claim including before-send leave UNCERTAIN and may lose session; lost 202 ACK means UNCERTAIN, never retry blindly. No exactly-once guarantee.
+
 
 ## Latest Phase00 Security Remediation — 2026-10-29 (NOT independent approval)
 

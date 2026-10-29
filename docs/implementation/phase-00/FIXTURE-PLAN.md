@@ -1,3 +1,8 @@
+## CURRENT — Source-backed negative fixture expansion (NOT_RUN)
+
+[Machine-readable fixture contract](SECURITY-NEGATIVE-FIXTURES.json) contains **70** designed cases across ROUTE/R-02A/APP/KOSYNC/METADATA/SESSIONS. Each defines request, preconditions, expected HTTP status (null when network crash prevents one), upstream call and mutation count, ledger state, audit event, owner, source, and test path null; no actual test executed. Positive 200/202 expectations are future mocked-contract behavior **when enabled**, not currently usable endpoints. Phase02/03/05/07 isolated source/mock/crash tests required; runtime exporter and integrated Phase09 E2E NOT_RUN. Contract: no fallback, no partial batch, no uncertain replay.
+
+---
 
 ## Latest Phase00 Security Remediation — 2026-10-29 (NOT independent approval)
 
