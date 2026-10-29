@@ -143,14 +143,15 @@
     "nativeKOSyncProgress": false
   },
   "blockers": [
-    "NEW-P0-01: 43/43 high-priority unannotated mutating handler source reviews closed with pinned witnesses; 0/43 Gateway auth approvals, 348 handlers still require independent source/runtime match and current per-book permissions; runtime NOT_RUN",
+    "NEW-P0-01: 403/403 source route/verb variants classified against pinned SecurityConfig, 348 method mapping records with 2 overload name collisions; 43/43 source authorization reviewed, 0 allowed, Spring runtime matching and current content entitlement NOT_PROVEN. Fresh independent review NOT_RUN.",
     "All App personal GET/PUT/DELETE need current book/record ACL and direct-backend bypass proof; no gateway runtime",
     "R-02A all reset modes/rating OFF; whole batch precheck non-atomic",
     "R-02 Native KO atomic book entitlement unavailable: OFF",
     "R-01 OPF CAS/side effects not proven: metadataApply OFF",
     "R-09 outbox/uncertain no retry not implemented: session bridge OFF",
     "KO credential log risk: pinned KO registration controller logs userData WARN, generic request logger includes payload/headers; synthetic log-sink/mock enforcement NOT_RUN, Gateway deny required",
-    "P0 source security: Kobo mutable token controller field, unbound nested bookFileId, KO hash entitlement, Magic Shelf public privilege, Kobo path/body entitlement and setup init race need fail-closed enforcement and isolated proof"
+    "P0 source security: Kobo mutable token controller field, unbound nested bookFileId, KO hash entitlement, Magic Shelf public privilege, Kobo path/body entitlement and setup init race need fail-closed enforcement and isolated proof",
+    "Spring OPDS root /api/v1/opds double-star source matcher ambiguity; must validate actual Spring chain/ingress before enabling"
   ],
   "testsNotRun": [
     "GATEWAY_AUTHORIZATION_FIXTURES",
@@ -185,7 +186,7 @@
     "evidencePath": "docs/implementation/phase-00/JAVA-SOURCE-WIDE-CENSUS.json",
     "mechanismsPath": "docs/implementation/phase-00/SOURCE-WIDE-MECHANISM-RECONCILIATION-2026-10-29.md",
     "actionsRun": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/40819253130",
-    "implementerReadiness": "P0_AUTH43_SOURCE_TRIAGED_SECURITY_AUTHORIZATION_NOT_APPROVED",
+    "implementerReadiness": "SOURCE403_CLASSIFIED_43_REVIEWED_NO_INDEPENDENT_SECURITY_ACCEPTANCE",
     "staticMethodPathVerbDeclarations": 403,
     "unresolvedLiteralPathVariants": 0,
     "unresolvedSymbolicMethodConditions": 15,
@@ -198,7 +199,7 @@
     "fixtureUniqueIDs": 109,
     "sourceDeclaredExpansion": "docs/implementation/phase-00/SOURCE-DECLARED-MAPPING-EXPANSION.json",
     "sourceSecurityReview": "docs/implementation/phase-00/SOURCE-ROUTE-SEMANTIC-AND-AUTH-REVIEW-2026-10-29.md",
-    "latestStaticActionsRun": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/40830218540",
+    "latestStaticActionsRun": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/40831960179",
     "sourceSymbolicConditions": 15,
     "sourceConstantValuesResolved": 15,
     "pinnedOfficialLocalConstants": 9,
@@ -218,7 +219,7 @@
     "sourceAclTrace": "docs/implementation/phase-00/SOURCE-ACL-CALLCHAIN-TRACE.json",
     "sourceAclTraceValidation": "docs/implementation/phase-00/SOURCE-ACL-TRACE-VALIDATION.json",
     "latestReceipt": "docs/implementation/phase-00/PHASE00-PINNED-SOURCE-SEMANTIC-ACL-RECEIPT-2026-10-29.md",
-    "latestSourceEvidenceHead": "bdc6a38a2424e704cdc6d7978bdae836ca549a7e",
+    "latestSourceEvidenceHead": "5ccbbd536b2031db1e324eda73a893b7587cf5e1",
     "inheritanceSourceTypeTriage": "docs/implementation/phase-00/JAVA-INHERITANCE-TYPE-TRIAGE.json",
     "inheritanceFlaggedJavaFiles": 160,
     "inheritanceFlaggedDirectMethodMappingFiles": 0,
@@ -267,6 +268,21 @@
     "koboEntitlementBodyPath": "P0_SOURCE_RISK_UNBOUND_PATH_BOOK_ID",
     "setupFirstAdminRace": "CONCURRENCY_PROOF_NOT_RUN",
     "latestAuthorizationSourceReviewCI": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/40830006159",
-    "sourceReviewDoesNotImplyGatePass": true
+    "sourceReviewDoesNotImplyGatePass": true,
+    "securityChainCandidateReport": "docs/implementation/phase-00/SOURCE-403-SECURITY-CHAIN-CANDIDATES.json",
+    "securityChainCandidateMarkdown": "docs/implementation/phase-00/SOURCE-403-SECURITY-CHAIN-CANDIDATES.md",
+    "sourceRouteVariantsClassified": 403,
+    "sourceMethodMappingRecords": 348,
+    "distinctJavaMethodNames": 346,
+    "overloadedMethodNameCollisionGroups": 2,
+    "chainSourceAmbiguousRoots": 1,
+    "chainSourceAmbiguousRootPath": "/api/v1/opds",
+    "sourceChainClassifiedNotRuntime": true,
+    "allSourceRouteForwardingDenied": true,
+    "phase00GateStatus": "docs/implementation/phase-00/PHASE00-GATE-STATUS.json",
+    "freshReviewRequest": "docs/implementation/phase-00/PHASE00-FRESH-INDEPENDENT-REVIEW-REQUEST-2026-10-29.md",
+    "releaseGateIntegrityCI": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/40831960179",
+    "source403CI": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/40831672425",
+    "freshIndependentVerdict": "NOT_RUN"
   }
 }
