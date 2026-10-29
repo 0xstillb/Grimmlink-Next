@@ -1,0 +1,20 @@
+# Durable Reading-Session Outbox — R-09 (Design-only; 2026-10-29)
+
+Source: [ReadingSessionController:28–51](https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/controller/ReadingSessionController.java#L28-L51) returns POST **202**; [ReadingSessionService:125–150](https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/service/ReadingSessionService.java#L125-L150) creates server-assigned session row with no client logical event id. A 202 does NOT prove an idempotent immutable receipt; list-by-book [service:291–300](https://github.com/grimmory-tools/grimmory/blob/402e89b4452f8e2b17ab95f16c1621c003516cd2/backend/src/main/java/org/booklore/service/ReadingSessionService.java#L291-L300) cannot establish unique event insertion.
+
+## Proposed local durable schema
+
+`session_outbox(event_id TEXT PRIMARY KEY NOT NULL, payload_hash TEXT NOT NULL, canonical_payload TEXT NOT NULL, owner_user_id TEXT NOT NULL, book_id INTEGER NOT NULL, state TEXT NOT NULL CHECK(state IN ('PENDING','SEND_RESERVED','ACKED_UNVERIFIED','UNCERTAIN','RECONCILED','CONFLICT','DENIED')), attempt_count INTEGER NOT NULL DEFAULT 0 CHECK(attempt_count BETWEEN 0 AND 1), claimed_at TEXT, response_code INTEGER, created_at TEXT NOT NULL, updated_at TEXT NOT NULL)`.
+
+- Event id immutable deterministic per reading session (device/session-start/book/source-identity canonical fields hashed); stable across process restart. `UNIQUE` primary key, payload hash collision or duplicate same ID/different body `CONFLICT`; never overwrite old logical event or replay.
+- SQLite `journal_mode=WAL`, `synchronous=FULL`; do not claim OS fsync guarantee independent of filesystem/power contract. Transactions must commit and be durable before any network dispatch.
+- Insert canonical payload `PENDING`. Dispatcher atomically claims one event via `BEGIN IMMEDIATE` / single conditional `UPDATE ... WHERE state='PENDING' AND attempt_count=0 RETURNING`, stores `SEND_RESERVED, attempt_count=1` and commits before network. Only the claiming process can attempt transmission exactly once; no implicit HTTP library retries, 307/308 automatic redirect replays, reverse-proxy retries, scheduler resends, or retry-on-restart.
+- Before transmission, authorized user/book current entitlement must be checked; if denied, use `DENIED`, no Official call. A preflight is not atomic with Official insert; if strict entitlement across revocation is required but cannot be guaranteed, keep session bridge OFF.
+- Reserved event network send attempted at most once. On response 202, record `ACKED_UNVERIFIED` (not `PERSISTED_CONFIRMED`). Reconciliation may set `RECONCILED` only with independently attributable proof; absent unique event identity do not infer it from matching timestamps/contents.
+- Crash after reservation **before network**: on recovery state `SEND_RESERVED` → `UNCERTAIN` with zero retry; event can be lost. Crash after bytes sent, HTTP timeout or lost 202 ACK: `UNCERTAIN` with zero retry; Official insertion is unknowable. Even crash after 202 but before commit of `ACKED_UNVERIFIED` leaves `UNCERTAIN`. Exactly once is NOT promised.
+- Crash before claim leaves durable `PENDING` eligible for first attempt after restart; crash during transaction rolls back, remains PENDING. Concurrent dispatchers cannot both win conditional claim.
+- Operator reconciliation is a separate audited action, non-destructive, no automatic resend; do not mark UNCERTAIN as SUCCESS merely due to similar server row. Diagnostics redact user, location, book and notes.
+
+## Gate and tests
+
+`sessionsBridgeWrite=OFF` until Phase07 isolated SQLite crash/fault injection, simultaneous dispatchers, same/different payload hash, ACK loss, hidden retry checks and audit readback have actual evidence. Phase09 only real Hermes/NAS/devices/full E2E; **NOT_RUN**. At-most-one **allowed network attempt** can trade delivery for avoiding duplicates. Durable local ledger is not proof Official inserted.
