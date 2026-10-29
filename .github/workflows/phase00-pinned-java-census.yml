@@ -37,7 +37,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          set +e
           python3 scripts/phase-00/scan-java-routes.py --upstream /tmp/grimmory-source --output /tmp/phase00-static
+          scan_exit=$?
+          set -e
+          if [ "$scan_exit" -ne 0 ] && [ "$scan_exit" -ne 3 ]; then exit "$scan_exit"; fi
           python3 scripts/phase-00/validate-negative-fixtures.py docs/implementation/phase-00/SECURITY-NEGATIVE-FIXTURES.json /tmp/phase00-static/FIXTURE-STATIC-VALIDATION.json
           for file in JAVA-SOURCE-WIDE-CENSUS.json SOURCE-ROUTE-CANDIDATES.json SOURCE-ROUTE-OWNERSHIP-GAPS.md JAVA-SOURCE-WIDE-CENSUS-RECEIPT.md FIXTURE-STATIC-VALIDATION.json; do
             cp "/tmp/phase00-static/$file" "docs/implementation/phase-00/$file"
@@ -49,10 +53,11 @@ jobs:
           assert j['filesEnumerated']==923, j['filesEnumerated']
           assert j['contentReadAndBlobShaVerified']==923
           assert j['astParsedFiles']==923
-          assert not j['astErrors']
+          print('AST diagnostic errors:',len(j['astErrors']))
+          for error in j['astErrors'][:30]: print(error)
           assert j['SOURCE_ANNOTATION_COMPLETE'] is False
           assert j['RUNTIME_ROUTE_COMPLETE']=='NOT_RUN'
-          print('Static AST file-content receipt: PASS; semantic/gateway review: BLOCKED')
+          print('Content coverage verified; AST diagnostics require review and source semantics remain BLOCKED')
           PY
       - name: Commit generated evidence only if branch is unchanged
         shell: bash
@@ -71,3 +76,14 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "docs(phase-00): record pinned full-source AST scan evidence (unreviewed)"
           git push origin HEAD:refs/heads/feat/next-phase-00
+
+      - name: Preserve failure status when AST diagnostics remain
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json,sys
+          j=json.load(open('docs/implementation/phase-00/JAVA-SOURCE-WIDE-CENSUS.json'))
+          count=len(j['astErrors'])
+          if count: print('::error::Unresolved Java AST diagnostics: '+str(count))
+          sys.exit(3 if count else 0)
+          PY
