@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "phase": "PHASE_00",
-  "status": "INDEPENDENT_REVIEW_CHANGES_REQUIRED",
-  "baseCommit": "a5eb72d4b0f8e01f876fb20c8895813df33c8ddb",
-  "headCommit": "READ_LIVE_GITHUB",
+  "status": "CORRECTION_PASS_SOURCE_DOCS_COMMITTED_AWAITING_INDEPENDENT_RE_REVIEW",
+  "baseCommit": "5efdaf3bef051d0d5c44f6274a2cd2bf22010de5",
+  "headCommit": "READ_LIVE_GITHUB_NO_SELF_REFERENTIAL_SHA",
   "branch": "feat/next-phase-00",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/2",
   "changedFiles": [
@@ -18,7 +18,10 @@
     "docs/implementation/ACTIVE-SESSION.json",
     "docs/implementation/SESSION-HANDOFF.md",
     "docs/implementation/phase-00/HANDOFF.json",
-    "docs/implementation/phase-00/SOURCE-RECHECK-2026-10-29.md"
+    "docs/implementation/phase-00/SOURCE-RECHECK-2026-10-29.md",
+    "docs/implementation/phase-00/REMEDIATION.md",
+    "docs/implementation/phase-00/START-HERE.md",
+    "AGENTS.md"
   ],
   "requirementsCovered": [
     "source audit v3.5.0",
@@ -48,12 +51,11 @@
     "READBACK_NOT_RUN",
     "INTEGRATED_E2E_NOT_RUN_PHASE09"
   ],
-  "reviewStatus": "CHANGES_REQUIRED",
+  "reviewStatus": "CHANGES_REQUIRED_PREVIOUS_REVIEW_RE_REVIEW_PENDING",
   "blockers": [
     "Installed Grimmory image/DB/mount/version unknown",
     "JWT DTO source verified; per-user permissions, expires units and refresh runtime remain unverified",
     "Metadata collection/lock and NAS side-effect behaviors require review",
-    "Independent review pending",
     "CFI exactness real reader unverified",
     "Nonempty OPF collection replace behavior requires explicit diff/merge rule C-016",
     "C-017 collection merge/field mask design not independently reviewed",
@@ -67,7 +69,13 @@
     "Manual status preservation fixture contradicts Native KOSync thresholds",
     "Native file-level progress is attempted, not proof of exact EPUB CFI",
     "CFI EXACT anchor/round-trip proof not established",
-    "Obsolete PR#1/NOT_STARTED header in handoff and Notion historical section"
+    "Obsolete PR#1/NOT_STARTED header in handoff and Notion historical section",
+    "Independent re-review of remediation diff is pending",
+    "Native KOSync book/library ACL proof missing (design fail closed)",
+    "Personal REST entitlement proof missing for bookmarks/annotations/sessions/status/rating",
+    "OPF reviews ignore replaceMode; safe scalar mask not yet implemented",
+    "No proven exact CFI DOM/anchor nor native file-level readback",
+    "Physical NAS/Hermes/reader and runtime state UNKNOWN until Phase09"
   ],
   "risks": [
     "unsafe metadata default",
@@ -77,8 +85,8 @@
     "runtime unverified",
     "nonempty collection can replace existing OPF authors/categories/tags"
   ],
-  "handoffTo": "PHASE_00_CORRECTION_PASS_AND_RE_REVIEW",
-  "nextAction": "Correct R-01..R-12 source contract/fixture/ACL and stale handoff in Phase00 branch; keep Draft PR #2 open, no merge, no Phase01 until independent re-review can justify CONTRACT_LOCKED; Full E2E/hardware only Phase09.",
+  "handoffTo": "PHASE_00_FRESH_INDEPENDENT_RE_REVIEW",
+  "nextAction": "Fresh independent reviewer must inspect latest Draft PR #2 correction diff and R01-R12 evidence; until approval keep phase00 CHANGES_REQUIRED, no CONTRACT_LOCKED, no Phase01, no merge. Real E2E only Phase09.",
   "evidence": [
     "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/MetadataController.java#L51-L59",
     "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/KoreaderController.java",
@@ -138,5 +146,32 @@
     "terminalUnitBuildNotRun": true,
     "liveApiHardwareNasTests": "NOT_RUN_PHASE_09_ONLY",
     "reviewCommitSha": "FETCH_LIVE_GITHUB_NO_SELF_REFERENTIAL_SHA"
+  },
+  "correctionPass": {
+    "date": "2026-10-29",
+    "kind": "IMPLEMENTER_DOCUMENTATION_ONLY",
+    "reviewedOriginalHead": "5eccac25c8e85e16cfa913b72ae36bc6a3ceeed8",
+    "basedOnIndependentReview": "docs/implementation/phase-00/REVIEW.md",
+    "report": "docs/implementation/phase-00/REMEDIATION.md",
+    "addressedInDocs": [
+      "R-01",
+      "R-02",
+      "R-03",
+      "R-04",
+      "R-05",
+      "R-06",
+      "R-07",
+      "R-08",
+      "R-09",
+      "R-10",
+      "R-11",
+      "R-12"
+    ],
+    "independentReReview": "NOT_RUN",
+    "contractLocked": false,
+    "applicationCode": "NOT_IMPLEMENTED",
+    "actualTestCommands": "NOT_RUN",
+    "testExitCodes": null,
+    "fullE2e": "DEFERRED_TO_PHASE_09"
   }
 }
