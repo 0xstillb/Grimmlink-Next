@@ -14,7 +14,7 @@ RUN pnpm build
 FROM node:22.16.0-bookworm-slim@sha256:048ed02c5fd52e86fda6fbd2f6a76cf0d4492fd6c6fee9e2c463ed5108da0e34
 ENV NODE_ENV=production HOST=127.0.0.1 PORT=6060 SQLITE_PATH=/app/data/adapter.sqlite
 WORKDIR /app
-RUN mkdir -p /app/data && chown -R node:node /app/data
+RUN mkdir -p /app/data && chmod 0700 /app/data && chown -R node:node /app/data
 COPY --from=builder --chown=node:node /app/node_modules ./node_modules
 COPY --from=builder --chown=node:node /app/apps ./apps
 COPY --from=builder --chown=node:node /app/packages ./packages

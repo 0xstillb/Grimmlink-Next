@@ -12,8 +12,25 @@ export interface LocalStore { sqlite: Database.Database; orm: BetterSQLite3Datab
 export function openLocalStore(filePath: string, migrationsFolder: string): LocalStore {
   if (filePath === ":memory:") throw new Error("Persistent local SQLite path required");
   const path = resolve(filePath);
-  mkdirSync(dirname(path), { recursive: true, mode: 0o700 });
-  const sqlite = new Database(path, { timeout: 5000 });
+  const parent = dirname(path);
+  mkdirSync(parent, { recursive: true, mode: 0o700 });
+  // SQLite may create its DB with umask-dependent 0644 rights by default.
+  // Fail closed on shared directories and links before any migration/write.
+  const directory = lstatSync(parent);
+  if (!directory.isDirectory() || (directory.mode & 0o077) !== 0) {
+    throw new Error("Local SQLite directory must be private (0700)");
+  }
+  try {
+    const fd = openSync(path, constants.O_CREAT | constants.O_EXCL | constants.O_RDWR | constants.O_NOFOLLOW, 0o600);
+    closeSync(fd);
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
+  }
+  const file = lstatSync(path);
+  if (!file.isFile() || (file.mode & 0o077) !== 0 || file.nlink !== 1) {
+    throw new Error("Local SQLite file must be regular, private (0600), and unlinked");
+  }
+  const sqlite = new Database(path, { timeout: 5000, fileMustExist: true });
   try {
     sqlite.pragma("busy_timeout = 5000");
     sqlite.pragma("journal_mode = WAL");

@@ -10,7 +10,9 @@ describe("local durable SQLite", () => {
   it("migrates WAL schema and preserves job uniqueness and atomic lease", () => {
     const dir = mkdtempSync(join(tmpdir(), "grimmlink-p01-"));
     try {
-      const store = openLocalStore(join(dir,"test.sqlite"), migrations);
+      const dbPath = join(dir, "test.sqlite");
+      const store = openLocalStore(dbPath, migrations);
+      expect(statSync(dbPath).mode & 0o777).toBe(0o600);
       expect(store.sqlite.pragma("journal_mode", { simple:true })).toBe("wal");
       const insert = store.sqlite.prepare("INSERT INTO jobs(id,kind,idempotency_key,created_at) VALUES (?,?,?,?)");
       insert.run("j1","local-only","dedupe-1",100);
@@ -21,6 +23,28 @@ describe("local durable SQLite", () => {
       expect(() => claimJob(store.sqlite, "worker-a", Number.MAX_SAFE_INTEGER, 1000)).toThrow("Lease expiry out of range");
       store.close();
     } finally { rmSync(dir, { recursive:true, force:true }); }
+  });
+  it("fails closed for symlinked, world-readable or multiply-linked local storage", () => {
+    const dir = mkdtempSync(join(tmpdir(), "grimmlink-private-"));
+    try {
+      const privatePath = join(dir, "private.sqlite");
+      const store = openLocalStore(privatePath, migrations);
+      store.close();
+
+      const linkedPath = join(dir, "linked.sqlite");
+      symlinkSync(privatePath, linkedPath);
+      expect(() => openLocalStore(linkedPath, migrations)).toThrow("regular, private");
+
+      chmodSync(privatePath, 0o644);
+      expect(() => openLocalStore(privatePath, migrations)).toThrow("regular, private");
+      chmodSync(privatePath, 0o600);
+
+      chmodSync(dir, 0o755);
+      expect(() => openLocalStore(join(dir, "wrong-dir.sqlite"), migrations)).toThrow("directory must be private");
+      chmodSync(dir, 0o700);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
   });
   it("backs up a live WAL database and restores only to a new path", async () => {
     const dir = mkdtempSync(join(tmpdir(), "grimmlink-backup-"));
