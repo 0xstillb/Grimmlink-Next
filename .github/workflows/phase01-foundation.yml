@@ -20,6 +20,8 @@ jobs:
           node-version: "22"
       - name: Install workspace dependencies (lockfile pending)
         run: pnpm install --no-frozen-lockfile
+      - name: Compile approved SQLite native binding
+        run: pnpm rebuild better-sqlite3
       - name: Build packages and UI
         run: pnpm build
       - name: Typecheck
