@@ -52,6 +52,31 @@ jobs:
         run: |
           set -euo pipefail
           test "$(docker run --rm --network none --entrypoint node grimmlink-next:phase01-arm64 -p 'process.arch')" = "arm64"
+      - name: Offline ARM64 adapter boot + private SQLite smoke
+        run: |
+          set -euo pipefail
+          docker run -d --name phase01-smoke --network none --read-only \
+            --cap-drop ALL --security-opt no-new-privileges \
+            --tmpfs /tmp:rw,nosuid,noexec,size=16m \
+            --tmpfs /app/data:rw,nosuid,noexec,size=16m,uid=1000,gid=1000,mode=0700 \
+            grimmlink-next:phase01-arm64
+          trap 'docker rm -f phase01-smoke >/dev/null 2>&1 || true' EXIT
+          ready=0
+          for attempt in $(seq 1 20); do
+            if docker exec phase01-smoke node -e "fetch('http://127.0.0.1:6060/health').then(r=>r.json()).then(j=>{if(j.status!=='foundation-only'||j.upstreamConnected!==false)process.exit(2)}).catch(()=>process.exit(3))"; then
+              ready=1
+              break
+            fi
+            sleep 1
+          done
+          test "$ready" -eq 1
+          docker exec phase01-smoke node --input-type=module -e '
+            import { openLocalStore } from "./packages/persistence/dist/index.js";
+            const store = openLocalStore("/app/data/smoke.sqlite","/app/packages/persistence/migrations");
+            if (store.sqlite.pragma("journal_mode",{simple:true}) !== "wal") process.exitCode = 3;
+            store.close();
+          '
+          test "$(docker inspect -f '{{.State.Running}}' phase01-smoke)" = "true"
       - name: Validate bounded local-only compose contract
         run: |
           docker compose -f compose.phase01.yml config > /tmp/grimmlink-compose-resolved.yml
