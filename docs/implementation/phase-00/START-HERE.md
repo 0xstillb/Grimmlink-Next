@@ -1,6 +1,6 @@
 # Phase 00 — Start Here
 
-**Bootstrap status:** NOT STARTED. This document prepares the phase but does not execute the source audit, tests or contract freeze.
+**Current 2026-10-29:** SOURCE_AUDITED, post-review correction recorded; **independent CHANGES_REQUIRED remains, NOT CONTRACT_LOCKED**. The bootstrap instructions below are historical.
 
 ## Official instructions
 
@@ -19,3 +19,8 @@
 6. Use an independent reviewer with the Reviewer Prompt. Phase exits only after a review-backed contract lock.
 
 **Tests for Phase 00:** Static/source verification and JSON validation only. No real NAS, Hermes, readers, production mutation or full E2E. Phase 09 exclusively handles integrated E2E.
+
+
+## Mandatory next session after correction
+
+Fetch LIVE [Draft PR #2](https://github.com/0xstillb/Grimmlink-Next/pull/2); read [Independent REVIEW.md](REVIEW.md), [Implementer REMEDIATION.md](REMEDIATION.md), Contract/Discrepancies/Handoff. Request **fresh independent re-review** of correction diff and unresolved security/metadata contracts. Do not merge PR, change main or begin Phase01; Full E2E/Hermes/NAS/physical readers Phase09 only.
