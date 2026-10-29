@@ -79,6 +79,7 @@ def census(upstream, evidence):
     signals=load(evidence/"SOURCE-ROUTE-CANDIDATES.json")
     triage=load(evidence/"JAVA-INHERITANCE-TYPE-TRIAGE.json")
     repo=load(evidence/"REPOSITORY-REST-SOURCE-EXPOSURE.json")
+    conditions=load(evidence/"SOURCE-CONDITION-RESOLUTION.json")
     expanded=load(evidence/"SOURCE-DECLARED-MAPPING-EXPANSION.json")
     chains=load(evidence/"SOURCE-403-SECURITY-CHAIN-CANDIDATES.json")
     ledger=load(evidence/"SOURCE-AUTH-OWNERSHIP-LEDGER.json")
@@ -114,8 +115,10 @@ def census(upstream, evidence):
         raise ValueError("custom annotation definitions changed; composed mappings need review")
     if expanded["methodMappingAnnotations"]!=348 or expanded["classMappingAnnotations"]!=63 or expanded["routeHandlerRecords"]!=348:
         raise ValueError("declared controller annotation census changed")
-    if expanded["unresolvedHandlerCount"]!=0 or expanded["unresolvedPathVariants"]!=0:
-        raise ValueError("unresolved source mapping aliases or paths")
+    if expanded["unresolvedHandlerCount"]!=15 or expanded["unresolvedPathVariants"]!=0:
+        raise ValueError("unexpected source mapping aliases, path variants, or symbolic count")
+    if conditions["symbolicConditions"]!=15 or conditions["unresolvedThirdPartyOrDynamic"]!=0:
+        raise ValueError("15 symbolic source mapping conditions not verified")
     if chains["sourceRouteVariants"]!=403 or not chains["allRouteForwardingDenied"]:
         raise ValueError("route chain source candidates not all denied")
     if len(ledger["allRouteRecords"])!=348 or any(x["allowedToProxyNow"] for x in ledger["allRouteRecords"]):
