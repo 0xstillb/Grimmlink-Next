@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "phase": "PHASE_00",
-  "status": "INDEPENDENT_RE_REVIEW_CHANGES_REQUIRED_POST_REVIEW_DOC_CORRECTIONS_PENDING_FRESH_RECHECK",
+  "status": "FINAL_INDEPENDENT_REVIEW_CHANGES_REQUIRED_NOT_CONTRACT_LOCKED",
   "baseCommit": "5efdaf3bef051d0d5c44f6274a2cd2bf22010de5",
   "headCommit": "FETCH_LIVE_GITHUB_NO_SELF_SHA",
   "branch": "feat/next-phase-00",
@@ -54,7 +54,7 @@
     "READBACK_NOT_RUN",
     "INTEGRATED_E2E_NOT_RUN_PHASE09"
   ],
-  "reviewStatus": "CHANGES_REQUIRED_POST_RE_REVIEW",
+  "reviewStatus": "CHANGES_REQUIRED_FINAL_FRESH_REVIEW",
   "blockers": [
     "Installed Grimmory image/DB/mount/version unknown",
     "JWT DTO source verified; per-user permissions, expires units and refresh runtime remain unverified",
@@ -88,8 +88,8 @@
     "runtime unverified",
     "nonempty collection can replace existing OPF authors/categories/tags"
   ],
-  "handoffTo": "FRESH_INDEPENDENT_REVIEW_OF_POST_REVIEW_CORRECTIONS",
-  "nextAction": "Fresh independent reviewer inspect RE-REVIEW-2026-10-29.md and diff AFTER 411b68; resolve design-level KOSync entitlement without bypass before CONTRACT_LOCKED. No Phase01, no merge; real E2E Phase09.",
+  "handoffTo": "PHASE00_IMPLEMENTER_FOR_REQUIRED_CONTRACT_CORRECTIONS_THEN_NEW_INDEPENDENT_REVIEW",
+  "nextAction": "Resolve R-02 P0 same-user JWT/KO identity + book entitlement verifier, bypass-free :6060 gateway; R-01 scalar DTO allowlist, R-09 uncertain-ACK at-most-once protocol, R-11 current banners. Keep KOSync progress/personal bridge/metadata writes OFF. No Phase01 or PR merge before future independent CONTRACT_LOCKED.",
   "evidence": [
     "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/MetadataController.java#L51-L59",
     "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/KoreaderController.java",
@@ -193,5 +193,50 @@
     "contractLocked": false,
     "runtimeTests": "NOT_RUN",
     "fullE2e": "PHASE09_ONLY"
+  },
+  "finalIndependentReview": {
+    "date": "2026-10-29",
+    "reviewer": "Fresh GPT-6 Web independent of cea6485 correction author",
+    "reviewedHead": "cea648544547c4d2b3f5c652bfc75d408288b7c7",
+    "comparedFrom": "411b68bd1ed2ffeca28165c55cc52fda6d88ea6c",
+    "comparisonCommits": 1,
+    "verdict": "CHANGES_REQUIRED",
+    "approved": false,
+    "contractLocked": false,
+    "sourceEvidence": "Grimmory 402e89b4452f8e2b17ab95f16c1621c003516cd2; Readest 3cc39ad7a558e6612e1a8135058fbd6f3c90b3e3",
+    "resultCounts": {
+      "DOC_FIXED": 8,
+      "DOC_PARTIAL": 4,
+      "DOC_UNFIXED": 0
+    },
+    "partialIds": [
+      "R-01",
+      "R-02",
+      "R-09",
+      "R-11"
+    ],
+    "blockedOff": [
+      "KOSYNC_PROGRESS_EXTERNAL_GET_PUT",
+      "PERSONAL_BRIDGE_WRITES",
+      "METADATA_APPLY",
+      "MANAGED_PROGRESS_PROJECTION",
+      "NAS_SOURCE_WRITES"
+    ],
+    "report": "docs/implementation/phase-00/FINAL-INDEPENDENT-REVIEW-2026-10-29.md",
+    "tests": {
+      "readOnlyGitHubSource": "PERFORMED",
+      "inProcessJsonParse": "PERFORMED",
+      "build": "NOT_RUN",
+      "unit": "NOT_RUN",
+      "mock": "NOT_RUN",
+      "liveApi": "NOT_RUN",
+      "hermesNasReaders": "NOT_RUN_PHASE09",
+      "fullE2e": "NOT_RUN_PHASE09"
+    },
+    "reviewOwnHandoffModifications": false,
+    "phase01Authorized": false,
+    "mergeAuthorized": false,
+    "mainChanged": false,
+    "reviewCommitSha": "FETCH_GITHUB_LIVE_NO_SELF_SHA"
   }
 }
