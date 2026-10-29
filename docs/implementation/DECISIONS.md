@@ -36,5 +36,6 @@
 | ADR-021 | CFI EXACT only on same EPUB+spine+text-anchor round-trip; hashes must match actual files | Phase06 fixture; Phase09 real |
 | ADR-022 | Readest can request registration after 401 but Official returns 403; pre-provision KOSync; OPDS add-only | Phase02/05 fixtures |
 | ADR-023 | Correction pass cannot approve itself; prior CHANGES_REQUIRED stands | fresh review before CONTRACT_LOCKED or Phase01 |
+| ADR-024 | External KOSync progress GET/PUT are deny-by-default before Official proxy; no alternative prefix/direct-port bypass. Require provisioned user-bound identity, exact hash/edition, assigned-library and content restriction prechecks for every request. | Phase02/05 design-to-code gate; no runtime enforcement in Phase00. If impossible without upstream changes, BLOCKED and OFF. |
 
 [Evidence and R-01–R-12 trace](phase-00/REMEDIATION.md).

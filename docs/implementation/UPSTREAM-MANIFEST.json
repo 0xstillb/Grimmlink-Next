@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "recordedAt": "2026-10-29",
-  "status": "SOURCE_CONTRACT_CORRECTED_RE_REVIEW_PENDING",
+  "status": "INDEPENDENT_RE_REVIEW_CHANGES_REQUIRED_CORRECTION_UNREVIEWED",
   "repository": "0xstillb/Grimmlink-Next",
   "releasePolicy": "MANUAL_APPROVAL_ONLY",
   "currentInstalledVersions": {
@@ -76,16 +76,22 @@
     "no_manual_status_preservation_claim",
     "verified_cfi_dom_anchor",
     "readest_digest_parity",
-    "global_sidecar_move_settings"
+    "global_sidecar_move_settings",
+    "gateway_kosync_preproxy_deny_by_default",
+    "no_gateway_bypass_paths",
+    "caller_bound_book_entitlement_before_personal_writes"
   ],
   "acceptance": {
-    "phase00": "INDEPENDENT_CHANGES_REQUIRED_RE_REVIEW_PENDING",
+    "phase00": "INDEPENDENT_RE_REVIEW_CHANGES_REQUIRED",
     "fullE2ePhase": "09",
     "fullE2eStatus": "DEFERRED_TO_PHASE_09",
     "production": "NOT_VERIFIED",
     "reviewVerdict": "CHANGES_REQUIRED",
     "reviewPending": true,
-    "correctionDoc": "docs/implementation/phase-00/REMEDIATION.md"
+    "correctionDoc": "docs/implementation/phase-00/REMEDIATION.md",
+    "reReviewHead": "411b68bd1ed2ffeca28165c55cc52fda6d88ea6c",
+    "reReviewReport": "docs/implementation/phase-00/RE-REVIEW-2026-10-29.md",
+    "followupDocReview": "PENDING"
   },
   "designOnlySafetyDefaults_NOT_IMPLEMENTED": {
     "metadataApply": false,

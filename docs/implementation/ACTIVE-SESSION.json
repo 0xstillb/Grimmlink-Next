@@ -10,7 +10,7 @@
   "productionBranch": "main",
   "phase": "00",
   "phaseName": "Discovery, Contracts & Architecture Lock",
-  "phaseStatus": "SOURCE_CONTRACT_CORRECTED_INDEPENDENT_RE_REVIEW_PENDING",
+  "phaseStatus": "INDEPENDENT_RE_REVIEW_CHANGES_REQUIRED_FOLLOWUP_CORRECTIONS_AWAIT_FRESH_RECHECK",
   "lastVerifiedPriorCommit": "5efdaf3bef051d0d5c44f6274a2cd2bf22010de5",
   "currentHead": "READ_LIVE_GITHUB_NO_SELF_SHA",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/2",
@@ -45,7 +45,8 @@
     "PHYSICAL_DEVICE_TEST_DEFERRED_TO_PHASE_09",
     "CORRECTION_INDEPENDENT_RE_REVIEW_NOT_RUN",
     "MOCK_CONTRACT_NOT_RUN",
-    "PHASE09_ALL_REAL_E2E_DEFERRED"
+    "PHASE09_ALL_REAL_E2E_DEFERRED",
+    "POST_REVIEW_CORRECTION_INDEPENDENT_REVIEW_NOT_RUN"
   ],
   "blockers": [
     "Installed Grimmory image/DB/mount/version unknown",
@@ -70,7 +71,7 @@
     "spec": "https://app.notion.com/p/407c7efbc00981f1a9c6ccb0de5d6a54",
     "playbook": "https://app.notion.com/p/407c7efbc009814a9e18f0d945ee0ef0"
   },
-  "nextAction": "Fresh-context independent re-review using RE-REVIEW-PACKET.md, R01–R12 with path:line. No Phase01 before approved contract lock.",
+  "nextAction": "Fresh reviewer must check post-411b68 corrections and concrete gateway KOSync book entitlement feasibility; if infeasible BLOCKED, never forward. Do not lock contract, merge or start Phase01.",
   "updatedAt": "2026-10-29",
   "sourceRecheck": "IMPLEMENTER_SOURCE_RECHECK_NOT_INDEPENDENT",
   "prStatus": "OPEN_DRAFT_RECHECK",
@@ -78,8 +79,8 @@
   "priorMergedPrCommit": "5470c7ad807cb701381ae8bcd9abe516f351b150",
   "reviewVerdict": "CHANGES_REQUIRED",
   "reviewedPreReviewHead": "5eccac25c8e85e16cfa913b72ae36bc6a3ceeed8",
-  "reviewReport": "docs/implementation/phase-00/REVIEW.md",
-  "independentReReview": "NOT_RUN",
+  "reviewReport": "docs/implementation/phase-00/RE-REVIEW-2026-10-29.md",
+  "independentReReview": "PERFORMED_CHANGES_REQUIRED_ON_411b68_POST_REVIEW_CORRECTIONS_NOT_RE_REVIEWED",
   "correctionReport": "docs/implementation/phase-00/REMEDIATION.md",
   "correctionScope": "R-01_TO_R-12_DOCS_ONLY",
   "reviewPacket": "docs/implementation/phase-00/RE-REVIEW-PACKET.md"

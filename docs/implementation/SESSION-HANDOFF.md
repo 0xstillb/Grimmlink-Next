@@ -1,6 +1,12 @@
 <!-- Current 2026-10-29 reviewer packet: [RE-REVIEW-PACKET.md](phase-00/RE-REVIEW-PACKET.md). Prior checkpoints below historical. -->
 # GRIMMLINK NEXT — GPT Web Session Handoff
 
+## NEW INDEPENDENT RE-REVIEW — 2026-10-29 (read first)
+
+- [Re-review report](phase-00/RE-REVIEW-2026-10-29.md) evaluated original correction HEAD `411b68bd1ed2ffeca28165c55cc52fda6d88ea6c` and issued **CHANGES_REQUIRED**. Review documents R-01–R-12 and source evidence, not hardware/runtime PASS.
+- Same session authored **subsequent** contract/gateway/metadata/Sidecar clarity fixes. Those new changes are **not independently re-reviewed**; new reviewer must inspect actual diff after `411b68` and assess the remaining design-level auth gate. **NOT CONTRACT_LOCKED, NO Phase01, no merge**; full integrated E2E Phase09 only. Fetch live HEAD.
+
+
 ## CURRENT CORRECTION CHECKPOINT — 2026-10-29 (supersedes earlier reviewed head below)
 
 - **The source-contract correction pass R-01–R-12 is committed** on [Draft PR #2](https://github.com/0xstillb/Grimmlink-Next/pull/2). Read [REMEDIATION.md](phase-00/REMEDIATION.md) alongside the prior [independent REVIEW.md](phase-00/REVIEW.md) and [HANDOFF.json](phase-00/HANDOFF.json).

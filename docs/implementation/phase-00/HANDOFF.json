@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "phase": "PHASE_00",
-  "status": "CORRECTION_PASS_SOURCE_DOCS_COMMITTED_AWAITING_INDEPENDENT_RE_REVIEW",
+  "status": "INDEPENDENT_RE_REVIEW_CHANGES_REQUIRED_POST_REVIEW_DOC_CORRECTIONS_PENDING_FRESH_RECHECK",
   "baseCommit": "5efdaf3bef051d0d5c44f6274a2cd2bf22010de5",
   "headCommit": "FETCH_LIVE_GITHUB_NO_SELF_SHA",
   "branch": "feat/next-phase-00",
@@ -22,7 +22,8 @@
     "docs/implementation/phase-00/REMEDIATION.md",
     "docs/implementation/phase-00/START-HERE.md",
     "AGENTS.md",
-    "docs/implementation/phase-00/RE-REVIEW-PACKET.md"
+    "docs/implementation/phase-00/RE-REVIEW-PACKET.md",
+    "docs/implementation/phase-00/RE-REVIEW-2026-10-29.md"
   ],
   "requirementsCovered": [
     "source audit v3.5.0",
@@ -41,7 +42,8 @@
   "testsAllowedRun": [
     "READ_ONLY_SOURCE_INSPECTION",
     "IN_PROCESS_JSON_PARSE",
-    "READ_ONLY_GRIMMORY_V3_5_0_SERVICE_RECHECK"
+    "READ_ONLY_GRIMMORY_V3_5_0_SERVICE_RECHECK",
+    "IN_PROCESS_JSON_PARSE_AND_STATIC_CONTRACT_ASSERTIONS"
   ],
   "testsNotRun": [
     "TERMINAL_COMMANDS_NOT_RUN",
@@ -52,7 +54,7 @@
     "READBACK_NOT_RUN",
     "INTEGRATED_E2E_NOT_RUN_PHASE09"
   ],
-  "reviewStatus": "CHANGES_REQUIRED_AWAITING_FRESH_INDEPENDENT_RE_REVIEW",
+  "reviewStatus": "CHANGES_REQUIRED_POST_RE_REVIEW",
   "blockers": [
     "Installed Grimmory image/DB/mount/version unknown",
     "JWT DTO source verified; per-user permissions, expires units and refresh runtime remain unverified",
@@ -86,8 +88,8 @@
     "runtime unverified",
     "nonempty collection can replace existing OPF authors/categories/tags"
   ],
-  "handoffTo": "PHASE_00_FRESH_INDEPENDENT_RE_REVIEW",
-  "nextAction": "In fresh independent GPT Web session, fetch live Draft PR2 HEAD and review RE-REVIEW-PACKET.md R01-R12 against pinned source; record independent verdict before contract lock or Phase01.",
+  "handoffTo": "FRESH_INDEPENDENT_REVIEW_OF_POST_REVIEW_CORRECTIONS",
+  "nextAction": "Fresh independent reviewer inspect RE-REVIEW-2026-10-29.md and diff AFTER 411b68; resolve design-level KOSync entitlement without bypass before CONTRACT_LOCKED. No Phase01, no merge; real E2E Phase09.",
   "evidence": [
     "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/MetadataController.java#L51-L59",
     "https://github.com/grimmory-tools/grimmory/blob/v3.5.0/backend/src/main/java/org/booklore/controller/KoreaderController.java",
@@ -175,5 +177,21 @@
     "testExitCodes": null,
     "fullE2e": "DEFERRED_TO_PHASE_09"
   },
-  "reReviewPacket": "docs/implementation/phase-00/RE-REVIEW-PACKET.md"
+  "reReviewPacket": "docs/implementation/phase-00/RE-REVIEW-PACKET.md",
+  "reReview": {
+    "date": "2026-10-29",
+    "reviewedHead": "411b68bd1ed2ffeca28165c55cc52fda6d88ea6c",
+    "verdict": "CHANGES_REQUIRED",
+    "report": "docs/implementation/phase-00/RE-REVIEW-2026-10-29.md",
+    "docFixed": 7,
+    "docPartial": 5,
+    "docUnfixed": 0,
+    "independentOfPreviousImplementerCorrections": true,
+    "reviewerAuthoredFollowupChanges": true,
+    "followupCorrectionsIndependentlyReviewed": false,
+    "phase01Authorized": false,
+    "contractLocked": false,
+    "runtimeTests": "NOT_RUN",
+    "fullE2e": "PHASE09_ONLY"
+  }
 }

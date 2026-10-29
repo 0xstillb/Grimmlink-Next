@@ -42,3 +42,6 @@ Every fixture has schema version, source tag SHA, request/response sanitized JSO
 - `session-cover-uncertain-ack`: 202 duplicate retry ledger and separate validated cover bytes/locks/readback.
 
 [Source references and gate matrix](REMEDIATION.md). No unit/mock/CLI/E2E execution in Phase00. All real devices/NAS/Hermes E2E Phase09 only.
+
+- `gateway-deny-until-entitled` (Phase02/05): external canonical GET and PUT plus `/api/koreader` aliases and direct Official bypass attempts, invalid/unprovisioned user, foreign library, restricted content, hash collision, edition mismatch, stale mapping, concurrent writers and admin surrogate must be denied **before upstream** with no mutation or existence leak; allow only bound-user entitlement proven for the exact book.
+- `personal-bridge-entitlement` (Phase02/07): bookmarks/annotations GET-by-book and CRUD-by-item, sessions GET/POST, ratings/status/progress and foreign-owner IDs must enforce both per-book library/content authorization and per-row user ownership, no admin token substitution; test deny and no side effects.

@@ -12,12 +12,12 @@
 ## Files in audit checkpoint
 - `docs/implementation/CONTRACT.md`, `DECISIONS.md`, `API-INVENTORY.md`, `UPSTREAM-MANIFEST.json`, `DISCREPANCIES.md`, `phase-00/FIXTURE-PLAN.md`, `phase-00/RESULT.md`, plus updated `ACTIVE-SESSION.json`, `SESSION-HANDOFF.md` and placeholder `phase-00/HANDOFF.json` / `REVIEW.md`.
 
-## Validation / remaining
+## Historical bootstrap validation / remaining (superseded by the current 2026-10-29 banner)
 - Source inspection through connected GitHub; structured manifest and handoff checked with JS `JSON.parse` before commit; GitHub server readback to verify commit.
 - Terminal, JVM compile, TypeScript build, unit, live API probes, real NAS and E2E: **NOT_RUN**. No actual deployment claim. All real integrated tests deferred to Phase09.
-- Independent reviewer verdict: **PENDING** (must be separate GPT context inspecting the committed diff). No manufactured APPROVED review.
+- At this **historical bootstrap checkpoint**, independent review was PENDING. Superseded by the 2026-10-29 independent CHANGES_REQUIRED review and subsequent re-review; never read this as current status.
 - Need resolve P0 `C-001..C-006` and at least freeze auth/field details before starting affected Phase01/02 implementation; source target version is candidate, not installed.
-- Next action: fresh GPT-6 reviewer of Draft PR #1, use `phase-00/REVIEW.md` for honest findings; if approved, mark CONTRACT_LOCKED with real evidence and proceed to Phase01 via integration approval only.
+- **Historical next action, superseded:** reviewer of Draft PR #1. The current source of truth is live Draft PR #2 and the latest independent re-review/hand-off, not this old instruction.
 
 **Commit SHA note:** Current commit cannot contain its own final SHA. Fetch live branch HEAD / PR server-side. Never substitute this pre-audit SHA as result commit SHA.
 
