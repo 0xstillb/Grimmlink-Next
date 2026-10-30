@@ -149,4 +149,4 @@
     "officialLogin": "REQUIRED_WHEN_LIVE",
     "deviceTokens": "REQUIRED_WHEN_LIVE"
   }
-}\n
+}
