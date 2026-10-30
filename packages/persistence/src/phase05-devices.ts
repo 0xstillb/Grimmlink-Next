@@ -246,7 +246,7 @@ export function recordOfflinePosition(
       if (result.changes !== 1) throw new Error("SYNC_CAS_LOST");
     }
     const revision = accepted ? expectedRevision + 1 : row.revision;
-    const state = accepted ? "LOCAL_RECORDED" : "CONFLICT";
+    const state: "LOCAL_RECORDED" | "CONFLICT" = accepted ? "LOCAL_RECORDED" : "CONFLICT";
     sqlite.prepare(
       "INSERT INTO phase05_mock_sync_events(event_id,document_id,payload_sha256,status,observed_revision,created_at) VALUES (?,?,?,?,?,?)",
     ).run(eventId, documentHash, payloadHash, state, revision, nowMs);
