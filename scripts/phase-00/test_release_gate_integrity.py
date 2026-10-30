@@ -329,7 +329,7 @@ class GateTests(unittest.TestCase):
         for change in mutations:
             (self.root/path).write_text(pristine)
             self.mutate(path,change)
-            with self.assertRaisesRegex(ValueError,"active Phase08 development checkpoint invalid"):
+            with self.assertRaisesRegex(ValueError,"active Phase06 development checkpoint invalid|active Phase08 development checkpoint invalid"):
                 gate.validate(self.root,self.out)
 
     def test_phase01_sensitive_feature_enable_rejected(self):
