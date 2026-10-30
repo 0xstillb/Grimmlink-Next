@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "phase": "PHASE_02",
-  "phaseName": "Single-Port Gateway, Auth & Official REST Client",
-  "status": "SPRING_RUNTIME_METADATA_CAPTURED_MOCK_GATEWAY_CI_PASS_EXIT_BLOCKED",
+  "phaseName": "Single-Owner Private Gateway, Paired-Device Identity & Official REST",
+  "status": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS_OPERATIONAL_ENABLEMENT_BLOCKED",
   "exitGate": "GATEWAY_CODE_REVIEWED_NOT_GRANTED",
   "baseIntegrationCommit": "0579f64afb2d53001c915a10079d00ecd9de0091",
   "branch": "feat/next-phase-02",
@@ -115,14 +115,25 @@
   },
   "pending": [
     "Effective method/path/security chain semantics plus HEAD OPTIONS OPDS aliases and feature route ownership",
-    "Actual current user/library/book/file/row ACL atomically enforced with negative runtime requests",
     "Verified Official/admin login and device pairing/revocation with protected HTTP CSRF endpoint",
     "TLS/SNI and direct ingress IPv4/IPv6/container + egress isolation on realistic deployment",
-    "Independent fresh-context line-level security review and owner acceptance",
-    "Real Hermes NAS readers integrated E2E reserved to Phase09"
+    "Real Hermes NAS readers integrated E2E reserved to Phase09",
+    "Single-owner safe book-file-record binding and stale/unsafe writes; no new per-user ACL matrix required",
+    "Combined independent security review plus remediation is DEFERRED_TO_PHASE_09"
   ],
-  "next": "Read current branch HEAD CI after docs commit; review runtime artifact and reconcile effective method/path/security decisions, then full rights/session/ingress proof and independent review. No Official forwarding or merge.",
+  "next": "Proceed to next SAFE development phase after CI + handoff without separate reviewer; live Official forward STILL DENY_ALL, high-risk bridges OFF until functional proof, production after Phase09.",
   "updatedAt": "2026-10-29",
   "latestVerifiedCodeSourceHead": "69ded85e584263f885ce51a2a322adc0d20ce60e",
-  "networkEgressIsolation": "NOT_PROVEN_BRIDGE_LOOPBACK_MOCK_ONLY"
+  "networkEgressIsolation": "NOT_PROVEN_BRIDGE_LOOPBACK_MOCK_ONLY",
+  "developmentGate": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
+  "productionGate": "BLOCKED_OPERATIONAL_ENABLEMENT",
+  "independentSecurityReview": "DEFERRED_TO_PHASE_09_NOT_REQUIRED_FOR_NEXT_PHASE",
+  "ownerMode": {
+    "humanOwners": 1,
+    "officialAccounts": 1,
+    "pairedDevices": "MULTIPLE_SAME_OWNER",
+    "newMultiUserAcl": "NOT_REQUIRED",
+    "officialLogin": "REQUIRED_WHEN_LIVE",
+    "deviceTokens": "REQUIRED_WHEN_LIVE"
+  }
 }
