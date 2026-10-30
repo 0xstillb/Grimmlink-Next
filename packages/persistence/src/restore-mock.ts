@@ -48,7 +48,10 @@ export function createIsolatedMockRestore(
     if (rows.has(record.bookId)) throw new Error("Duplicate fake record");
     rows.set(record.bookId, record);
   }
-  const deliveries = new Map<string, { bundleHash: string; ownerId: string; result: MockRestoreOutcome }>();
+  const deliveries = new Map<
+    string,
+    { bundleHash: string; ownerId: string; result: MockRestoreOutcome }
+  >();
   const preimage = (bundle: MetadataBundle) =>
     bundle.snapshots.map((s) => {
       const row = rows.get(s.bookId);
@@ -95,7 +98,10 @@ export function createIsolatedMockRestore(
     if (checked.sha256 !== approved.bundleHash) throw new Error("Bundle confirmation mismatch");
     const previousDelivery = deliveries.get(idempotencyKey);
     if (previousDelivery) {
-      if (previousDelivery.bundleHash !== checked.sha256 || previousDelivery.ownerId !== approved.ownerId)
+      if (
+        previousDelivery.bundleHash !== checked.sha256 ||
+        previousDelivery.ownerId !== approved.ownerId
+      )
         throw new Error("Restore idempotency key conflicts with approved bundle");
       return previousDelivery.result; // UNKNOWN never automatically re-applied
     }
@@ -116,7 +122,11 @@ export function createIsolatedMockRestore(
       });
     if (fault === "OFFICIAL_OFFLINE") {
       const failed = make("FAILED", "OFFICIAL_OFFLINE_BEFORE_DISPATCH", []);
-      deliveries.set(idempotencyKey, {bundleHash:checked.sha256,ownerId:approved.ownerId,result:failed});
+      deliveries.set(idempotencyKey, {
+        bundleHash: checked.sha256,
+        ownerId: approved.ownerId,
+        result: failed,
+      });
       return failed;
     }
     for (const snapshot of checked.snapshots) {
@@ -129,13 +139,21 @@ export function createIsolatedMockRestore(
     }
     if (fault === "UNKNOWN_AFTER_APPLY") {
       const unknown = make("UNKNOWN", "OUTCOME_UNKNOWN_NO_AUTO_RETRY", []);
-      deliveries.set(idempotencyKey, {bundleHash:checked.sha256,ownerId:approved.ownerId,result:unknown});
+      deliveries.set(idempotencyKey, {
+        bundleHash: checked.sha256,
+        ownerId: approved.ownerId,
+        result: unknown,
+      });
       return unknown;
     }
     const matching = reconciledReadback(checked);
     if (!matching || fault === "READBACK_MISMATCH") {
       const unknown = make("UNKNOWN", "FAKE_HTTP_200_READBACK_MISMATCH", []);
-      deliveries.set(idempotencyKey, {bundleHash:checked.sha256,ownerId:approved.ownerId,result:unknown});
+      deliveries.set(idempotencyKey, {
+        bundleHash: checked.sha256,
+        ownerId: approved.ownerId,
+        result: unknown,
+      });
       return unknown;
     }
     const verified = make(
@@ -143,7 +161,11 @@ export function createIsolatedMockRestore(
       "FAKE_CAS_AND_READBACK_MATCH",
       checked.snapshots.map((s) => s.bookId),
     );
-    deliveries.set(idempotencyKey, {bundleHash:checked.sha256,ownerId:approved.ownerId,result:verified});
+    deliveries.set(idempotencyKey, {
+      bundleHash: checked.sha256,
+      ownerId: approved.ownerId,
+      result: verified,
+    });
     return verified;
   }
   function reconcile(bundle: MetadataBundle, idempotencyKey: string): MockRestoreOutcome {
@@ -159,12 +181,15 @@ export function createIsolatedMockRestore(
       officialConnected: false,
       scope: "ISOLATED_MEMORY_FAKE",
     });
-    deliveries.set(idempotencyKey, {...pending,result});
+    deliveries.set(idempotencyKey, { ...pending, result });
     return result;
   }
   function backupCurrent(ownerId: string, createdAt: number): MetadataBundle {
     if (ownerId !== canonicalOwnerId) throw new Error("Mock owner rejected");
-    return buildMetadataBundle(Array.from(rows.values(), (r) => ({ bookId: r.bookId, metadata: { ...r.metadata } })), createdAt);
+    return buildMetadataBundle(
+      Array.from(rows.values(), (r) => ({ bookId: r.bookId, metadata: { ...r.metadata } })),
+      createdAt,
+    );
   }
   return Object.freeze({ preview, confirm, reconcile, readback, backupCurrent });
 }

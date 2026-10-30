@@ -18,8 +18,13 @@ it("requires owner preview, confirmation, fake CAS/readback and never touches Of
   });
   expect(fake.readback("book-1")?.metadata.title).toBe("Restored");
   expect(fake.confirm(backup, preview, true, "restore1")).toEqual(result);
-  const different = buildMetadataBundle([{bookId:"book-1",metadata:{title:"Changed"}}],100);
-  expect(() => fake.confirm(different, {...preview,bundleHash:different.sha256}, true,"restore1")).toThrow("conflicts");
+  const different = buildMetadataBundle(
+    [{ bookId: "book-1", metadata: { title: "Changed" } }],
+    100,
+  );
+  expect(() =>
+    fake.confirm(different, { ...preview, bundleHash: different.sha256 }, true, "restore1"),
+  ).toThrow("conflicts");
   expect(() => fake.confirm(backup, preview, true, "different-key")).toThrow("Stale");
 });
 it("unknown post cannot be retried and must reconcile using verified fake readback", () => {
