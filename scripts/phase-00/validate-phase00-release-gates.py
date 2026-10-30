@@ -76,7 +76,7 @@ def validate(root,out):
     if active_phase=="00":
         if current.get("phaseStatus")!="CONTRACT_LOCKED_DESIGN_ONLY":
             raise ValueError("active status differs from independent design lock")
-    elif active_phase in ("01","02"):
+    elif active_phase in ("01","02","03"):
         if (current.get("phase00Review")!="PASS_PHASE00_DESIGN_ONLY_RUNTIME_NOT_VERIFIED"
             or current.get("phase01Scope")!="FOUNDATION_ONLY"):
             raise ValueError("active status differs from independent design lock")
@@ -94,9 +94,26 @@ def validate(root,out):
                 or phase02.get("runtimeSecurityAuthorized") is not False
                 or phase02.get("productionActivation")!="BLOCKED_OPERATIONAL_ENABLEMENT"):
                 raise ValueError("active Phase02 development checkpoint invalid")
+        if active_phase=="03":
+            phase03=current.get("phase03Work",{})
+            if (current.get("phaseStatus")!="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS"
+                or current.get("branch")!="feat/next-phase-03"
+                or current.get("pr")!="https://github.com/0xstillb/Grimmlink-Next/pull/7"
+                or current.get("prStatus")!="DRAFT_UNMERGED"
+                or current.get("deliveryPolicy",{}).get("mode")!="SINGLE_OWNER_PRIVATE"
+                or phase03.get("status")!="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS"
+                or phase03.get("writesAllowed") is not False
+                or phase03.get("officialConnected") is not False
+                or phase03.get("nasMountVerified") is not False
+                or phase03.get("operationalEnabled") is not False
+                or phase03.get("independentReview")!="DEFERRED_PHASE09"
+                or current.get("phase02Work",{}).get("developmentGate")!="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS"
+                or current.get("phase02Work",{}).get("runtimeSecurityAuthorized") is not False
+                or current.get("phase02Work",{}).get("productionActivation")!="BLOCKED_OPERATIONAL_ENABLEMENT"):
+                raise ValueError("active Phase03 development checkpoint invalid")
     else:
         raise ValueError("unreviewed active phase transition")
-    phase01_accepted=(active_phase=="02" or
+    phase01_accepted=(active_phase in ("02","03") or
         (active_phase=="01" and current.get("phaseStatus")=="FOUNDATION_REVIEWED"))
     if phase01_accepted:
         attestation_path="docs/implementation/phase-01/FINAL-INDEPENDENT-REVIEW-ATTESTATION-2026-10-29.md"

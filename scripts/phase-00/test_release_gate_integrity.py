@@ -196,8 +196,28 @@ class GateTests(unittest.TestCase):
             with self.subTest(case=i):
                 (self.root/path).write_text(pristine)
                 self.mutate(path,change)
-                with self.assertRaisesRegex(ValueError,"active Phase02 development checkpoint invalid"):
+                with self.assertRaisesRegex(ValueError,"active Phase02 development checkpoint invalid|active Phase03 development checkpoint invalid"):
                     gate.validate(self.root,self.out)
+
+    def test_phase03_offline_feature_flags_cannot_be_promoted(self):
+        path="docs/implementation/ACTIVE-SESSION.json"
+        pristine=(self.root/path).read_text()
+        mutations=(
+            lambda j:j["phase03Work"].update(writesAllowed=True),
+            lambda j:j["phase03Work"].update(officialConnected=True),
+            lambda j:j["phase03Work"].update(nasMountVerified=True),
+            lambda j:j["phase03Work"].update(operationalEnabled=True),
+            lambda j:j["phase03Work"].update(independentReview="APPROVED"),
+            lambda j:j.update(phaseStatus="PRODUCTION_VERIFIED"),
+            lambda j:j.update(branch="main"),
+            lambda j:j.update(prStatus="MERGED"),
+            lambda j:j["phase02Work"].update(runtimeSecurityAuthorized=True),
+        )
+        for change in mutations:
+            (self.root/path).write_text(pristine)
+            self.mutate(path,change)
+            with self.assertRaisesRegex(ValueError,"active Phase03 development checkpoint invalid"):
+                gate.validate(self.root,self.out)
 
     def test_phase01_sensitive_feature_enable_rejected(self):
         self.mutate("docs/implementation/ACTIVE-SESSION.json",

@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "project": "GRIMMLINK NEXT",
+  "phase": "03",
+  "status": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
+  "developmentScope": "OFFLINE_FIXTURE_ONLY",
+  "branch": "feat/next-phase-03",
+  "baseBranch": "feat/next-phase-02",
+  "stackedOnDraftPr": 6,
+  "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/7",
+  "verifiedImplementationHead": "a00c3a0b4f15ae4340eba7143176fab435154672",
+  "verifiedCodeCIRun": "41007830647",
+  "currentHead": "READ_LIVE_GITHUB_NO_SELF_SHA",
+  "exactHeadCI": "CHECK_AFTER_COMMIT",
+  "delivered": [
+    "BOUNDED_LINUX_OFFLINE_FIXTURE_NAS_READER",
+    "STRICT_UTF8_OPF_SCALAR_PREVIEW",
+    "SPARSE_MOCK_LOCK_FILTER",
+    "ADJACENT_EPUB_OPF_COVER_FINGERPRINT",
+    "ISOLATED_CI_AND_NEGATIVE_TESTS",
+    "PHASE00_GATE_COMPATIBILITY"
+  ],
+  "safety": {
+    "officialGatewayForwarding": "DENY_ALL",
+    "metadataApply": "OFF",
+    "nasLiveMounted": false,
+    "officialConnected": false,
+    "writeEnabled": false,
+    "productionDeployment": "NOT_AUTHORIZED"
+  },
+  "deferred": [
+    "REAL_READONLY_NAS_MOUNT_AND_OPENAT2_TRAVERSAL",
+    "REAL_OFFICIAL_OWNER_LOCKS_AND_CAS",
+    "REAL_OPF_COMPATIBILITY",
+    "PHASE04_BACKUP_RESTORE",
+    "PHASE09_PHYSICAL_E2E_AND_SINGLE_INDEPENDENT_REVIEW"
+  ],
+  "nextPhase": "04",
+  "independentSecurityReview": "PHASE09_ONLY",
+  "singleOwner": true,
+  "rbac": "OUT_OF_SCOPE",
+  "mergeStatus": "DRAFT_UNMERGED"
+}

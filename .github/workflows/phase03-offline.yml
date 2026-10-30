@@ -39,6 +39,10 @@ jobs:
         run: pnpm format:check
       - name: Run all isolated tests
         run: pnpm test
+      - name: Historical Phase00 gate and adversarial status tests
+        run: |
+          python3 -m unittest discover -s scripts/phase-00 -p 'test_*.py' -v
+          python3 scripts/phase-00/validate-phase00-release-gates.py --repo . --output /tmp/phase03-phase00-evidence.json
       - name: Independently verify Phase03 never enables live writes
         run: |
           set -euo pipefail
