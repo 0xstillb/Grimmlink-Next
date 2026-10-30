@@ -107,6 +107,66 @@ export function revokeOfflineReader(
     .immediate();
 }
 
+/**
+ * Rotate a single still-active reader token in one local SQLite transaction.
+ * Never returns stored hashes, and the previous token immediately stops working.
+ * Owner fixture is NOT a production login and this is not mounted over HTTP.
+ */
+export function rotateOfflineReader(
+  sqlite: Database.Database,
+  actor: OfflineOwner,
+  deviceId: string,
+  nowMs: number,
+  expiresAtMs: number,
+): Readonly<{ deviceId: string; token: string; generation: number }> {
+  requireOwner(actor, nowMs);
+  if (
+    !validId(deviceId) ||
+    !validTime(expiresAtMs) ||
+    expiresAtMs <= nowMs ||
+    expiresAtMs - nowMs > 90 * 24 * 3600 * 1000
+  )
+    throw new Error("ROTATION_INVALID");
+  const token = randomBytes(32).toString("base64url");
+  const generation = sqlite.transaction(() => {
+    assertCanonicalOwner(sqlite, actor.accountId);
+    const result = sqlite
+      .prepare(
+        "UPDATE paired_reader_devices SET token_sha256=?,expires_at=?,generation=generation+1 WHERE device_id=? AND owner_id=? AND revoked_at IS NULL AND expires_at>?",
+      )
+      .run(tokenHash(token), expiresAtMs, deviceId, actor.accountId, nowMs);
+    if (result.changes !== 1) throw new Error("ROTATION_NOT_ACTIVE");
+    const row = sqlite.prepare("SELECT generation FROM paired_reader_devices WHERE device_id=?")
+      .get(deviceId) as { generation: number };
+    return row.generation;
+  }).immediate();
+  return { deviceId, token, generation };
+}
+
+/** Redacted owner-side listing for the future Control Center; no credential bytes. */
+export function listOfflineReaders(
+  sqlite: Database.Database,
+  actor: OfflineOwner,
+): readonly Readonly<{
+  deviceId: string;
+  generation: number;
+  expiresAtMs: number;
+  revokedAtMs: number | null;
+}>[] {
+  requireOwner(actor, 0);
+  assertCanonicalOwner(sqlite, actor.accountId);
+  return sqlite
+    .prepare(
+      "SELECT device_id AS deviceId,generation,expires_at AS expiresAtMs,revoked_at AS revokedAtMs FROM paired_reader_devices WHERE owner_id=? ORDER BY created_at,device_id",
+    )
+    .all(actor.accountId) as {
+      deviceId: string;
+      generation: number;
+      expiresAtMs: number;
+      revokedAtMs: number | null;
+    }[];
+}
+
 export type MockWriterMode = "DISABLED" | "MOCK_MANAGED";
 
 /** State is bound to KO document, Official file identity and exact byte SHA. */
