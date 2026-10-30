@@ -8,7 +8,12 @@ const classify = (
 ) => classifyGatewayRequest(method, target, headers);
 
 describe("Phase02 zero-forward gateway classifier", () => {
-  it.each(["/health", "/openapi.json", "/api/grimmlink/v2/capabilities", "/api/grimmlink/v2/version"])(
+  it.each([
+    "/health",
+    "/openapi.json",
+    "/api/grimmlink/v2/capabilities",
+    "/api/grimmlink/v2/version",
+  ])(
     "permits local GET only: %s",
     (path) => {
       expect(classify("GET", path)).toBe("LOCAL_READ");
