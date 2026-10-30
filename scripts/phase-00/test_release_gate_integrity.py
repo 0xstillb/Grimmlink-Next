@@ -157,7 +157,7 @@ class GateTests(unittest.TestCase):
             with self.subTest(case=i):
                 (self.root/path).write_text(pristine)
                 self.mutate(path,change)
-                with self.assertRaisesRegex(ValueError,"(FOUNDATION_REVIEWED requires|differs from independent design lock|active Phase02 development checkpoint invalid)"):
+                with self.assertRaisesRegex(ValueError,"(FOUNDATION_REVIEWED requires|differs from independent design lock|active Phase02 development checkpoint invalid|active Phase03 development checkpoint invalid)"):
                     gate.validate(self.root,self.out)
 
     def test_phase01_independent_review_attestation_cannot_be_tampered(self):
