@@ -31,7 +31,7 @@ jobs:
           pnpm rebuild better-sqlite3
       - name: Prettier diagnostics (never modifies committed source)
         run: |
-          files="apps/control-center/src/App.tsx apps/control-center/src/phase08-model.ts apps/control-center/src/phase08-model.test.ts"
+          files="apps/control-center/src/App.tsx apps/control-center/src/phase08-model.ts apps/control-center/src/phase08-model.test.ts apps/control-center/src/style.css"
           if ! pnpm exec prettier --check $files; then
             pnpm exec prettier --write $files
             for f in $files; do
