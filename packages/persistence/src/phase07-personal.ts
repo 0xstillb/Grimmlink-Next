@@ -233,7 +233,7 @@ export function recordOfflinePhase07Personal(
       const currentRevision = existing?.revision ?? 0;
       const accepted = currentRevision === input.expectedRevision;
       const revision = accepted ? currentRevision + 1 : currentRevision;
-      const status = accepted ? "LOCAL_RECORDED" : "CONFLICT";
+      const status: Phase07Result["status"] = accepted ? "LOCAL_RECORDED" : "CONFLICT";
       if (accepted && existing) {
         const result = sqlite
           .prepare(
@@ -382,7 +382,7 @@ export function recordOfflinePhase07Session(
           ? !row && input.expectedRevision === 0
           : !!row && row.ended_at === null && input.expectedRevision === row.revision;
       const revision = accepted ? current + 1 : current;
-      const status = accepted ? "LOCAL_RECORDED" : "CONFLICT";
+      const status: Phase07Result["status"] = accepted ? "LOCAL_RECORDED" : "CONFLICT";
       if (accepted && input.action === "START") {
         sqlite
           .prepare(
