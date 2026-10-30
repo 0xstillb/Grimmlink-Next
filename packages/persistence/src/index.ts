@@ -226,3 +226,4 @@ export * from "./recovery-jobs.js";
 export * from "./backup-bundle.js";
 export * from "./phase04-queue.js";
 export * from "./restore-mock.js";
+export * from "./phase05-devices.js";
