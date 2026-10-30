@@ -42,7 +42,12 @@ export async function readNasFixtureFile(
 ): Promise<NasFixtureRead> {
   const plan = planReadOnlyLocation(relativePath);
   if (process.platform !== "linux") throw new Error("Linux fixture reader only");
-  if (!isAbsolute(fixtureRoot) || !Number.isSafeInteger(maxBytes) || maxBytes < 1 || maxBytes > 16 * 1024 * 1024)
+  if (
+    !isAbsolute(fixtureRoot) ||
+    !Number.isSafeInteger(maxBytes) ||
+    maxBytes < 1 ||
+    maxBytes > 16 * 1024 * 1024
+  )
     throw new Error("Invalid fixture read configuration");
 
   const root = resolve(fixtureRoot);
@@ -51,7 +56,12 @@ export async function readNasFixtureFile(
     throw new Error("Untrusted fixture root");
   const full = resolve(root, plan.relativePath);
   const containment = relative(root, full);
-  if (!containment || containment === ".." || containment.startsWith(".." + sep) || isAbsolute(containment))
+  if (
+    !containment ||
+    containment === ".." ||
+    containment.startsWith(".." + sep) ||
+    isAbsolute(containment)
+  )
     throw new Error("Untrusted fixture path");
 
   let current = root;
@@ -59,8 +69,11 @@ export async function readNasFixtureFile(
   for (const [index, segment] of segments.entries()) {
     current = join(current, segment);
     const item = await lstat(current);
-    if (item.isSymbolicLink() || (index < segments.length - 1 && !item.isDirectory()) ||
-        (index === segments.length - 1 && (!item.isFile() || item.nlink !== 1))) {
+    if (
+      item.isSymbolicLink() ||
+      (index < segments.length - 1 && !item.isDirectory()) ||
+      (index === segments.length - 1 && (!item.isFile() || item.nlink !== 1))
+    ) {
       throw new Error("Unsafe fixture entry");
     }
   }
@@ -70,9 +83,15 @@ export async function readNasFixtureFile(
   try {
     const opened = await handle.stat();
     const actual = await readlink(`/proc/self/fd/${handle.fd}`);
-    if (actual !== full || !opened.isFile() || opened.nlink !== 1 ||
-        opened.dev !== before.dev || opened.ino !== before.ino ||
-        opened.size !== before.size || opened.size > maxBytes) {
+    if (
+      actual !== full ||
+      !opened.isFile() ||
+      opened.nlink !== 1 ||
+      opened.dev !== before.dev ||
+      opened.ino !== before.ino ||
+      opened.size !== before.size ||
+      opened.size > maxBytes
+    ) {
       throw new Error("Fixture changed during open");
     }
     const bytes = Buffer.alloc(opened.size);
@@ -86,9 +105,14 @@ export async function readNasFixtureFile(
     if ((await handle.read(probe, 0, 1, bytes.length)).bytesRead !== 0)
       throw new Error("Fixture grew during read");
     const after = await handle.stat();
-    if (after.dev !== opened.dev || after.ino !== opened.ino ||
-        after.size !== opened.size || after.mtimeMs !== opened.mtimeMs ||
-        after.ctimeMs !== opened.ctimeMs || (await realpath(root)) !== root)
+    if (
+      after.dev !== opened.dev ||
+      after.ino !== opened.ino ||
+      after.size !== opened.size ||
+      after.mtimeMs !== opened.mtimeMs ||
+      after.ctimeMs !== opened.ctimeMs ||
+      (await realpath(root)) !== root
+    )
       throw new Error("Fixture changed during read");
     return Object.freeze({
       relativePath: plan.relativePath,
