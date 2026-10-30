@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "project": "GRIMMLINK NEXT",
+  "phase": "05",
+  "branch": "feat/next-phase-05",
+  "baseBranch": "integration/grimmlink-next",
+  "baseIntegrationCommit": "fe83f22fa7395a4f799df8ecc5349de71aeadb0c",
+  "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/9",
+  "status": "CODE_IMPLEMENTED_CI_PENDING",
+  "head": "CHECK_LIVE_GITHUB",
+  "delivered": [
+    "SHA256_FULL_BOOKFILE_IDENTITY_WITH_KO_HASH_COLLISION_DENIAL",
+    "DURABLE_ONE_OWNER_MULTIPLE_PAIRED_DEVICES_TOKEN_HASH_REVOKE",
+    "PERSISTENT_MOCK_WRITER_CAS_REPLAY_CONFLICT_NATIVE_POSITION",
+    "STRICT_MOCK_KOSYNC_HTTP_AND_WIRE_CONTRACT_UNMOUNTED",
+    "SQLITE_RESTART_MOCK_HTTP_NEGATIVE_TESTS",
+    "PHASE05_DEDICATED_GITHUB_CI"
+  ],
+  "ci": {
+    "initialRun": "41015526965",
+    "initialConclusion": "FAIL_TYPESCRIPT_LITERAL_WIDENING",
+    "fixedInCommit": "86aabd09c8e00a15a6bf5bb56d0c80678e97ac97",
+    "latestExactHead": "PENDING_CHECK"
+  },
+  "scope": "OFFLINE_MOCK_ONLY_NO_REAL_OFFICIAL_OR_DEVICE",
+  "safety": {
+    "officialGatewayForwarding": "DENY_ALL",
+    "nativeKosyncProgress": "OFF",
+    "personalBridge": "OFF",
+    "sessionBridge": "OFF",
+    "production": "NOT_AUTHORIZED"
+  },
+  "independentSecurityReview": "DEFERRED_PHASE09",
+  "physicalE2e": "DEFERRED_TO_PHASE09",
+  "remaining": [
+    "PINNED_KO_PARTIAL_MD5_LIBRARY_AND_REAL_GOLDEN_VECTOR_UNVERIFIED",
+    "OFFICIAL_JWT_TO_KO_BINDING_AND_ATOMIC_ACL_UNRESOLVED",
+    "NATIVE_KOSYNC_PROGRESS_BLOCKED_BY_ADR025",
+    "ACTUAL_MANAGED_OFFICIAL_WRITES_DISABLED",
+    "REAL_DEVICE_AND_PROTOCOL_TRACES_DEFERRED_TO_PHASE09",
+    "LATEST_EXACT_HEAD_CI_PENDING"
+  ],
+  "nextAction": "Fix CI, verify exact feature SHA; keep Draft PR open and main untouched"
+}
