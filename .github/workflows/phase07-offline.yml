@@ -29,6 +29,19 @@ jobs:
         run: |
           pnpm install --frozen-lockfile
           pnpm rebuild better-sqlite3
+      - name: Check and diagnose pinned Prettier for changed source
+        run: |
+          files="packages/personal/src/index.ts packages/personal/src/index.test.ts packages/persistence/src/index.ts packages/persistence/src/phase07-personal.ts packages/persistence/src/phase07-personal.test.ts"
+          if ! pnpm exec prettier --check $files; then
+            pnpm exec prettier --write $files
+            for f in $files; do
+              echo "@@FORMATTED_BEGIN:$f"
+              base64 -w0 "$f"
+              echo
+              echo "@@FORMATTED_END:$f"
+            done
+            exit 1
+          fi
       - name: Build, types, format, lint and entire offline mock suite
         run: |
           pnpm build
