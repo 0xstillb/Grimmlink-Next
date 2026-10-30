@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "project": "GRIMMLINK NEXT",
+  "phase": "06",
+  "status": "CODE_IMPLEMENTED_CI_PENDING",
+  "branch": "feat/next-phase-06",
+  "baseBranch": "integration/grimmlink-next",
+  "baseIntegrationCommit": "3b5321ede76f74fd1d94ebaece119fc4f6f11aaf",
+  "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/10",
+  "head": "READ_LIVE_GITHUB_NO_SELF_SHA",
+  "scope": "OFFLINE_SYNTHETIC_FIXTURES_AND_SQLITE_ONLY",
+  "delivered": [
+    "EXACT_EPUB_ANCHOR_PAIR_SYNTHETIC_ONLY",
+    "BOOK_FILE_EDITION_SHA_SPINE_TEXT_MATCH_OR_DENY",
+    "PDF_PAGE_WITH_KNOWN_FIXTURE_PAGE_COUNT",
+    "LOCAL_RESUME_REVISION_NOT_CLOCK",
+    "SQLITE_CAS_EVENT_REPLAY_REVOCATION_RESTART",
+    "NEGATIVE_FIXTURES_AND_PHASE06_CI",
+    "EXTENDED_PHASE00_FAIL_CLOSED_GATE"
+  ],
+  "testCommands": [
+    "pnpm install --frozen-lockfile",
+    "pnpm rebuild better-sqlite3",
+    "pnpm build",
+    "pnpm typecheck",
+    "pnpm format:check",
+    "pnpm lint",
+    "pnpm test",
+    "python3 -m unittest discover -s scripts/phase-00 -p 'test_*.py' -v",
+    "python3 scripts/phase-00/validate-phase00-release-gates.py --repo . --output /tmp/phase06-evidence.json"
+  ],
+  "ci": {
+    "initialFailedRun": "41046094151",
+    "initialFailure": "TYPESCRIPT_IMPLICIT_ANY_FIXED_IN_64c80d23",
+    "formatterCommit": "c8629a9ff911dc8b426dee78b135482aa06e9d1c",
+    "latestHead": "VERIFY_LIVE",
+    "latestRun": "VERIFY_LIVE",
+    "latestConclusion": "NOT_YET_VERIFIED"
+  },
+  "safety": {
+    "singleOwner": true,
+    "multiTenantRBAC": false,
+    "officialForwarding": "DENY_ALL",
+    "nativeKosync": "OFF",
+    "managedProjection": "OFF",
+    "liveRoutesMounted": false,
+    "production": "NOT_AUTHORIZED",
+    "realDeviceE2e": "DEFERRED_PHASE09",
+    "independentSecurityReview": "DEFERRED_PHASE09"
+  },
+  "deferred": [
+    "REAL_BINARY_EPUB_GOLDEN_AND_PROVEN_PARSER",
+    "REAL_PDF_PAGE_COUNT_PARSER",
+    "ACTUAL_READER_CROSS_FORMAT_ROUNDTRIP",
+    "REAL_OFFICIAL_OWNER_AUTH_AND_ATOMIC_ENTITLEMENT",
+    "PARTIAL_BINARY_KO_MD5_REAL_FIXTURE",
+    "LIVE_NAS_HERMES_READERS_PHASE09",
+    "ONE_INDEPENDENT_SECURITY_REVIEW_AND_FIXES_PHASE09"
+  ],
+  "nextAction": "Recheck last closure commit CI exact SHA; repair any remaining failures, update status and handoff, then integration-only merge per owner workflow. No main merge or deployment."
+}
