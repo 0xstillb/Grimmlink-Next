@@ -3,7 +3,12 @@ import { readFileSync, readdirSync } from "node:fs";
 import Database from "better-sqlite3";
 import { expect, it } from "vitest";
 import { pairOfflineReader, revokeOfflineReader } from "./phase05-devices.js";
-import { recordOfflinePhase07Session, registerOfflinePhase07File } from "./phase07-personal.js";
+import {
+  recordOfflinePhase07Personal,
+  readOfflinePhase07Personal,
+  recordOfflinePhase07Session,
+  registerOfflinePhase07File,
+} from "./phase07-personal.js";
 
 it("replays current and legacy session receipts at a later server time without changing duration", () => {
   const sqlite = new Database(":memory:");
@@ -17,6 +22,22 @@ it("replays current and legacy session receipts at a later server time without c
     const file = { bookId: "book", bookFileId: "file", editionSha256: "a".repeat(64) };
     const paired = pairOfflineReader(sqlite, owner, "reader", 100, 10000);
     registerOfflinePhase07File(sqlite, owner, file);
+    const nativePosition = "/body/DocFragment[3]/body/p[3]/text().5";
+    const bookmark = {
+      ownerId: "owner",
+      deviceId: "reader",
+      token: paired.token,
+      file,
+      eventId: "bookmark",
+      kind: "BOOKMARK" as const,
+      recordId: "mark",
+      expectedRevision: 0,
+      action: "UPSERT" as const,
+      value: { kind: "BOOKMARK", nativePosition, label: "" },
+      nowMs: 150,
+    };
+    expect(recordOfflinePhase07Personal(sqlite, bookmark).status).toBe("LOCAL_RECORDED");
+    expect(readOfflinePhase07Personal(sqlite, bookmark)?.value).toEqual(bookmark.value);
     const start = {
       ownerId: "owner",
       deviceId: "reader",

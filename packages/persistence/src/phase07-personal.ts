@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { parseXPointer } from "@prose-reader/koreader";
 import type Database from "better-sqlite3";
 import { type OfflineOwner, verifyOfflineReader } from "./phase05-devices.js";
 
@@ -18,8 +19,8 @@ const clean = (v: unknown, max: number, allowEmpty = false): v is string =>
   !/[\u0000-\u001f\u007f]/.test(v);
 const position = (v: unknown): v is string =>
   clean(v, 2048) &&
-  (v.startsWith("epubcfi(/") || v.startsWith("xpointer(/")) &&
-  v.endsWith(")") &&
+  (((v.startsWith("epubcfi(/") || v.startsWith("xpointer(/")) && v.endsWith(")")) ||
+    (v.startsWith("/body/") && parseXPointer(v) !== undefined)) &&
   !/[<>%\\]/.test(v);
 const digest = (parts: unknown[]): string =>
   createHash("sha256").update(JSON.stringify(parts), "utf8").digest("hex");
