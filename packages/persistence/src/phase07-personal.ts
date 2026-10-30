@@ -331,7 +331,7 @@ export function recordOfflinePhase07Session(
   )
     throw new Error("PHASE07_SESSION_INVALID");
   assertFile(input.file);
-  const hash = digest([
+  const eventParts = [
     input.ownerId,
     input.deviceId,
     input.file,
@@ -339,15 +339,16 @@ export function recordOfflinePhase07Session(
     input.eventId,
     input.action,
     input.expectedRevision,
-    input.nowMs,
-  ]);
+  ];
+  // Receipt identity must not depend on the server clock at retry time.
+  const hash = digest(eventParts);
   return sqlite
     .transaction(() => {
       assertReader(sqlite, input.ownerId, input.deviceId, input.token, input.nowMs);
       assertKnownFile(sqlite, input.ownerId, input.file);
       const past = sqlite
         .prepare(
-          "SELECT session_id,payload_sha256,status,observed_revision FROM phase07_session_events WHERE event_id=?",
+          "SELECT session_id,payload_sha256,status,observed_revision,created_at FROM phase07_session_events WHERE event_id=?",
         )
         .get(input.eventId) as
         | {
@@ -355,10 +356,16 @@ export function recordOfflinePhase07Session(
             payload_sha256: string;
             status: Phase07Result["status"];
             observed_revision: number;
+            created_at: number;
           }
         | undefined;
       if (past) {
-        if (past.session_id !== input.sessionId || past.payload_sha256 !== hash)
+        // Existing fixture receipts used their original server clock in the digest.
+        const legacyHash = digest([...eventParts, past.created_at]);
+        if (
+          past.session_id !== input.sessionId ||
+          (past.payload_sha256 !== hash && past.payload_sha256 !== legacyHash)
+        )
           throw new Error("PHASE07_SESSION_REPLAY_COLLISION");
         return { status: past.status, revision: past.observed_revision };
       }

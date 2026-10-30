@@ -180,9 +180,13 @@ it("keeps reading sessions bounded, idempotent, device-locked and server-clock s
       revision: 1,
     });
     expect(recordOfflinePhase07Session(store.sqlite, start).revision).toBe(1);
-    expect(() => recordOfflinePhase07Session(store.sqlite, { ...start, nowMs: 1001 })).toThrow(
-      "PHASE07_SESSION_REPLAY_COLLISION",
-    );
+    expect(recordOfflinePhase07Session(store.sqlite, { ...start, nowMs: 1001 })).toEqual({
+      status: "LOCAL_RECORDED",
+      revision: 1,
+    });
+    expect(() =>
+      recordOfflinePhase07Session(store.sqlite, { ...start, action: "STOP", nowMs: 1001 }),
+    ).toThrow("PHASE07_SESSION_REPLAY_COLLISION");
     const stop = {
       ...start,
       eventId: "stop1",
@@ -203,6 +207,7 @@ it("keeps reading sessions bounded, idempotent, device-locked and server-clock s
       revision: 2,
     });
     expect(recordOfflinePhase07Session(store.sqlite, stop).revision).toBe(2);
+    expect(recordOfflinePhase07Session(store.sqlite, { ...stop, nowMs: 1300 }).revision).toBe(2);
     expect(
       readOfflinePhase07Session(store.sqlite, {
         ownerId: owner.accountId,
