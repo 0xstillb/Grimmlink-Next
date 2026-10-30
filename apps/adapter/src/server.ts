@@ -61,6 +61,8 @@ export async function buildServer(logLevel: "info" | "warn" | "error" = "info") 
             additionalProperties: false,
             required: [
               "phase",
+              "deploymentMode",
+              "independentSecurityReview",
               "officialConnected",
               "gatewayForwarding",
               "personalBridge",
@@ -69,6 +71,8 @@ export async function buildServer(logLevel: "info" | "warn" | "error" = "info") 
             ],
             properties: {
               phase: { type: "string", const: "02" },
+              deploymentMode: { type: "string", const: "SINGLE_OWNER_PRIVATE" },
+              independentSecurityReview: { type: "string", const: "DEFERRED_TO_PHASE_09" },
               officialConnected: { type: "boolean", const: false },
               gatewayForwarding: { type: "string", const: "DENY_ALL" },
               personalBridge: { type: "string", const: "OFF" },
@@ -81,6 +85,8 @@ export async function buildServer(logLevel: "info" | "warn" | "error" = "info") 
     },
     async () => ({
       phase: "02",
+      deploymentMode: "SINGLE_OWNER_PRIVATE",
+      independentSecurityReview: "DEFERRED_TO_PHASE_09",
       officialConnected: false,
       gatewayForwarding: "DENY_ALL",
       personalBridge: "OFF",
