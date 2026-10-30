@@ -1,3 +1,5 @@
+> **Policy override, 2026-10-30:** [Single-Owner Private Mode](SINGLE-OWNER-POLICY.md). **No mandatory independent security review during Phase00–08.** The single consolidated independent review/fix pass is Phase09. Keep historical review findings as immutable records, not current development blockers; protected Official routes still remain OFF until actually safe to enable.
+
 # GPT Web Session Bootstrap — Copy into a NEW Chat
 
 Use this prompt every time you open a new ChatGPT Web session. First connect GitHub and Notion in the chat.
@@ -33,8 +35,7 @@ FIRST:
 7. For final response report what was changed, exact file paths and commit/PR,
    tests actually run/not run, phase status and next prompt.
 
-Do not ask me to repeat context already in the repo/Notion. Do not start
-a later phase without a reviewed gate. Do not merge to main.
+Do not ask me to repeat context already in the repo/Notion. Start the next safe development phase after actual code/tests and risk-ledger handoff; no independent review gate until Phase09. Do not merge to main.
 Full E2E/real NAS/Hermes/physical readers ONLY in PHASE 09.
 No Grimmory/Readest upstream patches, no Full OPDS, no fake CFI/progress.
 If tool access is blocked, record precisely what remains uncommitted.

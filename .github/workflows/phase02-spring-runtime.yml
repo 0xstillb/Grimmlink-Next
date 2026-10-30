@@ -1,0 +1,81 @@
+name: Phase02 Pinned Spring Runtime Evidence (NO production)
+on:
+  pull_request:
+    branches: [integration/grimmlink-next]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: phase02-spring-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  pinned-runtime-evidence:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - name: Checkout standalone GrimmLink worktree
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Checkout exactly pinned Official source (read only)
+        uses: actions/checkout@v4
+        with:
+          repository: grimmory-tools/grimmory
+          ref: 402e89b4452f8e2b17ab95f16c1621c003516cd2
+          path: pinned-official
+          persist-credentials: false
+      - name: Install Java 25 (pinned Official Gradle toolchain)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Boot pinned Official with in-memory H2 and capture actual mappings
+        env:
+          PHASE02_ROUTE_EXPORT_PATH: ${{ github.workspace }}/spring-runtime-probe.json
+        run: |
+          set -euo pipefail
+          cd pinned-official
+          test "$(git rev-parse HEAD)" = "402e89b4452f8e2b17ab95f16c1621c003516cd2"
+          mkdir -p backend/src/main/java/org/booklore/phase02
+          cp ../scripts/phase-02/RuntimeRouteProbe.java backend/src/main/java/org/booklore/phase02/RuntimeRouteProbe.java
+          cd backend
+          chmod +x ./gradlew
+          ./gradlew exportOpenApi --no-daemon --max-workers=2 --stacktrace
+      - name: Verify actual runtime capture and pin, without granting ACL
+        run: |
+          set -euo pipefail
+          test -s spring-runtime-probe.json
+          test -s pinned-official/backend/build/openapi/grimmory-openapi.json
+          python3 - <<'PY'
+          import json
+          p=json.load(open('spring-runtime-probe.json',encoding='utf-8'))
+          o=json.load(open('pinned-official/backend/build/openapi/grimmory-openapi.json',encoding='utf-8'))
+          assert p.get('source') == 'PINNED_SPRING_RUNTIME_CI_ONLY'
+          assert p.get('pinnedUpstreamCommit') == '402e89b4452f8e2b17ab95f16c1621c003516cd2'
+          assert p.get('actualSpringHandlerCount',0) >= 300,p.get('actualSpringHandlerCount')
+          assert p.get('actualSecurityChainCount',0) >= 10,p.get('actualSecurityChainCount')
+          assert len(p.get('requestMappings',[])) == p['actualSpringHandlerCount']
+          assert len(p.get('orderedSecurityChains',[])) == p['actualSecurityChainCount']
+          assert p['perUserBookFileRowAuthorization'] == 'NOT_PROVEN'
+          assert p['gatewayForwarding'] == 'DENY_ALL'
+          assert str(o.get('openapi','')).startswith('3.')
+          print('ACTUAL_SPRING_BOOT_CI_EVIDENCE_CAPTURED',p['actualSpringHandlerCount'],p['actualSecurityChainCount'])
+          print('NOT_OWNERSHIP_AUTHORIZED_NOT_PRODUCTION_NOT_GATE_EXIT')
+          PY
+          python3 scripts/phase-02/reconcile_spring_runtime.py \
+            --runtime spring-runtime-probe.json \
+            --source docs/implementation/phase-00/SOURCE-403-SECURITY-CHAIN-CANDIDATES.json \
+            --output spring-runtime-reconciliation.json
+      - name: Attach actual pinned Spring evidence, no signed acceptance
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase02-pinned-spring-runtime-artifacts
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            spring-runtime-probe.json
+            spring-runtime-reconciliation.json
+            pinned-official/backend/build/openapi/grimmory-openapi.json

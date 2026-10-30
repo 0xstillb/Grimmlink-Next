@@ -1,3 +1,5 @@
+> **Effective 2026-10-30:** [Single-Owner Private Policy](SINGLE-OWNER-POLICY.md) supersedes old per-phase independent reviewer requirements. No mandatory independent security review in Phase00–08; one consolidated review and remediation in Phase09. Existing historical signed review records must not be rewritten.
+
 # Git Commit, PR & Phase Gate Policy — GPT Web-First
 
 **Project:** https://github.com/0xstillb/Grimmlink-Next
@@ -29,24 +31,24 @@ Commit atomic, reviewable changes, not a huge uninspectable end-of-phase batch. 
 1. Re-fetch real branch HEAD before any write and confirm branch identity.
 2. Record exact changed files, why, runtime/API assumptions, completed vs pending, test commands and actual exit code (or NOT_RUN), known bugs, safety state, next action.
 3. Update `docs/implementation/SESSION-HANDOFF.md` and `ACTIVE-SESSION.json` in the SAME commit as the checkpoint when possible.
-4. For phase completion, create `phase-XX/RESULT.md`, `HANDOFF.json` and `REVIEW.md` after a real independent review; do not create fake APPROVED reviews.
+4. For phase development completion (00–08), write `phase-XX/RESULT.md` and `HANDOFF.json` with evidence and deferred risks. `REVIEW.md` is optional developer notes, not an independent acceptance gate. One independent security review + remediation belongs to Phase09. Never create fake APPROVED reviews.
 5. Confirm GitHub server commit SHA, PR head SHA and branch after the write. Then update Notion Phase page with the confirmed SHA/PR plus status; never reverse this sequence.
 6. If Notion update fails, GitHub checkpoint is canonical; mark `NOTION_SYNC_PENDING` and reconcile next session.
 
 **Do not store the commit SHA of a file inside that same commit** (self-referential hash problem). `ACTIVE-SESSION.json` declares expected branch/phase and last verified prior commit; always query live HEAD as canonical.
 
-## Gate rules
+## Gate rules — Single-Owner Private
 
 | Gate | Evidence | Allowed state |
 | --- | --- | --- |
-| Work not started | Plan/Bootstrap docs only | PLANNED |
-| Code committed | GitHub SHA, changed file list; tests may be pending | CODE_COMMITTED |
-| Peer review complete | Independent fresh-context code review with exact files/lines | CODE_REVIEWED |
-| Pre-final phase accepted | Unit, typecheck, mocked contracts and reviewer verdict | PHASE_REVIEWED_NOT_E2E |
-| Phase 09 tested | Real full E2E on actual pinned target, hardware and NAS with receipts | E2E_VERIFIED or BLOCKED |
-| Production cutover | Phase09 gates + explicit user approval | RELEASED |
+| Planned | Phase plan | PLANNED |
+| Implementation in progress | Commit + tests pending | CODE_COMMITTED / IN_PROGRESS |
+| Dev completion Phase00–08 | Actual unit/build/types/lint/mock tests, RESULT, HANDOFF, risk ledger | DEV_CHECKS_PASS_WITH_DEFERRED_RISKS |
+| Real feature exposure | Functional authentication and security proof for the enabled route | ENABLEMENT_VERIFIED or BLOCKED_OPERATIONAL_ENABLEMENT |
+| Phase09 | One independent review + fixes, full Hermes/NAS/readers E2E, rollback | FINAL_SECURITY_VERIFIED or BLOCKED |
+| Production | Phase09 acceptance + explicit owner authorization | RELEASED |
 
-Never use `E2E_PASS` in Phases 00–08, even if isolated mocks pass. Do not run destructive tests on production NAS before explicitly approved Phase09 staging.
+No independent reviewer signoff is needed to proceed to another **safe development** phase. Actual Official forwarding is still `DENY_ALL` until relevant runtime checks prove safe; unsafe feature activation is not authorized by a development gate. No full E2E before Phase09.
 
 ## GitHub connector execution
 

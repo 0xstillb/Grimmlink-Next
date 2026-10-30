@@ -165,5 +165,13 @@
   "reviewedSourceHead": "2eb613b0cac39b689710501cc3dbad812e5486a2",
   "reviewedSourcePhase00CI": "40888013634",
   "reviewedSourcePhase01CI": "40888013081",
-  "reviewProvenance": "SEPARATE_GPT6_CONTEXT_GITHUB_COMMENT_NOT_DISTINCT_HUMAN_APPROVAL"
+  "reviewProvenance": "SEPARATE_GPT6_CONTEXT_GITHUB_COMMENT_NOT_DISTINCT_HUMAN_APPROVAL",
+  "currentWorkflowPolicy": {
+    "effectiveDate": "2026-10-30",
+    "mode": "SINGLE_OWNER_PRIVATE",
+    "interimIndependentSecurityReview": "NOT_REQUIRED_PHASE_00_TO_08",
+    "consolidatedReview": "PHASE_09_BEFORE_RELEASE",
+    "existingHistoricalReviewStatus": "PRESERVED_AS_ACTUAL_HISTORICAL_EVIDENCE",
+    "source": "docs/implementation/SINGLE-OWNER-POLICY.md"
+  }
 }

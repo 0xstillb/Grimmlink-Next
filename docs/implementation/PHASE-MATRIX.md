@@ -1,20 +1,20 @@
-# Development Phases / Gate Matrix
+# Development Phase Matrix — Single-Owner Private (effective 2026-10-30)
 
-Source: [AI Development Playbook](https://app.notion.com/p/407c7efbc009814a9e18f0d945ee0ef0)
+Canonical policy: [SINGLE-OWNER-POLICY.md](SINGLE-OWNER-POLICY.md). All independent security review and remediation is **deferred to Phase09**. Phases 00–08 advance on verified development checks and handoffs; no independent/fresh-context review gate. Old reviewed gate names remain historical evidence, not prerequisites.
 
-| Phase | Build | Permitted tests | Gate |
+| Phase | Deliverable | Dev check (not independent review) | Remaining work deferred |
 | --- | --- | --- | --- |
-| 00 | Source audit, architecture, official API contract freeze | Static/document/source checks | CONTRACT_LOCKED |
-| 01 | TypeScript workspace, SQLite, Pino, UI shell | Unit, typecheck, mocked components | FOUNDATION_REVIEWED |
-| 02 | Gateway, Admin/device auth, Official REST client | Mock HTTP contracts + unit | GATEWAY_CODE_REVIEWED |
-| 03 | NAS RO, OPF ingestion, safe metadata, cover | Unit + isolated fixture integration | OPF_CODE_REVIEWED |
-| 04 | Sidecar, durable jobs, backups and recovery | Local SQLite + fake API/NAS | RECOVERY_CODE_REVIEWED |
-| 05 | Identity, device pairing, native/managed KOSync | Digest fixtures + mock KOSync | SYNC_CODE_REVIEWED |
-| 06 | XPointer ↔ CFI, PDF progress, Continue Reading | Golden EPUB fixture + mock Official | POSITION_CODE_REVIEWED |
-| 07 | KOReader Lua plugin, shelf, ratings/bookmarks/annotations/sessions | Lua/unit + mock Official | PERSONAL_CODE_REVIEWED |
-| 08 | Complete UI, diagnostics, update center, security, packaging | UI, unit, mocked contracts, SAST | RELEASE_CANDIDATE_READY_NOT_E2E |
-| **09** | **All real E2E, Hermes/NAS, devices, faults, rollback and production release** | **Full real-stack E2E and acceptance only now** | **PRODUCTION_VERIFIED or BLOCKED** |
+| 00 | Upstream source inventory, API/architecture | Pinned source/static checks, contract | Actual runtime/network/production acceptance |
+| 01 | TypeScript, SQLite, observability, UI shell | Build, typecheck, unit, isolated mock/ARM64 | Final image/config security |
+| 02 | Single-port Gateway, owner session and API transport | Fastify/Caddy mock, Spring route registry, negative tests | Real Official proxy+auth/ingress; final security review |
+| 03 | NAS read-only, OPF metadata and cover | Offline fixtures, simulated NAS/API, dry run | Real NAS/Official writes and data integrity |
+| 04 | Sidecar, jobs, backups, restore | SQLite/crash/fake API tests | Real backup/rollback on Hermes |
+| 05 | One-owner multi-device pairing, KOSync | Device/owner token tests, mock KOSync | Real device pairing/revocation/KO race |
+| 06 | XPointer↔CFI, PDF, Continue Reading | Golden EPUB and mock progress roundtrips | Actual multi-reader correctness |
+| 07 | Lua plugin, shelf, bookmark, annotation, ratings, sessions | Lua/unit/mock personal API | Real same-owner mutations |
+| 08 | UI, diagnostics, update center, package | CI, mock integration, dependency/SAST evidence | Final hardening pass |
+| **09** | **Real full-stack Hermes/NAS/reader E2E, safety+rollback, release** | **ONE independent security review, fix all relevant findings, real tests and explicit owner approval** | **No outstanding critical deployment risks** |
 
-**Rule:** Phases 00–08 cannot claim system readiness or full E2E. All agreed features must be implemented by the end of Phase 08 and verified in Phase 09.
+Each intermediate Phase delivers `RESULT.md` + `HANDOFF.json` + tested commits. Developer notes/`REVIEW.md` optional in 00–08. Maintain [deferred security ledger](DEFERRED-SECURITY-LEDGER.md); no extra review signoff to move to the next safe development phase. **This does not grant permission to turn on Official forwarding, privileged writes or production:** unsafe features stay OFF until relevant runtime controls are proved; no full integrated E2E before Phase09, no merge to `main` without explicit owner approval.
 
-Each Phase delivers `docs/implementation/phase-XX/RESULT.md`, `HANDOFF.json` and `REVIEW.md`, with evidence and an independent review.
+Historical reports from earlier policies remain immutable and valid as records of what was actually reviewed.

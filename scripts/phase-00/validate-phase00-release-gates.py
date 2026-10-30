@@ -70,41 +70,56 @@ def validate(root,out):
     # to remain Phase00 forever and broke the already-accepted phase handoff.
     if current.get("phase01Authorized") is not True or current.get("contractLocked") is not True:
         raise ValueError("active status differs from independent design lock")
-    if current.get("phase")=="00":
+    # Keep Phase01 historical attestation immutable when the ACTIVE checkpoint
+    # advances to Phase02. A development PASS never authorizes runtime forwarding.
+    active_phase=current.get("phase")
+    if active_phase=="00":
         if current.get("phaseStatus")!="CONTRACT_LOCKED_DESIGN_ONLY":
             raise ValueError("active status differs from independent design lock")
-    elif current.get("phase")=="01":
-        if (current.get("phaseStatus") not in ("FOUNDATION_IN_PROGRESS","FOUNDATION_REVIEWED")
-            or current.get("phase00Review")!="PASS_PHASE00_DESIGN_ONLY_RUNTIME_NOT_VERIFIED"
+    elif active_phase in ("01","02"):
+        if (current.get("phase00Review")!="PASS_PHASE00_DESIGN_ONLY_RUNTIME_NOT_VERIFIED"
             or current.get("phase01Scope")!="FOUNDATION_ONLY"):
             raise ValueError("active status differs from independent design lock")
-        # Phase01 technical review was independently submitted against a fixed
-        # application-source SHA. A bare status flip must NEVER self-authorize.
-        # No human GitHub APPROVE, runtime security approval, or merge is implied.
-        if current.get("phaseStatus")=="FOUNDATION_REVIEWED":
-            attestation_path="docs/implementation/phase-01/FINAL-INDEPENDENT-REVIEW-ATTESTATION-2026-10-29.md"
-            evidence_bytes=(root/attestation_path).read_bytes()
-            evidence_hash=hashlib.sha1(("blob "+str(len(evidence_bytes))+"\0").encode()+evidence_bytes).hexdigest()
-            if evidence_hash!=PHASE01_REVIEW_ATTESTATION_BLOB:
-                raise ValueError("Phase01 independent review attestation tampered")
-            expected_review={
-                "reviewedSourceHead":PHASE01_REVIEWED_HEAD,
-                "githubReviewId":PHASE01_REVIEW_ID,
-                "githubReviewEvent":"COMMENTED",
-                "reviewerKind":"FRESH_GPT6_CONTEXT_NOT_HUMAN_APPROVAL",
-                "technicalVerdict":"PASS_ISOLATED_FOUNDATION",
-                "phase00ReviewedCiRun":"40888013634",
-                "phase01ReviewedCiRun":"40888013081",
-                "attestationGitBlob":PHASE01_REVIEW_ATTESTATION_BLOB,
-                "runtimeSecurityAuthorized":False,
-                "humanGitHubApproved":False,
-            }
-            if current.get("phase01IndependentReview")!=expected_review:
-                raise ValueError("FOUNDATION_REVIEWED requires fixed independent review evidence")
-        elif "phase01IndependentReview" in current:
-            raise ValueError("in-progress phase cannot carry accepted review evidence")
+        if active_phase=="01":
+            if current.get("phaseStatus") not in ("FOUNDATION_IN_PROGRESS","FOUNDATION_REVIEWED"):
+                raise ValueError("active status differs from independent design lock")
+        else:
+            phase02=current.get("phase02Work",{})
+            if (current.get("phaseStatus")!="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS"
+                or current.get("branch")!="feat/next-phase-02"
+                or current.get("baseIntegrationCommit")!="0579f64afb2d53001c915a10079d00ecd9de0091"
+                or current.get("prStatus")!="DRAFT_UNMERGED"
+                or current.get("deliveryPolicy",{}).get("mode")!="SINGLE_OWNER_PRIVATE"
+                or phase02.get("developmentGate")!="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS"
+                or phase02.get("runtimeSecurityAuthorized") is not False
+                or phase02.get("productionActivation")!="BLOCKED_OPERATIONAL_ENABLEMENT"):
+                raise ValueError("active Phase02 development checkpoint invalid")
     else:
         raise ValueError("unreviewed active phase transition")
+    phase01_accepted=(active_phase=="02" or
+        (active_phase=="01" and current.get("phaseStatus")=="FOUNDATION_REVIEWED"))
+    if phase01_accepted:
+        attestation_path="docs/implementation/phase-01/FINAL-INDEPENDENT-REVIEW-ATTESTATION-2026-10-29.md"
+        evidence_bytes=(root/attestation_path).read_bytes()
+        evidence_hash=hashlib.sha1(("blob "+str(len(evidence_bytes))+"\0").encode()+evidence_bytes).hexdigest()
+        if evidence_hash!=PHASE01_REVIEW_ATTESTATION_BLOB:
+            raise ValueError("Phase01 independent review attestation tampered")
+        expected_review={
+            "reviewedSourceHead":PHASE01_REVIEWED_HEAD,
+            "githubReviewId":PHASE01_REVIEW_ID,
+            "githubReviewEvent":"COMMENTED",
+            "reviewerKind":"FRESH_GPT6_CONTEXT_NOT_HUMAN_APPROVAL",
+            "technicalVerdict":"PASS_ISOLATED_FOUNDATION",
+            "phase00ReviewedCiRun":"40888013634",
+            "phase01ReviewedCiRun":"40888013081",
+            "attestationGitBlob":PHASE01_REVIEW_ATTESTATION_BLOB,
+            "runtimeSecurityAuthorized":False,
+            "humanGitHubApproved":False,
+        }
+        if current.get("phase01IndependentReview")!=expected_review:
+            raise ValueError("FOUNDATION_REVIEWED requires fixed independent review evidence")
+    elif "phase01IndependentReview" in current and active_phase=="01":
+        raise ValueError("in-progress phase cannot carry accepted review evidence")
     # Both safety and securityCapability are authoritative design declarations.
     # Verify the full safety map for EVERY accepted phase: a forged handback
     # to Phase00 must not bypass the fail-closed Phase01 safety boundary.
@@ -152,9 +167,9 @@ def validate(root,out):
       ("P00_FRESH_INDEPENDENT_REVIEW","PASS_PHASE00_DESIGN_ONLY_RUNTIME_NOT_RUN","Fresh GPT-6 context","Exact independent design review attestation, not a GitHub human approval"),
     ]
     obj={"schemaVersion":1,"basis":"PINNED_EVIDENCE_WITH_FAIL_CLOSED_RELEASE_POLICY",
-      "phase01FoundationReviewed":current.get("phase")=="01" and current.get("phaseStatus")=="FOUNDATION_REVIEWED",
-      "phase01IndependentTechnicalVerdict":"PASS_AT_REVIEWED_SOURCE_HEAD" if current.get("phase")=="01" and current.get("phaseStatus")=="FOUNDATION_REVIEWED" else "NOT_ATTESTED",
-      "phase01ReviewedSourceHead":PHASE01_REVIEWED_HEAD if current.get("phase")=="01" and current.get("phaseStatus")=="FOUNDATION_REVIEWED" else None,
+      "phase01FoundationReviewed":phase01_accepted,
+      "phase01IndependentTechnicalVerdict":"PASS_AT_REVIEWED_SOURCE_HEAD" if phase01_accepted else "NOT_ATTESTED",
+      "phase01ReviewedSourceHead":PHASE01_REVIEWED_HEAD if phase01_accepted else None,
       "phase01HumanGitHubApproval":False,"phase01RuntimeSecurityAuthorized":False,
       "sourcePin":PIN,"independentReviewReportGitBlob":REVIEW_BLOB,
       "phase00SourceCensusVerified":True,"phase00SourceAuthorizationReviewComplete":False,

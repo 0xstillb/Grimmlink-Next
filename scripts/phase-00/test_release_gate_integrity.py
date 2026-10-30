@@ -157,7 +157,7 @@ class GateTests(unittest.TestCase):
             with self.subTest(case=i):
                 (self.root/path).write_text(pristine)
                 self.mutate(path,change)
-                with self.assertRaisesRegex(ValueError,"(FOUNDATION_REVIEWED requires|differs from independent design lock)"):
+                with self.assertRaisesRegex(ValueError,"(FOUNDATION_REVIEWED requires|differs from independent design lock|active Phase02 development checkpoint invalid)"):
                     gate.validate(self.root,self.out)
 
     def test_phase01_independent_review_attestation_cannot_be_tampered(self):
@@ -168,12 +168,36 @@ class GateTests(unittest.TestCase):
 
     def test_pre_review_state_remains_possible_only_without_accepted_evidence(self):
         path="docs/implementation/ACTIVE-SESSION.json"
-        self.mutate(path,lambda j:(j.update(phaseStatus="FOUNDATION_IN_PROGRESS"),
+        self.mutate(path,lambda j:(j.update(phase="01",phaseStatus="FOUNDATION_IN_PROGRESS"),
                                    j.pop("phase01IndependentReview",None)))
         gate.validate(self.root,self.out)
         obj=json.loads(self.out.read_text())
         self.assertFalse(obj["phase01FoundationReviewed"])
         self.assertFalse(obj["phase01HumanGitHubApproval"])
+
+    def test_phase02_dev_close_preserves_phase01_attestation_and_denies_runtime(self):
+        gate.validate(self.root,self.out)
+        obj=json.loads(self.out.read_text())
+        self.assertTrue(obj["phase01FoundationReviewed"])
+        self.assertFalse(obj["phase01RuntimeSecurityAuthorized"])
+        self.assertEqual(obj["gatewayRuntimeEnforcement"],"NOT_RUN")
+        self.assertEqual(obj["authorizationRuntimeProof"],"NOT_RUN")
+
+    def test_phase02_forged_dev_status_and_operational_flag_rejected(self):
+        path="docs/implementation/ACTIVE-SESSION.json"
+        pristine=(self.root/path).read_text()
+        changes=(
+            lambda j:j.update(phaseStatus="GATEWAY_CODE_REVIEWED"),
+            lambda j:j.update(prStatus="MERGED_TO_MAIN"),
+            lambda j:j["phase02Work"].update(runtimeSecurityAuthorized=True),
+            lambda j:j["phase02Work"].update(productionActivation="AUTHORIZED"),
+        )
+        for i,change in enumerate(changes):
+            with self.subTest(case=i):
+                (self.root/path).write_text(pristine)
+                self.mutate(path,change)
+                with self.assertRaisesRegex(ValueError,"active Phase02 development checkpoint invalid"):
+                    gate.validate(self.root,self.out)
 
     def test_phase01_sensitive_feature_enable_rejected(self):
         self.mutate("docs/implementation/ACTIVE-SESSION.json",

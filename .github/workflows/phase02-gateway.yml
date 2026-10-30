@@ -1,0 +1,140 @@
+name: Phase02 Gateway (isolated, NO upstream)
+on:
+  push:
+    branches: [feat/next-phase-02]
+  pull_request:
+    branches: [integration/grimmlink-next]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: phase02-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  gateway-mocks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.18.3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+      - name: Deterministic install
+        run: pnpm install --frozen-lockfile
+      - name: SQLite native build (local only)
+        run: pnpm rebuild better-sqlite3
+      - name: Compile TypeScript and UI
+        run: pnpm build
+      - name: Strict TypeScript
+        run: pnpm typecheck
+      - name: Static lint
+        run: pnpm lint
+      - name: Format check
+        run: pnpm format:check
+      - name: Isolated unit and injected gateway denial mocks
+        run: pnpm test
+      - name: Phase02 runtime security remains explicitly blocked (with adversarial tests)
+        run: |
+          python3 -m unittest discover -s scripts/phase-02 -p 'test_*.py' -v
+          python3 scripts/phase-02/runtime_security_gate.py
+          python3 scripts/phase-02/runtime_security_gate.py --require-development
+          if python3 scripts/phase-02/runtime_security_gate.py --require-exit; then
+            echo 'Unexpected security gate bypass'
+            exit 1
+          fi
+      - name: Print exact Prettier patch for failed formatting (runner only, never committed)
+        if: failure()
+        run: |
+          pnpm exec prettier --write apps/adapter/src/auth packages/official-client/src
+          git diff -- apps/adapter/src/auth packages/official-client/src | head -c 50000
+      - name: Verify no public second port or Official connection is enabled
+        run: |
+          set -euo pipefail
+          ! grep -Eq '^\s+ports:' compose.phase01.yml
+          grep -q 'network_mode: none' compose.phase01.yml
+          grep -q 'DENY_ALL' apps/adapter/src/server.ts
+          echo "NO real Official/NAS/readers E2E; Phase09 only"
+  single-port-mock:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Validate Caddy mock config (no live upstream)
+        run: |
+          docker run --rm --network none -v "$PWD/gateway/Caddyfile.phase02.mock:/etc/caddy/Caddyfile:ro" \
+            --entrypoint caddy caddy:2.10.2-alpine validate --config /etc/caddy/Caddyfile
+      - name: Validate one host port and isolated Compose contract
+        run: |
+          set -euo pipefail
+          docker compose -f compose.phase02.mock.yml config --format json > /tmp/phase02.json
+          python3 - <<'PY'
+          import json
+          d=json.load(open('/tmp/phase02.json',encoding='utf8'))
+          assert set(d['services'])=={'gateway','adapter'},'Unexpected service'
+          g=d['services']['gateway']; a=d['services']['adapter']
+          assert len(g.get('ports',[]))==1,'More than one host publication'
+          p=g['ports'][0]
+          assert (p['published'],p['target'],p.get('host_ip'))==('6060',6060,'127.0.0.1'),p
+          assert a.get('network_mode')=='service:gateway','Adapter not namespace-isolated'
+          assert not a.get('ports'),'Adapter published directly'
+          assert all(x.get('driver') == 'bridge' for x in d['networks'].values()),'Unexpected mock network'
+          assert g.get('read_only') is True and a.get('read_only') is True
+          print('MOCK_ONLY_COMPOSE_TOPOLOGY_PASS')
+          PY
+      - name: Start isolated mocked Caddy and adapter only
+        run: |
+          set -euo pipefail
+          docker compose -f compose.phase02.mock.yml up --build -d
+      - name: Mock HTTP routing, denial and ingress checks
+        run: |
+          set -euo pipefail
+          ready=0
+          for attempt in $(seq 1 12); do
+            code="$(curl --silent --output /tmp/mock-health --write-out '%{http_code}' --max-time 2 http://127.0.0.1:6060/health || true)"
+            if test "$code" = "200"; then ready=1; break; fi
+            echo "Mock gateway health attempt=$attempt status=$code response=$(head -c 200 /tmp/mock-health || true)"
+            sleep 2
+          done
+          test "$ready" -eq 1
+          grep -q 'foundation-only' /tmp/mock-health
+          curl --silent --fail http://127.0.0.1:6060/api/grimmlink/v2/capabilities | grep -q 'DENY_ALL'
+          curl --silent --fail http://127.0.0.1:6060/api/grimmlink/v2/version | grep -q 'NOT_AUTHORIZED'
+          check_status() {
+            local want="$1"; shift
+            local got
+            got="$(curl --silent --output /dev/null --write-out '%{http_code}' --max-time 3 "$@")"
+            test "$got" = "$want" || { echo "Expected $want got $got"; return 1; }
+          }
+          check_status 403 http://127.0.0.1:6060/api/v1/opds
+          check_status 403 -X POST -H 'x-auth-user: canary-user' -H 'x-auth-key: canary-key' \
+            --data 'passwordMD5=CANARYSECRET' http://127.0.0.1:6060/api/koreader/users/create
+          check_status 403 -X POST http://127.0.0.1:6060/api/grimmlink/v2/version
+          check_status 403 -I http://127.0.0.1:6060/health
+          check_status 403 -X OPTIONS http://127.0.0.1:6060/health
+          check_status 421 -H 'Host: evil.invalid:6060' http://127.0.0.1:6060/health
+          check_status 403 -H 'Range: bytes=0-4' http://127.0.0.1:6060/api/v1/books
+          check_status 403 -H 'Upgrade: websocket' http://127.0.0.1:6060/ws
+          check_status 403 -H 'Accept: text/event-stream' http://127.0.0.1:6060/api/v1/books
+          # Every sensitive GET and admin write remains denied at the single port.
+          check_status 403 http://127.0.0.1:6060/api/v1/books/foreign-book
+          check_status 403 http://127.0.0.1:6060/api/v1/libraries/foreign-library
+          check_status 403 http://127.0.0.1:6060/api/v1/files/foreign-file
+          check_status 403 http://127.0.0.1:6060/api/v1/app/notes/foreign-record
+          check_status 403 -X POST http://127.0.0.1:6060/api/grimmlink/v2/admin/reset
+          docker compose -f compose.phase02.mock.yml logs --no-color > /tmp/phase02-logs
+          ! grep -Eq 'CANARYSECRET|canary-key|canary-user' /tmp/phase02-logs
+          ! curl --silent --fail --max-time 2 http://127.0.0.1:6061/health >/dev/null
+          ! curl -g -6 --silent --fail --max-time 2 'http://[::1]:6060/health' >/dev/null
+      - name: Isolated docker logs (on failure) and teardown
+        if: always()
+        run: |
+          docker compose -f compose.phase02.mock.yml logs --tail 80 || true
+          docker compose -f compose.phase02.mock.yml down --volumes --remove-orphans || true

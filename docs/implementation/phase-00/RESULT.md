@@ -1,3 +1,5 @@
+> **Policy override, 2026-10-30:** [Single-Owner Private Mode](../SINGLE-OWNER-POLICY.md). **No mandatory independent security review during Phase00–08.** The single consolidated independent review/fix pass is Phase09. Keep historical review findings as immutable records, not current development blockers; protected Official routes still remain OFF until actually safe to enable.
+
 ## CURRENT — Phase00 DESIGN-ONLY CONTRACT LOCK (2026-10-29; fresh-context review)
 
 **Latest authoritative disposition:** `PASS_PHASE00_DESIGN_ONLY`, `CONTRACT_LOCKED_DESIGN_ONLY`, `PHASE01_AUTHORIZED=FOUNDATION_ONLY`. A separate GPT-6 fresh context reviewed pinned pre-review HEAD [f071229d](https://github.com/0xstillb/Grimmlink-Next/commit/f071229d9d9a1b7fb680cb68f83c763bc53138c6), upstream source, PR #2 and Phase00's Notion acceptance scope. [New independent design-only review](FRESH-CONTEXT-DESIGN-LOCK-REVIEW-2026-10-29.md). **Not an approval by a separate GitHub human account.** Historical `CHANGES_REQUIRED` reviewer reports are preserved.

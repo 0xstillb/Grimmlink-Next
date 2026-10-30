@@ -1,0 +1,9 @@
+# MOCK-ONLY sandbox Caddy: strip inherited filecap by copying the binary
+# (not cp -a), allowing unprivileged exec when Docker drops ALL capabilities.
+# No TLS/production deployment is authorized from this image.
+FROM caddy:2.10.2-alpine
+USER root
+RUN cp /usr/bin/caddy /usr/bin/caddy-unprivileged && chmod 0755 /usr/bin/caddy-unprivileged
+USER 1000:1000
+ENTRYPOINT ["/usr/bin/caddy-unprivileged"]
+CMD ["run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]

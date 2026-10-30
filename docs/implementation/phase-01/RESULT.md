@@ -1,3 +1,5 @@
+> **Policy override, 2026-10-30:** [Single-Owner Private Mode](../SINGLE-OWNER-POLICY.md). **No mandatory independent security review during Phase00–08.** The single consolidated independent review/fix pass is Phase09. Keep historical review findings as immutable records, not current development blockers; protected Official routes still remain OFF until actually safe to enable.
+
 # PHASE 01 — Foundation Implementation Result (review accepted)
 
 **Status:** `FOUNDATION_REVIEWED` — independent fresh GPT-6-context **technical PASS** for isolated Phase01 foundation at reviewed application source `2eb613b0cac39b689710501cc3dbad812e5486a2`.  

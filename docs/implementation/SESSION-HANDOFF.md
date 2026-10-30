@@ -1,3 +1,61 @@
+## CURRENT PHASE02 DEVELOPMENT HANDOFF — 2026-10-30
+
+**Active phase:** 02 — `DEV_CHECKS_PASS_WITH_DEFERRED_RISKS` (development-only), `BLOCKED_OPERATIONAL_ENABLEMENT` (live/production). [PR #6](https://github.com/0xstillb/Grimmlink-Next/pull/6) stays Draft/Unmerged. See [Phase02 RESULT](phase-02/RESULT.md), [Handoff](phase-02/HANDOFF.json) and [risk ledger](DEFERRED-SECURITY-LEDGER.md).
+
+The Phase02 mock-only gateway, auth contracts, local version/capability endpoints, isolated Spring registry evidence, unit/mock/CI tests and handoff are delivered. Last fully verified pre-manifest HEAD `e34038b`: four relevant GitHub workflows SUCCESS. Version endpoint change `3ce5a5f` and this documentation/gate migration require fresh exact-HEAD checks; do not claim green prematurely. Phase00 source checker now accepts the Phase02 checkpoint **only while preserving historical Phase01 attestation and all fail-closed safety states**.
+
+One owner / one Official Grimmory account / multiple readers. No new multi-user RBAC. All upstream forwarding `DENY_ALL`, sensitive writes OFF, no merged/deployed gateway, real Hermes/NAS/reader E2E and one final independent security review in Phase09. Next: Phase03 safe offline/fixture implementation after verifying current HEAD checks.
+
+---
+
+## CURRENT PROJECT POLICY — 2026-10-30 (supersedes prospective process requirements below)
+
+**Single-Owner Private Mode:** one human owner / one Grimmory Official account, multiple paired reader devices; do not implement new multi-tenant GrimmLink RBAC or per-user book ACL. Canonical [delivery policy](SINGLE-OWNER-POLICY.md), [Phase 00–09 matrix](PHASE-MATRIX.md), [deferred security ledger](DEFERRED-SECURITY-LEDGER.md).
+
+**Mandatory independent security review REMOVED as a gate in Phases 00–08; one consolidated independent review and remediation before Phase09 production.** Advance development after real CI and handoff, record unresolved risks. This override does not revise historical evidence or independently reviewed HEADs, does not permit unsafe Live Official forwarding, unauthenticated writes, public ingress or deployment. Keep `DENY_ALL` and OFF capabilities until relevant safe runtime implementation; full Hermes/NAS/reader E2E is Phase09 only. No unapproved merges.
+
+---
+
+## CURRENT — Pinned real Spring runtime captured; real ACL/ingress still blocked (2026-10-29)
+
+**Actual Spring startup evidence:** [CI #40918459916](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40918459916) SUCCESS at exact implementation source `30b7d22c2297d2e022dd68538c4fc26072606080`, pinned Grimmory `402e89b4452f8e2b17ab95f16c1621c003516cd2`, isolated Java25 + H2. `RequestMappingHandlerMapping` reported **352** runtime handlers, `FilterChainProxy` exposed **12 ordered filter chains**; **346 distinct source handler identities** from the 403 source route candidate ledger were found in runtime. [Runtime artifact #12918045157](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40918459916#artifacts) includes mapping/filter registry, pinned runtime OpenAPI and handler-level reconciliation. **This proves boot-time mappings/chains exist, NOT effective authorization per HTTP method/path, content rights, live identity, device pairing or safe upstream forwarding.**
+
+**Other code:** pinned-source runtime probe and reconciler, user-bound HMAC Admin/Reader session crypto (OFF/not wired), bounded loopback-only HTTP transport (not exported/wired), injected mock Official client, pure Admin CSRF/Owner ACL, one-port Caddy mock and negative HTTP/credential log tests. [Phase02 Gateway CI #40919435611](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40919435611) SUCCESS at code source `add509230058d2d033690445b0cd733fa744a141`. [Phase00 integrity #40919435185](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40919435185) SUCCESS design-only at same source. Future docs HEAD must pass separate exact-HEAD checks.
+
+**Security verdict:** `SPRING_RUNTIME_METADATA_CAPTURED / GATEWAY_CODE_REVIEWED_NOT_GRANTED`. `RUNTIME-SECURITY-EVIDENCE.json` now truthfully records partial real proof with CI provenance; `runtime_security_gate.py` still blocks forged APPROVED state and requires independent current per-user/library/book/file/row rights + actual ingress/TLS/device session runtime authorization and separate fresh-context review. All Official forwarding `DENY_ALL`, sensitive bridges OFF, production NOT_AUTHORIZED, full E2E Phase09. [Issue #4](https://github.com/0xstillb/Grimmlink-Next/issues/4). PR #6 DRAFT/UNMERGED.
+
+---
+
+## CURRENT — Phase02 one-port mock code + runtime HOLD gates (2026-10-29)
+
+[Draft PR #6](https://github.com/0xstillb/Grimmlink-Next/pull/6) contains isolated Caddy on host-loopback :6060, Adapter nonpublished :6061 within same network namespace, typed mock REST GET, admin/reader pure policy, all-or-none synthetic book/file/record rights and an anti-forgery runtime proof gate. [Last full mock CI SUCCESS #40905567097](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40905567097) at source `150bd87f`; latest extended canary and docs commits require exact-head CI confirmation. [Phase02 RESULT](phase-02/RESULT.md), [HANDOFF](phase-02/HANDOFF.json), [independent reviewer packet](phase-02/INDEPENDENT-REVIEW-REQUEST.md).
+
+**Not approved:** Official proxy/UI/OPDS/KO/Kobo/Komga forwarding, live session/atomic rights, external TLS/SNI/direct ingress and outbound network egress, real Spring runtime route/chain evidence, fresh independent review and integration merge. `DENY_ALL`, all sensitive OFF and full Phase09 E2E deferred. Docker bridge mock does NOT prove upstream network isolation. Keep PR DRAFT and do not promote `GATEWAY_CODE_REVIEWED`.
+
+---
+
+## ACTIVE Phase02 follow-up — mock-only Official client and Admin/Reader policy (2026-10-29)
+
+[Draft PR #6](https://github.com/0xstillb/Grimmlink-Next/pull/6) remains **OPEN / DRAFT / UNMERGED**. The feature branch adds a typed injected fake-only Official GET client, bounded timeout/retry/error classification, strict mock capabilities DTO, pure server-bound Admin CSRF + exact Origin policy, separate Reader owner identity checks, and Gateway rejection of Range/WS/SSE header variants. [Phase02 RESULT](phase-02/RESULT.md) and [machine handoff](phase-02/HANDOFF.json) document file paths and unfinished tasks.
+
+**Current code validation:** New mock/auth source and test changes must pass their own exact latest-HEAD CI; pending at this checkpoint. Previously passing Phase02 CI #40899699146 applied to **older** bootstrap source. No live Official transport, no admin login/session resolver, no provisioned reader device, no production or runtime security approval. No human/independent Phase02 code review accepted.
+
+**Gate state remains NOT GATEWAY_CODE_REVIEWED.** Phase00 design-locked and Phase01 foundation-reviewed remain historical accepted artifacts; root `ACTIVE-SESSION.json.phaseStatus` stays `FOUNDATION_REVIEWED` to satisfy immutable Phase00 gate until a separately reviewed Phase02 state transition is added. Live security checks [Issue #4](https://github.com/0xstillb/Grimmlink-Next/issues/4) are not met; all Official proxy candidates DENY, native KO progress and sensitive personal/session/metadata/reset bridges OFF. Full integrated E2E Phase09 only.
+
+---
+
+## CURRENT — Phase02 Started on reviewed integration (2026-10-29)
+
+**GitHub:** [Draft PR #6](https://github.com/0xstillb/Grimmlink-Next/pull/6), `feat/next-phase-02` based on Phase01 merged integration SHA [0579f64](https://github.com/0xstillb/Grimmlink-Next/commit/0579f64afb2d53001c915a10079d00ecd9de0091). **Exit status:** `IN_PROGRESS_FAIL_CLOSED`, NOT `GATEWAY_CODE_REVIEWED`.
+
+**Code checkpoint:** a new deny-by-default `route-policy` classifier and `onRequest` Fastify pre-body rejection, `/api/grimmlink/v2/capabilities` reporting OFF/DENY, tests for path/header/method and synthetic KO secrets, plus dedicated Phase02 isolated CI. Exact SHA and live test conclusions must be checked on PR #6; initial test status was PENDING. [Phase02 RESULT](phase-02/RESULT.md) and [HANDOFF](phase-02/HANDOFF.json) are the checkpoint.
+
+**Gate compatibility:** the top-level `ACTIVE-SESSION.json` still retains immutable Phase01 `FOUNDATION_REVIEWED` because the Phase00 validator has no accepted Phase02 state. A separate `phase02Work` record identifies the active phase. Do NOT flip that root state and silently bypass the existing validator; a new gated phase-state transition must be introduced and reviewed.
+
+**Security:** no Official upstream transport or forwarding, no direct port, no real Grimmory API/NAS/readers, no metadata/personal/session writes, no Native KO progress. `officialGatewayForwarding=DENY_ALL`, everything sensitive OFF, production unauthorized. Outstanding hard gates: [Issue #4](https://github.com/0xstillb/Grimmlink-Next/issues/4) runtime Spring routes/filter chains, host/SNI and direct ingress, least privilege ACL, KO secret log-sink, typed Official REST mocks, separate admin/user auth+CSRF, Range/WebSocket/SSE, independent review. **Full E2E Phase09 only.** No merge into integration/main.
+
+---
+
 ## LATEST — Phase01 CLOSED AT TECHNICAL EXIT GATE (2026-10-29)
 
 **Current phase status:** `FOUNDATION_REVIEWED` (fresh-context independent GPT-6 technical PASS for isolated foundation); reviewed application source [2eb613b0](https://github.com/0xstillb/Grimmlink-Next/commit/2eb613b0cac39b689710501cc3dbad812e5486a2), independent GitHub reviewer `COMMENTED` ID `5699254459` (not a distinct human APPROVE). [Exact reviewed-source Phase00 CI #40888013634](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40888013634) SUCCESS; [Phase01 CI #40888013081](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40888013081) SUCCESS, including ARM64 offline health/SQLite WAL. The separate release-gate/metadata closure commits require exact final HEAD CI readback. See [RESULT](phase-01/RESULT.md), [HANDOFF](phase-01/HANDOFF.json), [final immutable attestation](phase-01/FINAL-INDEPENDENT-REVIEW-ATTESTATION-2026-10-29.md) and authoritative [ACTIVE-SESSION](ACTIVE-SESSION.json).
