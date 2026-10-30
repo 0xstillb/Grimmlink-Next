@@ -1,6 +1,21 @@
 > **Policy override, 2026-10-30:** [Single-Owner Private Mode](../SINGLE-OWNER-POLICY.md). **No mandatory independent security review during Phase00–08.** The single consolidated independent review/fix pass is Phase09. Keep historical review findings as immutable records, not current development blockers; protected Official routes still remain OFF until actually safe to enable.
 
-# Phase 02 — Gateway, Auth & Official REST Client (IN PROGRESS)
+# Phase 02 — Gateway, Auth & Official REST Client (DEVELOPMENT DELIVERED; MOCK-ONLY)
+
+## Development closure — 2026-10-30 (Single-Owner Private)
+
+**Development disposition:** `DEV_CHECKS_PASS_WITH_DEFERRED_RISKS`. This closes the **Phase02 isolated implementation/handoff** only, using the owner's revised [00–09 matrix](../PHASE-MATRIX.md). The original `GATEWAY_CODE_REVIEWED` / independent security signoff was superseded as an *intermediate process gate*. **Operational disposition remains `BLOCKED_OPERATIONAL_ENABLEMENT`**, not live proxy acceptance.
+
+- One host-loopback Caddy port `127.0.0.1:6060`, Adapter in shared namespace `127.0.0.1:6061` without a second published port; all Official UI/API/OPDS/KO/Kobo/Komga routes remain `DENY_ALL`.
+- Typed fake-only Official client plus separately unexposed bounded loopback HTTP implementation, Admin/Reader HMAC and CSRF pure-policy checks, fail-closed synthetic same-owner entitlement checks, runtime route registry probe and anti-forged security gate.
+- Added a local read-only `GET /api/grimmlink/v2/version` manifest reporting adapter `0.1.0`, API `v2`, `MOCK_ONLY`, `officialConnected=false` and `NOT_AUTHORIZED`; it is **not** an Official version or health probe. Includes negative method and mock Caddy HTTP tests.
+- **Verified pre-manifest code HEAD `e34038b`:** Phase00 [#40982860327](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40982860327), Phase01 [#40982860331](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40982860331), Phase02 Gateway [#40982860289](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40982860289), Spring [#40982860296](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40982860296) — **SUCCESS at that exact earlier SHA**.
+- **Version-manifest implementation** at `3ce5a5f` and this follow-up handoff must receive **separate exact-HEAD CI confirmation**; do not transfer the earlier code's PASS to later commits. Local runtime tests in this ChatGPT session were not run; GitHub Actions is the executable evidence.
+- Preserved historical Phase01 review/attestation while transitioning ACTIVE to Phase02; Phase00 gate now checks the historical evidence during Phase02 and never promotes runtime authorization.
+
+**Phase09 retained obligations:** Official authenticated proxy, live session/device pairing and revocation, actual matcher/method/path and same-owner book/file/record authorization, TLS/IPv4/IPv6/egress isolation, KO secret-safe logging, physical Hermes/NAS/readers tests, independent consolidated security review and remediation. No unsafe feature enabled. PR #6 remains Draft/unmerged, no production or `main` merge.
+
+### Historical implementation checkpoints
 
 ## CURRENT — Pinned real Spring runtime captured; real ACL/ingress still blocked (2026-10-29)
 

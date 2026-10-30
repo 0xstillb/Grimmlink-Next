@@ -1,3 +1,13 @@
+## CURRENT PHASE02 DEVELOPMENT HANDOFF — 2026-10-30
+
+**Active phase:** 02 — `DEV_CHECKS_PASS_WITH_DEFERRED_RISKS` (development-only), `BLOCKED_OPERATIONAL_ENABLEMENT` (live/production). [PR #6](https://github.com/0xstillb/Grimmlink-Next/pull/6) stays Draft/Unmerged. See [Phase02 RESULT](phase-02/RESULT.md), [Handoff](phase-02/HANDOFF.json) and [risk ledger](DEFERRED-SECURITY-LEDGER.md).
+
+The Phase02 mock-only gateway, auth contracts, local version/capability endpoints, isolated Spring registry evidence, unit/mock/CI tests and handoff are delivered. Last fully verified pre-manifest HEAD `e34038b`: four relevant GitHub workflows SUCCESS. Version endpoint change `3ce5a5f` and this documentation/gate migration require fresh exact-HEAD checks; do not claim green prematurely. Phase00 source checker now accepts the Phase02 checkpoint **only while preserving historical Phase01 attestation and all fail-closed safety states**.
+
+One owner / one Official Grimmory account / multiple readers. No new multi-user RBAC. All upstream forwarding `DENY_ALL`, sensitive writes OFF, no merged/deployed gateway, real Hermes/NAS/reader E2E and one final independent security review in Phase09. Next: Phase03 safe offline/fixture implementation after verifying current HEAD checks.
+
+---
+
 ## CURRENT PROJECT POLICY — 2026-10-30 (supersedes prospective process requirements below)
 
 **Single-Owner Private Mode:** one human owner / one Grimmory Official account, multiple paired reader devices; do not implement new multi-tenant GrimmLink RBAC or per-user book ACL. Canonical [delivery policy](SINGLE-OWNER-POLICY.md), [Phase 00–09 matrix](PHASE-MATRIX.md), [deferred security ledger](DEFERRED-SECURITY-LEDGER.md).
