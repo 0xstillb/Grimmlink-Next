@@ -14,7 +14,7 @@
   "baseIntegrationCommit": "3b5321ede76f74fd1d94ebaece119fc4f6f11aaf",
   "lastVerifiedPriorCommit": "b1a2a0424bbaa87e07e7d5429db923551155952e",
   "currentHead": "READ_LIVE_GITHUB_NO_SELF_SHA",
-  "pr": "PENDING_PHASE08_DRAFT_PR",
+  "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/12",
   "prStatus": "DRAFT_OPEN_UNMERGED",
   "phase00Review": "PASS_PHASE00_DESIGN_ONLY_RUNTIME_NOT_VERIFIED",
   "phase01Authorized": true,
@@ -366,6 +366,7 @@
     "productionEnabled": false,
     "independentReview": "DEFERRED_TO_PHASE09",
     "fullE2e": "DEFERRED_TO_PHASE09",
-    "latestHeadCI": "PENDING"
+    "latestHeadCI": "PENDING",
+    "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/12"
   }
 }
