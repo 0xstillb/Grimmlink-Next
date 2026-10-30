@@ -155,17 +155,28 @@ export function settleClaim(
         throw new Error("Lease mismatch or already settled");
       let state: DurableState;
       let code: string;
-      if (outcome.type === "READBACK_MATCH") {
+      if (outcome && typeof outcome === "object" && outcome.type === "READBACK_MATCH") {
         if (outcome.observedHash !== row.plan_hash)
           throw new Error("HTTP success without matching readback");
         state = "DONE";
         code = "FAKE_READBACK_VERIFIED";
-      } else if (outcome.type === "FAILED_BEFORE_DISPATCH") {
+      } else if (
+        outcome &&
+        typeof outcome === "object" &&
+        outcome.type === "FAILED_BEFORE_DISPATCH" &&
+        ["NAS_OFFLINE", "OFFICIAL_OFFLINE", "STALE_PLAN", "INVALID_FIXTURE"].includes(outcome.code)
+      ) {
         state = "FAILED";
         code = outcome.code;
       } else {
         state = "UNKNOWN";
-        code = outcome.code;
+        code =
+          outcome &&
+          typeof outcome === "object" &&
+          outcome.type === "POST_OUTCOME_UNKNOWN" &&
+          ["OFFICIAL_OFFLINE", "TIMEOUT", "PROCESS_INTERRUPTED"].includes(outcome.code)
+            ? outcome.code
+            : "INVALID_OUTCOME";
       }
       sqlite
         .prepare(
@@ -212,6 +223,11 @@ export function reconcileUnknownPlan(
     | { type: "CONFIRMED_NOT_APPLIED" },
 ): DurableState {
   time(now);
+  if (
+    !observation ||
+    (observation.type !== "MATCHING_READBACK" && observation.type !== "CONFIRMED_NOT_APPLIED")
+  )
+    throw new Error("Invalid reconciliation evidence");
   return sqlite
     .transaction(() => {
       const row = sqlite.prepare("SELECT * FROM durable_jobs WHERE id=?").get(id) as
@@ -237,6 +253,8 @@ export function controlPendingPlan(
   action: "PAUSE" | "RESUME" | "CANCEL",
 ): void {
   time(now);
+  if (action !== "PAUSE" && action !== "RESUME" && action !== "CANCEL")
+    throw new Error("Invalid plan action");
   sqlite
     .transaction(() => {
       const row = sqlite.prepare("SELECT * FROM durable_jobs WHERE id=?").get(id) as

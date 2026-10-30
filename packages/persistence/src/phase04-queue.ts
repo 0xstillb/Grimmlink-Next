@@ -211,6 +211,8 @@ export function reconcileLocalOutbox(
   observation: "RECEIPT_VERIFIED" | "CONFIRMED_NOT_DELIVERED",
 ): string {
   if (!validId(id)) throw new Error("Invalid outbox id");
+  if (observation !== "RECEIPT_VERIFIED" && observation !== "CONFIRMED_NOT_DELIVERED")
+    throw new Error("Invalid outbox reconciliation evidence");
   const state = observation === "RECEIPT_VERIFIED" ? "ACKED" : "PENDING";
   const result = sqlite
     .prepare(
