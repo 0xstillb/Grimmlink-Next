@@ -7,7 +7,7 @@
   "preferredModel": "GPT-6",
   "phase": "05",
   "phaseName": "One-Owner Multi-Device Pairing, Byte Identity and Offline KOSync",
-  "phaseStatus": "CODE_IMPLEMENTED_CI_PENDING",
+  "phaseStatus": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
   "branch": "feat/next-phase-05",
   "integrationBranch": "integration/grimmlink-next",
   "productionBranch": "main",
@@ -19,7 +19,7 @@
   "phase00Review": "PASS_PHASE00_DESIGN_ONLY_RUNTIME_NOT_VERIFIED",
   "phase01Authorized": true,
   "codeImplemented": true,
-  "codeStatus": "PHASE05_OFFLINE_MOCK_CODE_COMMITTED_CI_PENDING",
+  "codeStatus": "PHASE05_OFFLINE_CHECKS_PASS_WITH_DEFERRED_RISKS",
   "unitTestRun": {
     "url": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/40888013081",
     "codeHead": "2eb613b0cac39b689710501cc3dbad812e5486a2",
@@ -57,7 +57,7 @@
     "Metadata-only local backup does not cover EPUB/notes or cover payloads and does not imply real rollback",
     "Independent security review and remediation consolidated in Phase09"
   ],
-  "nextAction": "Verify exact-head Phase05 GitHub CI and fix failures; document actual results. No Official progress forwarding; keep PR #9 Draft and main unchanged.",
+  "nextAction": "Check final documentation commit exact-head CI, then owner-directed integration-only merge. Phase06 only after safe Phase05 offline development checks; Official native progress remains OFF and Phase09 is the only production E2E/review.",
   "updatedAt": "2026-10-30",
   "contractLocked": true,
   "phase01Scope": "FOUNDATION_ONLY",
@@ -248,7 +248,7 @@
     "phase": "05",
     "branch": "feat/next-phase-05",
     "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/9",
-    "status": "CODE_IMPLEMENTED_CI_PENDING",
+    "status": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
     "baseIntegrationCommit": "fe83f22fa7395a4f799df8ecc5349de71aeadb0c",
     "implemented": [
       "CANONICAL_SHA256_BOOKFILE_BYTE_FINGERPRINT_AND_COLLISION_DENIAL",
@@ -257,11 +257,12 @@
       "PERSISTENT_MOCK_MANAGED_ONLY_WRITER_WITH_EXPLICIT_REVISION_CAS",
       "LOCAL_MOCK_NATIVE_POSITION_AND_IDEMPOTENT_REPLAY_OR_CONFLICT",
       "STRICT_MOCK_KOSYNC_WIRE_AND_UNMOUNTED_OWNER_CSRF_READER_ROUTES",
-      "UNIT_MOCK_SQLITE_RESTART_NEGATIVE_FIXTURES"
+      "UNIT_MOCK_SQLITE_RESTART_NEGATIVE_FIXTURES",
+      "KO_FILENAME_MD5_MODE_WITH_COLLISION_EDITION_DENIAL"
     ],
     "ciWorkflow": ".github/workflows/phase05-offline.yml",
-    "ciSourceHead": "CHECK_EXACT_HEAD",
-    "currentCI": "CHECK_GITHUB_ACTIONS",
+    "ciSourceHead": "8ec70e6729fe83619b5e7cd7ee462c8f6feb90fe",
+    "currentCI": "PHASE05_CI_41016950913_SUCCESS_AT_SOURCE_HEAD",
     "actualOfficialAuth": false,
     "officialConnected": false,
     "nativeKosyncProgress": false,

@@ -6,21 +6,29 @@
   "baseBranch": "integration/grimmlink-next",
   "baseIntegrationCommit": "fe83f22fa7395a4f799df8ecc5349de71aeadb0c",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/9",
-  "status": "CODE_IMPLEMENTED_CI_PENDING",
-  "head": "CHECK_LIVE_GITHUB",
+  "status": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
+  "head": "8ec70e6729fe83619b5e7cd7ee462c8f6feb90fe",
   "delivered": [
     "SHA256_FULL_BOOKFILE_IDENTITY_WITH_KO_HASH_COLLISION_DENIAL",
     "DURABLE_ONE_OWNER_MULTIPLE_PAIRED_DEVICES_TOKEN_HASH_REVOKE",
     "PERSISTENT_MOCK_WRITER_CAS_REPLAY_CONFLICT_NATIVE_POSITION",
     "STRICT_MOCK_KOSYNC_HTTP_AND_WIRE_CONTRACT_UNMOUNTED",
     "SQLITE_RESTART_MOCK_HTTP_NEGATIVE_TESTS",
-    "PHASE05_DEDICATED_GITHUB_CI"
+    "PHASE05_DEDICATED_GITHUB_CI",
+    "KO_FILENAME_MD5_UTF8_BASENAME_TESTED_AND_AMBIGUITY_DENIED"
   ],
   "ci": {
     "initialRun": "41015526965",
     "initialConclusion": "FAIL_TYPESCRIPT_LITERAL_WIDENING",
     "fixedInCommit": "86aabd09c8e00a15a6bf5bb56d0c80678e97ac97",
-    "latestExactHead": "PENDING_CHECK"
+    "latestExactHead": "8ec70e6729fe83619b5e7cd7ee462c8f6feb90fe",
+    "latestRun": "41016950913",
+    "latestConclusion": "SUCCESS",
+    "otherSuccessAtSourceHead": [
+      "41016950807",
+      "41016950889",
+      "41016950802"
+    ]
   },
   "scope": "OFFLINE_MOCK_ONLY_NO_REAL_OFFICIAL_OR_DEVICE",
   "safety": {
@@ -38,7 +46,7 @@
     "NATIVE_KOSYNC_PROGRESS_BLOCKED_BY_ADR025",
     "ACTUAL_MANAGED_OFFICIAL_WRITES_DISABLED",
     "REAL_DEVICE_AND_PROTOCOL_TRACES_DEFERRED_TO_PHASE09",
-    "LATEST_EXACT_HEAD_CI_PENDING"
+    "FINAL_DOCUMENTATION_COMMIT_CI_RECHECK"
   ],
-  "nextAction": "Fix CI, verify exact feature SHA; keep Draft PR open and main untouched"
+  "nextAction": "Verify final documentation-head CI, then seek integration-only approval; Native and Official writes remain OFF"
 }
