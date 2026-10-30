@@ -1,3 +1,11 @@
+## ACTIVE — PHASE06 OFFLINE DEVELOPMENT / Draft PR #10 (2026-10-30)
+
+[PR #10](https://github.com/0xstillb/Grimmlink-Next/pull/10) on `feat/next-phase-06` bases from Phase05 merged integration `3b5321ed`, targets `integration/grimmlink-next`, not `main`. Implemented exact synthetic EPUB anchor-pair XPointer/CFI lookup, PDF page and page-count validation, local Continue Reading revision projection, durable mock-only SQLite event/CAS/idempotency/restart and negative fixtures. No real EPUB/PDF parsed, no verified device cross-roundtrip or Native KOSync, no live mounts or Official forwarding. [Phase06 RESULT](phase-06/RESULT.md) and [HANDOFF](phase-06/HANDOFF.json) state deferred risks.
+
+Initial Phase06 PR [CI #41046094151](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41046094151) failed TypeScript implicit-any; source corrected, formatting applied by pinned Prettier. **Current exact-head CI must be rechecked** before recording development PASS. Phase00 gate now specifically accepts Phase06's fail-closed checkpoint while continuing immutable earlier design attestation and safety assertions. Independent security review + remediation and full real Hermes/NAS/reader E2E = Phase09 only. Single owner; no multi-user RBAC.
+
+---
+
 ## PHASE05 CODE SOURCE CHECKPOINT — 2026-10-30
 
 Phase05 [Draft PR #9](https://github.com/0xstillb/Grimmlink-Next/pull/9) from Phase04 merged integration. Code `07b49a17` [Phase05 CI #41037601290](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41037601290) success plus Phase00/Gateway/Phase04 success; final docs-head CI and other workflows must be separately checked. Offline device token rotation/revocation/list, Readest GET wire contract and KOReader multilingual filename goldens added. Native Official KOSync remains BLOCKED/OFF, no live Official auth or writes, no user roles, no Phase09 hardware E2E/security review. [Result](phase-05/RESULT.md) and [Handoff](phase-05/HANDOFF.json). Integration merge only after valid checks and authorized owner instruction; main untouched.
