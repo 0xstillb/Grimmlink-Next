@@ -211,11 +211,13 @@ def validate(root,out):
                 or phase04.get("nasWriteEnabled") is not False
                 or phase04.get("restoreApplyEnabled") is not False
                 or phase04.get("operationalEnabled") is not False
+                or phase04.get("independentReview")!="DEFERRED_PHASE09"
                 or phase03.get("status")!="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS"
                 or phase03.get("writesAllowed") is not False
                 or phase03.get("officialConnected") is not False
                 or phase03.get("nasMountVerified") is not False
                 or phase03.get("operationalEnabled") is not False
+                or phase03.get("independentReview")!="DEFERRED_PHASE09"
                 or phase02.get("developmentGate")!="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS"
                 or phase02.get("runtimeSecurityAuthorized") is not False
                 or phase02.get("productionActivation")!="BLOCKED_OPERATIONAL_ENABLEMENT"):
