@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "project": "GRIMMLINK NEXT",
   "phase": "08",
-  "status": "CODE_IMPLEMENTED_CI_PENDING",
+  "status": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
   "branch": "feat/next-phase-08",
   "baseBranch": "feat/next-phase-07",
   "baseHead": "b1a2a0424bbaa87e07e7d5429db923551155952e",
@@ -20,8 +20,12 @@
     "INHERITED_PHASE00_07_NEGATIVE_TESTS"
   ],
   "ci": {
-    "status": "PENDING_EXACT_HEAD",
-    "run": null
+    "status": "SUCCESS_AT_SOURCE_HEAD",
+    "run": "41061321816",
+    "runUrl": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/41061321816",
+    "sourceHead": "3bd8fa209857bab80054349f654cbfe5ba04c979",
+    "scope": "FROZEN_BUILD_TYPECHECK_PRETTIER_LINT_VITEST_UI_PACKAGE_NEGATIVE_PHASE00_DENY_ALL_STATIC_POLICY",
+    "finalDocumentationHead": "RECHECK_AFTER_CLOSURE_COMMIT"
   },
   "safety": {
     "singleOwner": true,
@@ -43,5 +47,5 @@
     "FULL_REAL_HERMES_NAS_READER_E2E",
     "ONE_FINAL_INDEPENDENT_SECURITY_REVIEW_AND_REMEDIATION"
   ],
-  "nextAction": "Verify latest exact-head CI and read advisory artifact before development PASS; leave PR Draft, do not merge integration/main or deploy."
+  "nextAction": "Check exact last-docs HEAD CI before accepting isolated development; PR #12 stays Draft stacked on Phase07; do not merge integration/main or deploy; Phase09 retains real E2E and one security review."
 }
