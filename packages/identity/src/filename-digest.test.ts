@@ -51,3 +51,18 @@ describe("KOReader filename-mode identity", () => {
     ).toThrow("IDENTITY_EDITION_MISMATCH");
   });
 });
+
+it("matches KOReader v2026.07.1 filename-mode golden vectors from pinned prose-reader source", () => {
+  const vectors = [
+    ["Alice's Adventures in Wonderland.epub", "618b7daa6ce3db03f36f673423fb874b"],
+    ["Les Misérables.epub", "b52243e30c4613e8e83d76d2e7e671e4"],
+    ["Les Misérables.epub", "80ce3a792df2b1865c834bc6475837f1"],
+    ["日本語の本.cbz", "41c3d5deeb951e7f9222f3bc72b25fa2"],
+    ["📚 library.epub", "89a4817a617be9075c87208acd845a82"],
+  ] as const;
+  for (const [name, expected] of vectors) {
+    expect(koFilenameDigest(name).digest).toBe(expected);
+  }
+  expect(koFilenameDigest("Les Misérables.epub").digest)
+    .not.toBe(koFilenameDigest("Les Misérables.epub").digest);
+});
