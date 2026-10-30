@@ -21,3 +21,7 @@ All **independent security review** work is consolidated into **Phase 09**, not 
 ## Phase04 interim evidence (2026-10-30)
 
 Draft PR #8 adds an offline-only Sidecar preview, SQLite durable job/UNKNOWN quarantine, and locally generated metadata-only SHA-256 JSON bundles with restore PREVIEW. No trusted Official mutation transport, authenticated route enablement, real NAS write access, managed reader calls, full-book/cover backup, rollback of Official data or Phase09 E2E has occurred. Review evidence and real operational checks stay deferred to **Phase09**; this checkpoint does not grant runtime enablement.
+
+## Phase04 completion scope — fake/mock only (2026-10-30)
+
+The feature branch adds local per-book plan exclusivity, step receipts and SQLite outbox UNKNOWN quarantine, plus preview/confirm/readback strictly against an isolated memory fake. The fake transport has no live Official URL/token or physical NAS. Backup covers only metadata scalar fields; actual Cover bytes/EPUB/user notes and full Official rollback are **not** supplied. The mock API routes are NOT mounted into the Adapter; trusted owner/CSRF real enforcement, Official CAS and real hardware testing remain deferred. Independent security review + remediation stays Phase09. CI final exact-head must be verified before an owner-authorized integration-only merge.

@@ -12,14 +12,14 @@
   "integrationBranch": "integration/grimmlink-next",
   "productionBranch": "main",
   "baseIntegrationCommit": "9a9ae6e0f8deafb145f83e976331a0db48feef92",
-  "lastVerifiedPriorCommit": "41f328d2b81f2ac36f79f0367594e50c5b7d42f2",
+  "lastVerifiedPriorCommit": "594b37de82ccc17754f7287aa88500c5a475bf9a",
   "currentHead": "READ_LIVE_GITHUB_NO_SELF_SHA",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/8",
   "prStatus": "DRAFT_UNMERGED",
   "phase00Review": "PASS_PHASE00_DESIGN_ONLY_RUNTIME_NOT_VERIFIED",
   "phase01Authorized": true,
   "codeImplemented": true,
-  "codeStatus": "PHASE04_OFFLINE_DEV_DELIVERED_OFFICIAL_APPLY_AND_NAS_WRITES_DISABLED",
+  "codeStatus": "PHASE04_OFFLINE_MOCK_SCOPE_IMPLEMENTED_NO_REAL_OFFICIAL_MUTATION",
   "unitTestRun": {
     "url": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/40888013081",
     "codeHead": "2eb613b0cac39b689710501cc3dbad812e5486a2",
@@ -52,12 +52,12 @@
     "fullE2ePhase": "09"
   },
   "blockers": [
-    "Phase04 Draft PR #8 has not merged; no integration/main merge without owner approval",
-    "Live Official metadata apply/restore confirmation/readback, trusted owner session/SSE wiring, real NAS read-only mount are OFF and NOT VERIFIED",
-    "Backup is local metadata-only JSON, not a full Official database/cover/notes backup or production rollback mechanism",
-    "One consolidated independent security review/remediation and full Hermes/NAS/physical readers E2E deferred to Phase09"
+    "Official live restore, safe owner auth/CAS/record binding and authoritative readback NOT CONNECTED (fake-memory fixture only)",
+    "No real NAS mount/recovery proof, no physical devices, no production deployment; all Phase09",
+    "Metadata-only local backup does not cover EPUB/notes or cover payloads and does not imply real rollback",
+    "Independent security review and remediation consolidated in Phase09"
   ],
-  "nextAction": "Phase04 offline development checks passed at 41f328d; verify exact-head CI after this documentation checkpoint, then proceed to safe Phase05 development; PR #8 stays Draft until explicit owner merge approval. No Official/NAS writes.",
+  "nextAction": "Verify all relevant exact-head GitHub Actions on this final Phase04 source; user authorized merge PR #8 into integration after successful isolated code gates. Keep main untouched, officialGatewayForwarding DENY_ALL and metadataApply OFF; record merge receipt and start Phase05 separately.",
   "updatedAt": "2026-10-30",
   "contractLocked": true,
   "phase01Scope": "FOUNDATION_ONLY",
@@ -212,13 +212,16 @@
     "status": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
     "baseIntegrationCommit": "9a9ae6e0f8deafb145f83e976331a0db48feef92",
     "implemented": [
-      "STRICT_OFFLINE_SIDECAR_PREVIEW",
-      "OPT_IN_OPF_MISSING_FALLBACK",
-      "LOCAL_METADATA_SHA256_BACKUP_AND_PREVIEW",
-      "DURABLE_SQLITE_JOBS_AND_EVENTS",
-      "EXPIRED_LEASE_UNKNOWN_NO_AUTO_RETRY",
-      "MOCKED_OWNER_GET_SSE_REPLAY_FACTORY",
-      "OFFLINE_CRASH_OUTAGE_REGRESSION_TESTS"
+      "STRICT_OFFLINE_SIDECAR_PREVIEW_AND_OPF_FIRST_FALLBACK",
+      "LOCAL_METADATA_ONLY_SHA256_BACKUP_FILE_AND_VERIFIED_RESTORE_PREVIEW",
+      "FAKE_OWNER_CONFIRM_CAS_READBACK_WITH_STALE_REVISION_REJECT",
+      "FAKE_OFFICIAL_BACKUP_CAPTURE_AND_NO_DUPLICATE_RESTORE_POST",
+      "DURABLE_SQLITE_EXCLUSIVE_BOOK_LOCK_LEASE_AND_EVENT_REPLAY",
+      "DURABLE_STEP_RECEIPTS_FOR_METADATA_AND_COVER",
+      "DURABLE_LOCAL_OUTBOX_UNKNOWN_QUARANTINE_MANUAL_RECONCILE",
+      "BOUNDED_OFFLINE_WORKER_EXPLICIT_RETRY_FAILED_ONLY",
+      "OWNER_CSRF_GUARDED_BACKUP_AND_GET_SSE_MOCK_ROUTE_FACTORIES_NOT_MOUNTED",
+      "OFFLINE_RESTART_NAS_OFFLINE_OFFICIAL_OFFLINE_CORRUPT_BACKUP_TESTS"
     ],
     "writesAllowed": false,
     "officialConnected": false,
@@ -228,24 +231,16 @@
     "independentReview": "DEFERRED_PHASE09",
     "fullE2e": "DEFERRED_TO_PHASE09",
     "testEvidence": {
-      "codeHead": "41f328d2b81f2ac36f79f0367594e50c5b7d42f2",
-      "phase04": {
-        "run": "41011895509",
-        "result": "SUCCESS"
-      },
-      "phase00": {
-        "run": "41011895521",
-        "result": "SUCCESS_DESIGN_ONLY"
-      },
-      "phase02Gateway": {
-        "run": "41011895512",
-        "result": "SUCCESS_MOCK_ONLY"
-      },
-      "otherWorkflows": "CHECK_LIVE_RUNNING_OR_PENDING"
+      "latestCodeHead": "d6d0e27f03485aeb2e7fce0945d388b13e8151c9",
+      "phase04SourceCheck": "GITHUB_ACTIONS_RERUN_AFTER_HOFF_COMMIT",
+      "previouslyVerifiedSourceHead": "0f5a253721e371378d7b58550b1d2190106f09df",
+      "previouslyVerifiedPhase04": "41012087007",
+      "otherVerification": "CHECK_LIVE_GITHUB"
     },
-    "runtimeOwnerAuth": "NOT_WIRED",
+    "runtimeOwnerAuth": "OFF_NOT_WIRED",
     "manualImport": "PREVIEW_ONLY",
     "jsonBackup": "LOCAL_ONLY",
-    "outboxLive": "OFF"
+    "outboxLive": "OFF_LOCAL_ONLY",
+    "mergeAuthorization": "OWNER_APPROVED_IN_CHAT_PENDING_VERIFIED_CI"
   }
 }

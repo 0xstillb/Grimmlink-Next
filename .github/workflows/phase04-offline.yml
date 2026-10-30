@@ -29,15 +29,6 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Build native SQLite
         run: pnpm rebuild better-sqlite3
-      - name: Format closure source (temporary CI diagnostic; not committed)
-        run: |
-          pnpm exec prettier --write apps/adapter/src packages/persistence/src packages/persistence/migrations/meta/_journal.json
-          while IFS= read -r f; do
-            echo "PHASE04_FORMAT_BEGIN:$f"
-            base64 -w0 "$f"
-            echo
-            echo "PHASE04_FORMAT_END:$f"
-          done < <(git diff --name-only -- apps/adapter/src packages/persistence/src packages/persistence/migrations/meta/_journal.json)
       - name: Build and typecheck
         run: |
           pnpm build
@@ -58,6 +49,10 @@ jobs:
           grep -q 'SIDECAR_OFFLINE_FIXTURE' packages/ingestion/src/sidecar.ts
           grep -q 'PREVIEW_ONLY' packages/persistence/src/backup-bundle.ts
           grep -q 'PROCESS_INTERRUPTED' packages/persistence/src/recovery-jobs.ts
+          grep -q 'Exclusive book plan lock held' packages/persistence/src/phase04-queue.ts
+          grep -q 'PREVIEW_THEN_EXPLICIT_CONFIRM' packages/persistence/src/restore-mock.ts
+          grep -q 'OFFLINE CONTRACT FACTORY ONLY' apps/adapter/src/backup-routes.ts
+          ! grep -Eq 'backup-routes|recovery-routes' apps/adapter/src/server.ts
           grep -q '"officialGatewayForwarding": "DENY_ALL"' docs/implementation/ACTIVE-SESSION.json
           grep -q '"metadataApply": "OFF"' docs/implementation/ACTIVE-SESSION.json
           echo 'No live Official writes or NAS writes; no real hardware E2E before Phase09.'

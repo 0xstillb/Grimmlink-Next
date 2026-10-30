@@ -1,3 +1,11 @@
+## ACTIVE — PHASE04 CLOSURE AND OWNER-AUTHORIZED INTEGRATION MERGE (2026-10-30)
+
+[Draft PR #8](https://github.com/0xstillb/Grimmlink-Next/pull/8) on `feat/next-phase-04` now includes offline Sidecar, verified local metadata-only backup JSON, fake Official preview/explicit confirm/CAS/readback, bounded durable SQLite jobs, exclusive book locks, step receipts, local outbox UNKNOWN quarantine and owner/CSRF gated read-only/confirm route factories. Routes remain **UNMOUNTED** in production Adapter. User authorized integration merge after full exact-head CI. Final CI evidence must match HEAD; do not inherit earlier green results.
+
+**NO live exposure:** Official forwarding DENY_ALL, metadataApply/NAS write OFF, production NOT AUTHORIZED, physical Hermes/NAS/readers E2E and consolidated independent security review Phase09. Merge to `integration/grimmlink-next` only; main untouched. [RESULT](phase-04/RESULT.md), [HANDOFF](phase-04/HANDOFF.json), [Risk ledger](DEFERRED-SECURITY-LEDGER.md).
+
+---
+
 ## CURRENT — PHASE04 OFFLINE DEVELOPMENT CHECKPOINT (2026-10-30)
 
 **Branch:** `feat/next-phase-04` from merged Phase03 integration `9a9ae6e0`. **Draft [PR #8](https://github.com/0xstillb/Grimmlink-Next/pull/8)** targets `integration/grimmlink-next`, not `main`. **Status:** `DEV_CHECKS_PASS_WITH_DEFERRED_RISKS` for isolated offline development. Operational enablement remains BLOCKED; this is not a security review.

@@ -20,3 +20,11 @@ GitHub Actions `phase04-offline.yml`: offline frozen pnpm, build/typecheck/lint/
 
 ## Recovery limitations
 No Official snapshot enumeration, no live metadata restore, no rollback of real Official writes, no physical NAS hardening or absolute symlink-race proof. Preserve Phase09 ledger and explicit owner release approval.
+
+## Phase04 simulated restore and durable jobs (offline development)
+
+`createIsolatedMockRestore(initialSnapshots, canonicalOwnerId)` provides a memory-only fake Official. `backupCurrent(ownerId, timestamp)` generates an actual metadata-only JSON bundle from the fake current record state; save with `writeMetadataBundleFile`, then verify on disk with `readMetadataBundleFile`. `preview(bundle, ownerId)` validates that books exist and creates a hash token binding current fake revisions to the bundle SHA-256; it performs no mutation. `confirm(bundle, preview, true, idempotencyKey)` refuses stale or unconfirmed plans and applies only to fake in-memory records with readback, returning explicit VERIFIED, FAILED, or UNKNOWN. Duplicate idempotency keys are bound to the original bundle and cannot re-apply uncertain posts. `reconcile(bundle, idempotencyKey)` rechecks the fake record after an UNKNOWN response. Covers are never written.
+
+`enqueueExclusivePlan` limits one active local metadata/cover plan per book; locks persist across SQLite restart and are released only after verified DONE or explicitly canceled non-dispatched work. `runOfflineFixtureWorker` processes a bounded number of fake jobs sequentially, with UNKNOWN quarantine after callback errors. `enqueueLocalOutbox`, `reserveLocalOutbox`, `quarantineLocalOutbox` and `reconcileLocalOutbox` provide durable local-only receipts. Never consider a timeout as confirmation that an upstream POST was not applied. No automatic retry for UNKNOWN.
+
+`registerIsolatedBackupRoutes` models backup GET preview and POST confirm requiring an owner and CSRF; `registerOfflineRecoveryReadRoutes` models canonical job GET plus finite Last-Event-ID SSE replay. Both are injectable test factories and are **not wired** into the live Adapter/Gateway. Their fake authorization is NOT security proof. Phase09 must implement and verify real per-request owner and Official CAS rights before considering production enablement.

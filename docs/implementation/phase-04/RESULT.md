@@ -25,3 +25,17 @@ Official gateway `DENY_ALL`, metadataApply and adjacent NAS write `OFF`, restora
 1. Confirm new exact-head CI after this checkpoint and later dependent workflows; correct findings.
 2. Harden bundle/file atomicity, add true trusted owner auth and Official CAS/readback only after Phase09 operational enablement prerequisites; preserve no-write until then.
 3. Create separate Phase05 branch only after truthful CI/handoff; never merge Draft PR without owner approval.
+
+## Phase04 closure extension — approved integration merge, 2026-10-30
+
+Development scope extended to include real, persisted **local** recovery behavior and **isolated-memory mock** Official restore confirmation. This is not a real Official API write or actual production restore. See final CI for the exact HEAD, not earlier green runs.
+
+- Added `0003_phase04_closure.sql` with exclusive book-plan locks, individual metadata/cover receipts, and local outbox reservation ownership.
+- Added `phase04-queue.ts`: one active book plan; automatic stale lease quarantine to UNKNOWN; bounded sequential fake workers; crash-safe outbox reservation/UNCERTAIN and explicit reconciliation; no duplicate UNKNOWN retries. Failed jobs can be explicitly retried under bounded backoff. Receipt and lock updates are transactional.
+- Added `restore-mock.ts`: canonical single-owner isolated fake book metadata snapshot, preview token bound to bundle hash and current fake revision, explicit confirm, idempotent bundle-bound fake apply, and matching fake readback; simulates Official offline, HTTP 200 mismatch and lost response. No network or Official token.
+- Added `apps/adapter/src/backup-routes.ts`: mock-only owner + CSRF protected backup preview and confirm contract; not mounted by `server.ts`. Actual GET/SSE job read factory remains disabled in live Adapter.
+- Tests cover fake mismatch and pre-dispatch outage, owner/CSRF denial, exclusive lock, SQLite restart, outbox UNKNOWN, job receipts and deliberate restart reconciliation.
+
+**Feature safety boundary:** live Official restore/apply, user sessions, NAS writes and all physical E2E remain OFF/NOT RUN. Backup JSON is scalar metadata-only, not a complete Official/EPUB/cover/annotation backup or a production rollback. One consolidated Independent Security Review and remediation remains Phase09; no Phase04 independent security review is required.
+
+**Merge:** user explicitly approved integration merge after completion; PR #8 remains unmerged until exact-head source CI succeeds. This document is a pre-merge snapshot; check the actual PR and integration HEAD for merge receipt.
