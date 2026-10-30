@@ -1,0 +1,80 @@
+name: Phase08 UI Diagnostics Packaging Offline
+on:
+  push:
+    branches: [feat/next-phase-08]
+  pull_request:
+    branches: [feat/next-phase-07, integration/grimmlink-next]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: phase08-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  ui-package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.18.3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+      - name: Frozen dependencies and native SQLite
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm rebuild better-sqlite3
+      - name: Prettier diagnostics (never modifies committed source)
+        run: |
+          files="apps/control-center/src/App.tsx apps/control-center/src/phase08-model.ts apps/control-center/src/phase08-model.test.ts"
+          if ! pnpm exec prettier --check $files; then
+            pnpm exec prettier --write $files
+            for f in $files; do
+              echo "@@FORMATTED_BEGIN:$f"
+              base64 -w0 "$f"
+              echo
+              echo "@@FORMATTED_END:$f"
+            done
+            exit 1
+          fi
+      - name: Build, typecheck, format, lint, complete unit/mock tests
+        run: |
+          pnpm build
+          pnpm typecheck
+          pnpm format:check
+          pnpm lint
+          pnpm test
+      - name: Offline package integrity and negative tests
+        run: |
+          node --test scripts/phase-08/package-preview.test.mjs
+          node scripts/phase-08/package-preview.mjs apps/control-center/dist "$RUNNER_TEMP/phase08-ui-preview.json"
+          node scripts/phase-08/policy-scan.mjs
+      - name: Historical Phase00 integrity and DENY_ALL invariants
+        run: |
+          python3 -m unittest discover -s scripts/phase-00 -p 'test_*.py' -v
+          python3 scripts/phase-00/validate-phase00-release-gates.py --repo . --output "$RUNNER_TEMP/phase08-phase00.json"
+          ! grep -Eq 'phase08|update.center' apps/adapter/src/server.ts
+          test ! -e plugins/koreader/_meta.lua
+      - name: Dependency advisory evidence (non-release gate; report errors instead of silent pass)
+        if: always()
+        run: |
+          pnpm audit --json > "$RUNNER_TEMP/phase08-pnpm-audit.json" 2> "$RUNNER_TEMP/phase08-audit-stderr.txt" || echo "audit command returned nonzero; inspect artifact before any release" > "$RUNNER_TEMP/phase08-audit-warning.txt"
+          test -s "$RUNNER_TEMP/phase08-pnpm-audit.json" || echo '{"status":"UNAVAILABLE","note":"No machine audit results; not a PASS"}' > "$RUNNER_TEMP/phase08-pnpm-audit.json"
+      - name: Attach offline evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase08-offline-evidence
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            ${{ runner.temp }}/phase08-ui-preview.json
+            ${{ runner.temp }}/phase08-phase00.json
+            ${{ runner.temp }}/phase08-pnpm-audit.json
+            ${{ runner.temp }}/phase08-audit-stderr.txt
+            ${{ runner.temp }}/phase08-audit-warning.txt
