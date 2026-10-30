@@ -36,6 +36,13 @@
       "when": 1793342400000,
       "tag": "0005_phase06_progress",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1793343000000,
+      "tag": "0006_phase07_personal",
+      "breakpoints": true
     }
   ]
 }
