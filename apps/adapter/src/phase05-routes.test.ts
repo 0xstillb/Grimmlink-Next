@@ -16,7 +16,9 @@ it("isolated Phase05 routes reject anonymous owner/reader, deny missing CSRF and
       paired++;
       return { deviceId, token: "test-secret-only" };
     },
-    revokeMockDevice: async () => { revoked++; },
+    revokeMockDevice: async () => {
+      revoked++;
+    },
     getMockPosition: async () => ({ position: "native xpointer", revision: 4 }),
     recordMockPosition: async () => {
       recorded++;
@@ -25,25 +27,45 @@ it("isolated Phase05 routes reject anonymous owner/reader, deny missing CSRF and
   });
   await server.ready();
   const body = { deviceId: "reader1" };
-  expect((await server.inject({
-    method: "POST", url: "/api/grimmlink/v2/local/mock-pair", payload: body,
-  })).statusCode).toBe(403);
-  expect((await server.inject({
-    method: "POST", url: "/api/grimmlink/v2/local/mock-pair", payload: body,
-    headers: { "x-test-owner": "yes" },
-  })).statusCode).toBe(403);
+  expect(
+    (
+      await server.inject({
+        method: "POST",
+        url: "/api/grimmlink/v2/local/mock-pair",
+        payload: body,
+      })
+    ).statusCode,
+  ).toBe(403);
+  expect(
+    (
+      await server.inject({
+        method: "POST",
+        url: "/api/grimmlink/v2/local/mock-pair",
+        payload: body,
+        headers: { "x-test-owner": "yes" },
+      })
+    ).statusCode,
+  ).toBe(403);
   const result = await server.inject({
-    method: "POST", url: "/api/grimmlink/v2/local/mock-pair", payload: body,
+    method: "POST",
+    url: "/api/grimmlink/v2/local/mock-pair",
+    payload: body,
     headers: { "x-test-owner": "yes", "x-test-csrf": "yes" },
   });
   expect(result.statusCode).toBe(201);
   expect(result.headers["cache-control"]).toBe("no-store");
   expect(paired).toBe(1);
-  expect((await server.inject({
-    method: "GET", url: "/api/grimmlink/v2/local/mock-kosync/" + hash,
-  })).statusCode).toBe(403);
+  expect(
+    (
+      await server.inject({
+        method: "GET",
+        url: "/api/grimmlink/v2/local/mock-kosync/" + hash,
+      })
+    ).statusCode,
+  ).toBe(403);
   const conflict = await server.inject({
-    method: "PUT", url: "/api/grimmlink/v2/local/mock-kosync/" + hash,
+    method: "PUT",
+    url: "/api/grimmlink/v2/local/mock-kosync/" + hash,
     headers: { "x-test-reader": "yes" },
     payload: { eventId: "evt", position: "native", expectedRevision: 3 },
   });
@@ -51,7 +73,9 @@ it("isolated Phase05 routes reject anonymous owner/reader, deny missing CSRF and
   expect(conflict.json()).toEqual({ state: "CONFLICT", revision: 4 });
   expect(recorded).toBe(1);
   await server.inject({
-    method: "POST", url: "/api/grimmlink/v2/local/mock-revoke", payload: body,
+    method: "POST",
+    url: "/api/grimmlink/v2/local/mock-revoke",
+    payload: body,
     headers: { "x-test-owner": "yes", "x-test-csrf": "yes" },
   });
   expect(revoked).toBe(1);

@@ -76,10 +76,7 @@ export function resolveExactBookFile(
   const match = matches[0]!;
   const observed = Buffer.from(match.fingerprint, "hex");
   const expected = Buffer.from(lookup.expectedSha256, "hex");
-  if (
-    match.bookFileId !== lookup.bookFileId ||
-    !timingSafeEqual(observed, expected)
-  ) {
+  if (match.bookFileId !== lookup.bookFileId || !timingSafeEqual(observed, expected)) {
     throw new Error("IDENTITY_EDITION_MISMATCH");
   }
   return match;

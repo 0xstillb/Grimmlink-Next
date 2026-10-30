@@ -2,11 +2,7 @@
  * Phase05 offline-only KOSync wire classifier. No network transport is ever
  * created here. Native Official passthrough remains blocked by ADR-025.
  */
-export type KoWireRoute =
-  | "AUTH_MOCK"
-  | "PROGRESS_GET_MOCK"
-  | "PROGRESS_PUT_MOCK"
-  | "DENY";
+export type KoWireRoute = "AUTH_MOCK" | "PROGRESS_GET_MOCK" | "PROGRESS_PUT_MOCK" | "DENY";
 
 const validDocument = (value: string): boolean => /^[0-9a-f]{32}$/.test(value);
 
@@ -25,7 +21,8 @@ export function classifyMockKOSyncRequest(
     rawTarget.includes("//") ||
     rawTarget.includes("\\") ||
     rawTarget.split("/").some((segment) => segment === "." || segment === "..")
-  ) return deny;
+  )
+    return deny;
   if (method === "GET" && rawTarget === "/users/auth")
     return { route: "AUTH_MOCK", document: null };
   if (method === "PUT" && rawTarget === "/syncs/progress")
@@ -57,20 +54,23 @@ export function normalizeMockKOSyncPut(payload: unknown): KoPositionWire {
     item.progress.length === 0 ||
     item.progress.length > 4096 ||
     item.progress.includes("\0")
-  ) throw new Error("KOSYNC_BODY_INVALID");
+  )
+    throw new Error("KOSYNC_BODY_INVALID");
   if (
     item.percentage !== undefined &&
     (typeof item.percentage !== "number" ||
       !Number.isFinite(item.percentage) ||
       item.percentage < 0 ||
       item.percentage > 1)
-  ) throw new Error("KOSYNC_PERCENT_UNVERIFIED");
+  )
+    throw new Error("KOSYNC_PERCENT_UNVERIFIED");
   const device = item.device;
   const deviceId = item.device_id;
   if (
     (device !== undefined && (typeof device !== "string" || device.length > 128)) ||
     (deviceId !== undefined && (typeof deviceId !== "string" || deviceId.length > 128))
-  ) throw new Error("KOSYNC_DEVICE_INVALID");
+  )
+    throw new Error("KOSYNC_DEVICE_INVALID");
   return {
     document: item.document,
     progress: item.progress,

@@ -41,17 +41,19 @@ export function pairOfflineReader(
   }
   if (expiresAtMs - nowMs > 90 * 24 * 3600 * 1000) throw new Error("PAIRING_TTL_TOO_LONG");
   const token = randomBytes(32).toString("base64url");
-  sqlite.transaction(() => {
-    sqlite
-      .prepare("INSERT OR IGNORE INTO single_owner(slot,owner_id) VALUES (1,?)")
-      .run(actor.accountId);
-    assertCanonicalOwner(sqlite, actor.accountId);
-    sqlite
-      .prepare(
-        "INSERT INTO paired_reader_devices(device_id,owner_id,token_sha256,expires_at,created_at) VALUES (?,?,?,?,?)",
-      )
-      .run(deviceId, actor.accountId, tokenHash(token), expiresAtMs, nowMs);
-  }).immediate();
+  sqlite
+    .transaction(() => {
+      sqlite
+        .prepare("INSERT OR IGNORE INTO single_owner(slot,owner_id) VALUES (1,?)")
+        .run(actor.accountId);
+      assertCanonicalOwner(sqlite, actor.accountId);
+      sqlite
+        .prepare(
+          "INSERT INTO paired_reader_devices(device_id,owner_id,token_sha256,expires_at,created_at) VALUES (?,?,?,?,?)",
+        )
+        .run(deviceId, actor.accountId, tokenHash(token), expiresAtMs, nowMs);
+    })
+    .immediate();
   return { deviceId, token };
 }
 
@@ -67,7 +69,8 @@ export function verifyOfflineReader(
     !validId(deviceId) ||
     !validTime(nowMs) ||
     !/^[A-Za-z0-9_-]{43}$/.test(token)
-  ) return false;
+  )
+    return false;
   const row = sqlite
     .prepare(
       "SELECT token_sha256,expires_at,revoked_at FROM paired_reader_devices WHERE device_id=? AND owner_id=?",
@@ -91,15 +94,17 @@ export function revokeOfflineReader(
 ): void {
   requireOwner(actor, nowMs);
   if (!validId(deviceId)) throw new Error("PAIRING_INVALID");
-  sqlite.transaction(() => {
-    assertCanonicalOwner(sqlite, actor.accountId);
-    const result = sqlite
-      .prepare(
-        "UPDATE paired_reader_devices SET revoked_at=?,generation=generation+1 WHERE device_id=? AND owner_id=? AND revoked_at IS NULL",
-      )
-      .run(nowMs, deviceId, actor.accountId);
-    if (result.changes !== 1) throw new Error("PAIRING_NOT_ACTIVE");
-  }).immediate();
+  sqlite
+    .transaction(() => {
+      assertCanonicalOwner(sqlite, actor.accountId);
+      const result = sqlite
+        .prepare(
+          "UPDATE paired_reader_devices SET revoked_at=?,generation=generation+1 WHERE device_id=? AND owner_id=? AND revoked_at IS NULL",
+        )
+        .run(nowMs, deviceId, actor.accountId);
+      if (result.changes !== 1) throw new Error("PAIRING_NOT_ACTIVE");
+    })
+    .immediate();
 }
 
 export type MockWriterMode = "DISABLED" | "MOCK_MANAGED";
@@ -119,26 +124,34 @@ export function registerOfflineSyncDocument(
     !validKoHash(identity.koPartialMd5) ||
     !validId(identity.bookFileId) ||
     !validHash(identity.editionSha256)
-  ) throw new Error("SYNC_IDENTITY_INVALID");
-  sqlite.transaction(() => {
-    assertCanonicalOwner(sqlite, actor.accountId);
-    const existing = sqlite.prepare(
-      "SELECT owner_id,book_file_id,edition_sha256 FROM phase05_writer_state WHERE document_id=?",
-    ).get(identity.koPartialMd5) as
-      | { owner_id: string; book_file_id: string; edition_sha256: string }
-      | undefined;
-    if (existing) {
-      if (
-        existing.owner_id !== actor.accountId ||
-        existing.book_file_id !== identity.bookFileId ||
-        existing.edition_sha256 !== identity.editionSha256
-      ) throw new Error("SYNC_HASH_COLLISION_OR_EDITION_DRIFT");
-      return;
-    }
-    sqlite.prepare(
-      "INSERT INTO phase05_writer_state(document_id,owner_id,book_file_id,edition_sha256,mode,revision) VALUES (?,?,?,?,'DISABLED',0)",
-    ).run(identity.koPartialMd5, actor.accountId, identity.bookFileId, identity.editionSha256);
-  }).immediate();
+  )
+    throw new Error("SYNC_IDENTITY_INVALID");
+  sqlite
+    .transaction(() => {
+      assertCanonicalOwner(sqlite, actor.accountId);
+      const existing = sqlite
+        .prepare(
+          "SELECT owner_id,book_file_id,edition_sha256 FROM phase05_writer_state WHERE document_id=?",
+        )
+        .get(identity.koPartialMd5) as
+        | { owner_id: string; book_file_id: string; edition_sha256: string }
+        | undefined;
+      if (existing) {
+        if (
+          existing.owner_id !== actor.accountId ||
+          existing.book_file_id !== identity.bookFileId ||
+          existing.edition_sha256 !== identity.editionSha256
+        )
+          throw new Error("SYNC_HASH_COLLISION_OR_EDITION_DRIFT");
+        return;
+      }
+      sqlite
+        .prepare(
+          "INSERT INTO phase05_writer_state(document_id,owner_id,book_file_id,edition_sha256,mode,revision) VALUES (?,?,?,?,'DISABLED',0)",
+        )
+        .run(identity.koPartialMd5, actor.accountId, identity.bookFileId, identity.editionSha256);
+    })
+    .immediate();
 }
 
 /**
@@ -157,18 +170,23 @@ export function switchOfflineWriter(
   if (
     !validKoHash(documentHash) ||
     !validTime(expectedRevision) ||
-    targetMode !== "DISABLED" && targetMode !== "MOCK_MANAGED" ||
+    (targetMode !== "DISABLED" && targetMode !== "MOCK_MANAGED") ||
     proof.noInflightWrites !== true ||
     proof.observedRevision !== expectedRevision
-  ) throw new Error("SYNC_SWITCH_RECONCILIATION_REQUIRED");
-  return sqlite.transaction(() => {
-    assertCanonicalOwner(sqlite, actor.accountId);
-    const result = sqlite.prepare(
-      "UPDATE phase05_writer_state SET mode=?,revision=revision+1 WHERE document_id=? AND owner_id=? AND revision=?",
-    ).run(targetMode, documentHash, actor.accountId, expectedRevision);
-    if (result.changes !== 1) throw new Error("SYNC_SWITCH_STALE");
-    return expectedRevision + 1;
-  }).immediate();
+  )
+    throw new Error("SYNC_SWITCH_RECONCILIATION_REQUIRED");
+  return sqlite
+    .transaction(() => {
+      assertCanonicalOwner(sqlite, actor.accountId);
+      const result = sqlite
+        .prepare(
+          "UPDATE phase05_writer_state SET mode=?,revision=revision+1 WHERE document_id=? AND owner_id=? AND revision=?",
+        )
+        .run(targetMode, documentHash, actor.accountId, expectedRevision);
+      if (result.changes !== 1) throw new Error("SYNC_SWITCH_STALE");
+      return expectedRevision + 1;
+    })
+    .immediate();
 }
 
 /** Durable mock-only event. Device timestamps are ignored; revision is authoritative. */
@@ -189,69 +207,98 @@ export function recordOfflinePosition(
   },
 ): Readonly<{ state: "LOCAL_RECORDED" | "CONFLICT"; revision: number }> {
   const {
-    ownerId, deviceId, token, documentHash, bookFileId, editionSha256,
-    eventId, position, expectedRevision, nowMs,
+    ownerId,
+    deviceId,
+    token,
+    documentHash,
+    bookFileId,
+    editionSha256,
+    eventId,
+    position,
+    expectedRevision,
+    nowMs,
   } = input;
   if (
-    !validId(ownerId) || !validId(deviceId) || !validId(bookFileId) ||
-    !validId(eventId) || !validKoHash(documentHash) || !validHash(editionSha256) ||
-    !validTime(nowMs) || !validTime(expectedRevision) ||
-    typeof position !== "string" || position.length < 1 || position.length > 4096 ||
+    !validId(ownerId) ||
+    !validId(deviceId) ||
+    !validId(bookFileId) ||
+    !validId(eventId) ||
+    !validKoHash(documentHash) ||
+    !validHash(editionSha256) ||
+    !validTime(nowMs) ||
+    !validTime(expectedRevision) ||
+    typeof position !== "string" ||
+    position.length < 1 ||
+    position.length > 4096 ||
     position.includes("\0")
-  ) throw new Error("SYNC_EVENT_INVALID");
+  )
+    throw new Error("SYNC_EVENT_INVALID");
   const payloadHash = createHash("sha256")
     .update(JSON.stringify([documentHash, bookFileId, editionSha256, position, expectedRevision]))
     .digest("hex");
-  return sqlite.transaction(() => {
-    if (!verifyOfflineReader(sqlite, ownerId, deviceId, token, nowMs)) {
-      throw new Error("SYNC_READER_REVOKED_OR_EXPIRED");
-    }
-    assertCanonicalOwner(sqlite, ownerId);
-    const past = sqlite.prepare(
-      "SELECT document_id,payload_sha256,status,observed_revision FROM phase05_mock_sync_events WHERE event_id=?",
-    ).get(eventId) as
-      | {
-          document_id: string;
-          payload_sha256: string;
-          status: "LOCAL_RECORDED" | "CONFLICT";
-          observed_revision: number;
-        }
-      | undefined;
-    if (past) {
-      if (past.document_id !== documentHash || past.payload_sha256 !== payloadHash)
-        throw new Error("SYNC_EVENT_IDEMPOTENCY_CONFLICT");
-      return { state: past.status, revision: past.observed_revision };
-    }
-    const row = sqlite.prepare(
-      "SELECT owner_id,book_file_id,edition_sha256,mode,revision FROM phase05_writer_state WHERE document_id=?",
-    ).get(documentHash) as
-      | {
-          owner_id: string;
-          book_file_id: string;
-          edition_sha256: string;
-          mode: MockWriterMode;
-          revision: number;
-        }
-      | undefined;
-    if (
-      !row || row.owner_id !== ownerId || row.book_file_id !== bookFileId ||
-      row.edition_sha256 !== editionSha256
-    ) throw new Error("SYNC_IDENTITY_MISMATCH");
-    if (row.mode !== "MOCK_MANAGED") throw new Error("SYNC_WRITER_DISABLED");
-    const accepted = row.revision === expectedRevision;
-    if (accepted) {
-      const result = sqlite.prepare(
-        "UPDATE phase05_writer_state SET revision=revision+1,native_position=?,last_event_id=? WHERE document_id=? AND revision=?",
-      ).run(position, eventId, documentHash, expectedRevision);
-      if (result.changes !== 1) throw new Error("SYNC_CAS_LOST");
-    }
-    const revision = accepted ? expectedRevision + 1 : row.revision;
-    const state: "LOCAL_RECORDED" | "CONFLICT" = accepted ? "LOCAL_RECORDED" : "CONFLICT";
-    sqlite.prepare(
-      "INSERT INTO phase05_mock_sync_events(event_id,document_id,payload_sha256,status,observed_revision,created_at) VALUES (?,?,?,?,?,?)",
-    ).run(eventId, documentHash, payloadHash, state, revision, nowMs);
-    return { state, revision };
-  }).immediate();
+  return sqlite
+    .transaction(() => {
+      if (!verifyOfflineReader(sqlite, ownerId, deviceId, token, nowMs)) {
+        throw new Error("SYNC_READER_REVOKED_OR_EXPIRED");
+      }
+      assertCanonicalOwner(sqlite, ownerId);
+      const past = sqlite
+        .prepare(
+          "SELECT document_id,payload_sha256,status,observed_revision FROM phase05_mock_sync_events WHERE event_id=?",
+        )
+        .get(eventId) as
+        | {
+            document_id: string;
+            payload_sha256: string;
+            status: "LOCAL_RECORDED" | "CONFLICT";
+            observed_revision: number;
+          }
+        | undefined;
+      if (past) {
+        if (past.document_id !== documentHash || past.payload_sha256 !== payloadHash)
+          throw new Error("SYNC_EVENT_IDEMPOTENCY_CONFLICT");
+        return { state: past.status, revision: past.observed_revision };
+      }
+      const row = sqlite
+        .prepare(
+          "SELECT owner_id,book_file_id,edition_sha256,mode,revision FROM phase05_writer_state WHERE document_id=?",
+        )
+        .get(documentHash) as
+        | {
+            owner_id: string;
+            book_file_id: string;
+            edition_sha256: string;
+            mode: MockWriterMode;
+            revision: number;
+          }
+        | undefined;
+      if (
+        !row ||
+        row.owner_id !== ownerId ||
+        row.book_file_id !== bookFileId ||
+        row.edition_sha256 !== editionSha256
+      )
+        throw new Error("SYNC_IDENTITY_MISMATCH");
+      if (row.mode !== "MOCK_MANAGED") throw new Error("SYNC_WRITER_DISABLED");
+      const accepted = row.revision === expectedRevision;
+      if (accepted) {
+        const result = sqlite
+          .prepare(
+            "UPDATE phase05_writer_state SET revision=revision+1,native_position=?,last_event_id=? WHERE document_id=? AND revision=?",
+          )
+          .run(position, eventId, documentHash, expectedRevision);
+        if (result.changes !== 1) throw new Error("SYNC_CAS_LOST");
+      }
+      const revision = accepted ? expectedRevision + 1 : row.revision;
+      const state: "LOCAL_RECORDED" | "CONFLICT" = accepted ? "LOCAL_RECORDED" : "CONFLICT";
+      sqlite
+        .prepare(
+          "INSERT INTO phase05_mock_sync_events(event_id,document_id,payload_sha256,status,observed_revision,created_at) VALUES (?,?,?,?,?,?)",
+        )
+        .run(eventId, documentHash, payloadHash, state, revision, nowMs);
+      return { state, revision };
+    })
+    .immediate();
 }
 
 /** Preview is local and restricted by verified token; never expose via live routes. */
@@ -265,9 +312,11 @@ export function readOfflinePosition(
 ): Readonly<{ position: string | null; revision: number }> {
   if (!validKoHash(documentHash) || !verifyOfflineReader(sqlite, ownerId, deviceId, token, nowMs))
     throw new Error("SYNC_READER_REVOKED_OR_EXPIRED");
-  const row = sqlite.prepare(
-    "SELECT native_position,revision,mode FROM phase05_writer_state WHERE owner_id=? AND document_id=?",
-  ).get(ownerId, documentHash) as
+  const row = sqlite
+    .prepare(
+      "SELECT native_position,revision,mode FROM phase05_writer_state WHERE owner_id=? AND document_id=?",
+    )
+    .get(ownerId, documentHash) as
     | { native_position: string | null; revision: number; mode: MockWriterMode }
     | undefined;
   if (!row || row.mode !== "MOCK_MANAGED") throw new Error("SYNC_WRITER_DISABLED");

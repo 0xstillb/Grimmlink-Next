@@ -24,9 +24,14 @@ export function registerIsolatedPhase05Routes(
   server: FastifyInstance,
   source: IsolatedPhase05Source,
 ): void {
-  const ownerGuard = async (request: FastifyRequest, reply: { code: (n: number) => {
-    send: (body: object) => void;
-  } }) => {
+  const ownerGuard = async (
+    request: FastifyRequest,
+    reply: {
+      code: (n: number) => {
+        send: (body: object) => void;
+      };
+    },
+  ) => {
     if (!(await source.authorizeOwner(request))) {
       return reply.code(403).send({ error: "OWNER_REQUIRED" });
     }
@@ -34,9 +39,14 @@ export function registerIsolatedPhase05Routes(
       return reply.code(403).send({ error: "CSRF_REQUIRED" });
     }
   };
-  const readerGuard = async (request: FastifyRequest, reply: { code: (n: number) => {
-    send: (body: object) => void;
-  } }) => {
+  const readerGuard = async (
+    request: FastifyRequest,
+    reply: {
+      code: (n: number) => {
+        send: (body: object) => void;
+      };
+    },
+  ) => {
     if (!(await source.authorizeReader(request))) {
       return reply.code(403).send({ error: "PAIRED_READER_REQUIRED" });
     }
@@ -46,10 +56,14 @@ export function registerIsolatedPhase05Routes(
     { preHandler: ownerGuard },
     async (request, reply) => {
       if (
-        !request.body || typeof request.body !== "object" ||
-        Array.isArray(request.body) || Object.keys(request.body).join(",") !== "deviceId" ||
-        typeof request.body.deviceId !== "string" || !validId(request.body.deviceId)
-      ) return reply.code(400).send({ error: "INVALID_DEVICE" });
+        !request.body ||
+        typeof request.body !== "object" ||
+        Array.isArray(request.body) ||
+        Object.keys(request.body).join(",") !== "deviceId" ||
+        typeof request.body.deviceId !== "string" ||
+        !validId(request.body.deviceId)
+      )
+        return reply.code(400).send({ error: "INVALID_DEVICE" });
       const paired = await source.pairMockDevice(request.body.deviceId);
       reply.header("cache-control", "no-store");
       return reply.code(201).send(paired);
@@ -60,10 +74,14 @@ export function registerIsolatedPhase05Routes(
     { preHandler: ownerGuard },
     async (request, reply) => {
       if (
-        !request.body || typeof request.body !== "object" ||
-        Array.isArray(request.body) || Object.keys(request.body).join(",") !== "deviceId" ||
-        typeof request.body.deviceId !== "string" || !validId(request.body.deviceId)
-      ) return reply.code(400).send({ error: "INVALID_DEVICE" });
+        !request.body ||
+        typeof request.body !== "object" ||
+        Array.isArray(request.body) ||
+        Object.keys(request.body).join(",") !== "deviceId" ||
+        typeof request.body.deviceId !== "string" ||
+        !validId(request.body.deviceId)
+      )
+        return reply.code(400).send({ error: "INVALID_DEVICE" });
       await source.revokeMockDevice(request.body.deviceId);
       reply.header("cache-control", "no-store");
       return reply.code(204).send();
@@ -88,15 +106,22 @@ export function registerIsolatedPhase05Routes(
     async (request, reply) => {
       const body = request.body;
       if (
-        !validHash(request.params.hash) || !body || typeof body !== "object" ||
+        !validHash(request.params.hash) ||
+        !body ||
+        typeof body !== "object" ||
         Array.isArray(body) ||
         Object.keys(body).sort().join(",") !== "eventId,expectedRevision,position" ||
-        typeof body.eventId !== "string" || !validId(body.eventId) ||
-        typeof body.position !== "string" || body.position.length < 1 ||
-        body.position.length > 4096 || body.position.includes("\0") ||
+        typeof body.eventId !== "string" ||
+        !validId(body.eventId) ||
+        typeof body.position !== "string" ||
+        body.position.length < 1 ||
+        body.position.length > 4096 ||
+        body.position.includes("\0") ||
         typeof body.expectedRevision !== "number" ||
-        !Number.isSafeInteger(body.expectedRevision) || body.expectedRevision < 0
-      ) return reply.code(400).send({ error: "INVALID_EVENT" });
+        !Number.isSafeInteger(body.expectedRevision) ||
+        body.expectedRevision < 0
+      )
+        return reply.code(400).send({ error: "INVALID_EVENT" });
       const result = await source.recordMockPosition(request.params.hash, {
         eventId: body.eventId,
         position: body.position,

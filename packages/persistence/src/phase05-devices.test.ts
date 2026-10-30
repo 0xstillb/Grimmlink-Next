@@ -29,8 +29,12 @@ it("pairs multiple same-owner devices with restart durability, expiry and immedi
     const b = pairOfflineReader(store.sqlite, owner, "x4", 100, 10000);
     expect(a.token).not.toBe(b.token);
     expect(verifyOfflineReader(store.sqlite, owner.accountId, "koreader", a.token, 101)).toBe(true);
-    expect(verifyOfflineReader(store.sqlite, owner.accountId, "koreader", b.token, 101)).toBe(false);
-    expect(verifyOfflineReader(store.sqlite, owner.accountId, "koreader", a.token, 10000)).toBe(false);
+    expect(verifyOfflineReader(store.sqlite, owner.accountId, "koreader", b.token, 101)).toBe(
+      false,
+    );
+    expect(verifyOfflineReader(store.sqlite, owner.accountId, "koreader", a.token, 10000)).toBe(
+      false,
+    );
     expect(() => pairOfflineReader(store.sqlite, foreign, "intruder", 100, 10000)).toThrow(
       "OWNER_MISMATCH",
     );
@@ -56,19 +60,25 @@ it("never enables Native writer, blocks drift, and resolves mock CAS/replay with
       bookFileId: "file1",
       editionSha256: sha,
     });
-    expect(() => registerOfflineSyncDocument(store.sqlite, owner, {
-      koPartialMd5: doc,
-      bookFileId: "file2",
-      editionSha256: sha,
-    })).toThrow("SYNC_HASH_COLLISION_OR_EDITION_DRIFT");
-    expect(() => switchOfflineWriter(
-      store.sqlite, owner, doc, 0, "NATIVE" as never,
-      { noInflightWrites: true, observedRevision: 0 },
-    )).toThrow();
-    expect(switchOfflineWriter(store.sqlite, owner, doc, 0, "MOCK_MANAGED", {
-      noInflightWrites: true,
-      observedRevision: 0,
-    })).toBe(1);
+    expect(() =>
+      registerOfflineSyncDocument(store.sqlite, owner, {
+        koPartialMd5: doc,
+        bookFileId: "file2",
+        editionSha256: sha,
+      }),
+    ).toThrow("SYNC_HASH_COLLISION_OR_EDITION_DRIFT");
+    expect(() =>
+      switchOfflineWriter(store.sqlite, owner, doc, 0, "NATIVE" as never, {
+        noInflightWrites: true,
+        observedRevision: 0,
+      }),
+    ).toThrow();
+    expect(
+      switchOfflineWriter(store.sqlite, owner, doc, 0, "MOCK_MANAGED", {
+        noInflightWrites: true,
+        observedRevision: 0,
+      }),
+    ).toBe(1);
     const event = {
       ownerId: owner.accountId,
       deviceId: "reader",
@@ -83,27 +93,40 @@ it("never enables Native writer, blocks drift, and resolves mock CAS/replay with
       clientTimestamp: 9999999999,
     };
     expect(recordOfflinePosition(store.sqlite, event)).toEqual({
-      state: "LOCAL_RECORDED", revision: 2,
+      state: "LOCAL_RECORDED",
+      revision: 2,
     });
     expect(recordOfflinePosition(store.sqlite, event)).toEqual({
-      state: "LOCAL_RECORDED", revision: 2,
+      state: "LOCAL_RECORDED",
+      revision: 2,
     });
-    expect(recordOfflinePosition(store.sqlite, {
-      ...event, eventId: "evt2", position: "old client", clientTimestamp: 99999999999,
-    })).toEqual({ state: "CONFLICT", revision: 2 });
-    expect(readOfflinePosition(
-      store.sqlite, owner.accountId, "reader", pair.token, doc, 201,
-    )).toEqual({ position: event.position, revision: 2 });
-    expect(() => recordOfflinePosition(store.sqlite, {
-      ...event, position: "changed replay",
-    })).toThrow("SYNC_EVENT_IDEMPOTENCY_CONFLICT");
-    expect(() => switchOfflineWriter(store.sqlite, owner, doc, 1, "DISABLED", {
-      noInflightWrites: true, observedRevision: 1,
-    })).toThrow("SYNC_SWITCH_STALE");
+    expect(
+      recordOfflinePosition(store.sqlite, {
+        ...event,
+        eventId: "evt2",
+        position: "old client",
+        clientTimestamp: 99999999999,
+      }),
+    ).toEqual({ state: "CONFLICT", revision: 2 });
+    expect(
+      readOfflinePosition(store.sqlite, owner.accountId, "reader", pair.token, doc, 201),
+    ).toEqual({ position: event.position, revision: 2 });
+    expect(() =>
+      recordOfflinePosition(store.sqlite, {
+        ...event,
+        position: "changed replay",
+      }),
+    ).toThrow("SYNC_EVENT_IDEMPOTENCY_CONFLICT");
+    expect(() =>
+      switchOfflineWriter(store.sqlite, owner, doc, 1, "DISABLED", {
+        noInflightWrites: true,
+        observedRevision: 1,
+      }),
+    ).toThrow("SYNC_SWITCH_STALE");
     revokeOfflineReader(store.sqlite, owner, "reader", 201);
-    expect(() => readOfflinePosition(
-      store.sqlite, owner.accountId, "reader", pair.token, doc, 201,
-    )).toThrow("SYNC_READER_REVOKED_OR_EXPIRED");
+    expect(() =>
+      readOfflinePosition(store.sqlite, owner.accountId, "reader", pair.token, doc, 201),
+    ).toThrow("SYNC_READER_REVOKED_OR_EXPIRED");
     store.close();
   } finally {
     rmSync(dir, { recursive: true, force: true });
