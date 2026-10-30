@@ -29,6 +29,11 @@ jobs:
         run: |
           pnpm install --frozen-lockfile
           pnpm rebuild better-sqlite3
+      - name: Print Prettier proposal (temporary, fail until committed)
+        run: |
+          pnpm exec prettier --write packages/persistence/src/phase05-devices.ts packages/persistence/src/phase05-devices.test.ts packages/sync/src/phase05.ts packages/sync/src/phase05.test.ts packages/identity/src/filename-digest.test.ts
+          git diff -- packages/persistence/src/phase05-devices.ts packages/persistence/src/phase05-devices.test.ts packages/sync/src/phase05.ts packages/sync/src/phase05.test.ts packages/identity/src/filename-digest.test.ts
+          git diff --quiet -- packages/persistence/src/phase05-devices.ts packages/persistence/src/phase05-devices.test.ts packages/sync/src/phase05.ts packages/sync/src/phase05.test.ts packages/identity/src/filename-digest.test.ts
       - name: Workspace build, typecheck, formatting, lint and tests
         run: |
           pnpm build
