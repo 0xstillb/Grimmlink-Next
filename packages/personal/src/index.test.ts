@@ -14,7 +14,9 @@ it("keeps every personal bridge OFF and validates bounded note/rating data", () 
     score: 5,
   });
   expect(() => validateOfflinePersonalValue({ kind: "RATING", score: 0 })).toThrow();
-  expect(() => validateOfflinePersonalValue({ kind: "RATING", score: 5, owner: "other" })).toThrow();
+  expect(() =>
+    validateOfflinePersonalValue({ kind: "RATING", score: 5, owner: "other" }),
+  ).toThrow();
   expect(() =>
     validateOfflinePersonalValue({
       kind: "ANNOTATION",
