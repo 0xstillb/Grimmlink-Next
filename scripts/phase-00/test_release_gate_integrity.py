@@ -157,7 +157,7 @@ class GateTests(unittest.TestCase):
             with self.subTest(case=i):
                 (self.root/path).write_text(pristine)
                 self.mutate(path,change)
-                with self.assertRaisesRegex(ValueError,"(FOUNDATION_REVIEWED requires|differs from independent design lock|active Phase02 development checkpoint invalid|active Phase03 development checkpoint invalid)"):
+                with self.assertRaisesRegex(ValueError,"(FOUNDATION_REVIEWED requires|differs from independent design lock|active Phase02 development checkpoint invalid|active Phase03 development checkpoint invalid|active Phase04 development checkpoint invalid)"):
                     gate.validate(self.root,self.out)
 
     def test_phase01_independent_review_attestation_cannot_be_tampered(self):
@@ -196,7 +196,7 @@ class GateTests(unittest.TestCase):
             with self.subTest(case=i):
                 (self.root/path).write_text(pristine)
                 self.mutate(path,change)
-                with self.assertRaisesRegex(ValueError,"active Phase02 development checkpoint invalid|active Phase03 development checkpoint invalid"):
+                with self.assertRaisesRegex(ValueError,"active Phase02 development checkpoint invalid|active Phase03 development checkpoint invalid|active Phase04 development checkpoint invalid"):
                     gate.validate(self.root,self.out)
 
     def test_phase03_offline_feature_flags_cannot_be_promoted(self):
@@ -216,7 +216,29 @@ class GateTests(unittest.TestCase):
         for change in mutations:
             (self.root/path).write_text(pristine)
             self.mutate(path,change)
-            with self.assertRaisesRegex(ValueError,"active Phase03 development checkpoint invalid"):
+            with self.assertRaisesRegex(ValueError,"active Phase03 development checkpoint invalid|active Phase04 development checkpoint invalid"):
+                gate.validate(self.root,self.out)
+
+    def test_phase04_offline_recovery_forged_flags_rejected(self):
+        path="docs/implementation/ACTIVE-SESSION.json"
+        pristine=(self.root/path).read_text()
+        mutations=(
+            lambda j:j["phase04Work"].update(writesAllowed=True),
+            lambda j:j["phase04Work"].update(nasWriteEnabled=True),
+            lambda j:j["phase04Work"].update(restoreApplyEnabled=True),
+            lambda j:j["phase04Work"].update(officialConnected=True),
+            lambda j:j["phase04Work"].update(operationalEnabled=True),
+            lambda j:j["phase04Work"].update(independentReview="APPROVED"),
+            lambda j:j["phase04Work"].update(status="PRODUCTION_VERIFIED"),
+            lambda j:j.update(baseIntegrationCommit="unreviewed"),
+            lambda j:j.update(phase="05"),
+            lambda j:j["phase02Work"].update(productionActivation="AUTHORIZED"),
+            lambda j:j["phase03Work"].update(writesAllowed=True),
+        )
+        for change in mutations:
+            (self.root/path).write_text(pristine)
+            self.mutate(path,change)
+            with self.assertRaisesRegex(ValueError,"active Phase04 development checkpoint invalid|unreviewed active phase transition"):
                 gate.validate(self.root,self.out)
 
     def test_phase01_sensitive_feature_enable_rejected(self):

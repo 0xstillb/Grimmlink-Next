@@ -76,7 +76,7 @@ def validate(root,out):
     if active_phase=="00":
         if current.get("phaseStatus")!="CONTRACT_LOCKED_DESIGN_ONLY":
             raise ValueError("active status differs from independent design lock")
-    elif active_phase in ("01","02","03"):
+    elif active_phase in ("01","02","03","04"):
         if (current.get("phase00Review")!="PASS_PHASE00_DESIGN_ONLY_RUNTIME_NOT_VERIFIED"
             or current.get("phase01Scope")!="FOUNDATION_ONLY"):
             raise ValueError("active status differs from independent design lock")
@@ -111,9 +111,37 @@ def validate(root,out):
                 or current.get("phase02Work",{}).get("runtimeSecurityAuthorized") is not False
                 or current.get("phase02Work",{}).get("productionActivation")!="BLOCKED_OPERATIONAL_ENABLEMENT"):
                 raise ValueError("active Phase03 development checkpoint invalid")
+        if active_phase=="04":
+            phase04=current.get("phase04Work",{})
+            phase03=current.get("phase03Work",{})
+            phase02=current.get("phase02Work",{})
+            if (current.get("phaseStatus") not in ("IN_PROGRESS_FAIL_CLOSED","DEV_CHECKS_PASS_WITH_DEFERRED_RISKS")
+                or current.get("branch")!="feat/next-phase-04"
+                or current.get("pr")!="https://github.com/0xstillb/Grimmlink-Next/pull/8"
+                or current.get("prStatus")!="DRAFT_UNMERGED"
+                or current.get("baseIntegrationCommit")!="9a9ae6e0f8deafb145f83e976331a0db48feef92"
+                or current.get("deliveryPolicy",{}).get("mode")!="SINGLE_OWNER_PRIVATE"
+                or phase04.get("status")!=current.get("phaseStatus")
+                or phase04.get("branch")!="feat/next-phase-04"
+                or phase04.get("writesAllowed") is not False
+                or phase04.get("officialConnected") is not False
+                or phase04.get("nasWriteEnabled") is not False
+                or phase04.get("restoreApplyEnabled") is not False
+                or phase04.get("operationalEnabled") is not False
+                or phase04.get("independentReview")!="DEFERRED_PHASE09"
+                or phase03.get("status")!="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS"
+                or phase03.get("writesAllowed") is not False
+                or phase03.get("officialConnected") is not False
+                or phase03.get("nasMountVerified") is not False
+                or phase03.get("operationalEnabled") is not False
+                or phase03.get("independentReview")!="DEFERRED_PHASE09"
+                or phase02.get("developmentGate")!="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS"
+                or phase02.get("runtimeSecurityAuthorized") is not False
+                or phase02.get("productionActivation")!="BLOCKED_OPERATIONAL_ENABLEMENT"):
+                raise ValueError("active Phase04 development checkpoint invalid")
     else:
         raise ValueError("unreviewed active phase transition")
-    phase01_accepted=(active_phase in ("02","03") or
+    phase01_accepted=(active_phase in ("02","03","04") or
         (active_phase=="01" and current.get("phaseStatus")=="FOUNDATION_REVIEWED"))
     if phase01_accepted:
         attestation_path="docs/implementation/phase-01/FINAL-INDEPENDENT-REVIEW-ATTESTATION-2026-10-29.md"

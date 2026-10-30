@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "project": "GRIMMLINK NEXT",
+  "phase": "04",
+  "status": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
+  "developmentScope": "OFFLINE_MOCK_FIXTURE_ONLY",
+  "branch": "feat/next-phase-04",
+  "baseBranch": "integration/grimmlink-next",
+  "baseIntegrationSha": "9a9ae6e0f8deafb145f83e976331a0db48feef92",
+  "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/8",
+  "currentHead": "READ_LIVE_GITHUB_NO_SELF_SHA",
+  "exactHeadCI": "RECHECK_AFTER_FINAL_HANDOFF_COMMIT",
+  "observedCiEvidence": {
+    "phase04": {
+      "run": "41011895509",
+      "implementationSource": "41f328d2b81f2ac36f79f0367594e50c5b7d42f2",
+      "conclusion": "SUCCESS",
+      "scope": "FROZEN_INSTALL_SQLITE_BUILD_TYPECHECK_PRETTIER_LINT_UNIT_MOCK_SQLITE_CRASH_OUTAGE_PHASE00_INTEGRITY_SAFETY_DENY"
+    },
+    "phase00": {
+      "run": "41011895521",
+      "implementationSource": "41f328d2b81f2ac36f79f0367594e50c5b7d42f2",
+      "conclusion": "SUCCESS_DESIGN_ONLY"
+    },
+    "phase02MockGateway": {
+      "run": "41011895512",
+      "implementationSource": "41f328d2b81f2ac36f79f0367594e50c5b7d42f2",
+      "conclusion": "SUCCESS_MOCK_ONLY"
+    },
+    "otherChecks": "VERIFY_LIVE_GITHUB",
+    "sourceAtPriorCheckpoint": "0f5a253721e371378d7b58550b1d2190106f09df",
+    "phase04PriorSuccess": "41012087007",
+    "lastFormattedCodeRun": {
+      "sourceHead": "594b37de82ccc17754f7287aa88500c5a475bf9a",
+      "run": "41013461031",
+      "note": "SUCCESS_AFTER_TEMPORARY_FORMATTING_IN_CI;FINAL_CHECK_MUST_USE_CLEAN_SOURCE"
+    }
+  },
+  "implemented": [
+    "STRICT_OFFLINE_SIDECAR_PREVIEW_AND_OPF_FIRST_FALLBACK",
+    "LOCAL_METADATA_ONLY_SHA256_BACKUP_FILE_AND_VERIFIED_RESTORE_PREVIEW",
+    "FAKE_OWNER_CONFIRM_CAS_READBACK_WITH_STALE_REVISION_REJECT",
+    "FAKE_OFFICIAL_BACKUP_CAPTURE_AND_NO_DUPLICATE_RESTORE_POST",
+    "DURABLE_SQLITE_EXCLUSIVE_BOOK_LOCK_LEASE_AND_EVENT_REPLAY",
+    "DURABLE_STEP_RECEIPTS_FOR_METADATA_AND_COVER",
+    "DURABLE_LOCAL_OUTBOX_UNKNOWN_QUARANTINE_MANUAL_RECONCILE",
+    "BOUNDED_OFFLINE_WORKER_EXPLICIT_RETRY_FAILED_ONLY",
+    "OWNER_CSRF_GUARDED_BACKUP_AND_GET_SSE_MOCK_ROUTE_FACTORIES_NOT_MOUNTED",
+    "OFFLINE_RESTART_NAS_OFFLINE_OFFICIAL_OFFLINE_CORRUPT_BACKUP_TESTS"
+  ],
+  "safety": {
+    "officialGatewayForwarding": "DENY_ALL",
+    "metadataApply": "OFF",
+    "nasWriteEnabled": false,
+    "officialConnected": false,
+    "restoreApplyEnabled": false,
+    "productionDeployment": "NOT_AUTHORIZED"
+  },
+  "deferred": [
+    "REAL_OFFICIAL_METADATA_CAS_AND_READBACK",
+    "TRUSTED_OFFICIAL_OWNER_AUTH_CSRF_PRODUCTION",
+    "REAL_NAS_RO_AND_MOUNT_RACE_PROOF",
+    "FULL_OFFICIAL_CONTENT_COVER_ANNOTATIONS_BACKUP",
+    "PRODUCTION_DEVICE_AND_NETWORK_E2E_PHASE09",
+    "INDEPENDENT_SECURITY_REVIEW_AND_REMEDIATION_PHASE09"
+  ],
+  "singleOwner": true,
+  "rbac": "OUT_OF_SCOPE",
+  "reviewPolicy": "PHASE09_ONLY",
+  "mergeStatus": "OWNER_APPROVED_PENDING_FINAL_HEAD_CI",
+  "nextPhase": "05_SAFE_DEVELOPMENT_ALLOWED_AFTER_VALIDATED_HANDOFF",
+  "verifiedCodeHead": "41f328d2b81f2ac36f79f0367594e50c5b7d42f2",
+  "ownerAuthorizedIntegrationMerge": true,
+  "finalCIRequirement": "ALL_PHASE00_PHASE01_PHASE02_MOCK_PHASE02_SPRING_PHASE04_EXACT_HEAD_SUCCESS",
+  "newFiles": [
+    "packages/persistence/migrations/0003_phase04_closure.sql",
+    "packages/persistence/src/phase04-queue.ts",
+    "packages/persistence/src/phase04-queue.test.ts",
+    "packages/persistence/src/restore-mock.ts",
+    "packages/persistence/src/restore-mock.test.ts",
+    "apps/adapter/src/backup-routes.ts",
+    "apps/adapter/src/backup-routes.test.ts"
+  ],
+  "apiContractsAffected": [
+    "MOCK_ONLY_RESTORE_PREVIEW_CONFIRM_NO_REAL_OFFICIAL",
+    "LOCAL_OUTBOX_AND_STEP_RECEIPTS",
+    "OWNER_CSRF_GATED_PREVIEW_CONFIRM_FACTORY_NOT_LIVE",
+    "CANONICAL_JOB_GET_SSE_LAST_EVENT_ID_FACTORY_NOT_LIVE"
+  ]
+}

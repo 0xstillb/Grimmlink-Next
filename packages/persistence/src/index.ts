@@ -222,3 +222,7 @@ function verifySqliteFile(path: string): void {
     db.close();
   }
 }
+export * from "./recovery-jobs.js";
+export * from "./backup-bundle.js";
+export * from "./phase04-queue.js";
+export * from "./restore-mock.js";

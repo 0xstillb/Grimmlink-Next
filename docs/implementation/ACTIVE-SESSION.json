@@ -5,21 +5,21 @@
   "repoFullName": "0xstillb/Grimmlink-Next",
   "executionSurface": "GPT_WEB_FIRST",
   "preferredModel": "GPT-6",
-  "phase": "03",
-  "phaseName": "NAS Read-only Offline Fixtures, OPF Metadata & Cover Dry-Run",
+  "phase": "04",
+  "phaseName": "Offline Sidecar, Durable Jobs, Metadata Bundle & Fault Recovery",
   "phaseStatus": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
-  "branch": "feat/next-phase-03",
+  "branch": "feat/next-phase-04",
   "integrationBranch": "integration/grimmlink-next",
   "productionBranch": "main",
-  "baseIntegrationCommit": "0579f64afb2d53001c915a10079d00ecd9de0091",
-  "lastVerifiedPriorCommit": "a00c3a0b4f15ae4340eba7143176fab435154672",
+  "baseIntegrationCommit": "9a9ae6e0f8deafb145f83e976331a0db48feef92",
+  "lastVerifiedPriorCommit": "594b37de82ccc17754f7287aa88500c5a475bf9a",
   "currentHead": "READ_LIVE_GITHUB_NO_SELF_SHA",
-  "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/7",
+  "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/8",
   "prStatus": "DRAFT_UNMERGED",
   "phase00Review": "PASS_PHASE00_DESIGN_ONLY_RUNTIME_NOT_VERIFIED",
   "phase01Authorized": true,
   "codeImplemented": true,
-  "codeStatus": "PHASE03_OFFLINE_FIXTURE_DEV_DELIVERED_NO_LIVE_NAS_OR_OFFICIAL",
+  "codeStatus": "PHASE04_OFFLINE_MOCK_SCOPE_IMPLEMENTED_NO_REAL_OFFICIAL_MUTATION",
   "unitTestRun": {
     "url": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/40888013081",
     "codeHead": "2eb613b0cac39b689710501cc3dbad812e5486a2",
@@ -37,7 +37,7 @@
     "REAL_NAS_AND_PHYSICAL_HARDWARE_E2E_PHASE09"
   ],
   "notion": {
-    "phase": "https://app.notion.com/p/407c7efbc00981f7889effadc1c5ffd7",
+    "phase": "https://app.notion.com/p/407c7efbc0098104bfa8c31d931ff31d",
     "handoff": "https://app.notion.com/p/407c7efbc009816ca3b1fe2b098e8c78"
   },
   "safety": {
@@ -52,11 +52,12 @@
     "fullE2ePhase": "09"
   },
   "blockers": [
-    "Phase02 PR #6 and stacked Phase03 PR #7 remain Draft/unmerged, no integration/main merge without owner authorization",
-    "Linux fixture reader is not a real NAS read-only mount or race-free directory-handle traversal proof; metadataApply remains OFF",
-    "Live Official Gateway/auth, real metadata CAS/locks, physical Hermes/NAS/readers, and one final independent security review remain Phase09 work"
+    "Official live restore, safe owner auth/CAS/record binding and authoritative readback NOT CONNECTED (fake-memory fixture only)",
+    "No real NAS mount/recovery proof, no physical devices, no production deployment; all Phase09",
+    "Metadata-only local backup does not cover EPUB/notes or cover payloads and does not imply real rollback",
+    "Independent security review and remediation consolidated in Phase09"
   ],
-  "nextAction": "Validate exact-head Phase03 and historical Phase00 gates; Phase04 sidecar/jobs/backup offline development may proceed without interim independent review. Both stacked PRs remain Draft; real NAS/Official and physical E2E only Phase09.",
+  "nextAction": "Verify all relevant exact-head GitHub Actions on this final Phase04 source; user authorized merge PR #8 into integration after successful isolated code gates. Keep main untouched, officialGatewayForwarding DENY_ALL and metadataApply OFF; record merge receipt and start Phase05 separately.",
   "updatedAt": "2026-10-30",
   "contractLocked": true,
   "phase01Scope": "FOUNDATION_ONLY",
@@ -203,5 +204,43 @@
     "backupRestore": "PHASE04_OFFLINE",
     "independentReview": "DEFERRED_PHASE09",
     "finalExactHeadCI": "RECHECK_AFTER_THIS_HANDOFF_COMMIT"
+  },
+  "phase04Work": {
+    "phase": "04",
+    "branch": "feat/next-phase-04",
+    "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/8",
+    "status": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
+    "baseIntegrationCommit": "9a9ae6e0f8deafb145f83e976331a0db48feef92",
+    "implemented": [
+      "STRICT_OFFLINE_SIDECAR_PREVIEW_AND_OPF_FIRST_FALLBACK",
+      "LOCAL_METADATA_ONLY_SHA256_BACKUP_FILE_AND_VERIFIED_RESTORE_PREVIEW",
+      "FAKE_OWNER_CONFIRM_CAS_READBACK_WITH_STALE_REVISION_REJECT",
+      "FAKE_OFFICIAL_BACKUP_CAPTURE_AND_NO_DUPLICATE_RESTORE_POST",
+      "DURABLE_SQLITE_EXCLUSIVE_BOOK_LOCK_LEASE_AND_EVENT_REPLAY",
+      "DURABLE_STEP_RECEIPTS_FOR_METADATA_AND_COVER",
+      "DURABLE_LOCAL_OUTBOX_UNKNOWN_QUARANTINE_MANUAL_RECONCILE",
+      "BOUNDED_OFFLINE_WORKER_EXPLICIT_RETRY_FAILED_ONLY",
+      "OWNER_CSRF_GUARDED_BACKUP_AND_GET_SSE_MOCK_ROUTE_FACTORIES_NOT_MOUNTED",
+      "OFFLINE_RESTART_NAS_OFFLINE_OFFICIAL_OFFLINE_CORRUPT_BACKUP_TESTS"
+    ],
+    "writesAllowed": false,
+    "officialConnected": false,
+    "nasWriteEnabled": false,
+    "restoreApplyEnabled": false,
+    "operationalEnabled": false,
+    "independentReview": "DEFERRED_PHASE09",
+    "fullE2e": "DEFERRED_TO_PHASE09",
+    "testEvidence": {
+      "latestCodeHead": "d6d0e27f03485aeb2e7fce0945d388b13e8151c9",
+      "phase04SourceCheck": "GITHUB_ACTIONS_RERUN_AFTER_HOFF_COMMIT",
+      "previouslyVerifiedSourceHead": "0f5a253721e371378d7b58550b1d2190106f09df",
+      "previouslyVerifiedPhase04": "41012087007",
+      "otherVerification": "CHECK_LIVE_GITHUB"
+    },
+    "runtimeOwnerAuth": "OFF_NOT_WIRED",
+    "manualImport": "PREVIEW_ONLY",
+    "jsonBackup": "LOCAL_ONLY",
+    "outboxLive": "OFF_LOCAL_ONLY",
+    "mergeAuthorization": "OWNER_APPROVED_IN_CHAT_PENDING_VERIFIED_CI"
   }
 }
