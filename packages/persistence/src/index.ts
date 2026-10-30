@@ -223,3 +223,4 @@ function verifySqliteFile(path: string): void {
   }
 }
 export * from "./recovery-jobs.js";
+export * from "./backup-bundle.js";
