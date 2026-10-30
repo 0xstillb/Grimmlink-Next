@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "project": "GRIMMLINK NEXT",
   "phase": "06",
-  "status": "CODE_IMPLEMENTED_CI_PENDING",
+  "status": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
   "branch": "feat/next-phase-06",
   "baseBranch": "integration/grimmlink-next",
   "baseIntegrationCommit": "3b5321ede76f74fd1d94ebaece119fc4f6f11aaf",
@@ -33,9 +33,15 @@
     "initialFailedRun": "41046094151",
     "initialFailure": "TYPESCRIPT_IMPLICIT_ANY_FIXED_IN_64c80d23",
     "formatterCommit": "c8629a9ff911dc8b426dee78b135482aa06e9d1c",
-    "latestHead": "VERIFY_LIVE",
-    "latestRun": "VERIFY_LIVE",
-    "latestConclusion": "NOT_YET_VERIFIED"
+    "latestHead": "85279988762fe8ddbc217854a3c74d0e9e091806",
+    "latestRun": "41046894465",
+    "latestConclusion": "SUCCESS_AT_SOURCE_HEAD",
+    "phase00": "41046894483_SUCCESS",
+    "gateway": "41046894482_SUCCESS",
+    "phase04": "41046894605_SUCCESS",
+    "phase05": "41046894598_SUCCESS",
+    "phase01AndPinnedSpring": "CHECK_FINAL_EXACT_HEAD",
+    "finalDocHead": "RECHECK_AFTER_CLOSURE_COMMIT"
   },
   "safety": {
     "singleOwner": true,
@@ -57,5 +63,5 @@
     "LIVE_NAS_HERMES_READERS_PHASE09",
     "ONE_INDEPENDENT_SECURITY_REVIEW_AND_FIXES_PHASE09"
   ],
-  "nextAction": "Recheck last closure commit CI exact SHA; repair any remaining failures, update status and handoff, then integration-only merge per owner workflow. No main merge or deployment."
+  "nextAction": "Verify all exact final documentation HEAD checks including Phase01 ARM64 and Pinned Spring; integration only after owner authorization. Continue Phase07 safe development, no main or production."
 }

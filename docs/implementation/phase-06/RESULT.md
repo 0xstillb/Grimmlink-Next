@@ -1,6 +1,6 @@
 # Phase 06 — EPUB XPointer/CFI, PDF Progress and Continue Reading (2026-10-30)
 
-**Scope:** Single-Owner Private, offline synthetic fixtures + local SQLite only. **Development code committed, exact-head CI pending.** This is not operational synchronization, not actual cross-reader success, and not a security approval.
+**Scope:** Single-Owner Private, offline synthetic fixtures + local SQLite only. **Offline development checks PASS at verified source; final documentation HEAD requires separate exact-head CI.** This is not operational synchronization, not actual cross-reader success, and not a security approval.
 
 **GitHub:** [PR #10](https://github.com/0xstillb/Grimmlink-Next/pull/10) `feat/next-phase-06` → `integration/grimmlink-next`. Base is merged Phase05 `3b5321ede76f74fd1d94ebaece119fc4f6f11aaf`. `main` unchanged.
 
@@ -16,7 +16,7 @@
 ## Evidence / verification
 - Initial PR commit `46902799ecc1d776c3a92a3f23b26291a4350252`: [Phase06 CI #41046094151](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41046094151) **FAILED** from a TS implicit-any anchor segment. Fixed in later commit `64c80d2381396df1e58c8b85ce4f0aef4f894b1b`.
 - The new TypeScript fixtures were reformatted with pinned Prettier in `c8629a9ff911dc8b426dee78b135482aa06e9d1c` and the temporary formatter workflow was removed. **Never cite these earlier CI runs as proof of a later HEAD**.
-- Run the full current exact-HEAD CI after this RESULT and HANDOFF commit and record observed runs in HANDOFF. Until then status is `CODE_IMPLEMENTED_CI_PENDING`.
+- **Verified implementation source** `85279988762fe8ddbc217854a3c74d0e9e091806`: Phase06 [#41046894465](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41046894465) SUCCESS (frozen install, native SQLite, build/typecheck/Prettier/lint/all unit/mock tests, Phase00 historical integrity, fail-closed invariants). Phase00 [#41046894483](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41046894483), Phase02 Gateway [#41046894482](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41046894482), Phase04 [#41046894605](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41046894605), Phase05 [#41046894598](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41046894598) all SUCCESS at that same source HEAD. Phase01 ARM64 and Pinned Spring workflow remained in progress at closure preparation; **recheck all workflows on the final docs HEAD before integration merge**.
 
 ## Phase09 deferred / limitations
 1. Actual binary EPUB and PDF golden source fixtures, EPUB container/spine parser and verified real DOM text anchor extraction; synthetic anchors are not proof of file correctness.

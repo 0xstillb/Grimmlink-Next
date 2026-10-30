@@ -7,7 +7,7 @@
   "preferredModel": "GPT-6",
   "phase": "06",
   "phaseName": "Exact EPUB CFI/XPointer, PDF Page Progress and Offline Continue Reading",
-  "phaseStatus": "CODE_IMPLEMENTED_CI_PENDING",
+  "phaseStatus": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
   "branch": "feat/next-phase-06",
   "integrationBranch": "integration/grimmlink-next",
   "productionBranch": "main",
@@ -19,7 +19,7 @@
   "phase00Review": "PASS_PHASE00_DESIGN_ONLY_RUNTIME_NOT_VERIFIED",
   "phase01Authorized": true,
   "codeImplemented": true,
-  "codeStatus": "PHASE06_OFFLINE_MOCK_CI_PENDING_RUNTIME_DISABLED",
+  "codeStatus": "PHASE06_OFFLINE_DEV_CHECKS_PASS_OPERATIONAL_BLOCKED",
   "unitTestRun": {
     "url": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/40888013081",
     "codeHead": "2eb613b0cac39b689710501cc3dbad812e5486a2",
@@ -57,7 +57,7 @@
     "Metadata-only local backup does not cover EPUB/notes or cover payloads and does not imply real rollback",
     "Independent security review and remediation consolidated in Phase09"
   ],
-  "nextAction": "Verify current Phase06 exact-head CI, document RESULT/HANDOFF and deferred Phase09 risks; merge integration only on verified checks and owner-authorized workflow, never main or production.",
+  "nextAction": "Phase06 mock dev checks PASS at source SHA 85279988. Verify final exact-HEAD all CI; PR #10 integration-only merge requires authorization. No main/production.",
   "updatedAt": "2026-10-30",
   "contractLocked": true,
   "phase01Scope": "FOUNDATION_ONLY",
@@ -280,7 +280,7 @@
     "branch": "feat/next-phase-06",
     "baseIntegrationCommit": "3b5321ede76f74fd1d94ebaece119fc4f6f11aaf",
     "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/10",
-    "status": "CODE_IMPLEMENTED_CI_PENDING",
+    "status": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
     "implementationScope": "OFFLINE_SYNTHETIC_FIXTURE_AND_SQLITE_ONLY",
     "implemented": [
       "EXACT_EDITION_SPINE_TEXT_ANCHOR_XPOINTER_CFI_PAIRING",
@@ -290,7 +290,32 @@
       "REVOKED_OR_EXPIRED_DEVICE_DENIAL",
       "PHASE06_ISOLATED_CI"
     ],
-    "ci": "CHECK_LIVE_EXACT_HEAD",
+    "ci": {
+      "verifiedSourceHead": "85279988762fe8ddbc217854a3c74d0e9e091806",
+      "phase06": {
+        "run": "41046894465",
+        "conclusion": "SUCCESS"
+      },
+      "phase00": {
+        "run": "41046894483",
+        "conclusion": "SUCCESS"
+      },
+      "phase02Gateway": {
+        "run": "41046894482",
+        "conclusion": "SUCCESS"
+      },
+      "phase04": {
+        "run": "41046894605",
+        "conclusion": "SUCCESS"
+      },
+      "phase05": {
+        "run": "41046894598",
+        "conclusion": "SUCCESS"
+      },
+      "phase01": "FINAL_ARM64_JOB_PENDING_AT_CLOSURE",
+      "spring": "PINNED_RUNTIME_PENDING_AT_CLOSURE",
+      "finalExactHead": "RECHECK_AFTER_THIS_DOCUMENTATION_COMMIT"
+    },
     "realEpubGoldenValidated": false,
     "realPdfFixtureParsed": false,
     "officialConnected": false,
