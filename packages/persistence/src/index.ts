@@ -228,3 +228,5 @@ export * from "./phase04-queue.js";
 export * from "./restore-mock.js";
 export * from "./phase05-devices.js";
 export * from "./phase06-progress.js";
+
+export * from "./phase07-personal.js";

@@ -1,0 +1,11 @@
+local plugin = dofile("plugins/koreader/grimmlink_next_offline.lua")
+assert(plugin.mode == "OFFLINE_MOCK_ONLY" and plugin.auto_sync == false)
+local event = plugin.make_envelope("owner", "reader", "book_file", string.rep("a", 64),
+  "ev1", "BOOKMARK", { nativePosition = "epubcfi(/6/2)" })
+assert(event.eventId == "ev1" and event.mode == "OFFLINE_MOCK_ONLY")
+local plan = plugin.manual_shelf_preview({"file_a", "file_b"}, {"file_b", "file_c"}, true)
+assert(plan.add[1] == "file_c" and plan.remove[1] == "file_a")
+assert(not pcall(function() plugin.manual_shelf_preview({}, {}, false) end))
+assert(not pcall(function() plugin.make_envelope("../owner", "reader", "file", string.rep("a", 64), "e", "SESSION", {}) end))
+assert(not pcall(function() plugin.make_envelope("owner", "reader", "file", string.rep("a", 64), "e", "RESET", {}) end))
+print("PHASE07_LUA_MOCK_PASS")

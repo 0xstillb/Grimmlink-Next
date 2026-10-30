@@ -1,0 +1,73 @@
+name: Phase07 Personal Lua Sessions Offline
+on:
+  push:
+    branches: [feat/next-phase-07]
+  pull_request:
+    branches: [feat/next-phase-06, integration/grimmlink-next]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: phase07-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  offline-personal:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.18.3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+      - name: Offline dependencies and native SQLite
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm rebuild better-sqlite3
+      - name: Check and diagnose pinned Prettier for changed source
+        run: |
+          files="packages/personal/src/index.ts packages/personal/src/index.test.ts packages/persistence/src/index.ts packages/persistence/src/phase07-personal.ts packages/persistence/src/phase07-personal.test.ts apps/adapter/src/phase07-routes.ts apps/adapter/src/phase07-routes.test.ts"
+          if ! pnpm exec prettier --check $files; then
+            pnpm exec prettier --write $files
+            for f in $files; do
+              echo "@@FORMATTED_BEGIN:$f"
+              base64 -w0 "$f"
+              echo
+              echo "@@FORMATTED_END:$f"
+            done
+            exit 1
+          fi
+      - name: Build, types, format, lint and entire offline mock suite
+        run: |
+          pnpm build
+          pnpm typecheck
+          pnpm format:check
+          pnpm lint
+          pnpm test
+      - name: KOReader Lua synthetic mock only
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lua5.4
+          lua5.4 scripts/phase-07/test-lua-mock.lua
+      - name: Historical Phase00 fail-closed integrity
+        run: |
+          python3 -m unittest discover -s scripts/phase-00 -p 'test_*.py' -v
+          python3 scripts/phase-00/validate-phase00-release-gates.py --repo . --output /tmp/phase07-phase00-evidence.json
+      - name: Never enable operational personal writes or Official forwarding
+        run: |
+          set -euo pipefail
+          grep -q 'sessionOutboxTransmit: false' packages/personal/src/index.ts
+          grep -q 'PERSONAL_BRIDGE_DISABLED_PHASE09' packages/personal/src/index.ts
+          grep -q 'MANUAL_PREVIEW_ONLY' packages/persistence/src/phase07-personal.ts
+          grep -q 'PHASE07_READER_REVOKED_OR_EXPIRED' packages/persistence/src/phase07-personal.ts
+          ! grep -Eq 'phase07-personal|phase07-routes|grimmlink_next_offline' apps/adapter/src/server.ts
+          grep -q '"officialGatewayForwarding": "DENY_ALL"' docs/implementation/ACTIVE-SESSION.json
+          grep -q '"personalBridge": "OFF"' docs/implementation/ACTIVE-SESSION.json
+          grep -q '"sessionBridge": "OFF"' docs/implementation/ACTIVE-SESSION.json
+          test ! -e plugins/koreader/_meta.lua
+          echo 'OFFLINE FIXTURE ONLY; no installed plugin, no Official mutation, no live route.'
