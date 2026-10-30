@@ -1,3 +1,8 @@
+## Phase06 offline-progress delta — 2026-10-30
+
+[Draft PR #10](https://github.com/0xstillb/Grimmlink-Next/pull/10) adds a synthetic, strictly edition-bound EPUB XPointer/CFI anchor-pair lookup, one-based PDF page contract, and local SQLite revision/CAS/idempotent Continue Reading preview. **The code does not parse an EPUB/PDF file**, derive arbitrary CFIs, prove real DOM/spine identity, or authenticate a real Official session. Input paired anchor proofs are synthetic fixtures only. PDF page count is fixture-supplied, not verified against actual PDF bytes. No live transport, reader or Official integration is mounted; no percentage fabricated. SG-03/SG-07 remain open until trusted binary fixtures, real-reader traces, atomic Official owner-book/file entitlement and Phase09 integrated E2E. Native progress blocked by ADR-025 and all protected writes OFF. Security review/remediation remains consolidated in Phase09, not a Phase06 gate.
+
+
 # Deferred Security Ledger — Single-Owner Private Mode (2026-10-30)
 
 All **independent security review** work is consolidated into **Phase 09**, not individually required at Phases 00–08. This ledger keeps historical security findings and runtime work visible; it never approves a protected feature. Refer to [Policy](SINGLE-OWNER-POLICY.md).

@@ -1,0 +1,54 @@
+name: Phase06 EPUB PDF Resume Offline
+on:
+  push:
+    branches: [feat/next-phase-06]
+  pull_request:
+    branches: [integration/grimmlink-next]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: phase06-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  offline-progress:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.18.3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+      - name: Frozen install and SQLite native build
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm rebuild better-sqlite3
+      - name: Build, types, format, lint and all unit/mock tests
+        run: |
+          pnpm build
+          pnpm typecheck
+          pnpm format:check
+          pnpm lint
+          pnpm test
+      - name: Phase00 historical integrity
+        run: |
+          python3 -m unittest discover -s scripts/phase-00 -p 'test_*.py' -v
+          python3 scripts/phase-00/validate-phase00-release-gates.py --repo . --output /tmp/phase06-phase00-evidence.json
+      - name: Offline-only position safety
+        run: |
+          set -euo pipefail
+          grep -q 'OFFLINE_SYNTHETIC_FIXTURE_ONLY' packages/sync/src/phase06.ts
+          grep -q 'PHASE06_EDITION_MISMATCH' packages/sync/src/phase06.ts
+          grep -q 'PHASE06_EVENT_REPLAY_MISMATCH' packages/persistence/src/phase06-progress.ts
+          grep -q 'PHASE06_READER_REVOKED_OR_EXPIRED' packages/persistence/src/phase06-progress.ts
+          ! grep -Eq 'phase06-progress|phase06-routes' apps/adapter/src/server.ts
+          grep -q 'NATIVE_KOSYNC_PROGRESS_BLOCKED_ATOMICITY' packages/sync/src/phase05.ts
+          grep -q '"officialGatewayForwarding": "DENY_ALL"' docs/implementation/ACTIVE-SESSION.json
+          grep -q '"nativeKosyncProgress": "OFF"' docs/implementation/ACTIVE-SESSION.json
+          echo 'Offline fixture/SQLite only; no Official forwarding, Native KOSync or production.'
