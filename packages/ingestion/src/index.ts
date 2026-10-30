@@ -1,5 +1,5 @@
 import { posix } from "node:path";
-import { planReadOnlyLocation, readNasFixtureFile } from "../../locations/src/index.js";
+import { planReadOnlyLocation, readNasFixtureFile } from "@grimmlink/locations";
 
 export interface IngestionPlan {
   readonly action: "DRY_RUN_ONLY";
@@ -262,6 +262,16 @@ export async function inspectOfflineBookFixture(
   const parsed = parseOpfPreview(opf.bytes);
   const coverPath = parsed.coverHref ? planCoverPath(opfPath, parsed.coverHref) : null;
   const cover = coverPath ? await readNasFixtureFile(fixtureRoot, coverPath) : null;
+  if (cover && coverPath) {
+    const b = cover.bytes;
+    const ext = posix.extname(coverPath).toLowerCase();
+    const jpeg = b.length >= 4 && b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff;
+    const png = b.length >= 8 && b.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
+    const webp = b.length >= 12 && b.toString("ascii", 0, 4) === "RIFF" &&
+      b.toString("ascii", 8, 12) === "WEBP";
+    if (!((/\\.jpe?g$/.test(ext) && jpeg) || (ext === ".png" && png) ||
+        (ext === ".webp" && webp))) throw new Error("Cover signature does not match extension");
+  }
   return Object.freeze({
     action: "DRY_RUN_ONLY" as const,
     writesAllowed: false as const,

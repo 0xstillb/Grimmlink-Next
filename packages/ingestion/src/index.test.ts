@@ -55,7 +55,7 @@ it("dry-runs an actual offline folder without a write or Official connection", a
   await mkdir(join(root, "books", "images"), { recursive: true });
   await writeFile(join(root, "books", "a.epub"), "EPUB FIXTURE");
   await writeFile(join(root, "books", "a.opf"), xml);
-  await writeFile(join(root, "books", "images", "cover.jpg"), "COVER FIXTURE");
+  await writeFile(join(root, "books", "images", "cover.jpg"), Buffer.from([255, 216, 255, 224, 0, 0, 255, 217]));
   const result = await inspectOfflineBookFixture(root, "books/a.epub");
   expect(result.action).toBe("DRY_RUN_ONLY");
   expect(result.writesAllowed).toBe(false);
