@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "project": "GRIMMLINK NEXT",
+  "phase": "04",
+  "status": "IN_PROGRESS_FAIL_CLOSED",
+  "developmentScope": "OFFLINE_MOCK_FIXTURE_ONLY",
+  "branch": "feat/next-phase-04",
+  "baseBranch": "integration/grimmlink-next",
+  "baseIntegrationSha": "9a9ae6e0f8deafb145f83e976331a0db48feef92",
+  "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/8",
+  "currentHead": "READ_LIVE_GITHUB_NO_SELF_SHA",
+  "exactHeadCI": "PENDING_RECHECK",
+  "observedCiEvidence": {
+    "run": "41011043528",
+    "implementationSource": "7d35765c7592e9cb67e8853d65e743ec7b39bb9b",
+    "result": "SUCCESS_AFTER_IN_WORKSPACE_FORMATTING_NOT_CLEAN_BRANCH_PROOF"
+  },
+  "implemented": [
+    "STRICT_OFFLINE_SIDECAR_PREVIEW",
+    "OPT_IN_OPF_MISSING_FALLBACK",
+    "LOCAL_METADATA_SHA256_BACKUP_AND_PREVIEW",
+    "DURABLE_SQLITE_JOBS_AND_EVENTS",
+    "EXPIRED_LEASE_UNKNOWN_NO_AUTO_RETRY",
+    "MOCKED_OWNER_GET_SSE_REPLAY_FACTORY",
+    "OFFLINE_CRASH_OUTAGE_REGRESSION_TESTS"
+  ],
+  "safety": {
+    "officialGatewayForwarding": "DENY_ALL",
+    "metadataApply": "OFF",
+    "nasWriteEnabled": false,
+    "officialConnected": false,
+    "restoreApplyEnabled": false,
+    "productionDeployment": "NOT_AUTHORIZED"
+  },
+  "deferred": [
+    "LIVE_OFFICIAL_AUTH_CAS_AND_READBACK",
+    "REAL_NAS_RO_AND_ATOMIC_NAS_FILE_IDENTITY",
+    "OFFICIAL_BACKUP_NOT_SUPPORTED",
+    "TRUSTED_OWNER_ROUTE_WIRING",
+    "FULL_HERMES_NAS_READERS_E2E_PHASE09",
+    "SINGLE_INDEPENDENT_SECURITY_REVIEW_PHASE09"
+  ],
+  "singleOwner": true,
+  "rbac": "OUT_OF_SCOPE",
+  "reviewPolicy": "PHASE09_ONLY",
+  "mergeStatus": "DRAFT_UNMERGED",
+  "nextPhase": "05_AFTER_DEV_VALIDATION"
+}

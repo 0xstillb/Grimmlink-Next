@@ -1,3 +1,15 @@
+## CURRENT — PHASE04 OFFLINE DEVELOPMENT CHECKPOINT (2026-10-30)
+
+**Branch:** `feat/next-phase-04` from merged Phase03 integration `9a9ae6e0`. **Draft [PR #8](https://github.com/0xstillb/Grimmlink-Next/pull/8)** targets `integration/grimmlink-next`, not `main`. **Status:** `IN_PROGRESS_FAIL_CLOSED` pending exact-head CI and remaining code review/checks.
+
+**Implemented locally:** sparse Sidecar JSON preview, OPF-first optional fallback, manual import preview-only; private checksum-verified metadata JSON backup (NOT full Official backup) and restore preview (NO Official apply); durable SQLite job leases/events, idempotency, explicit retry, failed/unknown reconciliation (never auto-resend UNKNOWN); fake-owner-only GET + finite SSE replay factory, not registered in live Adapter.
+
+**Evidence:** Phase04 isolated [CI #41011043528](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41011043528) SUCCESS for implementation checkpoint `7d35765` **after formatting within CI workspace**, not proof of clean source at later HEAD. Follow-up source has been formatted and expanded; **latest exact-head checks must be read from GitHub**. No Hermes/NAS/reader/Official real execution. One final independent security review and remediation Phase09.
+
+**Safety:** all gateway candidates `DENY_ALL`, `metadataApply=OFF`, NAS writes OFF, restore application OFF, production `NOT_AUTHORIZED`. Single owner; no RBAC. Historical sections below describe earlier stages and are retained for audit.
+
+---
+
 ## CURRENT PHASE02 DEVELOPMENT HANDOFF — 2026-10-30
 
 **Active phase:** 02 — `DEV_CHECKS_PASS_WITH_DEFERRED_RISKS` (development-only), `BLOCKED_OPERATIONAL_ENABLEMENT` (live/production). [PR #6](https://github.com/0xstillb/Grimmlink-Next/pull/6) stays Draft/Unmerged. See [Phase02 RESULT](phase-02/RESULT.md), [Handoff](phase-02/HANDOFF.json) and [risk ledger](DEFERRED-SECURITY-LEDGER.md).

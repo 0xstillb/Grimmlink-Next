@@ -5,21 +5,21 @@
   "repoFullName": "0xstillb/Grimmlink-Next",
   "executionSurface": "GPT_WEB_FIRST",
   "preferredModel": "GPT-6",
-  "phase": "03",
-  "phaseName": "NAS Read-only Offline Fixtures, OPF Metadata & Cover Dry-Run",
-  "phaseStatus": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
-  "branch": "feat/next-phase-03",
+  "phase": "04",
+  "phaseName": "Offline Sidecar, Durable Jobs, Metadata Bundle & Fault Recovery",
+  "phaseStatus": "IN_PROGRESS_FAIL_CLOSED",
+  "branch": "feat/next-phase-04",
   "integrationBranch": "integration/grimmlink-next",
   "productionBranch": "main",
-  "baseIntegrationCommit": "0579f64afb2d53001c915a10079d00ecd9de0091",
-  "lastVerifiedPriorCommit": "a00c3a0b4f15ae4340eba7143176fab435154672",
+  "baseIntegrationCommit": "9a9ae6e0f8deafb145f83e976331a0db48feef92",
+  "lastVerifiedPriorCommit": "8fa0cb244061a0640fb2d7be32c0e4b97d084529",
   "currentHead": "READ_LIVE_GITHUB_NO_SELF_SHA",
-  "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/7",
+  "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/8",
   "prStatus": "DRAFT_UNMERGED",
   "phase00Review": "PASS_PHASE00_DESIGN_ONLY_RUNTIME_NOT_VERIFIED",
   "phase01Authorized": true,
   "codeImplemented": true,
-  "codeStatus": "PHASE03_OFFLINE_FIXTURE_DEV_DELIVERED_NO_LIVE_NAS_OR_OFFICIAL",
+  "codeStatus": "PHASE04_OFFLINE_MOCK_MODULES_IMPLEMENTED_WITH_NO_LIVE_APPLY",
   "unitTestRun": {
     "url": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/40888013081",
     "codeHead": "2eb613b0cac39b689710501cc3dbad812e5486a2",
@@ -37,7 +37,7 @@
     "REAL_NAS_AND_PHYSICAL_HARDWARE_E2E_PHASE09"
   ],
   "notion": {
-    "phase": "https://app.notion.com/p/407c7efbc00981f7889effadc1c5ffd7",
+    "phase": "https://app.notion.com/p/407c7efbc0098104bfa8c31d931ff31d",
     "handoff": "https://app.notion.com/p/407c7efbc009816ca3b1fe2b098e8c78"
   },
   "safety": {
@@ -52,11 +52,12 @@
     "fullE2ePhase": "09"
   },
   "blockers": [
-    "Phase02 PR #6 and stacked Phase03 PR #7 remain Draft/unmerged, no integration/main merge without owner authorization",
-    "Linux fixture reader is not a real NAS read-only mount or race-free directory-handle traversal proof; metadataApply remains OFF",
-    "Live Official Gateway/auth, real metadata CAS/locks, physical Hermes/NAS/readers, and one final independent security review remain Phase09 work"
+    "Phase04 Draft PR #8 has not merged; no integration/main merge without owner approval",
+    "Live Official metadata apply/restore confirmation/readback, trusted owner session/SSE wiring, real NAS read-only mount are OFF and NOT VERIFIED",
+    "Backup is local metadata-only JSON, not a full Official database/cover/notes backup or production rollback mechanism",
+    "One consolidated independent security review/remediation and full Hermes/NAS/physical readers E2E deferred to Phase09"
   ],
-  "nextAction": "Validate exact-head Phase03 and historical Phase00 gates; Phase04 sidecar/jobs/backup offline development may proceed without interim independent review. Both stacked PRs remain Draft; real NAS/Official and physical E2E only Phase09.",
+  "nextAction": "Run exact-HEAD Phase04/Phase00/Phase01/Phase02 checks, correct findings, record final CI. Keep PR #8 Draft; live Official operations remain DENY_ALL/OFF.",
   "updatedAt": "2026-10-30",
   "contractLocked": true,
   "phase01Scope": "FOUNDATION_ONLY",
@@ -203,5 +204,33 @@
     "backupRestore": "PHASE04_OFFLINE",
     "independentReview": "DEFERRED_PHASE09",
     "finalExactHeadCI": "RECHECK_AFTER_THIS_HANDOFF_COMMIT"
+  },
+  "phase04Work": {
+    "phase": "04",
+    "branch": "feat/next-phase-04",
+    "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/8",
+    "status": "IN_PROGRESS_FAIL_CLOSED",
+    "baseIntegrationCommit": "9a9ae6e0f8deafb145f83e976331a0db48feef92",
+    "implemented": [
+      "STRICT_OFFLINE_SIDECAR_PREVIEW",
+      "OPT_IN_OPF_MISSING_FALLBACK",
+      "LOCAL_METADATA_SHA256_BACKUP_AND_PREVIEW",
+      "DURABLE_SQLITE_JOBS_AND_EVENTS",
+      "EXPIRED_LEASE_UNKNOWN_NO_AUTO_RETRY",
+      "MOCKED_OWNER_GET_SSE_REPLAY_FACTORY",
+      "OFFLINE_CRASH_OUTAGE_REGRESSION_TESTS"
+    ],
+    "writesAllowed": false,
+    "officialConnected": false,
+    "nasWriteEnabled": false,
+    "restoreApplyEnabled": false,
+    "operationalEnabled": false,
+    "independentReview": "DEFERRED_PHASE09",
+    "fullE2e": "DEFERRED_TO_PHASE09",
+    "testEvidence": "IN_PROGRESS_RECHECK_EXACT_HEAD",
+    "runtimeOwnerAuth": "NOT_WIRED",
+    "manualImport": "PREVIEW_ONLY",
+    "jsonBackup": "LOCAL_ONLY",
+    "outboxLive": "OFF"
   }
 }

@@ -17,3 +17,7 @@ All **independent security review** work is consolidated into **Phase 09**, not 
 **Existing evidence:** [Pinned Spring runtime CI #40919840019](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40919840019) succeeded at source `06d3995306d5367b35253874974563b7c9d0cf75` and confirmed **352 actual handlers / 12 ordered chains**, 346 static handler identities present among 403 source candidates. [Phase02 Docker mock CI #40919840017](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40919840017) passed two jobs. Neither proves usable live Official connectivity or production rights.
 
 **Developer continuation:** Do not block Phase03–08 code development merely because independent review has not been performed. Keep protected operations disabled unless their *functional runtime* prerequisites are proven. At Phase09, fix recorded issues in one pass and obtain final independent verification before production.
+
+## Phase04 interim evidence (2026-10-30)
+
+Draft PR #8 adds an offline-only Sidecar preview, SQLite durable job/UNKNOWN quarantine, and locally generated metadata-only SHA-256 JSON bundles with restore PREVIEW. No trusted Official mutation transport, authenticated route enablement, real NAS write access, managed reader calls, full-book/cover backup, rollback of Official data or Phase09 E2E has occurred. Review evidence and real operational checks stay deferred to **Phase09**; this checkpoint does not grant runtime enablement.

@@ -29,15 +29,6 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Build native SQLite
         run: pnpm rebuild better-sqlite3
-      - name: Format Phase04 source for reproducible fix patch (CI workspace only)
-        run: |
-          pnpm exec prettier --write apps/adapter/src packages/ingestion/src packages/persistence/src packages/jobs/src packages/persistence/migrations/meta/_journal.json
-          while IFS= read -r f; do
-            echo "PHASE04_FORMAT_BEGIN:$f"
-            base64 -w0 "$f"
-            echo
-            echo "PHASE04_FORMAT_END:$f"
-          done < <(git diff --name-only -- apps/adapter/src packages/ingestion/src packages/persistence/src packages/jobs/src packages/persistence/migrations/meta/_journal.json)
       - name: Build and typecheck
         run: |
           pnpm build
