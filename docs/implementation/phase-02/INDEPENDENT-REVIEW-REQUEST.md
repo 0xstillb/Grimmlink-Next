@@ -1,3 +1,5 @@
+> **Policy override, 2026-10-30:** [Single-Owner Private Mode](../SINGLE-OWNER-POLICY.md). **No mandatory independent security review during Phase00–08.** The single consolidated independent review/fix pass is Phase09. Keep historical review findings as immutable records, not current development blockers; protected Official routes still remain OFF until actually safe to enable.
+
 # Phase02 — fresh-context independent security review request
 
 ## CURRENT — Pinned real Spring runtime captured; real ACL/ingress still blocked (2026-10-29)
