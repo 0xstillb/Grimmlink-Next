@@ -1,3 +1,11 @@
+## ACTIVE — PHASE05 OFFLINE CODE + DRAFT PR #9 (2026-10-30)
+
+From [Phase04 merged PR #8](https://github.com/0xstillb/Grimmlink-Next/pull/8) integration commit `fe83f22f`, new [Draft PR #9](https://github.com/0xstillb/Grimmlink-Next/pull/9) on `feat/next-phase-05` targets `integration/grimmlink-next`, **not main**. Current state **CODE_IMPLEMENTED_CI_PENDING**, not code review/CI approval. All Phase05 new HTTP factories unmounted. Offline SHA-256 byte evidence, KO hash ambiguity rejection, one canonical owner + multiple individually revocable token-hashed devices, persisted MOCK_MANAGED-only writer revisions, conflict/idempotent event receipts and strict mock wire tests are committed. Native Official KOSync progress is **still disabled** due atomic ACL/TOCTOU risk; no guessed partial MD5, no real account identity, no physical devices or E2E. One independent review plus fixes deferred to Phase09.
+
+Latest evidence: [Phase05 RESULT](phase-05/RESULT.md) · [HANDOFF](phase-05/HANDOFF.json) · [Phase05 CI workflow](../../.github/workflows/phase05-offline.yml). **Read live GitHub exact-head CI before assigning PASS**; no local terminal runner has run the workspace suite. Official forwarding DENY_ALL, protected writes OFF, production NOT_AUTHORIZED, multiple readers same owner, no new RBAC.
+
+---
+
 ## ACTIVE — PHASE04 CLOSURE AND OWNER-AUTHORIZED INTEGRATION MERGE (2026-10-30)
 
 [Draft PR #8](https://github.com/0xstillb/Grimmlink-Next/pull/8) on `feat/next-phase-04` now includes offline Sidecar, verified local metadata-only backup JSON, fake Official preview/explicit confirm/CAS/readback, bounded durable SQLite jobs, exclusive book locks, step receipts, local outbox UNKNOWN quarantine and owner/CSRF gated read-only/confirm route factories. Routes remain **UNMOUNTED** in production Adapter. User authorized integration merge after full exact-head CI. Final CI evidence must match HEAD; do not inherit earlier green results.
