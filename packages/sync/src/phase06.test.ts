@@ -69,45 +69,70 @@ it("rejects different book/file/edition, chapter, anchor text, unlisted position
     spineHref: anchors[0].spineHref,
     textAnchor: anchors[0].textAnchor,
   };
-  expect(() => bridge.convert({ ...request, edition: { ...epub, editionSha256: "c".repeat(64) } }))
-    .toThrow("PHASE06_EDITION_MISMATCH");
-  expect(() => bridge.convert({ ...request, edition: { ...epub, bookFileId: "file_2" } }))
-    .toThrow("PHASE06_EDITION_MISMATCH");
-  expect(() => bridge.convert({ ...request, spineHref: anchors[1].spineHref }))
-    .toThrow("PHASE06_EXACT_ANCHOR_NOT_FOUND");
-  expect(() => bridge.convert({ ...request, textAnchor: "The second chapter." }))
-    .toThrow("PHASE06_EXACT_ANCHOR_NOT_FOUND");
-  expect(() => bridge.convert({ ...request, nativePosition: "epubcfi(/6/999!/2:0)" }))
-    .toThrow("PHASE06_EXACT_ANCHOR_NOT_FOUND");
-  expect(() => buildOfflineEpubAnchorMap(epub, [anchors[0], { ...anchors[0], anchorId: "duplicate" }]))
-    .toThrow("PHASE06_ANCHOR_AMBIGUOUS");
-  expect(() => buildOfflineEpubAnchorMap(epub, [{ ...anchors[0], spineHref: "../bad.xhtml" }]))
-    .toThrow("PHASE06_ANCHOR_INVALID");
-  expect(() => buildOfflineEpubAnchorMap(epub, [{ ...anchors[0], cfi: "epubcfi(/6/2)%2e" }]))
-    .toThrow("PHASE06_ANCHOR_INVALID");
-  expect(() => requireOfflineEdition({ ...epub, editionSha256: "xyz" }))
-    .toThrow("PHASE06_EDITION_INVALID");
-  expect(() => buildOfflineEpubAnchorMap(pdf, anchors))
-    .toThrow("PHASE06_ANCHOR_CATALOG_INVALID");
+  expect(() =>
+    bridge.convert({ ...request, edition: { ...epub, editionSha256: "c".repeat(64) } }),
+  ).toThrow("PHASE06_EDITION_MISMATCH");
+  expect(() => bridge.convert({ ...request, edition: { ...epub, bookFileId: "file_2" } })).toThrow(
+    "PHASE06_EDITION_MISMATCH",
+  );
+  expect(() => bridge.convert({ ...request, spineHref: anchors[1].spineHref })).toThrow(
+    "PHASE06_EXACT_ANCHOR_NOT_FOUND",
+  );
+  expect(() => bridge.convert({ ...request, textAnchor: "The second chapter." })).toThrow(
+    "PHASE06_EXACT_ANCHOR_NOT_FOUND",
+  );
+  expect(() => bridge.convert({ ...request, nativePosition: "epubcfi(/6/999!/2:0)" })).toThrow(
+    "PHASE06_EXACT_ANCHOR_NOT_FOUND",
+  );
+  expect(() =>
+    buildOfflineEpubAnchorMap(epub, [anchors[0], { ...anchors[0], anchorId: "duplicate" }]),
+  ).toThrow("PHASE06_ANCHOR_AMBIGUOUS");
+  expect(() =>
+    buildOfflineEpubAnchorMap(epub, [{ ...anchors[0], spineHref: "../bad.xhtml" }]),
+  ).toThrow("PHASE06_ANCHOR_INVALID");
+  expect(() =>
+    buildOfflineEpubAnchorMap(epub, [{ ...anchors[0], cfi: "epubcfi(/6/2)%2e" }]),
+  ).toThrow("PHASE06_ANCHOR_INVALID");
+  expect(() => requireOfflineEdition({ ...epub, editionSha256: "xyz" })).toThrow(
+    "PHASE06_EDITION_INVALID",
+  );
+  expect(() => buildOfflineEpubAnchorMap(pdf, anchors)).toThrow("PHASE06_ANCHOR_CATALOG_INVALID");
 });
 
 it("accepts page-accurate PDF mock only with known matching page count; never guesses a percent", () => {
   const ok = validateOfflinePdfPage(pdf, {
-    edition: pdf, pageNumber: 11, pageCount: 120, verifiedFixturePageCount: 120,
+    edition: pdf,
+    pageNumber: 11,
+    pageCount: 120,
+    verifiedFixturePageCount: 120,
   });
   expect(ok.label).toBe("Page 11 of 120");
   expect(ok.percentage).toBeNull();
   for (const [pageNumber, pageCount, verifiedFixturePageCount] of [
-    [0, 120, 120], [121, 120, 120], [11, 120, 119], [1.4, 120, 120],
-    [11, 0, 0], [11, Number.NaN, 120],
+    [0, 120, 120],
+    [121, 120, 120],
+    [11, 120, 119],
+    [1.4, 120, 120],
+    [11, 0, 0],
+    [11, Number.NaN, 120],
   ]) {
-    expect(() => validateOfflinePdfPage(pdf, {
-      edition: pdf, pageNumber, pageCount, verifiedFixturePageCount,
-    })).toThrow("PHASE06_PDF_PAGE_UNVERIFIED");
+    expect(() =>
+      validateOfflinePdfPage(pdf, {
+        edition: pdf,
+        pageNumber,
+        pageCount,
+        verifiedFixturePageCount,
+      }),
+    ).toThrow("PHASE06_PDF_PAGE_UNVERIFIED");
   }
-  expect(() => validateOfflinePdfPage(pdf, {
-    edition: epub, pageNumber: 1, pageCount: 2, verifiedFixturePageCount: 2,
-  })).toThrow("PHASE06_EDITION_MISMATCH");
+  expect(() =>
+    validateOfflinePdfPage(pdf, {
+      edition: epub,
+      pageNumber: 1,
+      pageCount: 2,
+      verifiedFixturePageCount: 2,
+    }),
+  ).toThrow("PHASE06_EDITION_MISMATCH");
 });
 
 it("Continue Reading chooses server revision instead of clock/page, fails on same-revision conflicts", () => {
@@ -130,19 +155,36 @@ it("Continue Reading chooses server revision instead of clock/page, fails on sam
   expect(preview.label).toBe("Page 12 of 120");
   expect(preview.percentage).toBeNull();
   expect(projectOfflineContinueReading(pdf, []).status).toBe("NO_POSITION");
-  expect(() => projectOfflineContinueReading(pdf, [old, { ...old, eventId: "replay_conflict" }]))
-    .toThrow("PHASE06_RESUME_REVISION_CONFLICT");
-  expect(() => projectOfflineContinueReading(pdf, [{ ...old, edition: epub }]))
-    .toThrow("PHASE06_EDITION_MISMATCH");
-  expect(() => projectOfflineContinueReading(pdf, [{ ...old, position: {
-    kind: "PDF_PAGE" as const, pageNumber: 200, pageCount: 120,
-  } }])).toThrow("PHASE06_RESUME_POSITION_INVALID");
-  const epubPreview = projectOfflineContinueReading(epub, [{
-    edition: epub,
-    revision: 1,
-    eventId: "epub1",
-    position: { kind: "EPUB_EXACT", anchorId: anchors[0].anchorId, nativePosition: anchors[0].cfi },
-  }]);
+  expect(() =>
+    projectOfflineContinueReading(pdf, [old, { ...old, eventId: "replay_conflict" }]),
+  ).toThrow("PHASE06_RESUME_REVISION_CONFLICT");
+  expect(() => projectOfflineContinueReading(pdf, [{ ...old, edition: epub }])).toThrow(
+    "PHASE06_EDITION_MISMATCH",
+  );
+  expect(() =>
+    projectOfflineContinueReading(pdf, [
+      {
+        ...old,
+        position: {
+          kind: "PDF_PAGE" as const,
+          pageNumber: 200,
+          pageCount: 120,
+        },
+      },
+    ]),
+  ).toThrow("PHASE06_RESUME_POSITION_INVALID");
+  const epubPreview = projectOfflineContinueReading(epub, [
+    {
+      edition: epub,
+      revision: 1,
+      eventId: "epub1",
+      position: {
+        kind: "EPUB_EXACT",
+        anchorId: anchors[0].anchorId,
+        nativePosition: anchors[0].cfi,
+      },
+    },
+  ]);
   expect(epubPreview.status).toBe("LOCAL_PREVIEW_ONLY");
   expect(epubPreview.percentage).toBeNull();
 });

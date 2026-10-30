@@ -42,7 +42,8 @@ export function requireOfflineEdition(input: OfflineEdition): void {
     !safeId(input.bookFileId) ||
     !validSha(input.editionSha256) ||
     (input.format !== "EPUB" && input.format !== "PDF")
-  ) throw new Error("PHASE06_EDITION_INVALID");
+  )
+    throw new Error("PHASE06_EDITION_INVALID");
 }
 
 function assertSameEdition(actual: OfflineEdition, expected: OfflineEdition): void {
@@ -53,7 +54,8 @@ function assertSameEdition(actual: OfflineEdition, expected: OfflineEdition): vo
     actual.bookFileId !== expected.bookFileId ||
     actual.editionSha256 !== expected.editionSha256 ||
     actual.format !== expected.format
-  ) throw new Error("PHASE06_EDITION_MISMATCH");
+  )
+    throw new Error("PHASE06_EDITION_MISMATCH");
 }
 
 /**
@@ -79,18 +81,26 @@ export function buildOfflineEpubAnchorMap(
       !safeId(pair.anchorId) ||
       !/^[A-Za-z0-9_\-./]{1,512}$/.test(pair.spineHref) ||
       pair.spineHref.startsWith("/") ||
-      pair.spineHref.split("/").some((segment: string) => !segment || segment === "." || segment === "..") ||
+      pair.spineHref
+        .split("/")
+        .some((segment: string) => !segment || segment === "." || segment === "..") ||
       typeof pair.textAnchor !== "string" ||
       pair.textAnchor.length < 1 ||
       pair.textAnchor.length > 1024 ||
       /[\x00-\x08\x0b\x0c\x0e-\x1f]/.test(pair.textAnchor) ||
       !cleanOpaque(pair.xpointer, "xpointer") ||
       !cleanOpaque(pair.cfi, "epubcfi")
-    ) throw new Error("PHASE06_ANCHOR_INVALID");
+    )
+      throw new Error("PHASE06_ANCHOR_INVALID");
     // No ambiguous aliases or silent overwrites, even when text is identical.
     const fingerprint = hash(pair.textAnchor);
     const key = pair.spineHref + "\u0000" + fingerprint;
-    if (ids.has(pair.anchorId) || xp.has(pair.xpointer) || cf.has(pair.cfi) || fingerprints.has(key))
+    if (
+      ids.has(pair.anchorId) ||
+      xp.has(pair.xpointer) ||
+      cf.has(pair.cfi) ||
+      fingerprints.has(key)
+    )
       throw new Error("PHASE06_ANCHOR_AMBIGUOUS");
     ids.add(pair.anchorId);
     xp.set(pair.xpointer, pair);
@@ -101,20 +111,23 @@ export function buildOfflineEpubAnchorMap(
   return Object.freeze({
     evidence: "OFFLINE_SYNTHETIC_FIXTURE_ONLY" as const,
     anchorCount: pairs.length,
-    convert(input: Readonly<{
-      edition: OfflineEdition;
-      source: "XPOINTER" | "CFI";
-      nativePosition: string;
-      spineHref: string;
-      textAnchor: string;
-    }>) {
+    convert(
+      input: Readonly<{
+        edition: OfflineEdition;
+        source: "XPOINTER" | "CFI";
+        nativePosition: string;
+        spineHref: string;
+        textAnchor: string;
+      }>,
+    ) {
       assertSameEdition(input.edition, edition);
       if (
         (input.source !== "XPOINTER" && input.source !== "CFI") ||
         typeof input.nativePosition !== "string" ||
         typeof input.spineHref !== "string" ||
         typeof input.textAnchor !== "string"
-      ) throw new Error("PHASE06_POSITION_INVALID");
+      )
+        throw new Error("PHASE06_POSITION_INVALID");
       const pair = (input.source === "XPOINTER" ? xp : cf).get(input.nativePosition);
       if (!pair || pair.spineHref !== input.spineHref || pair.textAnchor !== input.textAnchor)
         throw new Error("PHASE06_EXACT_ANCHOR_NOT_FOUND");
@@ -136,7 +149,12 @@ export function buildOfflineEpubAnchorMap(
 /** A PDF page is one-based. No invented fraction within the page or EPUB mapping. */
 export function validateOfflinePdfPage(
   edition: OfflineEdition,
-  input: Readonly<{ edition: OfflineEdition; pageNumber: number; pageCount: number; verifiedFixturePageCount: number }>,
+  input: Readonly<{
+    edition: OfflineEdition;
+    pageNumber: number;
+    pageCount: number;
+    verifiedFixturePageCount: number;
+  }>,
 ) {
   assertSameEdition(input.edition, edition);
   if (
@@ -149,7 +167,8 @@ export function validateOfflinePdfPage(
     input.verifiedFixturePageCount !== input.pageCount ||
     input.pageNumber < 1 ||
     input.pageNumber > input.pageCount
-  ) throw new Error("PHASE06_PDF_PAGE_UNVERIFIED");
+  )
+    throw new Error("PHASE06_PDF_PAGE_UNVERIFIED");
   return Object.freeze({
     kind: "PDF_PAGE" as const,
     pageNumber: input.pageNumber,
@@ -185,31 +204,46 @@ export function projectOfflineContinueReading(
     throw new Error("PHASE06_RESUME_EVENTS_INVALID");
   let latest: OfflineResumeEvent | null = null;
   for (const event of events) {
-    if (!event || !safeId(event.eventId) || !Number.isSafeInteger(event.revision) || event.revision < 1)
+    if (
+      !event ||
+      !safeId(event.eventId) ||
+      !Number.isSafeInteger(event.revision) ||
+      event.revision < 1
+    )
       throw new Error("PHASE06_RESUME_EVENT_INVALID");
     assertSameEdition(event.edition, edition);
     const p = event.position;
     if (
       !p ||
       (p.kind === "EPUB_EXACT" &&
-        (edition.format !== "EPUB" || !safeId(p.anchorId) || typeof p.nativePosition !== "string" ||
-          (!cleanOpaque(p.nativePosition, "xpointer") && !cleanOpaque(p.nativePosition, "epubcfi")))) ||
+        (edition.format !== "EPUB" ||
+          !safeId(p.anchorId) ||
+          typeof p.nativePosition !== "string" ||
+          (!cleanOpaque(p.nativePosition, "xpointer") &&
+            !cleanOpaque(p.nativePosition, "epubcfi")))) ||
       (p.kind === "PDF_PAGE" &&
-        (edition.format !== "PDF" || !Number.isSafeInteger(p.pageNumber) ||
-          !Number.isSafeInteger(p.pageCount) || p.pageNumber < 1 || p.pageCount < p.pageNumber)) ||
+        (edition.format !== "PDF" ||
+          !Number.isSafeInteger(p.pageNumber) ||
+          !Number.isSafeInteger(p.pageCount) ||
+          p.pageNumber < 1 ||
+          p.pageCount < p.pageNumber)) ||
       (p.kind !== "EPUB_EXACT" && p.kind !== "PDF_PAGE")
-    ) throw new Error("PHASE06_RESUME_POSITION_INVALID");
+    )
+      throw new Error("PHASE06_RESUME_POSITION_INVALID");
     if (!latest || event.revision > latest.revision) {
       latest = event;
     } else if (
       event.revision === latest.revision &&
-      (event.eventId !== latest.eventId || JSON.stringify(event.position) !== JSON.stringify(latest.position))
-    ) throw new Error("PHASE06_RESUME_REVISION_CONFLICT");
+      (event.eventId !== latest.eventId ||
+        JSON.stringify(event.position) !== JSON.stringify(latest.position))
+    )
+      throw new Error("PHASE06_RESUME_REVISION_CONFLICT");
   }
   if (!latest) return Object.freeze({ status: "NO_POSITION" as const, percentage: null });
-  const label = latest.position.kind === "PDF_PAGE"
-    ? "Page " + latest.position.pageNumber + " of " + latest.position.pageCount
-    : "Resume at exact EPUB anchor";
+  const label =
+    latest.position.kind === "PDF_PAGE"
+      ? "Page " + latest.position.pageNumber + " of " + latest.position.pageCount
+      : "Resume at exact EPUB anchor";
   return Object.freeze({
     status: "LOCAL_PREVIEW_ONLY" as const,
     edition,
