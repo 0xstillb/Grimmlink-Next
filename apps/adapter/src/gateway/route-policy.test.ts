@@ -13,15 +13,12 @@ describe("Phase02 zero-forward gateway classifier", () => {
     "/openapi.json",
     "/api/grimmlink/v2/capabilities",
     "/api/grimmlink/v2/version",
-  ])(
-    "permits local GET only: %s",
-    (path) => {
-      expect(classify("GET", path)).toBe("LOCAL_READ");
-      expect(classify("HEAD", path)).toBe("DENY_UPSTREAM");
-      expect(classify("POST", path)).toBe("DENY_UPSTREAM");
-      expect(classify("OPTIONS", path)).toBe("DENY_UPSTREAM");
-    },
-  );
+  ])("permits local GET only: %s", (path) => {
+    expect(classify("GET", path)).toBe("LOCAL_READ");
+    expect(classify("HEAD", path)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", path)).toBe("DENY_UPSTREAM");
+    expect(classify("OPTIONS", path)).toBe("DENY_UPSTREAM");
+  });
 
   it.each([
     "/",
