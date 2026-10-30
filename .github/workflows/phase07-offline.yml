@@ -31,7 +31,7 @@ jobs:
           pnpm rebuild better-sqlite3
       - name: Check and diagnose pinned Prettier for changed source
         run: |
-          files="packages/personal/src/index.ts packages/personal/src/index.test.ts packages/persistence/src/index.ts packages/persistence/src/phase07-personal.ts packages/persistence/src/phase07-personal.test.ts"
+          files="packages/personal/src/index.ts packages/personal/src/index.test.ts packages/persistence/src/index.ts packages/persistence/src/phase07-personal.ts packages/persistence/src/phase07-personal.test.ts apps/adapter/src/phase07-routes.ts apps/adapter/src/phase07-routes.test.ts"
           if ! pnpm exec prettier --check $files; then
             pnpm exec prettier --write $files
             for f in $files; do
@@ -65,7 +65,7 @@ jobs:
           grep -q 'PERSONAL_BRIDGE_DISABLED_PHASE09' packages/personal/src/index.ts
           grep -q 'MANUAL_PREVIEW_ONLY' packages/persistence/src/phase07-personal.ts
           grep -q 'PHASE07_READER_REVOKED_OR_EXPIRED' packages/persistence/src/phase07-personal.ts
-          ! grep -Eq 'phase07-personal|grimmlink_next_offline' apps/adapter/src/server.ts
+          ! grep -Eq 'phase07-personal|phase07-routes|grimmlink_next_offline' apps/adapter/src/server.ts
           grep -q '"officialGatewayForwarding": "DENY_ALL"' docs/implementation/ACTIVE-SESSION.json
           grep -q '"personalBridge": "OFF"' docs/implementation/ACTIVE-SESSION.json
           grep -q '"sessionBridge": "OFF"' docs/implementation/ACTIVE-SESSION.json
