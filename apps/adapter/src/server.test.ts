@@ -37,6 +37,21 @@ describe("foundation server", () => {
     expect(
       contract.json().paths["/api/grimmlink/v2/capabilities"].get.responses["200"],
     ).toBeDefined();
+    const version = await server.inject({ method: "GET", url: "/api/grimmlink/v2/version" });
+    expect(version.statusCode).toBe(200);
+    expect(version.json()).toEqual({
+      adapterVersion: "0.1.0",
+      apiVersion: "v2",
+      phase: "02",
+      mode: "MOCK_ONLY",
+      officialConnected: false,
+      releaseAuthorization: "NOT_AUTHORIZED",
+    });
+    expect(contract.json().paths["/api/grimmlink/v2/version"].get.responses["200"]).toBeDefined();
+    for (const method of ["HEAD", "POST", "OPTIONS"] as const) {
+      const rejected = await server.inject({ method, url: "/api/grimmlink/v2/version" });
+      expect(rejected.statusCode).toBe(403);
+    }
     for (const method of ["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"] as const) {
       const blocked = await server.inject({
         method,

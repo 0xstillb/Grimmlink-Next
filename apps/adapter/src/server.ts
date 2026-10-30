@@ -17,7 +17,7 @@ export async function buildServer(logLevel: "info" | "warn" | "error" = "info") 
   await server.register(swagger, {
     openapi: {
       openapi: "3.0.3",
-      info: { title: "GrimmLink Next Foundation", version: "0.1.0" },
+      info: { title: "GrimmLink Next local adapter", version: "0.1.0" },
       servers: [{ url: "http://127.0.0.1:6060" }],
     },
   });
@@ -92,6 +92,45 @@ export async function buildServer(logLevel: "info" | "warn" | "error" = "info") 
       personalBridge: "OFF",
       nativeKosyncProgress: "OFF",
       fullE2e: "DEFERRED_TO_PHASE_09",
+    }),
+  );
+  // Immutable local version manifest; no probe or Official capability assertion.
+  server.get(
+    "/api/grimmlink/v2/version",
+    {
+      schema: {
+        description: "Local adapter version, not an Official backend version probe",
+        response: {
+          200: {
+            type: "object",
+            additionalProperties: false,
+            required: [
+              "adapterVersion",
+              "apiVersion",
+              "phase",
+              "mode",
+              "officialConnected",
+              "releaseAuthorization",
+            ],
+            properties: {
+              adapterVersion: { type: "string", const: "0.1.0" },
+              apiVersion: { type: "string", const: "v2" },
+              phase: { type: "string", const: "02" },
+              mode: { type: "string", const: "MOCK_ONLY" },
+              officialConnected: { type: "boolean", const: false },
+              releaseAuthorization: { type: "string", const: "NOT_AUTHORIZED" },
+            },
+          },
+        },
+      },
+    },
+    async () => ({
+      adapterVersion: "0.1.0",
+      apiVersion: "v2",
+      phase: "02",
+      mode: "MOCK_ONLY",
+      officialConnected: false,
+      releaseAuthorization: "NOT_AUTHORIZED",
     }),
   );
   // NO fallback, Official backend client, reading proxy, or runtime feature toggles.

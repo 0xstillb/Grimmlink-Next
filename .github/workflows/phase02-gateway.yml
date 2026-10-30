@@ -106,6 +106,7 @@ jobs:
           test "$ready" -eq 1
           grep -q 'foundation-only' /tmp/mock-health
           curl --silent --fail http://127.0.0.1:6060/api/grimmlink/v2/capabilities | grep -q 'DENY_ALL'
+          curl --silent --fail http://127.0.0.1:6060/api/grimmlink/v2/version | grep -q 'NOT_AUTHORIZED'
           check_status() {
             local want="$1"; shift
             local got
@@ -115,6 +116,7 @@ jobs:
           check_status 403 http://127.0.0.1:6060/api/v1/opds
           check_status 403 -X POST -H 'x-auth-user: canary-user' -H 'x-auth-key: canary-key' \
             --data 'passwordMD5=CANARYSECRET' http://127.0.0.1:6060/api/koreader/users/create
+          check_status 403 -X POST http://127.0.0.1:6060/api/grimmlink/v2/version
           check_status 403 -I http://127.0.0.1:6060/health
           check_status 403 -X OPTIONS http://127.0.0.1:6060/health
           check_status 421 -H 'Host: evil.invalid:6060' http://127.0.0.1:6060/health

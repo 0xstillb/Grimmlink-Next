@@ -13,7 +13,7 @@
 
     @adapter_get {
         method GET
-        path /health /openapi.json /api/grimmlink/v2/capabilities
+        path /health /openapi.json /api/grimmlink/v2/capabilities /api/grimmlink/v2/version
     }
 
     route {
