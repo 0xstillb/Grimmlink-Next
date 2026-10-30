@@ -7,3 +7,4 @@ export const syncCapability = Object.freeze({
 export function assertSyncCapabilityEnabled(): never {
   throw new Error("Sync transport disabled until downstream security gates");
 }
+export * from "./phase05.js";
