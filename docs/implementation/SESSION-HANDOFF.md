@@ -1,3 +1,11 @@
+## CURRENT PROJECT POLICY — 2026-10-30 (supersedes prospective process requirements below)
+
+**Single-Owner Private Mode:** one human owner / one Grimmory Official account, multiple paired reader devices; do not implement new multi-tenant GrimmLink RBAC or per-user book ACL. Canonical [delivery policy](SINGLE-OWNER-POLICY.md), [Phase 00–09 matrix](PHASE-MATRIX.md), [deferred security ledger](DEFERRED-SECURITY-LEDGER.md).
+
+**Mandatory independent security review REMOVED as a gate in Phases 00–08; one consolidated independent review and remediation before Phase09 production.** Advance development after real CI and handoff, record unresolved risks. This override does not revise historical evidence or independently reviewed HEADs, does not permit unsafe Live Official forwarding, unauthenticated writes, public ingress or deployment. Keep `DENY_ALL` and OFF capabilities until relevant safe runtime implementation; full Hermes/NAS/reader E2E is Phase09 only. No unapproved merges.
+
+---
+
 ## CURRENT — Pinned real Spring runtime captured; real ACL/ingress still blocked (2026-10-29)
 
 **Actual Spring startup evidence:** [CI #40918459916](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40918459916) SUCCESS at exact implementation source `30b7d22c2297d2e022dd68538c4fc26072606080`, pinned Grimmory `402e89b4452f8e2b17ab95f16c1621c003516cd2`, isolated Java25 + H2. `RequestMappingHandlerMapping` reported **352** runtime handlers, `FilterChainProxy` exposed **12 ordered filter chains**; **346 distinct source handler identities** from the 403 source route candidate ledger were found in runtime. [Runtime artifact #12918045157](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40918459916#artifacts) includes mapping/filter registry, pinned runtime OpenAPI and handler-level reconciliation. **This proves boot-time mappings/chains exist, NOT effective authorization per HTTP method/path, content rights, live identity, device pairing or safe upstream forwarding.**
