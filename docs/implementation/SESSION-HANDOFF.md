@@ -1,3 +1,9 @@
+## PHASE05 CODE SOURCE CHECKPOINT — 2026-10-30
+
+Phase05 [Draft PR #9](https://github.com/0xstillb/Grimmlink-Next/pull/9) from Phase04 merged integration. Code `07b49a17` [Phase05 CI #41037601290](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41037601290) success plus Phase00/Gateway/Phase04 success; final docs-head CI and other workflows must be separately checked. Offline device token rotation/revocation/list, Readest GET wire contract and KOReader multilingual filename goldens added. Native Official KOSync remains BLOCKED/OFF, no live Official auth or writes, no user roles, no Phase09 hardware E2E/security review. [Result](phase-05/RESULT.md) and [Handoff](phase-05/HANDOFF.json). Integration merge only after valid checks and authorized owner instruction; main untouched.
+
+---
+
 ## CURRENT — PHASE05 OFFLINE DEVELOPMENT CHECKS PASSED AT SOURCE HEAD (2026-10-30)
 
 [Draft PR #9](https://github.com/0xstillb/Grimmlink-Next/pull/9) on `feat/next-phase-05` targets merged Phase04 integration `fe83f22f`. Code SHA `8ec70e67` passed [Phase05 isolated CI #41016950913](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41016950913) and [Phase00 #41016950807](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41016950807), [Gateway #41016950889](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41016950889) and [Phase04 #41016950802](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41016950802). Latest doc commit needs its own CI verification. Status `DEV_CHECKS_PASS_WITH_DEFERRED_RISKS` means isolated byte-identity, KO filename-mode MD5, paired-device hash/revoke, durable mock KOSync/CAS and mock HTTP passed source checks; **not** full `SYNC_CODE_REVIEWED`, Official approval or physical E2E. KO partial MD5 helper/golden EPUB and Official Native/Managed owner ACL remain unverified and OFF. One independent security review + fixes and physical E2E remain Phase09, no new RBAC, main untouched.
