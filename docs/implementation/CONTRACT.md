@@ -1,3 +1,11 @@
+## CURRENT PROJECT POLICY — 2026-10-30 (supersedes prospective process requirements below)
+
+**Single-Owner Private Mode:** one human owner / one Grimmory Official account, multiple paired reader devices; do not implement new multi-tenant GrimmLink RBAC or per-user book ACL. Canonical [delivery policy](SINGLE-OWNER-POLICY.md), [Phase 00–09 matrix](PHASE-MATRIX.md), [deferred security ledger](DEFERRED-SECURITY-LEDGER.md).
+
+**Mandatory independent security review REMOVED as a gate in Phases 00–08; one consolidated independent review and remediation before Phase09 production.** Advance development after real CI and handoff, record unresolved risks. This override does not revise historical evidence or independently reviewed HEADs, does not permit unsafe Live Official forwarding, unauthenticated writes, public ingress or deployment. Keep `DENY_ALL` and OFF capabilities until relevant safe runtime implementation; full Hermes/NAS/reader E2E is Phase09 only. No unapproved merges.
+
+---
+
 ## AUTHORITATIVE PHASE HANDOFF — Phase01 FOUNDATION_REVIEWED (2026-10-29)
 
 Phase00 design-only lock remains intact; Phase01 isolated foundation technical exit gate is `FOUNDATION_REVIEWED`, backed by [fresh-context GitHub technical COMMENT review ID 5699254459](https://github.com/0xstillb/Grimmlink-Next/pull/5) at source `2eb613b0cac39b689710501cc3dbad812e5486a2` and exact reviewed-source GitHub CI [Phase00 #40888013634](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40888013634) and [Phase01 #40888013081](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40888013081), both SUCCESS. See [ACTIVE-SESSION](ACTIVE-SESSION.json), [Phase01 RESULT](phase-01/RESULT.md) and [review attestation](phase-01/FINAL-INDEPENDENT-REVIEW-ATTESTATION-2026-10-29.md). Latest closure-commit CI must separately pass at the actual updated HEAD. **No human GitHub approval, integration merge, Official gateway, production, Phase02 runtime security or full E2E is implied.** Historical reviews below are audit history, not current status.
