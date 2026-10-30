@@ -1,0 +1,54 @@
+name: Phase04 Sidecar Jobs Backup Offline
+on:
+  push:
+    branches: [feat/next-phase-04]
+  pull_request:
+    branches: [integration/grimmlink-next]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: phase04-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  offline-recovery:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.18.3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+      - name: Frozen install
+        run: pnpm install --frozen-lockfile
+      - name: Build native SQLite
+        run: pnpm rebuild better-sqlite3
+      - name: Build and typecheck
+        run: |
+          pnpm build
+          pnpm typecheck
+      - name: Format check
+        run: pnpm format:check
+      - name: ESLint and isolated tests
+        run: |
+          pnpm lint
+          pnpm test
+      - name: Historical Phase00 integrity
+        run: |
+          python3 -m unittest discover -s scripts/phase-00 -p 'test_*.py' -v
+          python3 scripts/phase-00/validate-phase00-release-gates.py --repo . --output /tmp/phase04-phase00-evidence.json
+      - name: Explicit fail-closed invariants
+        run: |
+          set -euo pipefail
+          grep -q 'SIDECAR_OFFLINE_FIXTURE' packages/ingestion/src/sidecar.ts
+          grep -q 'PREVIEW_ONLY' packages/persistence/src/backup-bundle.ts
+          grep -q 'PROCESS_INTERRUPTED' packages/persistence/src/recovery-jobs.ts
+          grep -q '"officialGatewayForwarding": "DENY_ALL"' docs/implementation/ACTIVE-SESSION.json
+          grep -q '"metadataApply": "OFF"' docs/implementation/ACTIVE-SESSION.json
+          echo 'No live Official writes or NAS writes; no real hardware E2E before Phase09.'
