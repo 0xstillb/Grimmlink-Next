@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { afterEach, expect, it } from "vitest";
 import {
   adjacentOpfPath,
+  adjacentOpfCandidates,
   buildSparseMetadataPreview,
   inspectOfflineBookFixture,
   parseOpfPreview,
@@ -47,21 +48,23 @@ it("rejects active XML, malformed markup, duplicate conflicting scalars, and bad
   for (const s of [
     '<!DOCTYPE package [<!ENTITY e SYSTEM "file:///etc/passwd">]><package><metadata><dc:title>&e;</dc:title></metadata></package>',
     "<package><metadata><dc:title>Oops</metadata></package>",
-    "<package><metadata><dc:title>A</dc:title><dc:title>B</dc:title></metadata></package>",
-    "<package><metadata><dc:title>&external;</dc:title></metadata></package>",
+    '<package xmlns:dc="http://purl.org/dc/elements/1.1/"><metadata><dc:title>A</dc:title><dc:title>B</dc:title></metadata></package>',
+    '<package xmlns:dc="http://purl.org/dc/elements/1.1/"><metadata><dc:title>&external;</dc:title></metadata></package>',
     '<?xml version="1.0" encoding="utf-16"?><package><metadata/></package>',
-    "<package><metadata><dc:title><b>X</b></dc:title></metadata></package>",
+    '<package xmlns:dc="http://purl.org/dc/elements/1.1/"><metadata><dc:title><b>X</b></dc:title></metadata></package>',
   ])
     expect(() => parse(s)).toThrow();
 });
 it("omits invalid dates and ISBN while preserving leading zeros", () => {
   const p = parse(
-    "<package><metadata><dc:date>2023-02-29</dc:date><dc:identifier>0306406152</dc:identifier><dc:identifier>9780306406158</dc:identifier></metadata></package>",
+    '<package xmlns:dc="http://purl.org/dc/elements/1.1/"><metadata><dc:date>2023-02-29</dc:date><dc:identifier>0306406152</dc:identifier><dc:identifier>9780306406158</dc:identifier></metadata></package>',
   );
   expect(p.metadata).toEqual({ isbn10: "0306406152" });
 });
 it("validates adjacent path and refuses traversal or remote cover URLs", () => {
   expect(adjacentOpfPath("books/a.epub")).toBe("books/a.opf");
+  expect(adjacentOpfCandidates("books/a.epub")).toEqual(["books/a.opf", "books/metadata.opf"]);
+  expect(adjacentOpfCandidates("books/metadata.epub")).toEqual(["books/metadata.opf"]);
   expect(planCoverPath("books/a.opf", "images/c.jpg")).toBe("books/images/c.jpg");
   for (const href of [
     "../private.jpg",
@@ -93,6 +96,19 @@ it("dry-runs an actual offline folder without a write or Official connection", a
   expect(result.writesAllowed).toBe(false);
   expect(result.cover?.sha256).toMatch(/^[a-f0-9]{64}$/);
   expect(result.metadata.title).toBe("A & B");
+  await writeFile(join(root, "books", "metadata.opf"), xml);
+  await expect(inspectOfflineBookFixture(root, "books/a.epub")).rejects.toThrow(
+    "Ambiguous adjacent OPF",
+  );
+  await rm(join(root, "books", "a.opf"));
+  expect((await inspectOfflineBookFixture(root, "books/a.epub")).opf.path).toBe(
+    "books/metadata.opf",
+  );
+  await writeFile(join(root, "books", "b.epub"), "ANOTHER EPUB");
+  await expect(inspectOfflineBookFixture(root, "books/a.epub")).rejects.toThrow(
+    "Ambiguous metadata.opf fixture directory",
+  );
+  await rm(join(root, "books", "b.epub"));
   await rm(join(root, "books", "images", "cover.jpg"));
   await symlink("/etc/passwd", join(root, "books", "images", "cover.jpg"));
   await expect(inspectOfflineBookFixture(root, "books/a.epub")).rejects.toThrow();

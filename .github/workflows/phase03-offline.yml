@@ -3,7 +3,7 @@ on:
   push:
     branches: [feat/next-phase-03]
   pull_request:
-    branches: [feat/next-phase-02]
+    branches: [feat/next-phase-02, integration/grimmlink-next]
   workflow_dispatch:
 permissions:
   contents: read
