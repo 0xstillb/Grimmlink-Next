@@ -8,6 +8,7 @@ Source branch: feat/next-phase-07 stacked on Phase06 feat/next-phase-06 at ae66c
 
 - Bounded Lua prototype plugins/koreader/grimmlink_next_offline.lua: event envelope and **manual** shelf preview; no real KOReader installation, automatic sync, network or file I/O.
 - packages/personal: strict personal payload contract for ratings (1–5), bookmarks and annotations; deterministic manual shelf diff. No reset-rating or personal bridge enablement.
+- Guarded Fastify mock route factory (not mounted) for reader personal GET/PUT, session events, and CSRF-protected owner manual-shelf preview, with HTTP negative tests.
 - Local SQLite migration 0006: immutable owner/book/file/edition registration, personal records, CAS/event replay receipts, reading session lifecycle, no remote outbox dispatch.
 - Paired token verified inside SQLite transactions before writes and replays; immutable file owner/edition, record revision CAS, event-id collision rejection, deletion tombstones for notes/bookmarks, no rating reset. Session STOP bound to creator device with mock trusted clock, 24h maximum, no client clock priority.
 - Read-only manual shelf preview validates every file and reports delta without changing membership. Restart, race/replay, edition mismatch, revocation, session and Lua negative fixtures.
