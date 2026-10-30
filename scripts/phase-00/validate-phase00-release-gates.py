@@ -168,8 +168,8 @@ def validate(root,out):
     ]
     obj={"schemaVersion":1,"basis":"PINNED_EVIDENCE_WITH_FAIL_CLOSED_RELEASE_POLICY",
       "phase01FoundationReviewed":phase01_accepted,
-      "phase01IndependentTechnicalVerdict":"PASS_AT_REVIEWED_SOURCE_HEAD" if current.get("phase")=="01" and current.get("phaseStatus")=="FOUNDATION_REVIEWED" else "NOT_ATTESTED",
-      "phase01ReviewedSourceHead":PHASE01_REVIEWED_HEAD if current.get("phase")=="01" and current.get("phaseStatus")=="FOUNDATION_REVIEWED" else None,
+      "phase01IndependentTechnicalVerdict":"PASS_AT_REVIEWED_SOURCE_HEAD" if phase01_accepted else "NOT_ATTESTED",
+      "phase01ReviewedSourceHead":PHASE01_REVIEWED_HEAD if phase01_accepted else None,
       "phase01HumanGitHubApproval":False,"phase01RuntimeSecurityAuthorized":False,
       "sourcePin":PIN,"independentReviewReportGitBlob":REVIEW_BLOB,
       "phase00SourceCensusVerified":True,"phase00SourceAuthorizationReviewComplete":False,
