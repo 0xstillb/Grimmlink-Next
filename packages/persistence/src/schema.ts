@@ -1,6 +1,6 @@
 import { index, integer, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
 
-/** Local Adapter metadata only. No book text, notes, credentials or raw payloads. */
+/** Base operational tables only. Phase07 private notes live in separate offline SQL tables; no live upstream routes. */
 export const jobs = sqliteTable(
   "jobs",
   {
