@@ -10,6 +10,7 @@ This is a **configuration + isolated local test fixture**. It is not a deployed 
 - No Caddy arbitrary fallback, URI rewrite, Official reverse proxy or route delegation; no leaked credentials.
 - Mock-only Caddy does **not** implement Official UI/OPDS compatibility. Enabling those routes still requires real effective Spring matcher decisions and current same-owner book/file/record binding. **Phase02 development gate is delivered; operational forwarding gate remains BLOCKED**.
 - No TLS certificate or SNI assurance. **Do not publish to LAN or change loopback bind before separate ingress/TLS security acceptance.**
-- The local GET-only version manifest at `/api/grimmlink/v2/version` reports `MOCK_ONLY` and `NOT_AUTHORIZED` without querying the Official backend. Unknown methods/Official paths remain denied.\n- Full integrated real Official/Hermes/NAS/reader E2E remains Phase09 only.
+- The local GET-only version manifest at `/api/grimmlink/v2/version` reports `MOCK_ONLY` and `NOT_AUTHORIZED` without querying the Official backend. Unknown methods/Official paths remain denied.
+- Full integrated real Official/Hermes/NAS/reader E2E remains Phase09 only.
 
 Isolated executable **Caddy config parse, Compose validation and Docker mock HTTP/host/protocol denial tests** have passed at pre-version-manifest HEAD `e34038b` ([Gateway CI #40982860289](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40982860289)). New version fixture and this later HEAD require their own CI. Real-deployment IPv4/IPv6 direct ingress, TLS/SNI, Docker egress, Official authorization and final independent security review are **not proven** and remain deferred operational gates for Phase09.
