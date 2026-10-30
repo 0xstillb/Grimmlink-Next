@@ -15,11 +15,13 @@ describe("KOReader filename-mode identity", () => {
       algorithm: "KO_FILENAME_MD5",
       digest: "03053ffc045564439ff7f2cabb3b58c5",
     });
-    expect(resolveExactFilenameBookFile([one], {
-      filenameMd5: koFilenameDigest(one.relativePath).digest,
-      expectedSha256: one.fingerprint,
-      bookFileId: one.bookFileId,
-    })).toEqual(one);
+    expect(
+      resolveExactFilenameBookFile([one], {
+        filenameMd5: koFilenameDigest(one.relativePath).digest,
+        expectedSha256: one.fingerprint,
+        bookFileId: one.bookFileId,
+      }),
+    ).toEqual(one);
   });
 
   it("refuses a same-name different-byte edition collision", () => {
@@ -29,19 +31,23 @@ describe("KOReader filename-mode identity", () => {
       relativePath: "other/book.epub",
       bytes: Buffer.from("edition two"),
     });
-    expect(() => resolveExactFilenameBookFile([one, two], {
-      filenameMd5: koFilenameDigest(one.relativePath).digest,
-      expectedSha256: one.fingerprint,
-      bookFileId: one.bookFileId,
-    })).toThrow("IDENTITY_FILENAME_MISSING_OR_COLLISION");
+    expect(() =>
+      resolveExactFilenameBookFile([one, two], {
+        filenameMd5: koFilenameDigest(one.relativePath).digest,
+        expectedSha256: one.fingerprint,
+        bookFileId: one.bookFileId,
+      }),
+    ).toThrow("IDENTITY_FILENAME_MISSING_OR_COLLISION");
   });
 
   it("refuses ambiguous paths and stale bytes", () => {
     expect(() => koFilenameDigest("../book.epub")).toThrow("IDENTITY_UNSAFE_FILENAME");
-    expect(() => resolveExactFilenameBookFile([one], {
-      filenameMd5: koFilenameDigest(one.relativePath).digest,
-      expectedSha256: "f".repeat(64),
-      bookFileId: one.bookFileId,
-    })).toThrow("IDENTITY_EDITION_MISMATCH");
+    expect(() =>
+      resolveExactFilenameBookFile([one], {
+        filenameMd5: koFilenameDigest(one.relativePath).digest,
+        expectedSha256: "f".repeat(64),
+        bookFileId: one.bookFileId,
+      }),
+    ).toThrow("IDENTITY_EDITION_MISMATCH");
   });
 });
