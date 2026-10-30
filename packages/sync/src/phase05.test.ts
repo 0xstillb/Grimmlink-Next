@@ -3,6 +3,7 @@ import {
   assertNativeKOSyncDisabled,
   classifyMockKOSyncRequest,
   normalizeMockKOSyncPut,
+  normalizeMockKOSyncGet,
   phase05DeviceCapabilities,
 } from "./phase05.js";
 
@@ -56,4 +57,23 @@ it("preserves opaque position, never invents coordinates or trusts illegal perce
   expect(() => normalizeMockKOSyncPut({ document: hash, progress: "" })).toThrow();
   expect(assertNativeKOSyncDisabled).toThrow("NATIVE_KOSYNC_PROGRESS_BLOCKED_ATOMICITY");
   expect(phase05DeviceCapabilities.CROSSPOINT_TH.progress).toBe("UNVERIFIED");
+});
+
+it("matches Readest pinned GET without echoed document, never guesses a position", () => {
+  const progress = "/body/DocFragment[1]/body/p[1].0";
+  expect(normalizeMockKOSyncGet(hash, {
+    progress, percentage: 0.25, device: "Readest", device_id: "tablet",
+    timestamp: 1793340000,
+  })).toEqual({
+    document: hash, progress, percentage: 0.25,
+    device: "Readest", device_id: "tablet", timestamp: 1793340000,
+  });
+  expect(() => normalizeMockKOSyncGet(hash, {
+    document: "b".repeat(32), progress,
+  })).toThrow("KOSYNC_GET_DOCUMENT_MISMATCH");
+  expect(() => normalizeMockKOSyncGet(hash, { timestamp: 1793340000 }))
+    .toThrow("KOSYNC_GET_NO_POSITION");
+  expect(() => normalizeMockKOSyncGet(hash, {
+    progress, percentage: Number.NaN,
+  })).toThrow("KOSYNC_GET_PERCENT_INVALID");
 });
