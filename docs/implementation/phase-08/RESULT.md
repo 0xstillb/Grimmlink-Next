@@ -1,6 +1,6 @@
 # Phase 08 — Single-Owner Control Center, Diagnostics and Offline Packaging
 
-**2026-10-30 — CODE_IMPLEMENTED_CI_PENDING**. Exact-head CI must pass before this can be considered an isolated development handoff. Branch feat/next-phase-08 stacked on Phase07 b1a2a042; Draft PR #12 targets Phase07. Integration remains Phase05 at 3b5321ed; main unchanged.
+**2026-10-30 — DEV_CHECKS_PASS_WITH_DEFERRED_RISKS (offline only).** This is an isolated development handoff, not a runtime, production, or real hardware authorization. Branch feat/next-phase-08 stacked on Phase07 b1a2a042; Draft PR #12 targets Phase07. Integration remains Phase05 at 3b5321ed; main unchanged.
 
 ## Delivered in source
 
@@ -22,4 +22,4 @@ Trusted owner identity, real network/ingress/egress and Official ACL, secrets an
 
 ## CI evidence
 
-Current exact-head status: **PENDING**. Read the latest head SHA and the Phase08 workflow run before changing to DEV_CHECKS_PASS_WITH_DEFERRED_RISKS. Source CI and documentation closing commits require their own exact-head verification.
+Verified code HEAD [3bd8fa2](https://github.com/0xstillb/Grimmlink-Next/commit/3bd8fa209857bab80054349f654cbfe5ba04c979): [Phase08 offline CI #41061321816](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41061321816) **SUCCESS**, including frozen install, SQLite rebuild, workspace build/typecheck/format/lint/all Vitest, offline package integrity, Phase00 historical safety/negative suite and static policy checks. Dependency advisory evidence was collected as a non-release gate, **not declared clean or independently audited**. Documentation closing commits still require separate exact-HEAD CI; no real Official/reader/NAS execution or production approval.
