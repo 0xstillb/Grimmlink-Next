@@ -10,7 +10,7 @@ const id = (v: unknown): v is string =>
   typeof v === "string" && /^[A-Za-z0-9_-]{1,128}$/.test(v);
 const sha = (v: unknown): v is string =>
   typeof v === "string" && /^[a-f0-9]{64}$/.test(v);
-const validInt = (v: unknown): v is number => Number.isSafeInteger(v) && (v as number) >= 0;
+const validInt = (v: unknown): v is number => typeof v === "number" && Number.isSafeInteger(v) && v >= 0;
 const opaque = (v: unknown): v is string =>
   typeof v === "string" && v.length > 3 && v.length <= 2048 &&
   (v.startsWith("epubcfi(/") || v.startsWith("xpointer(/")) &&
