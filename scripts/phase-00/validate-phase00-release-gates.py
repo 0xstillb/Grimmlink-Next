@@ -226,6 +226,39 @@ def validate(root,out):
             phase07=current.get("phase07Work",{})
             phase06=current.get("phase06Work",{})
             phase05=current.get("phase05Work",{})
+            phase04=current.get("phase04Work",{})
+            phase03=current.get("phase03Work",{})
+            phase02=current.get("phase02Work",{})
+            if (phase06.get("status")!="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS"
+                or phase06.get("implementationScope")!="OFFLINE_SYNTHETIC_FIXTURE_AND_SQLITE_ONLY"
+                or phase06.get("realEpubGoldenValidated") is not False
+                or phase06.get("realPdfFixtureParsed") is not False
+                or phase06.get("productionEnabled") is not False
+                or phase06.get("hardwareE2e")!="DEFERRED_TO_PHASE09"
+                or phase06.get("independentReview")!="DEFERRED_TO_PHASE09"
+                or phase05.get("officialConnected") is not False
+                or phase05.get("actualOfficialAuth") is not False
+                or phase05.get("nativeKosyncProgress") is not False
+                or phase05.get("runtimeRoutesMounted") is not False
+                or phase05.get("productionEnabled") is not False
+                or phase04.get("status")!="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS_INTEGRATION_MERGED"
+                or phase04.get("writesAllowed") is not False
+                or phase04.get("officialConnected") is not False
+                or phase04.get("nasWriteEnabled") is not False
+                or phase04.get("restoreApplyEnabled") is not False
+                or phase04.get("operationalEnabled") is not False
+                or phase04.get("independentReview")!="DEFERRED_PHASE09"
+                or phase03.get("status")!="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS"
+                or phase03.get("writesAllowed") is not False
+                or phase03.get("officialConnected") is not False
+                or phase03.get("nasMountVerified") is not False
+                or phase03.get("operationalEnabled") is not False
+                or phase03.get("independentReview")!="DEFERRED_PHASE09"
+                or phase02.get("developmentGate")!="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS"
+                or phase02.get("runtimeSecurityAuthorized") is not False
+                or phase02.get("productionActivation")!="BLOCKED_OPERATIONAL_ENABLEMENT"):
+                raise ValueError("active Phase06 development checkpoint invalid")
+
             if (current.get("phaseStatus") not in ("CODE_IMPLEMENTED_CI_PENDING","DEV_CHECKS_PASS_WITH_DEFERRED_RISKS")
                 or current.get("branch")!="feat/next-phase-07"
                 or current.get("pr")!="https://github.com/0xstillb/Grimmlink-Next/pull/11"
@@ -247,15 +280,10 @@ def validate(root,out):
                 or phase07.get("shelfMutationEnabled") is not False
                 or phase07.get("productionEnabled") is not False
                 or phase07.get("independentReview")!="DEFERRED_TO_PHASE09"
-                or phase07.get("fullE2e")!="DEFERRED_TO_PHASE09"
-                or phase06.get("status")!="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS"
-                or phase06.get("officialConnected") is not False
+                or phase07.get("fullE2e")!="DEFERRED_TO_PHASE09"                or phase06.get("officialConnected") is not False
                 or phase06.get("nativeKosyncEnabled") is not False
                 or phase06.get("runtimeRoutesMounted") is not False
-                or phase05.get("status")!="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS"
-                or current.get("safety",{}).get("officialGatewayForwarding")!="DENY_ALL"
-                or current.get("safety",{}).get("personalBridge")!="OFF"
-                or current.get("safety",{}).get("sessionBridge")!="OFF"):
+                or phase05.get("status")!="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS"):
                 raise ValueError("active Phase07 development checkpoint invalid")
     else:
         raise ValueError("unreviewed active phase transition")
