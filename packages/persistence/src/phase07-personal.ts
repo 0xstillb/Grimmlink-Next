@@ -8,8 +8,7 @@ import { type OfflineOwner, verifyOfflineReader } from "./phase05-devices.js";
  */
 const validId = (v: unknown): v is string =>
   typeof v === "string" && /^[A-Za-z0-9_-]{1,128}$/.test(v);
-const validSha = (v: unknown): v is string =>
-  typeof v === "string" && /^[0-9a-f]{64}$/.test(v);
+const validSha = (v: unknown): v is string => typeof v === "string" && /^[0-9a-f]{64}$/.test(v);
 const validNumber = (v: unknown): v is number =>
   typeof v === "number" && Number.isSafeInteger(v) && v >= 0;
 const clean = (v: unknown, max: number, allowEmpty = false): v is string =>
@@ -58,8 +57,7 @@ function assertOwner(sqlite: Database.Database, ownerId: string): void {
   const row = sqlite.prepare("SELECT owner_id FROM single_owner WHERE slot=1").get() as
     | { owner_id: string }
     | undefined;
-  if (!validId(ownerId) || row?.owner_id !== ownerId)
-    throw new Error("PHASE07_OWNER_MISMATCH");
+  if (!validId(ownerId) || row?.owner_id !== ownerId) throw new Error("PHASE07_OWNER_MISMATCH");
 }
 
 function assertKnownFile(sqlite: Database.Database, ownerId: string, file: Phase07File): void {
@@ -86,10 +84,7 @@ function assertReader(
   token: string,
   nowMs: number,
 ): void {
-  if (
-    !validNumber(nowMs) ||
-    !verifyOfflineReader(sqlite, ownerId, deviceId, token, nowMs)
-  )
+  if (!validNumber(nowMs) || !verifyOfflineReader(sqlite, ownerId, deviceId, token, nowMs))
     throw new Error("PHASE07_READER_REVOKED_OR_EXPIRED");
 }
 
@@ -145,7 +140,9 @@ export function registerOfflinePhase07File(
     .transaction(() => {
       assertOwner(sqlite, actor.accountId);
       const phase06 = sqlite
-        .prepare("SELECT owner_id,book_id,edition_sha256 FROM phase06_offline_progress WHERE book_file_id=?")
+        .prepare(
+          "SELECT owner_id,book_id,edition_sha256 FROM phase06_offline_progress WHERE book_file_id=?",
+        )
         .get(file.bookFileId) as
         | { owner_id: string; book_id: string; edition_sha256: string }
         | undefined;
@@ -208,7 +205,9 @@ export function recordOfflinePhase07Personal(
       assertReader(sqlite, input.ownerId, input.deviceId, input.token, input.nowMs);
       assertKnownFile(sqlite, input.ownerId, input.file);
       const past = sqlite
-        .prepare("SELECT book_file_id,payload_sha256,status,observed_revision FROM phase07_personal_events WHERE event_id=?")
+        .prepare(
+          "SELECT book_file_id,payload_sha256,status,observed_revision FROM phase07_personal_events WHERE event_id=?",
+        )
         .get(input.eventId) as
         | {
             book_file_id: string;
@@ -218,18 +217,15 @@ export function recordOfflinePhase07Personal(
           }
         | undefined;
       if (past) {
-        if (
-          past.book_file_id !== input.file.bookFileId ||
-          past.payload_sha256 !== payloadHash
-        )
+        if (past.book_file_id !== input.file.bookFileId || past.payload_sha256 !== payloadHash)
           throw new Error("PHASE07_PERSONAL_REPLAY_COLLISION");
         return { status: past.status, revision: past.observed_revision };
       }
       const existing = sqlite
-        .prepare("SELECT revision FROM phase07_personal_records WHERE book_file_id=? AND kind=? AND record_id=?")
-        .get(input.file.bookFileId, input.kind, input.recordId) as
-        | { revision: number }
-        | undefined;
+        .prepare(
+          "SELECT revision FROM phase07_personal_records WHERE book_file_id=? AND kind=? AND record_id=?",
+        )
+        .get(input.file.bookFileId, input.kind, input.recordId) as { revision: number } | undefined;
       const currentRevision = existing?.revision ?? 0;
       const accepted = currentRevision === input.expectedRevision;
       const revision = accepted ? currentRevision + 1 : currentRevision;
@@ -256,7 +252,14 @@ export function recordOfflinePhase07Personal(
           .prepare(
             "INSERT INTO phase07_personal_records(book_file_id,kind,record_id,owner_id,revision,deleted,value_json,last_event_id) VALUES (?,?,?,?,1,0,?,?)",
           )
-          .run(input.file.bookFileId, input.kind, input.recordId, input.ownerId, value, input.eventId);
+          .run(
+            input.file.bookFileId,
+            input.kind,
+            input.recordId,
+            input.ownerId,
+            value,
+            input.eventId,
+          );
       }
       sqlite
         .prepare(
@@ -343,7 +346,9 @@ export function recordOfflinePhase07Session(
       assertReader(sqlite, input.ownerId, input.deviceId, input.token, input.nowMs);
       assertKnownFile(sqlite, input.ownerId, input.file);
       const past = sqlite
-        .prepare("SELECT session_id,payload_sha256,status,observed_revision FROM phase07_session_events WHERE event_id=?")
+        .prepare(
+          "SELECT session_id,payload_sha256,status,observed_revision FROM phase07_session_events WHERE event_id=?",
+        )
         .get(input.eventId) as
         | {
             session_id: string;
@@ -358,7 +363,9 @@ export function recordOfflinePhase07Session(
         return { status: past.status, revision: past.observed_revision };
       }
       const row = sqlite
-        .prepare("SELECT book_file_id,owner_id,device_id,started_at,ended_at,revision FROM phase07_sessions WHERE session_id=?")
+        .prepare(
+          "SELECT book_file_id,owner_id,device_id,started_at,ended_at,revision FROM phase07_sessions WHERE session_id=?",
+        )
         .get(input.sessionId) as
         | {
             book_file_id: string;
@@ -393,7 +400,9 @@ export function recordOfflinePhase07Session(
         if (input.nowMs < row.started_at || input.nowMs - row.started_at > 24 * 3600 * 1000)
           throw new Error("PHASE07_SESSION_DURATION_INVALID");
         const updated = sqlite
-          .prepare("UPDATE phase07_sessions SET ended_at=?,revision=2 WHERE session_id=? AND revision=1 AND ended_at IS NULL")
+          .prepare(
+            "UPDATE phase07_sessions SET ended_at=?,revision=2 WHERE session_id=? AND revision=1 AND ended_at IS NULL",
+          )
           .run(input.nowMs, input.sessionId);
         if (updated.changes !== 1) throw new Error("PHASE07_SESSION_CAS_LOST");
       }
@@ -422,7 +431,9 @@ export function readOfflinePhase07Session(
   assertReader(sqlite, input.ownerId, input.deviceId, input.token, input.nowMs);
   assertKnownFile(sqlite, input.ownerId, input.file);
   const row = sqlite
-    .prepare("SELECT device_id,started_at,ended_at,revision FROM phase07_sessions WHERE session_id=? AND book_file_id=? AND owner_id=?")
+    .prepare(
+      "SELECT device_id,started_at,ended_at,revision FROM phase07_sessions WHERE session_id=? AND book_file_id=? AND owner_id=?",
+    )
     .get(input.sessionId, input.file.bookFileId, input.ownerId) as
     | {
         device_id: string;
