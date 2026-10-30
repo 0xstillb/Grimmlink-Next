@@ -29,6 +29,11 @@ jobs:
         run: |
           pnpm install --frozen-lockfile
           pnpm rebuild better-sqlite3
+      - name: Print Prettier proposal (intentional failure until committed)
+        run: |
+          pnpm exec prettier --write apps/adapter/src/phase05-routes.ts apps/adapter/src/phase05-routes.test.ts packages/identity/src/phase05.ts packages/identity/src/phase05.test.ts packages/persistence/src/phase05-devices.ts packages/persistence/src/phase05-devices.test.ts packages/sync/src/phase05.ts packages/sync/src/phase05.test.ts
+          git diff -- apps/adapter/src/phase05-routes.ts apps/adapter/src/phase05-routes.test.ts packages/identity/src/phase05.ts packages/identity/src/phase05.test.ts packages/persistence/src/phase05-devices.ts packages/persistence/src/phase05-devices.test.ts packages/sync/src/phase05.ts packages/sync/src/phase05.test.ts
+          git diff --quiet -- apps/adapter/src/phase05-routes.ts apps/adapter/src/phase05-routes.test.ts packages/identity/src/phase05.ts packages/identity/src/phase05.test.ts packages/persistence/src/phase05-devices.ts packages/persistence/src/phase05-devices.test.ts packages/sync/src/phase05.ts packages/sync/src/phase05.test.ts
       - name: Workspace build, typecheck, formatting, lint and tests
         run: |
           pnpm build
