@@ -56,7 +56,7 @@ export function claimDuePlan(sqlite: Database.Database, owner: string, now: numb
     const changed = sqlite.prepare("UPDATE durable_jobs SET state='LEASED',lease_owner=?,lease_until=?,attempts=attempts+1,updated_at=? WHERE id=? AND state='PENDING'").run(owner, now + ttlMs, now, row.id);
     if (changed.changes !== 1) throw new Error("Lease CAS rejected");
     event(sqlite, row.id, "CLAIMED", "LOCAL_LEASE", now);
-    return { ...row, state: "LEASED", lease_owner: owner, attempts: row.attempts + 1 };
+    return { ...row, state: "LEASED" as const, lease_owner: owner, attempts: row.attempts + 1 };
   }).immediate();
 }
 export function settleClaim(sqlite: Database.Database, id: string, owner: string, now: number, outcome:
