@@ -1,3 +1,23 @@
+## PHASE05 CODE SOURCE CHECKPOINT — 2026-10-30
+
+Phase05 [Draft PR #9](https://github.com/0xstillb/Grimmlink-Next/pull/9) from Phase04 merged integration. Code `07b49a17` [Phase05 CI #41037601290](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41037601290) success plus Phase00/Gateway/Phase04 success; final docs-head CI and other workflows must be separately checked. Offline device token rotation/revocation/list, Readest GET wire contract and KOReader multilingual filename goldens added. Native Official KOSync remains BLOCKED/OFF, no live Official auth or writes, no user roles, no Phase09 hardware E2E/security review. [Result](phase-05/RESULT.md) and [Handoff](phase-05/HANDOFF.json). Integration merge only after valid checks and authorized owner instruction; main untouched.
+
+---
+
+## CURRENT — PHASE05 OFFLINE DEVELOPMENT CHECKS PASSED AT SOURCE HEAD (2026-10-30)
+
+[Draft PR #9](https://github.com/0xstillb/Grimmlink-Next/pull/9) on `feat/next-phase-05` targets merged Phase04 integration `fe83f22f`. Code SHA `8ec70e67` passed [Phase05 isolated CI #41016950913](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41016950913) and [Phase00 #41016950807](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41016950807), [Gateway #41016950889](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41016950889) and [Phase04 #41016950802](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41016950802). Latest doc commit needs its own CI verification. Status `DEV_CHECKS_PASS_WITH_DEFERRED_RISKS` means isolated byte-identity, KO filename-mode MD5, paired-device hash/revoke, durable mock KOSync/CAS and mock HTTP passed source checks; **not** full `SYNC_CODE_REVIEWED`, Official approval or physical E2E. KO partial MD5 helper/golden EPUB and Official Native/Managed owner ACL remain unverified and OFF. One independent security review + fixes and physical E2E remain Phase09, no new RBAC, main untouched.
+
+---
+
+## ACTIVE — PHASE05 OFFLINE CODE + DRAFT PR #9 (2026-10-30)
+
+From [Phase04 merged PR #8](https://github.com/0xstillb/Grimmlink-Next/pull/8) integration commit `fe83f22f`, new [Draft PR #9](https://github.com/0xstillb/Grimmlink-Next/pull/9) on `feat/next-phase-05` targets `integration/grimmlink-next`, **not main**. Current state **CODE_IMPLEMENTED_CI_PENDING**, not code review/CI approval. All Phase05 new HTTP factories unmounted. Offline SHA-256 byte evidence, KO hash ambiguity rejection, one canonical owner + multiple individually revocable token-hashed devices, persisted MOCK_MANAGED-only writer revisions, conflict/idempotent event receipts and strict mock wire tests are committed. Native Official KOSync progress is **still disabled** due atomic ACL/TOCTOU risk; no guessed partial MD5, no real account identity, no physical devices or E2E. One independent review plus fixes deferred to Phase09.
+
+Latest evidence: [Phase05 RESULT](phase-05/RESULT.md) · [HANDOFF](phase-05/HANDOFF.json) · [Phase05 CI workflow](../../.github/workflows/phase05-offline.yml). **Read live GitHub exact-head CI before assigning PASS**; no local terminal runner has run the workspace suite. Official forwarding DENY_ALL, protected writes OFF, production NOT_AUTHORIZED, multiple readers same owner, no new RBAC.
+
+---
+
 ## ACTIVE — PHASE04 CLOSURE AND OWNER-AUTHORIZED INTEGRATION MERGE (2026-10-30)
 
 [Draft PR #8](https://github.com/0xstillb/Grimmlink-Next/pull/8) on `feat/next-phase-04` now includes offline Sidecar, verified local metadata-only backup JSON, fake Official preview/explicit confirm/CAS/readback, bounded durable SQLite jobs, exclusive book locks, step receipts, local outbox UNKNOWN quarantine and owner/CSRF gated read-only/confirm route factories. Routes remain **UNMOUNTED** in production Adapter. User authorized integration merge after full exact-head CI. Final CI evidence must match HEAD; do not inherit earlier green results.

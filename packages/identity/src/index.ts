@@ -14,3 +14,5 @@ export function recordUnverifiedIdentity(bookId: string): IdentityEvidence {
     currentUserEntitlementVerified: false,
   });
 }
+export * from "./phase05.js";
+export * from "./filename-digest.js";

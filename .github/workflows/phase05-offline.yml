@@ -1,0 +1,53 @@
+name: Phase05 Identity Pairing and KOSync Offline
+on:
+  push:
+    branches: [feat/next-phase-05]
+  pull_request:
+    branches: [integration/grimmlink-next]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: phase05-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  mock-identity-sync:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.18.3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+      - name: Frozen install and SQLite native build
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm rebuild better-sqlite3
+      - name: Workspace build, typecheck, formatting, lint and tests
+        run: |
+          pnpm build
+          pnpm typecheck
+          pnpm format:check
+          pnpm lint
+          pnpm test
+      - name: Phase00 historical integrity
+        run: |
+          python3 -m unittest discover -s scripts/phase-00 -p 'test_*.py' -v
+          python3 scripts/phase-00/validate-phase00-release-gates.py --repo . --output /tmp/phase05-phase00-evidence.json
+      - name: Phase05 operational safety invariants
+        run: |
+          set -euo pipefail
+          grep -q 'NATIVE_KOSYNC_PROGRESS_BLOCKED_ATOMICITY' packages/sync/src/phase05.ts
+          grep -q 'MOCK_MANAGED' packages/persistence/src/phase05-devices.ts
+          grep -q 'OWNER_FIXTURE_REQUIRED' packages/persistence/src/phase05-devices.ts
+          ! grep -Eq 'phase05-routes|registerIsolatedPhase05Routes|phase05-devices' apps/adapter/src/server.ts
+          grep -q '"officialGatewayForwarding": "DENY_ALL"' docs/implementation/ACTIVE-SESSION.json
+          grep -q '"nativeKosyncProgress": "OFF"' docs/implementation/ACTIVE-SESSION.json
+          grep -q '"personalBridge": "OFF"' docs/implementation/ACTIVE-SESSION.json
+          echo "Offline mock only, Native KOSync remains OFF, no Phase09 E2E."
