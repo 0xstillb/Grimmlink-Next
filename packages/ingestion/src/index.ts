@@ -322,3 +322,4 @@ export async function inspectOfflineBookFixture(
     metadata: buildSparseMetadataPreview(parsed).fields,
   });
 }
+export * from "./sidecar.js";

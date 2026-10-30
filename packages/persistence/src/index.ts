@@ -222,3 +222,4 @@ function verifySqliteFile(path: string): void {
     db.close();
   }
 }
+export * from "./recovery-jobs.js";

@@ -8,3 +8,4 @@ export function nextLocalJobState(
   if (from === "LEASED" && event === "FAIL") return "FAILED";
   throw new Error("Illegal local job transition");
 }
+export * from "./event-wire.js";
