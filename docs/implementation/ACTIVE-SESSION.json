@@ -7,7 +7,7 @@
   "preferredModel": "GPT-6",
   "phase": "08",
   "phaseName": "Control Center UI, Allow-listed Diagnostics and Offline UI Packaging",
-  "phaseStatus": "CODE_IMPLEMENTED_CI_PENDING",
+  "phaseStatus": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
   "branch": "feat/next-phase-08",
   "integrationBranch": "integration/grimmlink-next",
   "productionBranch": "main",
@@ -19,7 +19,7 @@
   "phase00Review": "PASS_PHASE00_DESIGN_ONLY_RUNTIME_NOT_VERIFIED",
   "phase01Authorized": true,
   "codeImplemented": true,
-  "codeStatus": "PHASE08_OFFLINE_CODE_COMMITTED_CI_PENDING",
+  "codeStatus": "PHASE08_OFFLINE_DEV_CHECKS_PASS_OPERATIONAL_BLOCKED",
   "unitTestRun": {
     "url": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/40888013081",
     "codeHead": "2eb613b0cac39b689710501cc3dbad812e5486a2",
@@ -57,7 +57,7 @@
     "Metadata-only local backup does not cover EPUB/notes or cover payloads and does not imply real rollback",
     "Independent security review and remediation consolidated in Phase09"
   ],
-  "nextAction": "Run exact-head Phase08 CI, check scoped dependency audit and manifest, keep Draft PR stacked on Phase07; no main merge or deployment.",
+  "nextAction": "Verify exact final Phase08 documentation HEAD CI. Keep stacked PR #12 Draft and unmerged; no main or production. Phase09 retains full integrated hardware E2E and one security review/remediation.",
   "updatedAt": "2026-10-30",
   "contractLocked": true,
   "phase01Scope": "FOUNDATION_ONLY",
@@ -355,7 +355,7 @@
   },
   "phase08Work": {
     "phase": "08",
-    "status": "CODE_IMPLEMENTED_CI_PENDING",
+    "status": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
     "branch": "feat/next-phase-08",
     "baseBranch": "feat/next-phase-07",
     "baseHead": "b1a2a0424bbaa87e07e7d5429db923551155952e",
@@ -366,7 +366,14 @@
     "productionEnabled": false,
     "independentReview": "DEFERRED_TO_PHASE09",
     "fullE2e": "DEFERRED_TO_PHASE09",
-    "latestHeadCI": "PENDING",
-    "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/12"
+    "latestHeadCI": "RECHECK_AFTER_FINAL_DOCUMENTATION_COMMIT",
+    "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/12",
+    "latestCodeCI": {
+      "sourceHead": "3bd8fa209857bab80054349f654cbfe5ba04c979",
+      "run": "41061321816",
+      "runUrl": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/41061321816",
+      "conclusion": "SUCCESS",
+      "scope": "FROZEN_BUILD_TYPES_FORMAT_LINT_ALL_UNIT_MOCK_UI_PACKAGE_PHASE00_HISTORICAL_SECURITY"
+    }
   }
 }
