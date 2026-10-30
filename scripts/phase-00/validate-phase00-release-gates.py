@@ -230,6 +230,7 @@ def validate(root,out):
             phase03=current.get("phase03Work",{})
             phase02=current.get("phase02Work",{})
             if (phase06.get("status")!="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS"
+                or phase06.get("branch")!="feat/next-phase-06"
                 or phase06.get("implementationScope")!="OFFLINE_SYNTHETIC_FIXTURE_AND_SQLITE_ONLY"
                 or phase06.get("realEpubGoldenValidated") is not False
                 or phase06.get("realPdfFixtureParsed") is not False
@@ -280,7 +281,8 @@ def validate(root,out):
                 or phase07.get("shelfMutationEnabled") is not False
                 or phase07.get("productionEnabled") is not False
                 or phase07.get("independentReview")!="DEFERRED_TO_PHASE09"
-                or phase07.get("fullE2e")!="DEFERRED_TO_PHASE09"                or phase06.get("officialConnected") is not False
+                or phase07.get("fullE2e")!="DEFERRED_TO_PHASE09"
+                or phase06.get("officialConnected") is not False
                 or phase06.get("nativeKosyncEnabled") is not False
                 or phase06.get("runtimeRoutesMounted") is not False
                 or phase05.get("status")!="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS"):
