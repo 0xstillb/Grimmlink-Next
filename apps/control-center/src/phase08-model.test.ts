@@ -29,9 +29,9 @@ describe("Phase08 local diagnostics", () => {
     expect(parseLocalSnapshot(health, { ...caps, officialConnected: true }, version)).toEqual(
       DISCONNECTED,
     );
-    expect(
-      parseLocalSnapshot(health, { ...caps, gatewayForwarding: "ALLOW" }, version),
-    ).toEqual(DISCONNECTED);
+    expect(parseLocalSnapshot(health, { ...caps, gatewayForwarding: "ALLOW" }, version)).toEqual(
+      DISCONNECTED,
+    );
     expect(parseLocalSnapshot(health, caps, { ...version, mode: "LIVE" })).toEqual(DISCONNECTED);
     expect(parseLocalSnapshot({}, caps, version)).toEqual(DISCONNECTED);
     expect(parseLocalSnapshot(health, caps, { ...version, adapterVersion: "x\nsecret" })).toEqual(
