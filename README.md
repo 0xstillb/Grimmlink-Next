@@ -1,8 +1,10 @@
+> **Policy override, 2026-10-30:** [Single-Owner Private Mode](docs/implementation/SINGLE-OWNER-POLICY.md). **No mandatory independent security review during Phase00–08.** The single consolidated independent review/fix pass is Phase09. Keep historical review findings as immutable records, not current development blockers; protected Official routes still remain OFF until actually safe to enable.
+
 # GrimmLink Next
 
 **Official Grimmory Integration · Multi-Reader Progress Sync · NAS OPF Sync · Local Control Center**
 
-> **Status: Phase 01 foundation IN PROGRESS.** Local-only Adapter scaffold and isolated CI exist in Draft PR #5; no live Official backend integration, full E2E or production deployment is claimed.
+> **Status: Phase 02 mock implementation and isolated pinned Spring runtime verified; production not enabled.** Local-only Adapter scaffold and isolated CI exist in Draft PR #5; no live Official backend integration, full E2E or production deployment is claimed.
 
 ## Overview
 
@@ -21,7 +23,7 @@ The goal is to **maintain the Adapter and Lua plugin, not forks of Grimmory, Rea
 | Readers | KOReader + GrimmLink plugin, Readest Official, CrossPoint TH and Grimmory Web |
 | Progress | Official native KOSync first; managed Adapter bridge only when required |
 | EPUB positions | `@prose-reader/koreader` for XPointer ↔ CFI with evidence-based validation |
-| Personal | Official Rating/Bookmark/Annotation/Session APIs, per-user authorization |
+| Personal | Official Rating/Bookmark/Annotation/Session APIs, single owner + authenticated paired devices |
 | Networking | Exactly one published host port, `6060` |
 | Observability | Structured Pino logs, correlation IDs, durable receipts, optional scoped debug |
 | Updating | Pin upstream versions; detect releases; check compatibility before manual upgrades |
@@ -54,7 +56,7 @@ The project follows **PHASE 00–09** with a **single final production release**
 1. Read [AGENTS.md](AGENTS.md) and [docs/implementation/CONTRACT.md](docs/implementation/CONTRACT.md).
 2. Start with [PHASE 00](docs/implementation/phase-00/START-HERE.md) and inspect the upstream API implementation **before** assuming contracts.
 3. Update the [API inventory](docs/implementation/API-INVENTORY.md) and [version manifest](docs/implementation/UPSTREAM-MANIFEST.json) using actually verified sources.
-4. Work on feature branches. Do not merge to `main` or deploy before review and the PHASE 09 release gate.
+4. Work on feature branches. Do not merge to `main` or deploy before Phase09 final security review, real E2E, and explicit owner approval.
 
 **Bootstrap only:** The documents in this branch prepare the workspace. They are not evidence that PHASE 00 or any implementation Phase has passed.
 
