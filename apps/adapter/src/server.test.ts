@@ -26,6 +26,8 @@ describe("foundation server", () => {
     expect(capabilities.statusCode).toBe(200);
     expect(capabilities.json()).toMatchObject({
       phase: "02",
+      deploymentMode: "SINGLE_OWNER_PRIVATE",
+      independentSecurityReview: "DEFERRED_TO_PHASE_09",
       officialConnected: false,
       gatewayForwarding: "DENY_ALL",
       personalBridge: "OFF",
