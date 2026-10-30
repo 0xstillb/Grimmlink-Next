@@ -332,6 +332,28 @@ class GateTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,"active Phase06 development checkpoint invalid|active Phase08 development checkpoint invalid"):
                 gate.validate(self.root,self.out)
 
+    def test_phase08_merged_receipt_requires_exact_observed_pr_and_ci(self):
+        path="docs/implementation/ACTIVE-SESSION.json"
+        pristine=(self.root/path).read_text()
+        gate.validate(self.root,self.out)
+        mutations=(
+            lambda j:j["phase08Work"].pop("integrationMerge"),
+            lambda j:j["phase08Work"]["integrationMerge"].update(baseBranch="main"),
+            lambda j:j["phase08Work"]["integrationMerge"].update(mergeCommit="0"*40),
+            lambda j:j["phase08Work"]["integrationMerge"].update(pullRequestHead="0"*40),
+            lambda j:j["phase08Work"]["integrationMerge"].update(ciRun="0"),
+            lambda j:j["phase08Work"]["integrationMerge"].update(ciConclusion="PENDING"),
+            lambda j:j["phase08Work"]["integrationMerge"].update(unreviewed="PASS"),
+            lambda j:j.update(pr="https://github.com/0xstillb/Grimmlink-Next/pull/13"),
+            lambda j:j.update(prStatus="MERGED_TO_MAIN"),
+            lambda j:j.update(prStatus="DRAFT_OPEN_UNMERGED"),
+        )
+        for change in mutations:
+            (self.root/path).write_text(pristine)
+            self.mutate(path,change)
+            with self.assertRaisesRegex(ValueError,"active Phase08 development checkpoint invalid"):
+                gate.validate(self.root,self.out)
+
     def test_phase01_sensitive_feature_enable_rejected(self):
         self.mutate("docs/implementation/ACTIVE-SESSION.json",
                     lambda j:j["securityCapability"].update(metadataApply="ON"))

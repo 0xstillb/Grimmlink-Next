@@ -180,6 +180,40 @@ export function validateOfflinePdfPage(
   });
 }
 
+/** Convert page indexes only when the same PDF edition and page count are known. */
+export function mapOfflinePdfPage(
+  edition: OfflineEdition,
+  input: Readonly<{
+    edition: OfflineEdition;
+    pageIndex: number;
+    sourceBase: 0 | 1;
+    targetBase: 0 | 1;
+    pageCount: number;
+    verifiedFixturePageCount: number;
+  }>,
+) {
+  if (
+    (input.sourceBase !== 0 && input.sourceBase !== 1) ||
+    (input.targetBase !== 0 && input.targetBase !== 1) ||
+    !Number.isSafeInteger(input.pageIndex)
+  )
+    throw new Error("PHASE06_PDF_PAGE_UNVERIFIED");
+  const pageNumber = input.sourceBase === 0 ? input.pageIndex + 1 : input.pageIndex;
+  const checked = validateOfflinePdfPage(edition, {
+    edition: input.edition,
+    pageNumber,
+    pageCount: input.pageCount,
+    verifiedFixturePageCount: input.verifiedFixturePageCount,
+  });
+  return Object.freeze({
+    ...checked,
+    sourceIndex: input.pageIndex,
+    sourceBase: input.sourceBase,
+    targetIndex: input.targetBase === 0 ? pageNumber - 1 : pageNumber,
+    targetBase: input.targetBase,
+  });
+}
+
 export type OfflineResumeEvent = Readonly<{
   edition: OfflineEdition;
   revision: number;

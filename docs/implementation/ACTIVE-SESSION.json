@@ -15,7 +15,7 @@
   "lastVerifiedPriorCommit": "b1a2a0424bbaa87e07e7d5429db923551155952e",
   "currentHead": "READ_LIVE_GITHUB_NO_SELF_SHA",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/12",
-  "prStatus": "DRAFT_OPEN_UNMERGED",
+  "prStatus": "MERGED_INTEGRATION",
   "phase00Review": "PASS_PHASE00_DESIGN_ONLY_RUNTIME_NOT_VERIFIED",
   "phase01Authorized": true,
   "codeImplemented": true,
@@ -57,7 +57,7 @@
     "Metadata-only local backup does not cover EPUB/notes or cover payloads and does not imply real rollback",
     "Independent security review and remediation consolidated in Phase09"
   ],
-  "nextAction": "Verify exact final Phase08 documentation HEAD CI. Keep stacked PR #12 Draft and unmerged; no main or production. Phase09 retains full integrated hardware E2E and one security review/remediation.",
+  "nextAction": "Reconcile Phase01-08 deliverables against live Notion and the merged integration branch. Keep protected runtime features OFF while implementation and isolated verification continue; Phase09 retains integrated hardware E2E and final security review.",
   "updatedAt": "2026-10-30",
   "contractLocked": true,
   "phase01Scope": "FOUNDATION_ONLY",
@@ -366,8 +366,16 @@
     "productionEnabled": false,
     "independentReview": "DEFERRED_TO_PHASE09",
     "fullE2e": "DEFERRED_TO_PHASE09",
-    "latestHeadCI": "RECHECK_AFTER_FINAL_DOCUMENTATION_COMMIT",
+    "latestHeadCI": "SUCCESS_AT_PHASE08_PULL_REQUEST_HEAD_41061715377",
     "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/12",
+    "integrationMerge": {
+      "baseBranch": "integration/grimmlink-next",
+      "mergeCommit": "68b7d74daecdacc909ac095c86f6f95aed84ffe7",
+      "mergedAt": "2026-10-30T13:35:54Z",
+      "pullRequestHead": "ba5930614df1c48546f244226e38462319cd2f97",
+      "ciRun": "41061715377",
+      "ciConclusion": "SUCCESS"
+    },
     "latestCodeCI": {
       "sourceHead": "3bd8fa209857bab80054349f654cbfe5ba04c979",
       "run": "41061321816",

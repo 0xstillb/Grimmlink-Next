@@ -289,9 +289,25 @@ def validate(root,out):
                 raise ValueError("active Phase07 development checkpoint invalid")
             if active_phase=="08":
                 phase08=current.get("phase08Work",{})
+                # This is a recorded integration merge, not a production or
+                # runtime-security approval. The offline gate cannot itself
+                # query GitHub; the exact PR/CI receipt must be verified live.
+                merged_receipt={
+                    "baseBranch":"integration/grimmlink-next",
+                    "mergeCommit":"68b7d74daecdacc909ac095c86f6f95aed84ffe7",
+                    "mergedAt":"2026-10-30T13:35:54Z",
+                    "pullRequestHead":"ba5930614df1c48546f244226e38462319cd2f97",
+                    "ciRun":"41061715377",
+                    "ciConclusion":"SUCCESS",
+                }
+                pr_record_ok=(
+                    (current.get("prStatus")=="DRAFT_OPEN_UNMERGED" and phase08.get("integrationMerge") is None)
+                    or (current.get("prStatus")=="MERGED_INTEGRATION" and phase08.get("integrationMerge")==merged_receipt)
+                )
                 if (current.get("phaseStatus") not in ("CODE_IMPLEMENTED_CI_PENDING","DEV_CHECKS_PASS_WITH_DEFERRED_RISKS")
                     or current.get("branch")!="feat/next-phase-08"
-                    or current.get("prStatus")!="DRAFT_OPEN_UNMERGED"
+                    or current.get("pr")!="https://github.com/0xstillb/Grimmlink-Next/pull/12"
+                    or not pr_record_ok
                     or current.get("baseIntegrationCommit")!="3b5321ede76f74fd1d94ebaece119fc4f6f11aaf"
                     or current.get("deliveryPolicy",{}).get("mode")!="SINGLE_OWNER_PRIVATE"
                     or phase08.get("status")!=current.get("phaseStatus")

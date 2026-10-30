@@ -13,6 +13,14 @@
     "test": "vitest run"
   },
   "devDependencies": {
-    "@types/node": "22.18.11"
+    "@types/jsdom": "21.1.7",
+    "@types/node": "22.18.11",
+    "@types/yauzl": "2.10.3",
+    "fflate": "0.8.2"
+  },
+  "dependencies": {
+    "@prose-reader/koreader": "36.0.0",
+    "jsdom": "26.1.0",
+    "yauzl": "3.2.0"
   }
 }

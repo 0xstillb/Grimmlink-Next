@@ -323,3 +323,4 @@ export async function inspectOfflineBookFixture(
   });
 }
 export * from "./sidecar.js";
+export * from "./metadata-plan.js";

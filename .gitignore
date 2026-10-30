@@ -128,6 +128,10 @@ dist
 # pnpm
 .pnpm-store
 
+# Python bytecode from security-gate tests
+__pycache__/
+*.py[cod]
+
 # yarn v3
 .pnp.*
 .yarn/*
