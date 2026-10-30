@@ -79,7 +79,7 @@ export function buildOfflineEpubAnchorMap(
       !safeId(pair.anchorId) ||
       !/^[A-Za-z0-9_\-./]{1,512}$/.test(pair.spineHref) ||
       pair.spineHref.startsWith("/") ||
-      pair.spineHref.split("/").some((segment) => !segment || segment === "." || segment === "..") ||
+      pair.spineHref.split("/").some((segment: string) => !segment || segment === "." || segment === "..") ||
       typeof pair.textAnchor !== "string" ||
       pair.textAnchor.length < 1 ||
       pair.textAnchor.length > 1024 ||
