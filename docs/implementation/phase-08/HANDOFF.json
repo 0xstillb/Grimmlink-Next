@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "project": "GRIMMLINK NEXT",
+  "phase": "08",
+  "status": "CODE_IMPLEMENTED_CI_PENDING",
+  "branch": "feat/next-phase-08",
+  "baseBranch": "feat/next-phase-07",
+  "baseHead": "b1a2a0424bbaa87e07e7d5429db923551155952e",
+  "integrationBranch": "integration/grimmlink-next",
+  "integrationHead": "3b5321ede76f74fd1d94ebaece119fc4f6f11aaf",
+  "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/12",
+  "scope": "OFFLINE_UI_DIAGNOSTICS_PACKAGE_ONLY",
+  "delivered": [
+    "RESPONSIVE_CONTROL_CENTER_OFFLINE",
+    "LOCAL_SAME_ORIGIN_READ_ONLY_ALLOWLIST_DIAGNOSTICS",
+    "MOCK_ONLY_UPDATE_CENTER_NO_INSTALL",
+    "STATIC_UI_PACKAGE_SHA256_PREVIEW",
+    "PACKAGE_SYMLINK_AND_EXTRANEOUS_FILE_REJECTION",
+    "PHASE08_NARROW_SAST_AND_ADVISORY_EVIDENCE_CI",
+    "INHERITED_PHASE00_07_NEGATIVE_TESTS"
+  ],
+  "ci": {
+    "status": "PENDING_EXACT_HEAD",
+    "run": null
+  },
+  "safety": {
+    "singleOwner": true,
+    "multiTenantRBAC": false,
+    "officialGatewayForwarding": "DENY_ALL",
+    "personalBridge": "OFF",
+    "sessionBridge": "OFF",
+    "nativeKosync": "OFF",
+    "realUpdateEnabled": false,
+    "runtimeRoutesMounted": false,
+    "production": "NOT_AUTHORIZED",
+    "independentSecurityReview": "DEFERRED_PHASE09"
+  },
+  "deferred": [
+    "REAL_ADMIN_LOGIN_CSRF",
+    "REAL_READERS_AND_NAS_STATUS",
+    "SIGNED_UPGRADE_AND_ATOMIC_ROLLBACK",
+    "DEPENDENCY_AND_CONTAINER_PRODUCTION_HARDENING",
+    "FULL_REAL_HERMES_NAS_READER_E2E",
+    "ONE_FINAL_INDEPENDENT_SECURITY_REVIEW_AND_REMEDIATION"
+  ],
+  "nextAction": "Verify latest exact-head CI and read advisory artifact before development PASS; leave PR Draft, do not merge integration/main or deploy."
+}
