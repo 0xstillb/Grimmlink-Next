@@ -39,10 +39,8 @@ export interface IsolatedPhase07Source {
   ) => Promise<{ mode: "MANUAL_PREVIEW_ONLY"; add: string[]; remove: string[] }>;
 }
 
-const id = (v: unknown): v is string =>
-  typeof v === "string" && /^[A-Za-z0-9_-]{1,128}$/.test(v);
-const rev = (v: unknown): v is number =>
-  typeof v === "number" && Number.isSafeInteger(v) && v >= 0;
+const id = (v: unknown): v is string => typeof v === "string" && /^[A-Za-z0-9_-]{1,128}$/.test(v);
+const rev = (v: unknown): v is number => typeof v === "number" && Number.isSafeInteger(v) && v >= 0;
 const kind = (v: string): boolean => ["RATING", "BOOKMARK", "ANNOTATION"].includes(v);
 const isRecord = (v: unknown): v is Record<string, unknown> =>
   v !== null && typeof v === "object" && !Array.isArray(v);
@@ -149,10 +147,7 @@ export function registerIsolatedPhase07Routes(
     async (request, reply) => {
       const b = request.body;
       const arrayIds = (v: unknown): v is string[] =>
-        Array.isArray(v) &&
-        v.length <= 1000 &&
-        v.every(id) &&
-        new Set(v).size === v.length;
+        Array.isArray(v) && v.length <= 1000 && v.every(id) && new Set(v).size === v.length;
       if (
         !isRecord(b) ||
         keys(b) !== "known,selected,trigger" ||
