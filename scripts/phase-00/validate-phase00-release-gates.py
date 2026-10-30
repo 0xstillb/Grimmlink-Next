@@ -304,7 +304,31 @@ def validate(root,out):
                     or phase08.get("productionEnabled") is not False
                     or phase08.get("independentReview")!="DEFERRED_TO_PHASE09"
                     or phase08.get("fullE2e")!="DEFERRED_TO_PHASE09"
+                    or phase05.get("status")!="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS"
+                    or phase05.get("nativeKosyncProgress") is not False
+                    or phase05.get("actualOfficialAuth") is not False
+                    or phase05.get("officialConnected") is not False
+                    or phase05.get("runtimeRoutesMounted") is not False
+                    or phase05.get("productionEnabled") is not False
+                    or phase06.get("realEpubGoldenValidated") is not False
+                    or phase06.get("realPdfFixtureParsed") is not False
+                    or phase06.get("officialConnected") is not False
+                    or phase06.get("nativeKosyncEnabled") is not False
+                    or phase06.get("runtimeRoutesMounted") is not False
+                    or phase06.get("productionEnabled") is not False
+                    or phase06.get("independentReview")!="DEFERRED_TO_PHASE09"
+                    or phase06.get("hardwareE2e")!="DEFERRED_TO_PHASE09"
                     or phase07.get("status")!="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS"
+                    or phase07.get("realKOReaderInstalled") is not False
+                    or phase07.get("deviceGoldenValidated") is not False
+                    or phase07.get("actualOfficialAuth") is not False
+                    or phase07.get("officialConnected") is not False
+                    or phase07.get("runtimeRoutesMounted") is not False
+                    or phase07.get("nativeKosyncEnabled") is not False
+                    or phase07.get("shelfMutationEnabled") is not False
+                    or phase07.get("productionEnabled") is not False
+                    or phase07.get("independentReview")!="DEFERRED_TO_PHASE09"
+                    or phase07.get("fullE2e")!="DEFERRED_TO_PHASE09"
                     or phase07.get("personalBridgeEnabled") is not False
                     or phase07.get("sessionBridgeEnabled") is not False
                     or phase06.get("nativeKosyncEnabled") is not False):
