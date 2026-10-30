@@ -76,7 +76,7 @@ def validate(root,out):
     if active_phase=="00":
         if current.get("phaseStatus")!="CONTRACT_LOCKED_DESIGN_ONLY":
             raise ValueError("active status differs from independent design lock")
-    elif active_phase in ("01","02","03","04","05","06","07"):
+    elif active_phase in ("01","02","03","04","05","06","07","08"):
         if (current.get("phase00Review")!="PASS_PHASE00_DESIGN_ONLY_RUNTIME_NOT_VERIFIED"
             or current.get("phase01Scope")!="FOUNDATION_ONLY"):
             raise ValueError("active status differs from independent design lock")
@@ -222,7 +222,7 @@ def validate(root,out):
                 or phase02.get("runtimeSecurityAuthorized") is not False
                 or phase02.get("productionActivation")!="BLOCKED_OPERATIONAL_ENABLEMENT"):
                 raise ValueError("active Phase06 development checkpoint invalid")
-        if active_phase=="07":
+        if active_phase in ("07","08"):
             phase07=current.get("phase07Work",{})
             phase06=current.get("phase06Work",{})
             phase05=current.get("phase05Work",{})
@@ -260,7 +260,7 @@ def validate(root,out):
                 or phase02.get("productionActivation")!="BLOCKED_OPERATIONAL_ENABLEMENT"):
                 raise ValueError("active Phase06 development checkpoint invalid")
 
-            if (current.get("phaseStatus") not in ("CODE_IMPLEMENTED_CI_PENDING","DEV_CHECKS_PASS_WITH_DEFERRED_RISKS")
+            if (active_phase=="07" and (current.get("phaseStatus") not in ("CODE_IMPLEMENTED_CI_PENDING","DEV_CHECKS_PASS_WITH_DEFERRED_RISKS")
                 or current.get("branch")!="feat/next-phase-07"
                 or current.get("pr")!="https://github.com/0xstillb/Grimmlink-Next/pull/11"
                 or current.get("prStatus")!="DRAFT_OPEN_UNMERGED"
@@ -285,11 +285,33 @@ def validate(root,out):
                 or phase06.get("officialConnected") is not False
                 or phase06.get("nativeKosyncEnabled") is not False
                 or phase06.get("runtimeRoutesMounted") is not False
-                or phase05.get("status")!="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS"):
+                or phase05.get("status")!="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS")):
                 raise ValueError("active Phase07 development checkpoint invalid")
+            if active_phase=="08":
+                phase08=current.get("phase08Work",{})
+                if (current.get("phaseStatus") not in ("CODE_IMPLEMENTED_CI_PENDING","DEV_CHECKS_PASS_WITH_DEFERRED_RISKS")
+                    or current.get("branch")!="feat/next-phase-08"
+                    or current.get("prStatus")!="DRAFT_OPEN_UNMERGED"
+                    or current.get("baseIntegrationCommit")!="3b5321ede76f74fd1d94ebaece119fc4f6f11aaf"
+                    or current.get("deliveryPolicy",{}).get("mode")!="SINGLE_OWNER_PRIVATE"
+                    or phase08.get("status")!=current.get("phaseStatus")
+                    or phase08.get("branch")!="feat/next-phase-08"
+                    or phase08.get("baseBranch")!="feat/next-phase-07"
+                    or phase08.get("implementationScope")!="OFFLINE_UI_DIAGNOSTICS_PACKAGE_ONLY"
+                    or phase08.get("realUpdateEnabled") is not False
+                    or phase08.get("runtimeRoutesMounted") is not False
+                    or phase08.get("officialConnected") is not False
+                    or phase08.get("productionEnabled") is not False
+                    or phase08.get("independentReview")!="DEFERRED_TO_PHASE09"
+                    or phase08.get("fullE2e")!="DEFERRED_TO_PHASE09"
+                    or phase07.get("status")!="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS"
+                    or phase07.get("personalBridgeEnabled") is not False
+                    or phase07.get("sessionBridgeEnabled") is not False
+                    or phase06.get("nativeKosyncEnabled") is not False):
+                    raise ValueError("active Phase08 development checkpoint invalid")
     else:
         raise ValueError("unreviewed active phase transition")
-    phase01_accepted=(active_phase in ("02","03","04","05","06","07") or
+    phase01_accepted=(active_phase in ("02","03","04","05","06","07","08") or
         (active_phase=="01" and current.get("phaseStatus")=="FOUNDATION_REVIEWED"))
     if phase01_accepted:
         attestation_path="docs/implementation/phase-01/FINAL-INDEPENDENT-REVIEW-ATTESTATION-2026-10-29.md"
