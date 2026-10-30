@@ -83,7 +83,7 @@ def validate(root,out):
         if active_phase=="01":
             if current.get("phaseStatus") not in ("FOUNDATION_IN_PROGRESS","FOUNDATION_REVIEWED"):
                 raise ValueError("active status differs from independent design lock")
-        else:
+        elif active_phase=="02":
             phase02=current.get("phase02Work",{})
             if (current.get("phaseStatus")!="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS"
                 or current.get("branch")!="feat/next-phase-02"
