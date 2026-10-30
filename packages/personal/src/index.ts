@@ -26,9 +26,7 @@ const cleanText = (value: unknown, max: number): value is string =>
   value.length <= max &&
   !/[\u0000-\u001f\u007f]/.test(value);
 const cleanOptionalText = (value: unknown, max: number): value is string =>
-  typeof value === "string" &&
-  value.length <= max &&
-  !/[\u0000-\u001f\u007f]/.test(value);
+  typeof value === "string" && value.length <= max && !/[\u0000-\u001f\u007f]/.test(value);
 const cleanPosition = (value: unknown): value is string =>
   cleanText(value, 2048) &&
   (value.startsWith("epubcfi(/") || value.startsWith("xpointer(/")) &&
