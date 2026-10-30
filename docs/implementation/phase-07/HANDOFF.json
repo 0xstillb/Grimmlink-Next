@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "project": "GRIMMLINK NEXT",
+  "phase": "07",
+  "status": "CODE_IMPLEMENTED_CI_PENDING",
+  "branch": "feat/next-phase-07",
+  "baseBranch": "feat/next-phase-06",
+  "baseHead": "ae66c0b6dec46222110a04417e2545792d244f8c",
+  "integrationBranch": "integration/grimmlink-next",
+  "integrationHead": "3b5321ede76f74fd1d94ebaece119fc4f6f11aaf",
+  "pr": "TO_BE_CREATED",
+  "sourceHead": "READ_LIVE_GITHUB_NO_SELF_SHA",
+  "scope": "OFFLINE_LUA_SYNTHETIC_SQLITE_ONLY",
+  "delivered": [
+    "LUA_MOCK_EVENT_ENVELOPE",
+    "MANUAL_SHELF_PREVIEW_NO_MEMBERSHIP_WRITE",
+    "BOUNDED_RATING_BOOKMARK_ANNOTATION_CONTRACT",
+    "EXACT_OWNER_BOOK_FILE_EDITION_BINDING",
+    "PAIR_TOKEN_REVOCATION_AND_REPLAY_CAS",
+    "SQLITE_PERSONAL_AND_SESSION_PERSISTENCE",
+    "SERVER_CLOCK_SESSION_DURATION_AND_DEVICE_BINDING",
+    "PHASE07_OFFLINE_LUA_CI"
+  ],
+  "ci": {
+    "status": "PENDING_EXACT_HEAD",
+    "run": null
+  },
+  "safety": {
+    "singleOwner": true,
+    "multiTenantRBAC": false,
+    "personalBridge": "OFF",
+    "sessionBridge": "OFF",
+    "nativeKosync": "OFF",
+    "officialForwarding": "DENY_ALL",
+    "liveRoutesMounted": false,
+    "production": "NOT_AUTHORIZED",
+    "independentSecurityReview": "DEFERRED_PHASE09"
+  },
+  "deferred": [
+    "REAL_KOREADER_PLUGIN_RUNTIME",
+    "REAL_OFFICIAL_PERSONAL_API_AND_ATOMIC_ENTITLEMENT",
+    "REMOTE_OUTBOX_WITH_UNKNOWN_RECONCILIATION",
+    "REAL_BOOK_ANNOTATION_GOLDEN_AND_SHELF_MUTATION",
+    "REAL_HERMES_NAS_READERS_E2E",
+    "ONE_FINAL_INDEPENDENT_SECURITY_REVIEW_AND_REMEDIATION"
+  ],
+  "nextAction": "Verify exact HEAD Phase07 full CI, fix failures, close RESULT/HANDOFF. Do not merge to integration or main without approval."
+}
