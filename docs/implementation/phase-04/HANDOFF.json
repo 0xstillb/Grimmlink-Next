@@ -2,18 +2,32 @@
   "schemaVersion": 1,
   "project": "GRIMMLINK NEXT",
   "phase": "04",
-  "status": "IN_PROGRESS_FAIL_CLOSED",
+  "status": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
   "developmentScope": "OFFLINE_MOCK_FIXTURE_ONLY",
   "branch": "feat/next-phase-04",
   "baseBranch": "integration/grimmlink-next",
   "baseIntegrationSha": "9a9ae6e0f8deafb145f83e976331a0db48feef92",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/8",
   "currentHead": "READ_LIVE_GITHUB_NO_SELF_SHA",
-  "exactHeadCI": "PENDING_RECHECK",
+  "exactHeadCI": "RECHECK_AFTER_DOCS_COMMIT",
   "observedCiEvidence": {
-    "run": "41011043528",
-    "implementationSource": "7d35765c7592e9cb67e8853d65e743ec7b39bb9b",
-    "result": "SUCCESS_AFTER_IN_WORKSPACE_FORMATTING_NOT_CLEAN_BRANCH_PROOF"
+    "phase04": {
+      "run": "41011895509",
+      "implementationSource": "41f328d2b81f2ac36f79f0367594e50c5b7d42f2",
+      "conclusion": "SUCCESS",
+      "scope": "FROZEN_INSTALL_SQLITE_BUILD_TYPECHECK_PRETTIER_LINT_UNIT_MOCK_SQLITE_CRASH_OUTAGE_PHASE00_INTEGRITY_SAFETY_DENY"
+    },
+    "phase00": {
+      "run": "41011895521",
+      "implementationSource": "41f328d2b81f2ac36f79f0367594e50c5b7d42f2",
+      "conclusion": "SUCCESS_DESIGN_ONLY"
+    },
+    "phase02MockGateway": {
+      "run": "41011895512",
+      "implementationSource": "41f328d2b81f2ac36f79f0367594e50c5b7d42f2",
+      "conclusion": "SUCCESS_MOCK_ONLY"
+    },
+    "otherChecks": "VERIFY_LIVE_GITHUB"
   },
   "implemented": [
     "STRICT_OFFLINE_SIDECAR_PREVIEW",
@@ -44,5 +58,6 @@
   "rbac": "OUT_OF_SCOPE",
   "reviewPolicy": "PHASE09_ONLY",
   "mergeStatus": "DRAFT_UNMERGED",
-  "nextPhase": "05_AFTER_DEV_VALIDATION"
+  "nextPhase": "05_SAFE_DEVELOPMENT_ALLOWED_AFTER_VALIDATED_HANDOFF",
+  "verifiedCodeHead": "41f328d2b81f2ac36f79f0367594e50c5b7d42f2"
 }

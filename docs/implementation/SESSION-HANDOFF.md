@@ -1,10 +1,10 @@
 ## CURRENT — PHASE04 OFFLINE DEVELOPMENT CHECKPOINT (2026-10-30)
 
-**Branch:** `feat/next-phase-04` from merged Phase03 integration `9a9ae6e0`. **Draft [PR #8](https://github.com/0xstillb/Grimmlink-Next/pull/8)** targets `integration/grimmlink-next`, not `main`. **Status:** `IN_PROGRESS_FAIL_CLOSED` pending exact-head CI and remaining code review/checks.
+**Branch:** `feat/next-phase-04` from merged Phase03 integration `9a9ae6e0`. **Draft [PR #8](https://github.com/0xstillb/Grimmlink-Next/pull/8)** targets `integration/grimmlink-next`, not `main`. **Status:** `DEV_CHECKS_PASS_WITH_DEFERRED_RISKS` for isolated offline development. Operational enablement remains BLOCKED; this is not a security review.
 
 **Implemented locally:** sparse Sidecar JSON preview, OPF-first optional fallback, manual import preview-only; private checksum-verified metadata JSON backup (NOT full Official backup) and restore preview (NO Official apply); durable SQLite job leases/events, idempotency, explicit retry, failed/unknown reconciliation (never auto-resend UNKNOWN); fake-owner-only GET + finite SSE replay factory, not registered in live Adapter.
 
-**Evidence:** Phase04 isolated [CI #41011043528](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41011043528) SUCCESS for implementation checkpoint `7d35765` **after formatting within CI workspace**, not proof of clean source at later HEAD. Follow-up source has been formatted and expanded; **latest exact-head checks must be read from GitHub**. No Hermes/NAS/reader/Official real execution. One final independent security review and remediation Phase09.
+**Evidence:** Phase04 [CI #41011895509](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41011895509) **SUCCESS**, Phase00 integrity [#41011895521](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41011895521) **SUCCESS DESIGN-ONLY**, Phase02 mock Gateway [#41011895512](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41011895512) **SUCCESS**, all at verified pre-documentation head `41f328d2b81f2ac36f79f0367594e50c5b7d42f2` (clean source, no temporary formatter). Later documentation commits and other CI must be checked at their own HEAD. No Hermes/NAS/reader/Official real execution. One final independent security review and remediation Phase09.
 
 **Safety:** all gateway candidates `DENY_ALL`, `metadataApply=OFF`, NAS writes OFF, restore application OFF, production `NOT_AUTHORIZED`. Single owner; no RBAC. Historical sections below describe earlier stages and are retained for audit.
 

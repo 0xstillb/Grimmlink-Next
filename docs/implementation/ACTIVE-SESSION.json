@@ -7,19 +7,19 @@
   "preferredModel": "GPT-6",
   "phase": "04",
   "phaseName": "Offline Sidecar, Durable Jobs, Metadata Bundle & Fault Recovery",
-  "phaseStatus": "IN_PROGRESS_FAIL_CLOSED",
+  "phaseStatus": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
   "branch": "feat/next-phase-04",
   "integrationBranch": "integration/grimmlink-next",
   "productionBranch": "main",
   "baseIntegrationCommit": "9a9ae6e0f8deafb145f83e976331a0db48feef92",
-  "lastVerifiedPriorCommit": "8fa0cb244061a0640fb2d7be32c0e4b97d084529",
+  "lastVerifiedPriorCommit": "41f328d2b81f2ac36f79f0367594e50c5b7d42f2",
   "currentHead": "READ_LIVE_GITHUB_NO_SELF_SHA",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/8",
   "prStatus": "DRAFT_UNMERGED",
   "phase00Review": "PASS_PHASE00_DESIGN_ONLY_RUNTIME_NOT_VERIFIED",
   "phase01Authorized": true,
   "codeImplemented": true,
-  "codeStatus": "PHASE04_OFFLINE_MOCK_MODULES_IMPLEMENTED_WITH_NO_LIVE_APPLY",
+  "codeStatus": "PHASE04_OFFLINE_DEV_DELIVERED_OFFICIAL_APPLY_AND_NAS_WRITES_DISABLED",
   "unitTestRun": {
     "url": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/40888013081",
     "codeHead": "2eb613b0cac39b689710501cc3dbad812e5486a2",
@@ -57,7 +57,7 @@
     "Backup is local metadata-only JSON, not a full Official database/cover/notes backup or production rollback mechanism",
     "One consolidated independent security review/remediation and full Hermes/NAS/physical readers E2E deferred to Phase09"
   ],
-  "nextAction": "Run exact-HEAD Phase04/Phase00/Phase01/Phase02 checks, correct findings, record final CI. Keep PR #8 Draft; live Official operations remain DENY_ALL/OFF.",
+  "nextAction": "Phase04 offline development checks passed at 41f328d; verify exact-head CI after this documentation checkpoint, then proceed to safe Phase05 development; PR #8 stays Draft until explicit owner merge approval. No Official/NAS writes.",
   "updatedAt": "2026-10-30",
   "contractLocked": true,
   "phase01Scope": "FOUNDATION_ONLY",
@@ -209,7 +209,7 @@
     "phase": "04",
     "branch": "feat/next-phase-04",
     "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/8",
-    "status": "IN_PROGRESS_FAIL_CLOSED",
+    "status": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
     "baseIntegrationCommit": "9a9ae6e0f8deafb145f83e976331a0db48feef92",
     "implemented": [
       "STRICT_OFFLINE_SIDECAR_PREVIEW",
@@ -227,7 +227,22 @@
     "operationalEnabled": false,
     "independentReview": "DEFERRED_PHASE09",
     "fullE2e": "DEFERRED_TO_PHASE09",
-    "testEvidence": "IN_PROGRESS_RECHECK_EXACT_HEAD",
+    "testEvidence": {
+      "codeHead": "41f328d2b81f2ac36f79f0367594e50c5b7d42f2",
+      "phase04": {
+        "run": "41011895509",
+        "result": "SUCCESS"
+      },
+      "phase00": {
+        "run": "41011895521",
+        "result": "SUCCESS_DESIGN_ONLY"
+      },
+      "phase02Gateway": {
+        "run": "41011895512",
+        "result": "SUCCESS_MOCK_ONLY"
+      },
+      "otherWorkflows": "CHECK_LIVE_RUNNING_OR_PENDING"
+    },
     "runtimeOwnerAuth": "NOT_WIRED",
     "manualImport": "PREVIEW_ONLY",
     "jsonBackup": "LOCAL_ONLY",
