@@ -60,15 +60,25 @@ it("rotates an active device atomically and never exposes its token in owner lis
     const next = rotateOfflineReader(store.sqlite, owner, "tablet", 200, 3000);
     expect(next.generation).toBe(2);
     expect(next.token).not.toBe(first.token);
-    expect(verifyOfflineReader(store.sqlite, owner.accountId, "tablet", first.token, 201)).toBe(false);
-    expect(verifyOfflineReader(store.sqlite, owner.accountId, "tablet", next.token, 201)).toBe(true);
+    expect(verifyOfflineReader(store.sqlite, owner.accountId, "tablet", first.token, 201)).toBe(
+      false,
+    );
+    expect(verifyOfflineReader(store.sqlite, owner.accountId, "tablet", next.token, 201)).toBe(
+      true,
+    );
     const list = listOfflineReaders(store.sqlite, owner);
-    expect(list).toEqual([{ deviceId: "tablet", generation: 2, expiresAtMs: 3000, revokedAtMs: null }]);
+    expect(list).toEqual([
+      { deviceId: "tablet", generation: 2, expiresAtMs: 3000, revokedAtMs: null },
+    ]);
     expect(JSON.stringify(list)).not.toContain("token");
     expect(() => listOfflineReaders(store.sqlite, foreign)).toThrow("OWNER_MISMATCH");
-    expect(() => rotateOfflineReader(store.sqlite, foreign, "tablet", 202, 4000)).toThrow("OWNER_MISMATCH");
+    expect(() => rotateOfflineReader(store.sqlite, foreign, "tablet", 202, 4000)).toThrow(
+      "OWNER_MISMATCH",
+    );
     revokeOfflineReader(store.sqlite, owner, "tablet", 203);
-    expect(() => rotateOfflineReader(store.sqlite, owner, "tablet", 204, 4000)).toThrow("ROTATION_NOT_ACTIVE");
+    expect(() => rotateOfflineReader(store.sqlite, owner, "tablet", 204, 4000)).toThrow(
+      "ROTATION_NOT_ACTIVE",
+    );
     store.close();
   } finally {
     rmSync(dir, { recursive: true, force: true });

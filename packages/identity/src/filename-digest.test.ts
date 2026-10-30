@@ -63,6 +63,7 @@ it("matches KOReader v2026.07.1 filename-mode golden vectors from pinned prose-r
   for (const [name, expected] of vectors) {
     expect(koFilenameDigest(name).digest).toBe(expected);
   }
-  expect(koFilenameDigest("Les Misérables.epub").digest)
-    .not.toBe(koFilenameDigest("Les Misérables.epub").digest);
+  expect(koFilenameDigest("Les Misérables.epub").digest).not.toBe(
+    koFilenameDigest("Les Misérables.epub").digest,
+  );
 });

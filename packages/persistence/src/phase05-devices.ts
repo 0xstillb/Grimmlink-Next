@@ -128,18 +128,21 @@ export function rotateOfflineReader(
   )
     throw new Error("ROTATION_INVALID");
   const token = randomBytes(32).toString("base64url");
-  const generation = sqlite.transaction(() => {
-    assertCanonicalOwner(sqlite, actor.accountId);
-    const result = sqlite
-      .prepare(
-        "UPDATE paired_reader_devices SET token_sha256=?,expires_at=?,generation=generation+1 WHERE device_id=? AND owner_id=? AND revoked_at IS NULL AND expires_at>?",
-      )
-      .run(tokenHash(token), expiresAtMs, deviceId, actor.accountId, nowMs);
-    if (result.changes !== 1) throw new Error("ROTATION_NOT_ACTIVE");
-    const row = sqlite.prepare("SELECT generation FROM paired_reader_devices WHERE device_id=?")
-      .get(deviceId) as { generation: number };
-    return row.generation;
-  }).immediate();
+  const generation = sqlite
+    .transaction(() => {
+      assertCanonicalOwner(sqlite, actor.accountId);
+      const result = sqlite
+        .prepare(
+          "UPDATE paired_reader_devices SET token_sha256=?,expires_at=?,generation=generation+1 WHERE device_id=? AND owner_id=? AND revoked_at IS NULL AND expires_at>?",
+        )
+        .run(tokenHash(token), expiresAtMs, deviceId, actor.accountId, nowMs);
+      if (result.changes !== 1) throw new Error("ROTATION_NOT_ACTIVE");
+      const row = sqlite
+        .prepare("SELECT generation FROM paired_reader_devices WHERE device_id=?")
+        .get(deviceId) as { generation: number };
+      return row.generation;
+    })
+    .immediate();
   return { deviceId, token, generation };
 }
 
@@ -160,11 +163,11 @@ export function listOfflineReaders(
       "SELECT device_id AS deviceId,generation,expires_at AS expiresAtMs,revoked_at AS revokedAtMs FROM paired_reader_devices WHERE owner_id=? ORDER BY created_at,device_id",
     )
     .all(actor.accountId) as {
-      deviceId: string;
-      generation: number;
-      expiresAtMs: number;
-      revokedAtMs: number | null;
-    }[];
+    deviceId: string;
+    generation: number;
+    expiresAtMs: number;
+    revokedAtMs: number | null;
+  }[];
 }
 
 export type MockWriterMode = "DISABLED" | "MOCK_MANAGED";
