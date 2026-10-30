@@ -2,8 +2,9 @@
 """Phase02 HOLD gate: keep runtime-registered Spring metadata distinct from ACL authorization.
 
 By design this checker cannot award runtime authorization from static findings.
-Live Spring/ingress/current-rights verification and separate owner signoff
-must be submitted, reviewed and governed by a NEW acceptance validator.
+Actual operational forwarding remains OFF until required route, owner authentication,
+network and secret-handling runtime checks pass. Independent security review
+is DEFERRED to Phase09, and is NOT a Phase02 development phase gate.
 """
 import argparse
 import json
@@ -77,11 +78,41 @@ def verify_hold(root: Path = ROOT) -> dict:
     }
 
 
+
+
+def verify_development(root: Path = ROOT) -> dict:
+    """Permit safe development handoff; NEVER permit live forwarding or production."""
+    hold = verify_hold(root)
+    active = json.loads((root / "docs/implementation/ACTIVE-SESSION.json").read_text(encoding="utf-8"))
+    policy = active.get("deliveryPolicy", {})
+    if policy != {
+        "mode": "SINGLE_OWNER_PRIVATE",
+        "ownerCount": 1,
+        "canonicalOfficialAccounts": 1,
+        "deviceAccess": "MULTIPLE_PAIRED_SAME_OWNER",
+        "multiTenantAcl": "OUT_OF_SCOPE",
+        "independentSecurityReviewInterim": "NOT_REQUIRED_PHASES_00_TO_08",
+        "independentSecurityReviewFinal": "DEFERRED_TO_PHASE_09",
+        "developmentGates": "EVIDENCE_AND_CI_ONLY",
+        "productionGate": "FINAL_REVIEW_REAL_E2E_AND_OWNER_APPROVAL",
+        "policyFile": "docs/implementation/SINGLE-OWNER-POLICY.md",
+        "riskLedger": "docs/implementation/DEFERRED-SECURITY-LEDGER.md",
+    }:
+        raise ValueError("Single-owner policy invalid or incomplete")
+    return {
+        "phase": "02",
+        "developmentStatus": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
+        "independentReview": "DEFERRED_TO_PHASE_09",
+        "operationalEnablement": "BLOCKED",
+        "officialGatewayForwarding": hold["officialGatewayForwarding"],
+    }
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--require-exit", action="store_true")
+    parser.add_argument("--require-development", action="store_true")
     args = parser.parse_args()
-    summary = verify_hold()
+    summary = verify_development() if args.require_development else verify_hold()
     print(json.dumps(summary, sort_keys=True))
     if args.require_exit:
-        raise SystemExit("DENIED: Phase02 independent runtime security exit gate NOT PROVEN")
+        raise SystemExit("DENIED: operational Live Official forwarding is NOT authorized; independent final review is Phase09")
