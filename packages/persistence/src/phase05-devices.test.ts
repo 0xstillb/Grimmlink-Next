@@ -6,6 +6,8 @@ import { fileURLToPath } from "node:url";
 import { openLocalStore } from "./index.js";
 import {
   pairOfflineReader,
+  rotateOfflineReader,
+  listOfflineReaders,
   readOfflinePosition,
   recordOfflinePosition,
   registerOfflineSyncDocument,
@@ -44,6 +46,29 @@ it("pairs multiple same-owner devices with restart durability, expiry and immedi
     revokeOfflineReader(store.sqlite, owner, "x4", 200);
     expect(verifyOfflineReader(store.sqlite, owner.accountId, "x4", b.token, 200)).toBe(false);
     expect(verifyOfflineReader(store.sqlite, owner.accountId, "koreader", a.token, 200)).toBe(true);
+    store.close();
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+it("rotates an active device atomically and never exposes its token in owner listings", () => {
+  const dir = mkdtempSync(join(tmpdir(), "phase05-rotate-"));
+  try {
+    const store = openLocalStore(join(dir, "local.sqlite"), migrations);
+    const first = pairOfflineReader(store.sqlite, owner, "tablet", 100, 2000);
+    const next = rotateOfflineReader(store.sqlite, owner, "tablet", 200, 3000);
+    expect(next.generation).toBe(2);
+    expect(next.token).not.toBe(first.token);
+    expect(verifyOfflineReader(store.sqlite, owner.accountId, "tablet", first.token, 201)).toBe(false);
+    expect(verifyOfflineReader(store.sqlite, owner.accountId, "tablet", next.token, 201)).toBe(true);
+    const list = listOfflineReaders(store.sqlite, owner);
+    expect(list).toEqual([{ deviceId: "tablet", generation: 2, expiresAtMs: 3000, revokedAtMs: null }]);
+    expect(JSON.stringify(list)).not.toContain("token");
+    expect(() => listOfflineReaders(store.sqlite, foreign)).toThrow("OWNER_MISMATCH");
+    expect(() => rotateOfflineReader(store.sqlite, foreign, "tablet", 202, 4000)).toThrow("OWNER_MISMATCH");
+    revokeOfflineReader(store.sqlite, owner, "tablet", 203);
+    expect(() => rotateOfflineReader(store.sqlite, owner, "tablet", 204, 4000)).toThrow("ROTATION_NOT_ACTIVE");
     store.close();
   } finally {
     rmSync(dir, { recursive: true, force: true });
