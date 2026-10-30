@@ -1,6 +1,6 @@
 # Phase 07 — KOReader Lua, Shelf, Personal Records and Reading Sessions
 
-**2026-10-30: IMPLEMENTED / CI NOT YET VERIFIED.** This checkpoint does not claim runtime readiness or real reader compatibility.
+**2026-10-30: DEV_CHECKS_PASS_WITH_DEFERRED_RISKS at tested source.** This checkpoint does not claim runtime readiness or real reader compatibility.
 
 Source branch: feat/next-phase-07 stacked on Phase06 feat/next-phase-06 at ae66c0b6dec46222110a04417e2545792d244f8c. Integration is still Phase05 3b5321ede76f74fd1d94ebaece119fc4f6f11aaf; main untouched.
 
@@ -22,4 +22,4 @@ All personal/session bridge capabilities OFF; Native KOSync OFF, Official Gatewa
 
 ## Verification
 
-GitHub Actions status: **PENDING** until exact branch commit concludes. Do not interpret previous Phase06 success as Phase07 proof. Verify latest commit and attach CI receipt before moving to DEV_CHECKS_PASS_WITH_DEFERRED_RISKS.
+**Verified tested-source commit:** [48c0fafd](https://github.com/0xstillb/Grimmlink-Next/commit/48c0fafd3095ed2d81066514345edf91612443b9). [Phase07 offline CI #41058248957](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41058248957) **SUCCESS** at that exact code/document source. Included frozen pnpm install, better-sqlite3 rebuild, full build/types/Prettier/lint/Vitest, Lua5.4 mock, Phase00 historical security release-gate and failure-case tests, and no-operational-write assertions. Explicit Phase07 historical-gate regression cases also passed. **The final documentation closure commit requires its own exact-head CI verification**; this result alone never approves live Personal API/installed KOReader/production.
