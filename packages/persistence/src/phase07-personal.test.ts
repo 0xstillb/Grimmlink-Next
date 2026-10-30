@@ -180,9 +180,9 @@ it("keeps reading sessions bounded, idempotent, device-locked and server-clock s
       revision: 1,
     });
     expect(recordOfflinePhase07Session(store.sqlite, start).revision).toBe(1);
-    expect(() =>
-      recordOfflinePhase07Session(store.sqlite, { ...start, nowMs: 1001 }),
-    ).toThrow("PHASE07_SESSION_REPLAY_COLLISION");
+    expect(() => recordOfflinePhase07Session(store.sqlite, { ...start, nowMs: 1001 })).toThrow(
+      "PHASE07_SESSION_REPLAY_COLLISION",
+    );
     const stop = {
       ...start,
       eventId: "stop1",
