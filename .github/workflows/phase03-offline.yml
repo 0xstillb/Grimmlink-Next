@@ -1,0 +1,58 @@
+name: Phase03 Offline NAS/OPF (fixture-only)
+on:
+  push:
+    branches: [feat/next-phase-03]
+  pull_request:
+    branches: [feat/next-phase-02]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: phase03-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  offline-fixtures:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.18.3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+      - name: Frozen install
+        run: pnpm install --frozen-lockfile
+      - name: Rebuild SQLite native dependency for existing tests
+        run: pnpm rebuild better-sqlite3
+      - name: Build entire workspace
+        run: pnpm build
+      - name: Typecheck entire workspace
+        run: pnpm typecheck
+      - name: Lint entire workspace
+        run: pnpm lint
+      - name: Format check
+        run: pnpm format:check
+      - name: Run all isolated tests
+        run: pnpm test
+      - name: Historical Phase00 gate and adversarial status tests
+        run: |
+          python3 -m unittest discover -s scripts/phase-00 -p 'test_*.py' -v
+          python3 scripts/phase-00/validate-phase00-release-gates.py --repo . --output /tmp/phase03-phase00-evidence.json
+      - name: Independently verify Phase03 never enables live writes
+        run: |
+          set -euo pipefail
+          grep -q 'DRY_RUN_ONLY' packages/ingestion/src/index.ts
+          grep -q 'OFFLINE_FIXTURE_READ_ONLY' packages/locations/src/index.ts
+          grep -q '"metadataApply": "OFF"' docs/implementation/ACTIVE-SESSION.json
+          grep -q '"officialGatewayForwarding": "DENY_ALL"' docs/implementation/ACTIVE-SESSION.json
+          echo 'NO live NAS, Official, Hermes or reader access; Phase09 E2E only'
+      - name: Print formatting corrections on failure (not committed)
+        if: failure()
+        run: |
+          pnpm exec prettier --write packages/ingestion/src/index.ts packages/ingestion/src/index.test.ts packages/locations/src/index.ts packages/locations/src/index.test.ts
+          git diff -- packages/ingestion/src packages/locations/src | head -c 80000

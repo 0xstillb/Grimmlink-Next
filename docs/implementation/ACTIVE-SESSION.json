@@ -5,21 +5,21 @@
   "repoFullName": "0xstillb/Grimmlink-Next",
   "executionSurface": "GPT_WEB_FIRST",
   "preferredModel": "GPT-6",
-  "phase": "02",
-  "phaseName": "Single-Port Gateway, Owner Auth Contracts & Official REST Client (Mock-Only)",
+  "phase": "03",
+  "phaseName": "NAS Read-only Offline Fixtures, OPF Metadata & Cover Dry-Run",
   "phaseStatus": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
-  "branch": "feat/next-phase-02",
+  "branch": "feat/next-phase-03",
   "integrationBranch": "integration/grimmlink-next",
   "productionBranch": "main",
   "baseIntegrationCommit": "0579f64afb2d53001c915a10079d00ecd9de0091",
-  "lastVerifiedPriorCommit": "e34038b4441da1c71e819c0916c13a4d77a344ab",
+  "lastVerifiedPriorCommit": "a00c3a0b4f15ae4340eba7143176fab435154672",
   "currentHead": "READ_LIVE_GITHUB_NO_SELF_SHA",
-  "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/6",
+  "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/7",
   "prStatus": "DRAFT_UNMERGED",
   "phase00Review": "PASS_PHASE00_DESIGN_ONLY_RUNTIME_NOT_VERIFIED",
   "phase01Authorized": true,
   "codeImplemented": true,
-  "codeStatus": "PHASE02_DEVELOPMENT_DELIVERED_MOCK_ONLY_NO_LIVE_OFFICIAL",
+  "codeStatus": "PHASE03_OFFLINE_FIXTURE_DEV_DELIVERED_NO_LIVE_NAS_OR_OFFICIAL",
   "unitTestRun": {
     "url": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/40888013081",
     "codeHead": "2eb613b0cac39b689710501cc3dbad812e5486a2",
@@ -31,7 +31,10 @@
     "PHASE05_NATIVE_KOSYNC_ACL",
     "PHASE07_PERSONAL_SESSION_RUNTIME",
     "FULL_E2E_PHASE09",
-    "PHYSICAL_HERMES_NAS_READERS"
+    "PHYSICAL_HERMES_NAS_READERS",
+    "REAL_NAS_READ_ONLY_MOUNT_AND_OPENAT2_RACE_PROOF",
+    "OFFICIAL_METADATA_CAS_WRITE_AND_TARGET_LOCKS",
+    "REAL_NAS_AND_PHYSICAL_HARDWARE_E2E_PHASE09"
   ],
   "notion": {
     "phase": "https://app.notion.com/p/407c7efbc00981f7889effadc1c5ffd7",
@@ -49,11 +52,11 @@
     "fullE2ePhase": "09"
   },
   "blockers": [
-    "Phase02 integration merge is NOT performed without separate owner authorization; PR #6 remains Draft",
-    "Live Official owner identity, device pairing, real method/path authorization, TLS/IPv4/IPv6/egress and record binding are not enabled",
-    "Physical Hermes/NAS/readers and one consolidated independent security review plus remediation belong to Phase09"
+    "Phase02 PR #6 and stacked Phase03 PR #7 remain Draft/unmerged, no integration/main merge without owner authorization",
+    "Linux fixture reader is not a real NAS read-only mount or race-free directory-handle traversal proof; metadataApply remains OFF",
+    "Live Official Gateway/auth, real metadata CAS/locks, physical Hermes/NAS/readers, and one final independent security review remain Phase09 work"
   ],
-  "nextAction": "Complete exact-head Phase02/Phase00/Phase01/Spring CI readback, then proceed Phase03 safe offline development. Draft PR #6 remains unmerged; Official forwarding DENY_ALL, protected writes OFF, physical E2E and one final security review in Phase09.",
+  "nextAction": "Validate exact-head Phase03 and historical Phase00 gates; Phase04 sidecar/jobs/backup offline development may proceed without interim independent review. Both stacked PRs remain Draft; real NAS/Official and physical E2E only Phase09.",
   "updatedAt": "2026-10-30",
   "contractLocked": true,
   "phase01Scope": "FOUNDATION_ONLY",
@@ -182,5 +185,23 @@
     "productionGate": "FINAL_REVIEW_REAL_E2E_AND_OWNER_APPROVAL",
     "policyFile": "docs/implementation/SINGLE-OWNER-POLICY.md",
     "riskLedger": "docs/implementation/DEFERRED-SECURITY-LEDGER.md"
+  },
+  "phase03Work": {
+    "phase": "03",
+    "branch": "feat/next-phase-03",
+    "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/7",
+    "status": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
+    "ciVerifiedCodeHead": "a00c3a0b4f15ae4340eba7143176fab435154672",
+    "ciVerifiedCodeRun": "41007830647",
+    "ciScope": "FROZEN_INSTALL_WORKSPACE_BUILD_TYPECHECK_LINT_PRETTIER_ALL_UNIT_AND_OFFLINE_FIXTURES",
+    "writesAllowed": false,
+    "officialConnected": false,
+    "nasMountVerified": false,
+    "operationalEnabled": false,
+    "mountRaceProof": "NOT_PROVEN",
+    "sparseMetadataApply": "OFF",
+    "backupRestore": "PHASE04_OFFLINE",
+    "independentReview": "DEFERRED_PHASE09",
+    "finalExactHeadCI": "RECHECK_AFTER_THIS_HANDOFF_COMMIT"
   }
 }

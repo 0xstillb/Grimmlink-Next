@@ -9,7 +9,7 @@ All **independent security review** work is consolidated into **Phase 09**, not 
 | SG-03 | 02/05/07 | Same-owner book/file/record binding; stale/hash/race, mixed-batch/reset checks, KO progress and safe mutation | Synthetic ACL only; sensitive bridges OFF |
 | SG-04 | 02/08/09 | Host-port single ingress, TLS/SNI if crossing trust boundary, IPv4/IPv6, direct-container ingress, Docker egress firewall | Loopback Docker mock only, egress NOT PROVEN |
 | SG-05 | 00/02/05 | KO registration and generic upstream logger sanitization, no credential/token in logs | KO forward OFF; mock canary checks only |
-| SG-06 | 03/04 | NAS RO mount, safe OPF metadata apply, file integrity, backup/restore/crash and rollback | Real NAS and Official writes NOT RUN |
+| SG-06 | 03/04 | NAS RO mount, safe OPF metadata apply, file integrity, backup/restore/crash and rollback | Phase03 offline fixture OPF/cover dry-run code CI green; real RO NAS mount, race-free traversal and Official writes NOT RUN |
 | SG-07 | 05/06/07 | Multi-reader same-owner KOSync, XPointer/CFI and sessions/annotations/queue idempotency | Mock/fixtures only; high-risk writes OFF |
 | SG-08 | 08/09 | Dependency/image/config audit, container permission and production secrets | Build and isolated CI only |
 | SG-09 | **09** | **One consolidated independent security review + fixes, real hardware/network/identity tests, release owner approval** | NOT RUN; not an interim phase gate |

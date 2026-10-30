@@ -74,6 +74,10 @@ importers:
         version: 22.18.11
 
   packages/ingestion:
+    dependencies:
+      '@grimmlink/locations':
+        specifier: workspace:*
+        version: link:../locations
     devDependencies:
       '@types/node':
         specifier: 22.18.11
