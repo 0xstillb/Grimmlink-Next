@@ -34,6 +34,22 @@ class RuntimeGateTests(unittest.TestCase):
         self.assertFalse(result["runtimeAuthorized"])
         self.assertEqual(result["effectiveSpringRoutes"], "METADATA_CAPTURED_AUTHZ_NOT_PROVEN")
 
+    def test_single_owner_development_can_continue_without_independent_review(self):
+        development = MOD.verify_development(self.root)
+        self.assertEqual(development["developmentStatus"], "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS")
+        self.assertEqual(development["independentReview"], "DEFERRED_TO_PHASE_09")
+        self.assertEqual(development["operationalEnablement"], "BLOCKED")
+        self.assertEqual(development["officialGatewayForwarding"], "DENY_ALL")
+
+    def test_single_owner_policy_forgery_is_denied(self):
+        relative = "docs/implementation/ACTIVE-SESSION.json"
+        path = self.root / relative
+        doc = json.loads(path.read_text())
+        doc["deliveryPolicy"]["ownerCount"] = 2
+        path.write_text(json.dumps(doc))
+        with self.assertRaises(ValueError):
+            MOD.verify_development(self.root)
+
     def test_runtime_provenance_tamper_fails(self):
         relative = "docs/implementation/phase-02/RUNTIME-SECURITY-EVIDENCE.json"
         path = self.root / relative
