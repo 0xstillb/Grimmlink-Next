@@ -2,6 +2,8 @@
 
 **2026-10-31 reconciliation checkpoint.** Current Draft [PR #13](https://github.com/0xstillb/Grimmlink-Next/pull/13) targets `integration/grimmlink-next` at `68b7d74daecdacc909ac095c86f6f95aed84ffe7`. Latest menu source is `59175dc0e866dec7f74189f243a6a4d65a478f73`. All 10 exact-head workflows passed, including the inherited Phase01 ARM64 image build and smoke test.
 
+**Latest live PR-head verification (2026-10-31):** all **12/12 GitHub checks passed** at current PR #13 head `75301ed8fbb270ef98c2b926cb9136c904fe3533`, including `offline-personal`, `offline-progress`, `offline-recovery`, `ui-package`, ARM64, pinned runtime, and Phase00 checks. Phase07 coding is complete for the documented offline/mock scope. The KOReader package has **not** been installed on a physical reader; no live Grimmory or Official sync was run. Those checks remain Phase09.
+
 The offline menu now groups Connection/setup, sync actions, reading/session/shelf/personal data, Advanced Settings (Setup & Backup and Shelf Settings), Diagnostics and About. Every plugin callback remains an offline information preview; it makes no network request, credential access, book write or shelf mutation. Local Lua syntax/mock and deterministic ZIP checks passed. The ZIP SHA-256 is `18E3CBB0F10B6A518F7C79A9837CEA6E52A2F08E5C7091D2EFA470CA7BD7153A`.
 
 Source branch: feat/next-phase-07 stacked on Phase06 feat/next-phase-06 at ae66c0b6dec46222110a04417e2545792d244f8c. Integration is still Phase05 3b5321ede76f74fd1d94ebaece119fc4f6f11aaf; main untouched.

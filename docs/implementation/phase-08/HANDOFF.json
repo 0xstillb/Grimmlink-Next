@@ -179,6 +179,7 @@
     "localUpdateReviewSlice": {
       "status": "LOCAL_COMMIT_NOT_ON_PR_HEAD_EXACT_HEAD_CI_PENDING",
       "basedOnLocalHead": "f8d5e64",
+      "localCommit": "9d5bad67a718c66c4c31e708270d7906e88ca9e3",
       "delivered": [
         "FAIL_CLOSED_SOURCE_BASELINE_MANIFEST_DEPLOYED_VERSIONS_AND_DIGESTS_UNKNOWN",
         "STABLE_NORMALIZED_PUBLIC_FEED_EVIDENCE_SHA256",

@@ -351,7 +351,15 @@
       "run": "41058248957",
       "conclusion": "SUCCESS_AT_SOURCE_HEAD"
     },
-    "latestHeadCI": "RECHECK_AFTER_THIS_CLOSURE_COMMIT",
+    "latestHeadCI": "PASS_ALL_12_PR13_CHECKS_AT_75301ED8FBB270EF98C2B926CB9136C904FE3533",
+    "latestPr13HeadVerification": {
+      "head": "75301ed8fbb270ef98c2b926cb9136c904fe3533",
+      "passedChecks": 12,
+      "totalChecks": 12,
+      "status": "ALL_SUCCESS",
+      "physicalReaderInstall": "NOT_RUN_PHASE09",
+      "liveGrimmoryAndOfficialSync": "NOT_RUN_PHASE09"
+    },
     "reconciliationCheckpoint": {
       "date": "2026-10-31",
       "status": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS_OFFLINE_PLUGIN_UI_ONLY",
@@ -455,6 +463,7 @@
       "localUpdateReviewSlice": {
         "status": "LOCAL_COMMIT_NOT_ON_PR_HEAD_EXACT_HEAD_CI_PENDING",
         "basedOnLocalHead": "f8d5e64",
+        "localCommit": "9d5bad67a718c66c4c31e708270d7906e88ca9e3",
         "delivered": [
           "FAIL_CLOSED_SOURCE_BASELINE_MANIFEST_DEPLOYED_VERSIONS_UNKNOWN",
           "NORMALIZED_PUBLIC_FEED_EVIDENCE_SHA256",
