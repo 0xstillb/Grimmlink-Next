@@ -351,14 +351,14 @@ export function App({ initialSection = "Overview" }: { initialSection?: Section 
             </div>
             <p>
               The viewer reads only allow-listed process events through the same-origin diagnostics
-              API. A trusted owner session is required, and the default adapter keeps these routes
-              unavailable until its owner-session and CSRF verifiers are connected. The support
-              report below uses known local capability fields only.
+              API. Local owner login is available when the Adapter receives a password verifier and
+              session key; it stays disabled if either value is missing. The support report below
+              uses known local capability fields only.
             </p>
             <DiagnosticsViewer />
             <div className="status-row">
-              <span>Rotation and retention</span>
-              <strong>Process-local buffer · capped retention · no disk rotation</strong>
+              <span>Diagnostics retention</span>
+              <strong>In-memory safe events · Docker mock stdout rotates at 10 MiB × 3</strong>
             </div>
             <div className="status-row">
               <span>Local adapter</span>

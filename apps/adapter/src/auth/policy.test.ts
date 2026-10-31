@@ -27,6 +27,13 @@ const mutation = {
 describe("admin Control Center mutation guard (pure contract)", () => {
   it("allows a verified, unexpired admin with server-bound CSRF and exact origin", () => {
     expect(authorizeAdminMutation(admin, mutation)).toBe("ALLOW");
+    expect(
+      authorizeAdminMutation(admin, {
+        ...mutation,
+        origin: "http://127.0.0.1:5173",
+        expectedOrigin: "http://127.0.0.1:5173",
+      }),
+    ).toBe("ALLOW");
   });
   it("denies missing identity and refuses admin token use from a reader", () => {
     expect(authorizeAdminMutation(null, mutation)).toBe("UNAUTHENTICATED");

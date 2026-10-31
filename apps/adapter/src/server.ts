@@ -13,6 +13,7 @@ import {
   type IsolatedDiagnosticsSource,
 } from "./diagnostics-routes.js";
 import { classifyGatewayRequest } from "./gateway/route-policy.js";
+import type { OwnerAuthenticator } from "./auth/owner-auth.js";
 
 export type AdapterDiagnostics = Readonly<{
   buffers: Readonly<Record<string, SafeLogBuffer>>;
@@ -26,6 +27,8 @@ export type AdapterServerOptions = Readonly<{
    * headers or environment-controlled booleans.
    */
   diagnostics?: Pick<IsolatedDiagnosticsSource, "authorizeOwner" | "verifyCsrf">;
+  /** Optional one-owner local login; absent configuration leaves protected routes unmounted. */
+  ownerAuth?: OwnerAuthenticator;
 }>;
 
 const diagnosticsByServer = new WeakMap<object, AdapterDiagnostics>();
@@ -40,6 +43,9 @@ export async function buildServer(
   logLevel: "info" | "warn" | "error" = "info",
   options: AdapterServerOptions = {},
 ) {
+  if (options.diagnostics && options.ownerAuth) {
+    throw new Error("Specify ownerAuth or test diagnostics guards, not both");
+  }
   const buffer = new SafeLogBuffer("adapter");
   const leases = new DiagnosticLeases();
   const buffers = Object.freeze({ adapter: buffer });
@@ -70,7 +76,8 @@ export async function buildServer(
   // This is the first executable deny-before-forward layer, NOT runtime ACL proof.
   server.addHook("onRequest", async (req, reply) => {
     const decision = classifyGatewayRequest(req.method, req.raw.url ?? "", req.headers);
-    if (decision === "LOCAL_READ" || decision === "LOCAL_DIAGNOSTICS") return;
+    if (decision === "LOCAL_READ" || decision === "LOCAL_DIAGNOSTICS" || decision === "LOCAL_AUTH")
+      return;
     return reply.code(decision === "INVALID_TARGET" ? 400 : 403).send({
       error: decision === "INVALID_TARGET" ? "INVALID_REQUEST_TARGET" : "UPSTREAM_DENIED",
     });
@@ -189,13 +196,17 @@ export async function buildServer(
       releaseAuthorization: "NOT_AUTHORIZED",
     }),
   );
-  if (options.diagnostics) {
+  if (options.ownerAuth) {
+    options.ownerAuth.registerRoutes(server as unknown as FastifyInstance);
+  }
+  const diagnosticsGuards = options.ownerAuth ?? options.diagnostics;
+  if (diagnosticsGuards) {
     // The route factory uses Fastify's default logger generic; route behavior
     // is identical for this server's Pino logger instance.
     registerIsolatedDiagnosticsRoutes(server as unknown as FastifyInstance, {
       buffers,
       leases,
-      ...options.diagnostics,
+      ...diagnosticsGuards,
     });
   }
   // NO fallback, Official backend client, reading proxy, or runtime feature toggles.

@@ -16,8 +16,32 @@
         path /health /openapi.json /api/grimmlink/v2/capabilities /api/grimmlink/v2/version
     }
 
+    # Owner credentials and session cookies cross this fixed same-origin path allowlist only.
+    # The Adapter still enforces exact route methods, owner sessions, Origin and CSRF.
+    @adapter_private_api {
+        method GET POST PUT DELETE
+        path /api/grimmlink/v2/local/auth/session /api/grimmlink/v2/local/auth/login /api/grimmlink/v2/local/auth/logout /api/grimmlink/v2/local/diagnostics/adapter/logs /api/grimmlink/v2/local/diagnostics/adapter/lease
+    }
+
     route {
         handle @local_host {
+            handle @adapter_private_api {
+                reverse_proxy 127.0.0.1:6061 {
+                    # Never pass inbound Authorization or proxy-rewrite identity.
+                    # Cookie, Origin and X-CSRF-Token are needed by the fixed local auth routes.
+                    header_up -Authorization
+                    header_up -X-Auth-Key
+                    header_up -X-Auth-User
+                    header_up -Proxy-Authorization
+                    header_up -Forwarded
+                    header_up -X-Forwarded-For
+                    header_up -X-Forwarded-Host
+                    header_up -X-Forwarded-Proto
+                    header_up -X-Forwarded-Prefix
+                    header_up -X-Original-URL
+                    header_up -X-Rewrite-URL
+                }
+            }
             handle @adapter_get {
                 reverse_proxy 127.0.0.1:6061 {
                     # Never pass inbound identity or proxy-rewrite headers.

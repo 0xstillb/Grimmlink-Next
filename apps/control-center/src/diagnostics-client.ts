@@ -28,6 +28,9 @@ export class DiagnosticsClientError extends Error {
   }
 }
 
+export type OwnerSession = Readonly<{ authenticated: boolean; csrfToken: string | null }>;
+export type OwnerLogin = Readonly<{ csrfToken: string; expiresAtMs: number }>;
+
 const MODULE = "adapter";
 const MAX_RESPONSE_BYTES = 256 * 1024;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -173,6 +176,72 @@ async function requestJson(
   } catch {
     throw new Error("DIAGNOSTICS_RESPONSE_INVALID");
   }
+}
+
+function parseOwnerSession(value: unknown): OwnerSession {
+  if (
+    !record(value) ||
+    !hasOnlyKeys(value, ["authenticated", "csrfToken"]) ||
+    typeof value.authenticated !== "boolean" ||
+    (value.csrfToken !== null &&
+      (typeof value.csrfToken !== "string" || !validCsrfToken(value.csrfToken))) ||
+    (value.authenticated && typeof value.csrfToken !== "string") ||
+    (!value.authenticated && value.csrfToken !== null)
+  ) {
+    throw new Error("OWNER_SESSION_RESPONSE_INVALID");
+  }
+  return { authenticated: value.authenticated, csrfToken: value.csrfToken as string | null };
+}
+
+export async function fetchOwnerSession(signal?: AbortSignal): Promise<OwnerSession> {
+  try {
+    return parseOwnerSession(
+      await requestJson("/api/grimmlink/v2/local/auth/session", {
+        ...(signal === undefined ? {} : { signal }),
+      }),
+    );
+  } catch (error) {
+    if (error instanceof DiagnosticsClientError && error.status === 401) {
+      return { authenticated: false, csrfToken: null };
+    }
+    throw error;
+  }
+}
+
+export async function loginOwner(password: string): Promise<OwnerLogin> {
+  if (typeof password !== "string" || password.length === 0 || password.length > 1024) {
+    throw new Error("OWNER_CREDENTIALS_INVALID");
+  }
+  const value = await requestJson("/api/grimmlink/v2/local/auth/login", {
+    method: "POST",
+    body: JSON.stringify({ password }),
+  });
+  if (
+    !record(value) ||
+    !hasOnlyKeys(value, ["authenticated", "csrfToken", "expiresAtMs"]) ||
+    value.authenticated !== true ||
+    typeof value.csrfToken !== "string" ||
+    !validCsrfToken(value.csrfToken) ||
+    typeof value.expiresAtMs !== "number" ||
+    !Number.isSafeInteger(value.expiresAtMs)
+  ) {
+    throw new Error("OWNER_LOGIN_RESPONSE_INVALID");
+  }
+  return { csrfToken: value.csrfToken, expiresAtMs: value.expiresAtMs };
+}
+
+export async function logoutOwner(csrfToken: string): Promise<void> {
+  if (!validCsrfToken(csrfToken)) throw new Error("DIAGNOSTICS_CSRF_TOKEN_INVALID");
+  const response = await fetch("/api/grimmlink/v2/local/auth/logout", {
+    method: "POST",
+    credentials: "same-origin",
+    mode: "same-origin",
+    redirect: "error",
+    cache: "no-store",
+    headers: { Accept: "application/json", "x-csrf-token": csrfToken },
+  });
+  if (!response.ok) throw new DiagnosticsClientError(response.status);
+  if (response.status !== 204) throw new Error("OWNER_LOGOUT_RESPONSE_INVALID");
 }
 
 function parseLogs(value: unknown): readonly SafeDiagnosticLog[] {

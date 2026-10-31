@@ -1,5 +1,16 @@
 import { describe, expect, it } from "vitest";
+import { scryptSync } from "node:crypto";
+import { createOwnerAuthenticator } from "./auth/owner-auth.js";
 import { buildServer, getAdapterDiagnostics } from "./server.js";
+
+const OWNER_PASSWORD = "server-test-owner-password";
+const OWNER_SALT = Buffer.from("server-auth-test");
+const OWNER_HASH = `scrypt$32768$8$1$${OWNER_SALT.toString("base64url")}$${scryptSync(
+  OWNER_PASSWORD,
+  OWNER_SALT,
+  32,
+  { N: 32_768, r: 8, p: 1, maxmem: 64 * 1024 * 1024 },
+).toString("base64url")}`;
 
 describe("foundation server", () => {
   it("returns truthful local-only health and no API proxy", async () => {
@@ -34,6 +45,11 @@ describe("foundation server", () => {
       url: "/api/grimmlink/v2/local/diagnostics/adapter/logs",
     });
     expect(diagnosticsRoute.statusCode).toBe(404);
+    const ownerSessionRoute = await server.inject({
+      method: "GET",
+      url: "/api/grimmlink/v2/local/auth/session",
+    });
+    expect(ownerSessionRoute.statusCode).toBe(404);
     const diagnosticLine = buffer.read({
       code: "REQUEST_SUMMARY",
       requestId: health.headers["x-correlation-id"],
@@ -95,6 +111,39 @@ describe("foundation server", () => {
     expect(rewrite.statusCode).toBe(400);
     const encoded = await server.inject({ method: "GET", url: "/api/%2fadmin" });
     expect(encoded.statusCode).toBe(400);
+    await server.close();
+  });
+
+  it("mounts owner login and diagnostics together only when explicitly configured", async () => {
+    const ownerAuth = createOwnerAuthenticator({
+      passwordHash: OWNER_HASH,
+      sessionSigningKey: Buffer.alloc(32, 0x61),
+      publicOrigin: "http://127.0.0.1:5173",
+    });
+    const server = await buildServer("info", { ownerAuth });
+    const prefix = "/api/grimmlink/v2/local/auth";
+    const anonymous = await server.inject({ method: "GET", url: `${prefix}/session` });
+    expect(anonymous.statusCode).toBe(401);
+
+    const login = await server.inject({
+      method: "POST",
+      url: `${prefix}/login`,
+      headers: { origin: "http://127.0.0.1:5173", "content-type": "application/json" },
+      payload: { password: OWNER_PASSWORD },
+    });
+    expect(login.statusCode).toBe(200);
+    const setCookie = login.headers["set-cookie"];
+    const cookie = (Array.isArray(setCookie) ? setCookie : [setCookie])
+      .filter((value): value is string => typeof value === "string")
+      .map((value) => value.split(";", 1)[0]!)
+      .join("; ");
+    const logs = await server.inject({
+      method: "GET",
+      url: "/api/grimmlink/v2/local/diagnostics/adapter/logs",
+      headers: { cookie },
+    });
+    expect(logs.statusCode).toBe(200);
+    expect(logs.json()).toMatchObject({ module: "adapter", lines: [] });
     await server.close();
   });
 

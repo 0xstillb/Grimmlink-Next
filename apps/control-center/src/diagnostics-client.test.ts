@@ -2,7 +2,10 @@ import { afterEach, expect, it, vi } from "vitest";
 import {
   DiagnosticsClientError,
   enableDiagnosticLease,
+  fetchOwnerSession,
   fetchDiagnosticLogs,
+  loginOwner,
+  logoutOwner,
   parseSafeDiagnosticLog,
 } from "./diagnostics-client.js";
 
@@ -102,4 +105,75 @@ it("enables only bounded leases with a validated CSRF token and hides authorizat
     expect((error as Error).message).toBe("DIAGNOSTICS_REQUEST_FAILED");
     expect((error as Error).message).not.toContain("secret");
   }
+});
+
+it("uses same-origin owner session, login and logout contracts with bounded responses", async () => {
+  const csrfToken = "A".repeat(43);
+  const fetchMock = vi
+    .fn()
+    .mockResolvedValueOnce(
+      new Response(JSON.stringify({ authenticated: true, csrfToken }), {
+        headers: { "content-type": "application/json" },
+      }),
+    )
+    .mockResolvedValueOnce(
+      new Response(
+        JSON.stringify({ authenticated: true, csrfToken, expiresAtMs: 1_800_000_000_000 }),
+        {
+          headers: { "content-type": "application/json" },
+        },
+      ),
+    )
+    .mockResolvedValueOnce(new Response(null, { status: 204 }));
+  vi.stubGlobal("fetch", fetchMock);
+
+  expect(await fetchOwnerSession()).toEqual({ authenticated: true, csrfToken });
+  expect(await loginOwner("secure owner password")).toEqual({
+    csrfToken,
+    expiresAtMs: 1_800_000_000_000,
+  });
+  await logoutOwner(csrfToken);
+
+  expect(fetchMock.mock.calls.map(([url]) => url)).toEqual([
+    "/api/grimmlink/v2/local/auth/session",
+    "/api/grimmlink/v2/local/auth/login",
+    "/api/grimmlink/v2/local/auth/logout",
+  ]);
+  expect(fetchMock.mock.calls[0]?.[1]).toMatchObject({
+    method: "GET",
+    credentials: "same-origin",
+    mode: "same-origin",
+    cache: "no-store",
+  });
+  expect(fetchMock.mock.calls[1]?.[1]).toMatchObject({
+    method: "POST",
+    credentials: "same-origin",
+    mode: "same-origin",
+    cache: "no-store",
+    headers: { Accept: "application/json", "Content-Type": "application/json" },
+    body: JSON.stringify({ password: "secure owner password" }),
+  });
+  expect(fetchMock.mock.calls[2]?.[1]).toMatchObject({
+    method: "POST",
+    credentials: "same-origin",
+    mode: "same-origin",
+    cache: "no-store",
+    headers: { Accept: "application/json", "x-csrf-token": csrfToken },
+  });
+});
+
+it("treats an expired or missing owner cookie as signed out and rejects malformed login data", async () => {
+  vi.stubGlobal(
+    "fetch",
+    vi
+      .fn()
+      .mockResolvedValueOnce(new Response("", { status: 401 }))
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({ authenticated: true, csrfToken: "bad" }), {
+          headers: { "content-type": "application/json" },
+        }),
+      ),
+  );
+  expect(await fetchOwnerSession()).toEqual({ authenticated: false, csrfToken: null });
+  await expect(loginOwner("secure owner password")).rejects.toThrow("OWNER_LOGIN_RESPONSE_INVALID");
 });

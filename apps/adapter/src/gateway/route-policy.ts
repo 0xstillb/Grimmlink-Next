@@ -6,6 +6,7 @@
 export type GatewayDecision =
   | "LOCAL_READ"
   | "LOCAL_DIAGNOSTICS"
+  | "LOCAL_AUTH"
   | "INVALID_TARGET"
   | "DENY_UPSTREAM";
 
@@ -16,6 +17,7 @@ const LOCAL_READ_PATHS = new Set([
   "/api/grimmlink/v2/version",
 ]);
 const DIAGNOSTICS_PATH = /^\/api\/grimmlink\/v2\/local\/diagnostics\/adapter\/(logs|lease)$/;
+const AUTH_PATH = /^\/api\/grimmlink\/v2\/local\/auth\/(session|login|logout)$/;
 const SAFE_LOG_LEVELS = new Set(["trace", "debug", "info", "warn", "error", "fatal"]);
 const SAFE_LOG_CODES = new Set(["REQUEST_SUMMARY", "SQLITE_RETRY", "MIGRATION_STAGE"]);
 const FORBIDDEN_HEADER_NAMES = new Set([
@@ -107,6 +109,13 @@ export function classifyGatewayRequest(
 
   // Fastify may auto-register HEAD for GET; it must not inherit a local allow.
   if (method === "GET" && LOCAL_READ_PATHS.has(path) && query === undefined) return "LOCAL_READ";
+  const authPath = AUTH_PATH.exec(path);
+  if (authPath) {
+    if (query !== undefined) return "INVALID_TARGET";
+    const action = authPath[1];
+    if (action === "session" && method === "GET") return "LOCAL_AUTH";
+    if ((action === "login" || action === "logout") && method === "POST") return "LOCAL_AUTH";
+  }
   const diagnosticsPath = DIAGNOSTICS_PATH.exec(path);
   if (diagnosticsPath) {
     const resource = diagnosticsPath[1];

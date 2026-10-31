@@ -1,8 +1,10 @@
 import { validateEnvironment } from "@grimmlink/contracts";
 import { buildServer } from "./server.js";
+import { createOwnerAuthenticatorFromEnvironment } from "./auth/owner-auth.js";
 
 const config = validateEnvironment(process.env);
-const server = await buildServer(config.LOG_LEVEL);
+const ownerAuth = createOwnerAuthenticatorFromEnvironment(process.env);
+const server = await buildServer(config.LOG_LEVEL, ownerAuth ? { ownerAuth } : {});
 let closing = false;
 const close = async () => {
   if (closing) return;

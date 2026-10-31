@@ -47,6 +47,21 @@ describe("Phase02 zero-forward gateway classifier", () => {
     );
   });
 
+  it("permits only the local owner-session methods without query strings", () => {
+    const session = "/api/grimmlink/v2/local/auth/session";
+    const login = "/api/grimmlink/v2/local/auth/login";
+    const logout = "/api/grimmlink/v2/local/auth/logout";
+    expect(classify("GET", session)).toBe("LOCAL_AUTH");
+    expect(classify("POST", login)).toBe("LOCAL_AUTH");
+    expect(classify("POST", logout)).toBe("LOCAL_AUTH");
+    expect(classify("HEAD", session)).toBe("DENY_UPSTREAM");
+    expect(classify("DELETE", logout)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", session)).toBe("DENY_UPSTREAM");
+    expect(classify("GET", `${session}?token=ignored`)).toBe("INVALID_TARGET");
+    expect(classify("POST", `${login}?redirect=https://example.test`)).toBe("INVALID_TARGET");
+    expect(classify("POST", "/api/grimmlink/v2/local/auth/unknown")).toBe("DENY_UPSTREAM");
+  });
+
   it.each([
     "/",
     "/api/v1/books",

@@ -69,7 +69,8 @@ export function authorizeAdminMutation(
   if (!["POST", "PUT", "PATCH", "DELETE"].includes(request.method)) return "INVALID_REQUEST";
   if (
     !/^https:\/\/[a-z0-9.-]+(?::[0-9]{1,5})?$/.test(request.expectedOrigin) &&
-    request.expectedOrigin !== "http://127.0.0.1:6060"
+    request.expectedOrigin !== "http://127.0.0.1:6060" &&
+    request.expectedOrigin !== "http://127.0.0.1:5173"
   ) {
     return "INVALID_REQUEST";
   }

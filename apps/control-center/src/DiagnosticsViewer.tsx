@@ -5,9 +5,11 @@ import {
   DiagnosticsClientError,
   disableDiagnosticLease,
   enableDiagnosticLease,
+  fetchOwnerSession,
   fetchDiagnosticLease,
   fetchDiagnosticLogs,
-  readDiagnosticsCsrfToken,
+  loginOwner,
+  logoutOwner,
   type DiagnosticCode,
   type DiagnosticLevel,
   type DiagnosticLease,
@@ -19,6 +21,12 @@ type ConnectionState = "loading" | "ready" | "owner-required" | "unavailable" | 
 function errorMessage(error: unknown): { state: ConnectionState; message: string } {
   if (error instanceof DiagnosticsClientError && error.status === 403) {
     return { state: "owner-required", message: "Owner authorization or CSRF verification failed." };
+  }
+  if (error instanceof DiagnosticsClientError && error.status === 429) {
+    return {
+      state: "owner-required",
+      message: "Too many sign-in attempts. Wait before trying again.",
+    };
   }
   if (error instanceof DiagnosticsClientError && error.status === 404) {
     return { state: "unavailable", message: "Diagnostics routes are not enabled by this adapter." };
@@ -59,7 +67,8 @@ export function DiagnosticsViewer() {
   const [state, setState] = useState<ConnectionState>("loading");
   const [message, setMessage] = useState("Checking the local diagnostics endpoint.");
   const [busy, setBusy] = useState(false);
-  const [csrfToken] = useState(readDiagnosticsCsrfToken);
+  const [csrfToken, setCsrfToken] = useState<string | null>(null);
+  const [password, setPassword] = useState("");
   const [level, setLevel] = useState<DiagnosticLevel | "all">("all");
   const [code, setCode] = useState<DiagnosticCode | "all">("all");
   const [requestId, setRequestId] = useState("");
@@ -69,6 +78,17 @@ export function DiagnosticsViewer() {
     async (signal?: AbortSignal) => {
       setBusy(true);
       try {
+        const ownerSession = await fetchOwnerSession(signal);
+        if (signal?.aborted) return;
+        if (!ownerSession.authenticated || !ownerSession.csrfToken) {
+          setCsrfToken(null);
+          setLogs([]);
+          setLease(null);
+          setState("owner-required");
+          setMessage("Sign in with the local owner password to view diagnostics.");
+          return;
+        }
+        setCsrfToken(ownerSession.csrfToken);
         const filter = {
           ...(level === "all" ? {} : { level }),
           ...(code === "all" ? {} : { code }),
@@ -158,15 +178,92 @@ export function DiagnosticsViewer() {
     setAppliedRequestId(requestId);
   };
 
+  const submitLogin = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (busy || password.length === 0) return;
+    setBusy(true);
+    setMessage("Signing in to the local Control Center.");
+    try {
+      const session = await loginOwner(password);
+      setPassword("");
+      setCsrfToken(session.csrfToken);
+      setState("ready");
+      setMessage("Owner session started. Session expires after 10 minutes.");
+      await refresh();
+    } catch (error) {
+      setPassword("");
+      if (error instanceof DiagnosticsClientError && error.status === 401) {
+        setMessage("Owner password was not accepted.");
+      } else {
+        const next = errorMessage(error);
+        setState(next.state);
+        setMessage(next.message);
+      }
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const signOut = async () => {
+    if (!csrfToken || busy) return;
+    setBusy(true);
+    try {
+      await logoutOwner(csrfToken);
+      setCsrfToken(null);
+      setLogs([]);
+      setLease(null);
+      setState("owner-required");
+      setMessage("Owner session ended.");
+    } catch (error) {
+      const next = errorMessage(error);
+      setCsrfToken(null);
+      setState(next.state);
+      setMessage(next.message);
+    } finally {
+      setBusy(false);
+    }
+  };
+
   return (
     <section className="diagnostics-viewer" aria-label="Live diagnostics">
       <div className="panel-heading">
         <h3>Process logs</h3>
-        <span className="pill">{state === "ready" ? "Owner session" : "Protected"}</span>
+        <div className="status-row">
+          <span className="pill">{state === "ready" ? "Owner session" : "Protected"}</span>
+          {state === "ready" && (
+            <button
+              className="secondary-button"
+              type="button"
+              disabled={busy}
+              onClick={() => void signOut()}
+            >
+              Sign out
+            </button>
+          )}
+        </div>
       </div>
       <p role="status" aria-live="polite">
         {message}
       </p>
+      {state === "owner-required" && (
+        <form className="owner-login-form" onSubmit={submitLogin}>
+          <label>
+            Local owner password
+            <input
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              autoComplete="current-password"
+              maxLength={1024}
+              required
+              spellCheck={false}
+            />
+          </label>
+          <button className="primary-button" type="submit" disabled={busy || password.length === 0}>
+            {busy ? "Signing in…" : "Sign in"}
+          </button>
+        </form>
+      )}
       <form className="diagnostic-filters" onSubmit={applyFilters}>
         <label>
           Level
@@ -292,11 +389,6 @@ export function DiagnosticsViewer() {
           {state === "ready"
             ? "No matching safe diagnostic events."
             : "No diagnostic log text is displayed."}
-        </p>
-      )}
-      {!csrfToken && state === "ready" && (
-        <p className="diagnostic-note">
-          Controls are disabled until the trusted owner page supplies a CSRF token.
         </p>
       )}
     </section>
