@@ -1,14 +1,14 @@
 # Phase 07 — KOReader Lua, Shelf, Personal Records and Reading Sessions
 
-**2026-10-30: offline preview package added after the earlier tested source.** This checkpoint does not claim sync readiness or real reader compatibility; new changes require exact-head CI.
+**2026-10-31 reconciliation checkpoint.** Current Draft [PR #13](https://github.com/0xstillb/Grimmlink-Next/pull/13) targets `integration/grimmlink-next` at `68b7d74daecdacc909ac095c86f6f95aed84ffe7`. Latest menu source is `59175dc0e866dec7f74189f243a6a4d65a478f73`. All 10 exact-head workflows passed, including the inherited Phase01 ARM64 image build and smoke test.
 
-Current reconciliation work is on Draft [PR #13](https://github.com/0xstillb/Grimmlink-Next/pull/13), based on integration `68b7d74daecdacc909ac095c86f6f95aed84ffe7`. Plugin/menu source commit: `40f960135c8b12fb85b2182a0a29c4d8eb0459ed`. Local Lua syntax, menu callback mock, and deterministic ZIP checks passed; exact-head GitHub CI is queued for this source.
+The offline menu now groups Connection/setup, sync actions, reading/session/shelf/personal data, Advanced Settings (Setup & Backup and Shelf Settings), Diagnostics and About. Every plugin callback remains an offline information preview; it makes no network request, credential access, book write or shelf mutation. Local Lua syntax/mock and deterministic ZIP checks passed. The ZIP SHA-256 is `18E3CBB0F10B6A518F7C79A9837CEA6E52A2F08E5C7091D2EFA470CA7BD7153A`.
 
 Source branch: feat/next-phase-07 stacked on Phase06 feat/next-phase-06 at ae66c0b6dec46222110a04417e2545792d244f8c. Integration is still Phase05 3b5321ede76f74fd1d94ebaece119fc4f6f11aaf; main untouched.
 
 ## Implemented (offline synthetic only)
 
-- Installable KOReader UI preview at `plugins/koreader/grimmlink_next.koplugin/`: valid `_meta.lua`/`main.lua`, Tools menu with Status, Connection, Progress, Sessions, Shelves, Personal Data and Diagnostics entries, plus a deterministic ZIP packager. All network and sync actions explain that the offline preview is disabled; no credentials, network or file writes.
+- Installable KOReader UI preview at `plugins/koreader/grimmlink_next.koplugin/`: valid `_meta.lua`/`main.lua`, GrimmLink-like menu categories and a deterministic ZIP packager. Actions are offline information previews; no credentials, network or file writes.
 - Bounded Lua offline core: event envelope and **manual** shelf preview; the menu preview is not the GrimmLink sync client.
 - packages/personal: strict personal payload contract for ratings (1–5), bookmarks and annotations; deterministic manual shelf diff. No reset-rating or personal bridge enablement.
 - Guarded Fastify mock route factory (not mounted) for reader personal GET/PUT, session events, and CSRF-protected owner manual-shelf preview, with HTTP negative tests.
@@ -25,4 +25,6 @@ All personal/session bridge capabilities OFF; Native KOSync OFF, Official Gatewa
 
 ## Verification
 
-**Verified tested-source commit:** [48c0fafd](https://github.com/0xstillb/Grimmlink-Next/commit/48c0fafd3095ed2d81066514345edf91612443b9). [Phase07 offline CI #41058248957](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41058248957) **SUCCESS** at that exact code/document source. Included frozen pnpm install, better-sqlite3 rebuild, full build/types/Prettier/lint/Vitest, Lua5.4 mock, Phase00 historical security release-gate and failure-case tests, and no-operational-write assertions. Explicit Phase07 historical-gate regression cases also passed. **The final documentation closure commit requires its own exact-head CI verification**; this result alone never approves live Personal API/installed KOReader/production.
+**Current exact-head evidence:** [Phase07 offline CI #41172702405](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41172702405) **SUCCESS** at `59175dc0e866dec7f74189f243a6a4d65a478f73`. All 10 PR-head workflows passed, including Phase01 ARM64 image build/smoke and Phase02 pinned Spring evidence. This proves offline package/menu checks, not a physical KOReader install, live sync, Official writes, or production readiness.
+
+**Historical baseline:** the earlier code/document source `48c0fafd3095ed2d81066514345edf91612443b9` passed Phase07 CI #41058248957. That evidence remains historical and does not substitute for the current-head runs.
