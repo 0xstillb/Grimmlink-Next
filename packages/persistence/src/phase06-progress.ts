@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import type Database from "better-sqlite3";
+import { parseXPointer } from "@prose-reader/koreader";
 import { type OfflineOwner, verifyOfflineReader } from "./phase05-devices.js";
 
 /**
@@ -10,14 +11,22 @@ const id = (v: unknown): v is string => typeof v === "string" && /^[A-Za-z0-9_-]
 const sha = (v: unknown): v is string => typeof v === "string" && /^[a-f0-9]{64}$/.test(v);
 const validInt = (v: unknown): v is number =>
   typeof v === "number" && Number.isSafeInteger(v) && v >= 0;
-const opaque = (v: unknown): v is string =>
-  typeof v === "string" &&
-  v.length > 3 &&
-  v.length <= 2048 &&
-  (v.startsWith("epubcfi(/") || v.startsWith("xpointer(/")) &&
-  v.endsWith(")") &&
-  !/[\x00-\x20\x7f<>%\\]/.test(v) &&
-  v.indexOf(")") === v.length - 1;
+function isCrengineXPointer(value: string): boolean {
+  if (!value.startsWith("/body/")) return false;
+  try {
+    return parseXPointer(value) !== undefined;
+  } catch {
+    return false;
+  }
+}
+
+function opaque(v: unknown): v is string {
+  if (typeof v !== "string" || v.length <= 3 || v.length > 2048 || /[\x00-\x20\x7f<>%\\]/.test(v))
+    return false;
+  if (v.startsWith("epubcfi(/") || v.startsWith("xpointer(/"))
+    return v.endsWith(")") && v.indexOf(")") === v.length - 1;
+  return isCrengineXPointer(v);
+}
 
 export type OfflineProgressIdentity = Readonly<{
   bookId: string;

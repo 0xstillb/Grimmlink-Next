@@ -208,6 +208,20 @@ it("rejects drift, unauthenticated/revoked readers, invalid pages and cross-form
         position: epubPosition,
       }),
     ).toThrow("PHASE06_OFFLINE_POSITION_INVALID");
+    registerOfflineProgressFile(store.sqlite, owner, epub);
+    expect(() =>
+      recordOfflinePhase06Progress(store.sqlite, {
+        ...put,
+        identity: epub,
+        eventId: "ev_bad_xpointer",
+        position: {
+          kind: "EPUB_EXACT",
+          anchorId: "dom_bad_xpointer",
+          nativePosition: "/body/garbage",
+          evidence: "EPUB_DOM_ROUNDTRIP_ONLY",
+        },
+      }),
+    ).toThrow("PHASE06_OFFLINE_POSITION_INVALID");
     expect(() =>
       recordOfflinePhase06Progress(store.sqlite, {
         ...put,
