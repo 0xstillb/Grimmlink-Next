@@ -52,15 +52,15 @@
     "FULL_REAL_HERMES_NAS_READER_E2E",
     "ONE_FINAL_INDEPENDENT_SECURITY_REVIEW_AND_REMEDIATION"
   ],
-  "nextAction": "Verify exact-head CI for the current authenticated Settings policy snapshot, then implement and verify Identity, Reading and OPDS API screens, device inventory and mutable settings, reviewed compatibility evidence and owner approval, and package/config/rollback hardening before claiming Phase08 ready for Phase09.",
+  "nextAction": "Verify exact-head CI for the current Identity/Reading/OPDS unavailable-status screens, then add real domain providers only with trusted data sources, complete the device inventory and editable settings scope, review compatibility evidence and owner approval, and harden package/config/rollback before claiming Phase08 ready for Phase09.",
   "reconciliationCheckpoint": {
     "date": "2026-10-31",
     "status": "IN_PROGRESS_OFFLINE_RECONCILIATION",
     "branch": "codex/phase-01-08-completion",
     "pullRequest": "https://github.com/0xstillb/Grimmlink-Next/pull/13",
     "baseIntegrationHead": "68b7d74daecdacc909ac095c86f6f95aed84ffe7",
-    "sourceHead": "3ef91558179d02fe781b0884d26ee9632c19f907",
-    "previousCommittedSourceHead": "4aacd46cd7e5592654967b4db59152c941cf9bcc",
+    "sourceHead": "49d0746ae2c779846e284b1c42f877651b89799d",
+    "previousCommittedSourceHead": "3ef91558179d02fe781b0884d26ee9632c19f907",
     "previousCommittedHeadLinuxCI": "B49AFC780879DAD2E0E4F1DDC29CACF967DD0146_SUCCESS_10_WORKFLOWS",
     "delivered": [
       "10_NAVIGATION_SECTIONS_WITH_EXPLICIT_UNAVAILABLE_STATES",
@@ -82,7 +82,8 @@
       "OWNER_AUTHENTICATED_LOCAL_JOBS_SCREEN_AND_SQLITE_QUEUE_API",
       "OWNER_CSRF_GUARDED_USER_SELECTED_OPF_PREVIEW_IN_MEMORY_NO_NAS_NO_WRITEBACK",
       "OWNER_CSRF_GUARDED_USER_SELECTED_SIDECAR_JSON_METADATA_PREVIEW_IN_MEMORY_NO_IMPORT_NO_ADJACENT_WRITE",
-      "OWNER_AUTHENTICATED_READ_ONLY_FIXED_FAIL_CLOSED_SETTINGS_POLICY_SNAPSHOT"
+      "OWNER_AUTHENTICATED_READ_ONLY_FIXED_FAIL_CLOSED_SETTINGS_POLICY_SNAPSHOT",
+      "OWNER_AUTHENTICATED_IDENTITY_READING_OPDS_UNAVAILABLE_STATUS_SCREEN_API_NO_DOMAIN_DATA"
     ],
     "localChecks": {
       "controlCenterTypecheck": "PASS_LOCAL_WORKSPACE_BINARY",
@@ -120,6 +121,11 @@
       "settingsControlCenterTypecheck": "PASS",
       "settingsControlCenterViteBuild": "PASS",
       "settingsTargetedEslintPrettierDiffCheck": "PASS",
+      "domainScreenStatusTests": "PASS_76_TESTS_ACROSS_11_FILES",
+      "domainScreenStatusAdapterTypecheck": "PASS_WITH_TEMPORARY_WORKSPACE_PATH_MAPPINGS",
+      "domainScreenStatusControlCenterTypecheck": "PASS",
+      "domainScreenStatusControlCenterViteBuild": "PASS",
+      "domainScreenStatusTargetedEslintPrettierDiffCheck": "PASS",
       "phase08StaticPolicyScan": "PASS",
       "phase00GateValidator": "PASS_13_GATE_ROWS",
       "packageManager": "COREPACK_DOWNLOAD_BLOCKED_LOCAL_WORKSPACE_BINARIES_USED",
@@ -128,13 +134,13 @@
       "fullWindowsWorkspaceVitest": "FAIL_181_PASSED_26_PLATFORM_OR_LOOPBACK_FAILURES",
       "fullRepositoryPrettier": "FAIL_84_PREEXISTING_FILES_REPORTED"
     },
-    "exactHeadLinuxCI": "PASS_10_WORKFLOWS_AT_3EF9155_INCLUDING_PHASE01_ARM64_PHASE02_SPRING_AND_PHASE07",
-    "currentCheckpointExactHeadLinuxCI": "3EF9155_PASS_10_WORKFLOWS;_SETTINGS_POLICY_SLICE_EXACT_HEAD_CI_PENDING;_READ_LIVE_GITHUB_FOR_CURRENT_PR_HEAD",
+    "exactHeadLinuxCI": "PASS_10_WORKFLOWS_AT_49D0746_INCLUDING_PHASE01_ARM64_PHASE02_SPRING_PHASE07_AND_PHASE08",
+    "currentCheckpointExactHeadLinuxCI": "49D0746_PASS_10_WORKFLOWS;_IDENTITY_READING_OPDS_STATUS_SLICE_EXACT_HEAD_CI_PENDING;_READ_LIVE_GITHUB_FOR_CURRENT_PR_HEAD",
     "additionalOfflineDiagnosticsFactory": "MAIN_OPTIONALLY_MOUNTS_OWNER_AUTH_CSRF_DIAGNOSTICS_SUPPORT_BUNDLE_AND_CONFIGURED_FIXED_ORIGIN_GITHUB_FEED;_AUTH_AND_FEED_DISABLED_WITHOUT_ENV_CONFIG",
     "notDelivered": [
       "REVIEWED_COMPATIBILITY_MANIFEST_AND_EVIDENCE_BASED_IMPACT_CLASSIFICATION",
       "TRUSTED_OWNER_MANUAL_APPROVAL_WORKFLOW_WITHOUT_AUTOMATIC_INSTALL",
-      "AUTHENTICATED_SCREEN_API_INTEGRATION_FOR_IDENTITY_READING_AND_OPDS",
+      "TRUSTED_DOMAIN_DATA_PROVIDERS_FOR_IDENTITY_READING_AND_OPDS_NOT_CONFIGURED",
       "OWNER_AUTHENTICATED_DEVICE_INVENTORY_AND_MUTABLE_SETTINGS_NOT_IMPLEMENTED",
       "PRODUCTION_RELEASE_PACKAGE_CONFIG_AND_ROLLBACK_HARDENING",
       "LIVE_OWNER_CREDENTIALS_AND_NETWORK_EGRESS_POLICY_NOT_EXERCISED",

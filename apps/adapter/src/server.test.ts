@@ -209,6 +209,18 @@ describe("foundation server", () => {
       automaticUpdates: "OFF",
       production: "NOT_AUTHORIZED",
     });
+    const screenStatus = await server.inject({
+      method: "GET",
+      url: "/api/grimmlink/v2/local/screens/status",
+      headers: { cookie },
+    });
+    expect(screenStatus.statusCode).toBe(200);
+    expect(screenStatus.json()).toMatchObject({
+      source: "NO_DOMAIN_PROVIDER_CONFIGURED",
+      identity: { status: "UNAVAILABLE" },
+      reading: { status: "UNAVAILABLE" },
+      opds: { status: "UNAVAILABLE" },
+    });
     const openapi = await server.inject({ method: "GET", url: "/openapi.json" });
     expect(
       openapi.json().paths["/api/grimmlink/v2/local/opf/preview"].post.responses["200"],
@@ -218,6 +230,9 @@ describe("foundation server", () => {
     ).toBeDefined();
     expect(
       openapi.json().paths["/api/grimmlink/v2/local/settings/status"].get.responses["200"],
+    ).toBeDefined();
+    expect(
+      openapi.json().paths["/api/grimmlink/v2/local/screens/status"].get.responses["200"],
     ).toBeDefined();
     const anonymousOpf = await server.inject({
       method: "POST",
@@ -239,6 +254,12 @@ describe("foundation server", () => {
     });
     expect(anonymousSettings.statusCode).toBe(403);
     expect(anonymousSettings.json()).toEqual({ error: "OWNER_AUTH_REQUIRED" });
+    const anonymousScreenStatus = await server.inject({
+      method: "GET",
+      url: "/api/grimmlink/v2/local/screens/status",
+    });
+    expect(anonymousScreenStatus.statusCode).toBe(403);
+    expect(anonymousScreenStatus.json()).toEqual({ error: "OWNER_AUTH_REQUIRED" });
     await server.close();
   });
 
