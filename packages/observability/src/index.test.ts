@@ -232,6 +232,29 @@ describe("bounded in-memory safe log buffer", () => {
     expect(buffer.read({}, now)).toEqual([]);
   });
 
+  it("applies owner-selected retention bounds immediately without exceeding hard caps", () => {
+    let now = 500;
+    const buffer = new SafeLogBuffer("adapter", {
+      maxEntries: 10,
+      maxBytes: 4_096,
+      retentionMs: 1_000,
+      now: () => now,
+    });
+    const logger = createLogger("adapter", "info", buffer);
+    for (let count = 1; count <= 3; count += 1) {
+      logger.info({ code: "REQUEST_SUMMARY", count }, "SCOPED_DIAGNOSTIC");
+      now += 1;
+    }
+    buffer.configure({ maxEntries: 1, maxBytes: 512, retentionMs: 2 });
+    expect(buffer.limits()).toEqual({ maxEntries: 1, maxBytes: 512, retentionMs: 2 });
+    expect(buffer.read({}, now)).toHaveLength(1);
+    now += 3;
+    expect(buffer.read({}, now)).toEqual([]);
+    expect(() => buffer.configure({ maxEntries: 10_001, maxBytes: 512, retentionMs: 2 })).toThrow(
+      "Invalid log buffer limits",
+    );
+  });
+
   it("rejects unbounded limits and malformed filters", () => {
     expect(() => new SafeLogBuffer("../adapter")).toThrow("Invalid log buffer module");
     expect(() => new SafeLogBuffer("adapter", { maxEntries: 10_001 })).toThrow(

@@ -134,6 +134,15 @@ describe("Phase02 zero-forward gateway classifier", () => {
     expect(classify("GET", `${status}?mode=prod`)).toBe("INVALID_TARGET");
   });
 
+  it("permits only owner-guarded local diagnostics retention settings", () => {
+    const settings = "/api/grimmlink/v2/local/settings/diagnostics";
+    expect(classify("GET", settings)).toBe("LOCAL_SETTINGS");
+    expect(classify("PUT", settings)).toBe("LOCAL_SETTINGS");
+    expect(classify("POST", settings)).toBe("DENY_UPSTREAM");
+    expect(classify("DELETE", settings)).toBe("DENY_UPSTREAM");
+    expect(classify("GET", `${settings}?x=1`)).toBe("INVALID_TARGET");
+  });
+
   it("permits only the owner-guarded local device inventory and mutation paths", () => {
     const devices = "/api/grimmlink/v2/local/devices";
     expect(classify("GET", devices)).toBe("LOCAL_SETTINGS");

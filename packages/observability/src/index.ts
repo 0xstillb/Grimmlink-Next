@@ -168,9 +168,9 @@ const DEFAULT_LOG_BUFFER = Object.freeze({
 export class SafeLogBuffer implements DestinationStream {
   private readonly entries: BufferedLog[] = [];
   private retainedBytes = 0;
-  private readonly maxEntries: number;
-  private readonly maxBytes: number;
-  private readonly retentionMs: number;
+  private maxEntries: number;
+  private maxBytes: number;
+  private retentionMs: number;
   private readonly clock: () => number;
 
   constructor(
@@ -187,16 +187,46 @@ export class SafeLogBuffer implements DestinationStream {
     this.retentionMs = options.retentionMs ?? DEFAULT_LOG_BUFFER.retentionMs;
     this.clock = options.now ?? Date.now;
     if (!/^[a-z][a-z0-9_-]{0,63}$/.test(module)) throw new Error("Invalid log buffer module");
+    this.assertLimits(this.maxEntries, this.maxBytes, this.retentionMs);
+  }
+
+  limits(): Readonly<{ maxEntries: number; maxBytes: number; retentionMs: number }> {
+    return Object.freeze({
+      maxEntries: this.maxEntries,
+      maxBytes: this.maxBytes,
+      retentionMs: this.retentionMs,
+    });
+  }
+
+  /** Change bounded retention without allowing a caller to expand beyond hard caps. */
+  configure(limits: Readonly<{ maxEntries: number; maxBytes: number; retentionMs: number }>): void {
+    this.assertLimits(limits.maxEntries, limits.maxBytes, limits.retentionMs);
+    this.maxEntries = limits.maxEntries;
+    this.maxBytes = limits.maxBytes;
+    this.retentionMs = limits.retentionMs;
+    let now: number;
+    try {
+      now = this.clock();
+    } catch {
+      now = -1;
+    }
+    if (Number.isSafeInteger(now) && now >= 0) this.prune(now);
+    while (this.entries.length > this.maxEntries || this.retainedBytes > this.maxBytes) {
+      this.removeOldest();
+    }
+  }
+
+  private assertLimits(maxEntries: number, maxBytes: number, retentionMs: number): void {
     if (
-      !Number.isSafeInteger(this.maxEntries) ||
-      this.maxEntries < 1 ||
-      this.maxEntries > 10_000 ||
-      !Number.isSafeInteger(this.maxBytes) ||
-      this.maxBytes < 256 ||
-      this.maxBytes > 8 * 1024 * 1024 ||
-      !Number.isSafeInteger(this.retentionMs) ||
-      this.retentionMs < 1 ||
-      this.retentionMs > DEFAULT_LOG_BUFFER.retentionMs
+      !Number.isSafeInteger(maxEntries) ||
+      maxEntries < 1 ||
+      maxEntries > 10_000 ||
+      !Number.isSafeInteger(maxBytes) ||
+      maxBytes < 256 ||
+      maxBytes > 8 * 1024 * 1024 ||
+      !Number.isSafeInteger(retentionMs) ||
+      retentionMs < 1 ||
+      retentionMs > DEFAULT_LOG_BUFFER.retentionMs
     ) {
       throw new Error("Invalid log buffer limits");
     }

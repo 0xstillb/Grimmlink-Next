@@ -33,6 +33,7 @@ const LOCAL_JOBS_PATH = "/api/grimmlink/v2/local/jobs";
 const LOCAL_OPF_PREVIEW_PATH = "/api/grimmlink/v2/local/opf/preview";
 const LOCAL_SIDECAR_PREVIEW_PATH = "/api/grimmlink/v2/local/sidecar/preview";
 const LOCAL_SETTINGS_PATH = "/api/grimmlink/v2/local/settings/status";
+const LOCAL_DIAGNOSTICS_SETTINGS_PATH = "/api/grimmlink/v2/local/settings/diagnostics";
 const LOCAL_DEVICES_PATH = "/api/grimmlink/v2/local/devices";
 const LOCAL_DEVICE_ACTION_PATH =
   /^\/api\/grimmlink\/v2\/local\/devices\/[A-Za-z0-9_-]{1,128}\/(rotate|revoke)$/;
@@ -158,6 +159,10 @@ export function classifyGatewayRequest(
   if (path === LOCAL_SETTINGS_PATH) {
     if (query !== undefined) return "INVALID_TARGET";
     if (method === "GET") return "LOCAL_SETTINGS";
+  }
+  if (path === LOCAL_DIAGNOSTICS_SETTINGS_PATH) {
+    if (query !== undefined) return "INVALID_TARGET";
+    if (method === "GET" || method === "PUT") return "LOCAL_SETTINGS";
   }
   if (path === LOCAL_DEVICES_PATH || LOCAL_DEVICE_ACTION_PATH.test(path)) {
     if (query !== undefined) return "INVALID_TARGET";

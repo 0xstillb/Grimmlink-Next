@@ -60,6 +60,13 @@
     "pullRequest": "https://github.com/0xstillb/Grimmlink-Next/pull/13",
     "baseIntegrationHead": "68b7d74daecdacc909ac095c86f6f95aed84ffe7",
     "sourceHead": "ad87cf22f1a8561b2e8df5e4314f3264d0eaa0a1",
+    "workstreamOrder": ["ADAPTER", "KOREADER_PLUGIN"],
+    "currentWorkstream": "ADAPTER",
+    "nextWorkstream": "KOREADER_PLUGIN",
+    "phase09Status": "NOT_RUN",
+    "productionStatus": "NOT_AUTHORIZED",
+    "officialGatewayForwarding": "DENY_ALL",
+    "protectedWrites": "OFF",
     "previousCommittedSourceHead": "49d0746ae2c779846e284b1c42f877651b89799d",
     "previousCommittedHeadLinuxCI": "B49AFC780879DAD2E0E4F1DDC29CACF967DD0146_SUCCESS_10_WORKFLOWS",
     "delivered": [

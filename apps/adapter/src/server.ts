@@ -34,6 +34,11 @@ import {
 } from "./local-identity-routes.js";
 import { registerLocalUpdateReviewRoutes } from "./local-update-review-routes.js";
 import type { LocalUpdateReviewLedger } from "./local-update-review-sqlite.js";
+import { registerLocalDiagnosticsSettingsRoutes } from "./local-diagnostics-settings-routes.js";
+import {
+  toLogBufferLimits,
+  type LocalDiagnosticsSettingsSource,
+} from "./local-diagnostics-settings-sqlite.js";
 
 export type AdapterDiagnostics = Readonly<{
   buffers: Readonly<Record<string, SafeLogBuffer>>;
@@ -61,6 +66,8 @@ export type AdapterServerOptions = Readonly<{
   localReading?: LocalReadingRouteSource;
   /** Optional owner-authenticated local identity registration readback; no Official entitlement. */
   localIdentity?: LocalIdentityRouteSource;
+  /** Optional owner-editable bounded diagnostics retention, persisted locally. */
+  localDiagnosticsSettings?: LocalDiagnosticsSettingsSource;
 }>;
 
 const diagnosticsByServer = new WeakMap<object, AdapterDiagnostics>();
@@ -98,7 +105,13 @@ export async function buildServer(
   if (options.localIdentity && !options.ownerAuth) {
     throw new Error("Local identity routes require the configured local owner authenticator");
   }
-  const buffer = new SafeLogBuffer("adapter");
+  if (options.localDiagnosticsSettings && !options.ownerAuth) {
+    throw new Error("Local diagnostics settings require the configured local owner authenticator");
+  }
+  const configuredLogLimits = options.localDiagnosticsSettings
+    ? toLogBufferLimits(options.localDiagnosticsSettings.read())
+    : undefined;
+  const buffer = new SafeLogBuffer("adapter", configuredLogLimits);
   const leases = new DiagnosticLeases();
   const buffers = Object.freeze({ adapter: buffer });
   const diagnostics: AdapterDiagnostics = Object.freeze({ buffers, leases });
@@ -264,6 +277,14 @@ export async function buildServer(
     registerLocalSidecarPreviewRoutes(server as unknown as FastifyInstance, options.ownerAuth);
     registerLocalSettingsRoutes(server as unknown as FastifyInstance, options.ownerAuth);
     registerLocalScreenStatusRoutes(server as unknown as FastifyInstance, options.ownerAuth);
+    if (options.localDiagnosticsSettings) {
+      registerLocalDiagnosticsSettingsRoutes(
+        server as unknown as FastifyInstance,
+        options.ownerAuth,
+        options.localDiagnosticsSettings,
+        buffer,
+      );
+    }
   }
   if (options.localJobs) {
     registerLocalJobsRoutes(server as unknown as FastifyInstance, options.localJobs);
