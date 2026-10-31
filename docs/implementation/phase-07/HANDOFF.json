@@ -9,7 +9,7 @@
   "integrationBranch": "integration/grimmlink-next",
   "integrationHead": "68b7d74daecdacc909ac095c86f6f95aed84ffe7",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/13",
-  "sourceHead": "PENDING_COMMIT_AND_EXACT_HEAD_CI",
+  "sourceHead": "40f960135c8b12fb85b2182a0a29c4d8eb0459ed",
   "scope": "OFFLINE_KOREADER_UI_PREVIEW_AND_SYNTHETIC_SQLITE_ONLY",
   "delivered": [
     "LUA_MOCK_EVENT_ENVELOPE",
@@ -27,7 +27,7 @@
     "INHERITED_PHASE02_TO_06_SAFETY_GATES_AND_PHASE07_NEGATIVE_TESTS"
   ],
   "ci": {
-    "status": "PENDING_FOR_OFFLINE_PREVIEW_CHANGES",
+    "status": "PENDING_FOR_EXACT_HEAD_40F9601",
     "run": "41058248957",
     "runUrl": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/41058248957",
     "sourceHead": "48c0fafd3095ed2d81066514345edf91612443b9",
@@ -54,5 +54,5 @@
     "REAL_HERMES_NAS_READERS_E2E",
     "ONE_FINAL_INDEPENDENT_SECURITY_REVIEW_AND_REMEDIATION"
   ],
-  "nextAction": "Commit the offline menu/package checkpoint, verify exact-head Phase07/08 and full PR checks, then continue closing the remaining Phase01-08 implementation gaps. Keep PR #13 Draft; do not merge or deploy."
+  "nextAction": "Verify Phase07, Phase08 and full PR checks at exact HEAD; fix any failures, then continue closing the remaining Phase01-08 implementation gaps. Keep PR #13 Draft; do not merge or deploy."
 }

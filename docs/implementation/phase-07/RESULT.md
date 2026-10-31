@@ -2,7 +2,7 @@
 
 **2026-10-30: offline preview package added after the earlier tested source.** This checkpoint does not claim sync readiness or real reader compatibility; new changes require exact-head CI.
 
-Current reconciliation work is on Draft [PR #13](https://github.com/0xstillb/Grimmlink-Next/pull/13), based on integration `68b7d74daecdacc909ac095c86f6f95aed84ffe7`. The exact source SHA for this menu/package checkpoint will be added after commit; its CI is pending until then.
+Current reconciliation work is on Draft [PR #13](https://github.com/0xstillb/Grimmlink-Next/pull/13), based on integration `68b7d74daecdacc909ac095c86f6f95aed84ffe7`. Plugin/menu source commit: `40f960135c8b12fb85b2182a0a29c4d8eb0459ed`. Local Lua syntax, menu callback mock, and deterministic ZIP checks passed; exact-head GitHub CI is queued for this source.
 
 Source branch: feat/next-phase-07 stacked on Phase06 feat/next-phase-06 at ae66c0b6dec46222110a04417e2545792d244f8c. Integration is still Phase05 3b5321ede76f74fd1d94ebaece119fc4f6f11aaf; main untouched.
 
