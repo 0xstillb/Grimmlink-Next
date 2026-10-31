@@ -55,7 +55,7 @@ local function prompt(title, initial, callback, text_type)
 end
 
 local function readGrimmoryCatalog()
-    prompt(_("Read-only OPDS username (test library only)"), "", function(username)
+    prompt(_("Read-only Grimmory OPDS username (single-owner account)"), "", function(username)
         if type(username) ~= "string" or username == "" or #username > 256 or username:find("[:%c]") then
             showInfo(_("Invalid OPDS username"))
             return

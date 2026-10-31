@@ -73,21 +73,37 @@ Closing Adapter closes only that workstream. Phase08 remains
 
 Start the plugin workstream only after the Adapter close gate passes. Give the
 plugin its own changed-file list, tests, exact-head CI receipt and handoff. An
-offline UI preview is not evidence of live sync. Device installation and
-same-owner operations remain Phase09 tests.
+offline UI preview is not evidence of live sync. The selected plugin candidate
+adds one fixed read-only OPDS catalog GET and local Staging event calls; it is
+not a full sync client. Device installation and same-owner operations remain
+Phase09 tests.
 
 Before calling the plugin deployable, verify API parity against the running
 Adapter: every Adapter-bound action must target a route mounted by the actual
 server entrypoint and have authentication, request/response, persistence and
 failure contracts covered by route tests. An isolated mock route factory or an
-owner-only Control Center route does not satisfy this requirement. The current
-offline package is not a deployable sync client; finish the selected Adapter API
+owner-only Control Center route does not satisfy this requirement. The
+versioned candidate implements one read-only OPDS root request and private local
+Adapter calls; it is not a full sync client. Finish the selected Adapter API
 slice and its exact-head CI before implementing the client against it.
+
+After exact-source plugin CI succeeds, make one plugin handoff-only commit that
+updates `docs/implementation/ACTIVE-SESSION.json`,
+`docs/implementation/phase-08/RESULT.md`,
+`docs/implementation/phase-08/HANDOFF.json`,
+`docs/implementation/SESSION-HANDOFF.md`,
+`docs/implementation/phase-08/PHASE09-ACCEPTANCE-PLAN.md` (existing Staging
+target/candidate evidence), this file only to maintain this handoff list, and
+the generated `docs/implementation/phase-00/PHASE00-GATE-STATUS.json`. Record
+the exact plugin source, all changed plugin files, local checks, ten workflow
+IDs, package version/hash, remaining runtime limits and next Staging action.
+Run final documentation-head CI once before deployment. Do not add a commit
+just to copy those final documentation run IDs into the same handoff.
 
 The selected first real Grimmory check is narrower than sync: one direct
 KOReader `GET http://192.168.1.116:6060/api/v1/opds` for the Atom catalog, using
-a separate OPDS user scoped to the disposable test library. Keep these
-credentials in memory for the current KOReader process, reject redirects, cap
+the single owner's OPDS account. Keep these credentials in memory for the
+current KOReader process, reject redirects, cap
 the response, and report only bounded catalog counts; do not follow book-file
 links or download content in this scenario. Adapter event and pairing requests
 stay on its private Staging API. All Grimmory POST/PUT/DELETE, progress,
@@ -107,9 +123,12 @@ because mock tests succeeded.
 
 ## Staging and production gates
 
-The owner confirms the existing Staging machine is available and waiting for
-code. After the KOReader plugin's exact-source CI and handoff pass, deploy the
-candidate to that machine and run `PHASE09-ACCEPTANCE-PLAN.md`. Before any
+The owner confirms the existing Staging machine `192.168.1.116` is available,
+Grimmory is installed there, and has added an OPDS user for the single-owner
+catalog read.
+After the KOReader plugin's exact-source CI, handoff and final documentation
+checks pass, deploy the candidate to that machine and run
+`PHASE09-ACCEPTANCE-PLAN.md`. Before any
 state-changing scenario, verify the disposable Grimmory account, test library,
 backup, read-only NAS fixture, owner-session configuration, private ingress
 and test readers. These are execution checks on the existing Staging host, not
