@@ -1,8 +1,11 @@
 # GrimmLink Next KOReader offline preview
 
-This is an installable KOReader menu preview. It does not connect to Grimmory,
-send requests, save credentials, sync reader data, or write to device books.
-Every sync-related menu item explains that its feature is disabled.
+This is an installable KOReader menu preview. Its broad menu structure follows
+the Connection, sync actions, advanced setup/backup, shelf settings, and
+diagnostics groups used by GrimmLink. Those entries are previews only: this
+plugin does not connect to Grimmory, send requests, save credentials, sync
+reader data, or write to device books. Every sync/configuration action explains
+that the feature is disabled.
 
 To install, copy the complete `grimmlink_next.koplugin` directory into the
 KOReader `plugins` directory and restart KOReader. Open **Tools → GrimmLink
