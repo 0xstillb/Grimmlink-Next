@@ -3,6 +3,7 @@ import { DiagnosticsViewer } from "./DiagnosticsViewer.js";
 import { JobsPanel } from "./JobsPanel.js";
 import { OpfPreviewPanel } from "./OpfPreviewPanel.js";
 import { SidecarPreviewPanel } from "./SidecarPreviewPanel.js";
+import { SettingsPanel } from "./SettingsPanel.js";
 import { UpdateCenter } from "./UpdateCenter.js";
 import {
   createServerSupportBundle,
@@ -443,19 +444,7 @@ export function App({ initialSection = "Overview" }: { initialSection?: Section 
         {selected === "Update Center" && <UpdateCenter />}
 
         {selected === "Settings & Devices" && (
-          <PreviewPanel
-            title="Private settings and devices"
-            description="The delivery policy is single-owner private with multiple individually paired readers. Authentication, pairing, revocation and protected settings require the trusted owner runtime, which is not connected."
-            rows={[
-              ["Workspace policy", "Single owner · private"],
-              ["Owner session", "Not connected"],
-              ["Reader inventory", "Not observed"],
-              ["Gateway forwarding", "DENY_ALL"],
-              ["Personal and session writes", "OFF"],
-            ]}
-            actions={["Sign in", "Pair a reader", "Rotate device token"]}
-            emptyState="Settings remain read-only until owner authentication is available"
-          />
+          <SettingsPanel onSignIn={() => setSelected("Logs & Diagnostics")} />
         )}
 
         <footer>

@@ -33,7 +33,7 @@ it("exposes every Phase08 product area with a scoped preview description", () =>
     "Sidecar & Restore": "Choose one Sidecar JSON file to inspect its metadata.",
     OPDS: "No OPDS subscription data is available",
     "Logs & Diagnostics": "No diagnostic log text is displayed.",
-    "Settings & Devices": "Settings remain read-only until owner authentication is available",
+    "Settings & Devices": "Checking the authenticated local security policy API.",
     "Update Center": "No update has been fetched or applied",
   };
 
@@ -48,7 +48,8 @@ it("exposes every Phase08 product area with a scoped preview description", () =>
       if (
         section !== "Logs & Diagnostics" &&
         section !== "OPF Sync" &&
-        section !== "Sidecar & Restore"
+        section !== "Sidecar & Restore" &&
+        section !== "Settings & Devices"
       )
         expect(html).toContain("disabled=");
     }
@@ -62,6 +63,11 @@ it("exposes every Phase08 product area with a scoped preview description", () =>
       expect(html).toContain("Sidecar imports");
       expect(html).toContain("Adjacent file writes");
       expect(html).toContain("parsed in memory and discarded");
+    }
+    if (section === "Settings & Devices") {
+      expect(html).toContain("Read-only policy");
+      expect(html).toContain("Refresh policy");
+      expect(html).toContain("does not prove that a deployment");
     }
     if (section === "Jobs") {
       expect(html).toContain("Checking the authenticated local job API.");

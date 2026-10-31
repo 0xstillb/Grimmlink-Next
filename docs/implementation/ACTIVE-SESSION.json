@@ -390,10 +390,9 @@
       "ciConclusion": "SUCCESS"
     },
     "latestCodeCI": {
-      "sourceHead": "READ_LIVE_GITHUB_NO_SELF_SHA",
-      "previousCommittedSourceHead": "4aacd46cd7e5592654967b4db59152c941cf9bcc",
-      "run": "41174725447",
-      "runUrl": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/41174725447",
+      "sourceHead": "3ef91558179d02fe781b0884d26ee9632c19f907",
+      "run": "41176326832",
+      "runUrl": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/41176326832",
       "conclusion": "SUCCESS",
       "scope": "PHASE08_WORKFLOW_SUCCESS; ALL_10_PR_HEAD_WORKFLOWS_SUCCESS"
     },
@@ -403,9 +402,10 @@
       "branch": "codex/phase-01-08-completion",
       "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/13",
       "baseIntegrationHead": "68b7d74daecdacc909ac095c86f6f95aed84ffe7",
-      "sourceHead": "b611edbb0dfbf5d65f6ea11b6ae69c7450323225",
+      "sourceHead": "3ef91558179d02fe781b0884d26ee9632c19f907",
+      "previousCommittedSourceHead": "4aacd46cd7e5592654967b4db59152c941cf9bcc",
       "previousExactHeadLinuxCI": "B49AFC780879DAD2E0E4F1DDC29CACF967DD0146_SUCCESS_10_WORKFLOWS",
-      "exactHeadLinuxCI": "PASS_10_WORKFLOWS_AT_4AACD46_INCLUDING_PHASE01_AND_PHASE02_SPRING;_SIDECAR_SLICE_CI_PENDING",
+      "exactHeadLinuxCI": "PASS_10_WORKFLOWS_AT_3EF9155_INCLUDING_PHASE01_ARM64_PHASE02_SPRING_AND_PHASE07;_SETTINGS_POLICY_SLICE_CI_PENDING",
       "uiNavigationSections": 10,
       "releaseEvidenceParserTests": "PASS_5_TESTS",
       "safeSupportBundleTests": "PASS_2_TESTS",
@@ -442,6 +442,11 @@
       "sidecarControlCenterTypecheck": "PASS",
       "sidecarControlCenterViteBuild": "PASS",
       "sidecarTargetedEslintPrettierDiffCheck": "PASS",
+      "settingsSnapshotTests": "PASS_72_TESTS_ACROSS_9_FILES",
+      "settingsAdapterTypecheck": "PASS_WITH_TEMPORARY_WORKSPACE_PATH_MAPPINGS",
+      "settingsControlCenterTypecheck": "PASS",
+      "settingsControlCenterViteBuild": "PASS",
+      "settingsTargetedEslintPrettierDiffCheck": "PASS",
       "delivered": [
         "BOUNDED_GITHUB_RELEASE_AND_ADVISORY_PARSERS_WITH_FIXTURE_TESTS",
         "FAIL_CLOSED_COMPATIBILITY_IMPACT_AND_INSTALL_AUTHORIZATION_SUMMARY",
@@ -454,7 +459,8 @@
         "ISOLATED_OWNER_CSRF_DIAGNOSTICS_LOG_AND_LEASE_ROUTE_FACTORY_NOT_MOUNTED",
         "OWNER_AUTHENTICATED_LOCAL_JOBS_SCREEN_AND_SQLITE_QUEUE_API",
         "OWNER_CSRF_GUARDED_USER_SELECTED_OPF_PREVIEW_IN_MEMORY_NO_NAS_NO_WRITEBACK",
-        "OWNER_CSRF_GUARDED_USER_SELECTED_SIDECAR_JSON_METADATA_PREVIEW_IN_MEMORY_NO_IMPORT_NO_ADJACENT_WRITE"
+        "OWNER_CSRF_GUARDED_USER_SELECTED_SIDECAR_JSON_METADATA_PREVIEW_IN_MEMORY_NO_IMPORT_NO_ADJACENT_WRITE",
+        "OWNER_AUTHENTICATED_READ_ONLY_FIXED_FAIL_CLOSED_SETTINGS_POLICY_SNAPSHOT"
       ],
       "supportBundle": {
         "checksumScope": "CANONICAL_ALLOWLISTED_REPORT_JSON_ONLY",
@@ -471,7 +477,8 @@
         "CONNECT_FEED_READER_TO_VERIFIED_OWNER_SESSION_CONFIGURED_EGRESS_AND_UPDATE_CENTER",
         "REVIEWED_COMPATIBILITY_MANIFEST_AND_EVIDENCE_BASED_IMPACT_CLASSIFICATION",
         "TRUSTED_OWNER_MANUAL_APPROVAL_WORKFLOW_WITHOUT_AUTOMATIC_INSTALL",
-        "AUTHENTICATED_SCREEN_API_INTEGRATION_FOR_IDENTITY_READING_OPDS_AND_SETTINGS",
+        "AUTHENTICATED_SCREEN_API_INTEGRATION_FOR_IDENTITY_READING_AND_OPDS",
+        "OWNER_AUTHENTICATED_DEVICE_INVENTORY_AND_MUTABLE_SETTINGS_NOT_IMPLEMENTED",
         "PRODUCTION_PACKAGE_CONFIG_AND_ROLLBACK_HARDENING"
       ]
     }

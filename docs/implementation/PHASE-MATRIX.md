@@ -19,7 +19,7 @@ Each intermediate Phase delivers `RESULT.md` + `HANDOFF.json` + tested commits. 
 
 ## Reconciliation checkpoint — 2026-10-31
 
-At exact source `4aacd46cd7e5592654967b4db59152c941cf9bcc`, **all 10 PR-head workflows succeeded**, including Phase01 Foundation and Phase02 pinned Spring. This validates Phase01–06 coding checks at that source within their offline scopes. The current Sidecar slice adds an owner+CSRF local metadata preview and has 68 targeted tests plus local typecheck, build, lint, format and whitespace checks passing; its exact-head CI is pending.
+At exact source `3ef91558179d02fe781b0884d26ee9632c19f907`, **all 10 PR-head workflows succeeded**, including Phase01 Foundation/ARM64, Phase02 pinned Spring, Phase03–06 and Phase07. This validates Phase01–07 coding checks at that source within their offline scopes. The current Settings slice adds an owner-authenticated, read-only snapshot of fixed fail-closed policy constants and has 72 targeted tests plus typechecks, build, lint, format and whitespace checks passing; its exact-head CI is pending.
 
 Phase06 now includes an offline changed-position reading-state plan and simulated Official readback on PR #13. It plans `READING` only from `UNREAD`/`UNSET`, preserves other statuses, and does not send requests or synthesize percentages. Code source `a32103e4` passed all 12 exact-head checks, including ARM64 and pinned Spring; the documentation head still needs CI. KOReader UI remains an installable offline preview, not a connected sync client. Phase07 device installation/sync and Phase08 full authenticated screen/update/release paths remain open.
 

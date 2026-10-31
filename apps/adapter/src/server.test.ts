@@ -196,12 +196,28 @@ describe("foundation server", () => {
       importsEnabled: false,
       adjacentWriteEnabled: false,
     });
+    const settings = await server.inject({
+      method: "GET",
+      url: "/api/grimmlink/v2/local/settings/status",
+      headers: { cookie },
+    });
+    expect(settings.statusCode).toBe(200);
+    expect(settings.json()).toMatchObject({
+      source: "CODE_ENFORCED_FAIL_CLOSED_POLICY",
+      officialForwarding: "DENY_ALL",
+      protectedWrites: "OFF",
+      automaticUpdates: "OFF",
+      production: "NOT_AUTHORIZED",
+    });
     const openapi = await server.inject({ method: "GET", url: "/openapi.json" });
     expect(
       openapi.json().paths["/api/grimmlink/v2/local/opf/preview"].post.responses["200"],
     ).toBeDefined();
     expect(
       openapi.json().paths["/api/grimmlink/v2/local/sidecar/preview"].post.responses["200"],
+    ).toBeDefined();
+    expect(
+      openapi.json().paths["/api/grimmlink/v2/local/settings/status"].get.responses["200"],
     ).toBeDefined();
     const anonymousOpf = await server.inject({
       method: "POST",
@@ -217,6 +233,12 @@ describe("foundation server", () => {
     });
     expect(anonymousSidecar.statusCode).toBe(403);
     expect(anonymousSidecar.json()).toEqual({ error: "OWNER_AUTH_REQUIRED" });
+    const anonymousSettings = await server.inject({
+      method: "GET",
+      url: "/api/grimmlink/v2/local/settings/status",
+    });
+    expect(anonymousSettings.statusCode).toBe(403);
+    expect(anonymousSettings.json()).toEqual({ error: "OWNER_AUTH_REQUIRED" });
     await server.close();
   });
 
