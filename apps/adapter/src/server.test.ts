@@ -56,6 +56,12 @@ describe("foundation server", () => {
       payload: { opfXml: "<package><metadata/></package>" },
     });
     expect(ownerOpfRoute.statusCode).toBe(404);
+    const ownerSidecarRoute = await server.inject({
+      method: "POST",
+      url: "/api/grimmlink/v2/local/sidecar/preview",
+      payload: { sidecarJson: '{"title":"not mounted"}' },
+    });
+    expect(ownerSidecarRoute.statusCode).toBe(404);
     const diagnosticLine = buffer.read({
       code: "REQUEST_SUMMARY",
       requestId: health.headers["x-correlation-id"],
@@ -171,9 +177,31 @@ describe("foundation server", () => {
       writesAllowed: false,
       source: "OWNER_SELECTED_OPF",
     });
+    const sidecarPreview = await server.inject({
+      method: "POST",
+      url: "/api/grimmlink/v2/local/sidecar/preview",
+      headers: {
+        cookie,
+        origin: "http://127.0.0.1:5173",
+        "x-csrf-token": csrfToken,
+      },
+      payload: { sidecarJson: '{"metadata":{"title":"Sidecar preview","seriesNumber":2.5}}' },
+    });
+    expect(sidecarPreview.statusCode).toBe(200);
+    expect(sidecarPreview.json()).toEqual({
+      metadata: { title: "Sidecar preview", seriesNumber: 2.5 },
+      action: "PREVIEW_ONLY",
+      writesAllowed: false,
+      source: "OWNER_SELECTED_SIDECAR",
+      importsEnabled: false,
+      adjacentWriteEnabled: false,
+    });
     const openapi = await server.inject({ method: "GET", url: "/openapi.json" });
     expect(
       openapi.json().paths["/api/grimmlink/v2/local/opf/preview"].post.responses["200"],
+    ).toBeDefined();
+    expect(
+      openapi.json().paths["/api/grimmlink/v2/local/sidecar/preview"].post.responses["200"],
     ).toBeDefined();
     const anonymousOpf = await server.inject({
       method: "POST",
@@ -182,6 +210,13 @@ describe("foundation server", () => {
     });
     expect(anonymousOpf.statusCode).toBe(403);
     expect(anonymousOpf.json()).toEqual({ error: "OWNER_AUTH_REQUIRED" });
+    const anonymousSidecar = await server.inject({
+      method: "POST",
+      url: "/api/grimmlink/v2/local/sidecar/preview",
+      payload: { sidecarJson: '{"title":"anonymous"}' },
+    });
+    expect(anonymousSidecar.statusCode).toBe(403);
+    expect(anonymousSidecar.json()).toEqual({ error: "OWNER_AUTH_REQUIRED" });
     await server.close();
   });
 

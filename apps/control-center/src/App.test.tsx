@@ -30,7 +30,7 @@ it("exposes every Phase08 product area with a scoped preview description", () =>
     "OPF Sync": "Choose one OPF file to inspect its metadata.",
     Identity: "No verified identity or device records to display",
     Reading: "No verified reading position is available",
-    "Sidecar & Restore": "No backup or Sidecar files are being read",
+    "Sidecar & Restore": "Choose one Sidecar JSON file to inspect its metadata.",
     OPDS: "No OPDS subscription data is available",
     "Logs & Diagnostics": "No diagnostic log text is displayed.",
     "Settings & Devices": "Settings remain read-only until owner authentication is available",
@@ -45,12 +45,22 @@ it("exposes every Phase08 product area with a scoped preview description", () =>
     const expected = expectedContent[section];
     if (expected) {
       expect(html).toContain(expected);
-      if (section !== "Logs & Diagnostics" && section !== "OPF Sync")
+      if (
+        section !== "Logs & Diagnostics" &&
+        section !== "OPF Sync" &&
+        section !== "Sidecar & Restore"
+      )
         expect(html).toContain("disabled=");
     }
     if (section === "OPF Sync") {
       expect(html).toContain('type="file"');
       expect(html).toContain("Read-only · no NAS");
+      expect(html).toContain("parsed in memory and discarded");
+    }
+    if (section === "Sidecar & Restore") {
+      expect(html).toContain("Sidecar JSON file");
+      expect(html).toContain("Sidecar imports");
+      expect(html).toContain("Adjacent file writes");
       expect(html).toContain("parsed in memory and discarded");
     }
     if (section === "Jobs") {

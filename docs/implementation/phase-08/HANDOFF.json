@@ -52,14 +52,15 @@
     "FULL_REAL_HERMES_NAS_READER_E2E",
     "ONE_FINAL_INDEPENDENT_SECURITY_REVIEW_AND_REMEDIATION"
   ],
-  "nextAction": "Verify exact-head CI for the authenticated owner-selected OPF preview checkpoint, then implement and verify Identity, Reading, Sidecar, OPDS and Settings API screens, reviewed compatibility evidence and owner approval, and package/config/rollback hardening before claiming Phase08 ready for Phase09.",
+  "nextAction": "Verify exact-head CI for the current owner-selected Sidecar preview checkpoint, then implement and verify Identity, Reading, OPDS and Settings API screens, reviewed compatibility evidence and owner approval, and package/config/rollback hardening before claiming Phase08 ready for Phase09.",
   "reconciliationCheckpoint": {
     "date": "2026-10-31",
     "status": "IN_PROGRESS_OFFLINE_RECONCILIATION",
     "branch": "codex/phase-01-08-completion",
     "pullRequest": "https://github.com/0xstillb/Grimmlink-Next/pull/13",
     "baseIntegrationHead": "68b7d74daecdacc909ac095c86f6f95aed84ffe7",
-    "sourceHead": "b611edbb0dfbf5d65f6ea11b6ae69c7450323225",
+    "sourceHead": "READ_LIVE_GITHUB_NO_SELF_SHA",
+    "previousCommittedSourceHead": "4aacd46cd7e5592654967b4db59152c941cf9bcc",
     "previousCommittedHeadLinuxCI": "B49AFC780879DAD2E0E4F1DDC29CACF967DD0146_SUCCESS_10_WORKFLOWS",
     "delivered": [
       "10_NAVIGATION_SECTIONS_WITH_EXPLICIT_UNAVAILABLE_STATES",
@@ -79,7 +80,8 @@
       "UPDATE_CENTER_EXPLICIT_OWNER_ACTION_TO_FETCH_UNVERIFIED_RELEASE_AND_ADVISORY_EVIDENCE",
       "DIAGNOSTICS_SERVER_COMPOSITION_USES_CONFIGURED_OWNER_SESSION_AND_CSRF_WHEN_ENABLED",
       "OWNER_AUTHENTICATED_LOCAL_JOBS_SCREEN_AND_SQLITE_QUEUE_API",
-      "OWNER_CSRF_GUARDED_USER_SELECTED_OPF_PREVIEW_IN_MEMORY_NO_NAS_NO_WRITEBACK"
+      "OWNER_CSRF_GUARDED_USER_SELECTED_OPF_PREVIEW_IN_MEMORY_NO_NAS_NO_WRITEBACK",
+      "OWNER_CSRF_GUARDED_USER_SELECTED_SIDECAR_JSON_METADATA_PREVIEW_IN_MEMORY_NO_IMPORT_NO_ADJACENT_WRITE"
     ],
     "localChecks": {
       "controlCenterTypecheck": "PASS_LOCAL_WORKSPACE_BINARY",
@@ -107,6 +109,11 @@
       "controlCenterViteBuildForOpfScreen": "PASS",
       "opfSliceTargetedEslintPrettierAndDiffCheck": "PASS",
       "newWorkspaceDependencyInstall": "BLOCKED_COREPACK_REGISTRY_DNS; EXACT_HEAD_CI_PENDING",
+      "sidecarPreviewTests": "PASS_68_TESTS_ACROSS_7_FILES",
+      "sidecarAdapterTypecheck": "PASS_WITH_TEMPORARY_WORKSPACE_PATH_MAPPINGS",
+      "sidecarControlCenterTypecheck": "PASS",
+      "sidecarControlCenterViteBuild": "PASS",
+      "sidecarTargetedEslintPrettierDiffCheck": "PASS",
       "phase08StaticPolicyScan": "PASS",
       "phase00GateValidator": "PASS_13_GATE_ROWS",
       "packageManager": "COREPACK_DOWNLOAD_BLOCKED_LOCAL_WORKSPACE_BINARIES_USED",
@@ -115,13 +122,13 @@
       "fullWindowsWorkspaceVitest": "FAIL_181_PASSED_26_PLATFORM_OR_LOOPBACK_FAILURES",
       "fullRepositoryPrettier": "FAIL_84_PREEXISTING_FILES_REPORTED"
     },
-    "exactHeadLinuxCI": "PASS_10_WORKFLOWS_AT_B611EDB_BASE_HEAD",
-    "currentCheckpointExactHeadLinuxCI": "B611EDB_BASE_PASS_10_WORKFLOWS;_OPF_SLICE_LOCAL_CHECKS_PASS;_NEW_EXACT_HEAD_CI_PENDING",
+    "exactHeadLinuxCI": "PASS_10_WORKFLOWS_AT_4AACD46_INCLUDING_PHASE01_AND_PHASE02_SPRING",
+    "currentCheckpointExactHeadLinuxCI": "4AACD46_PASS_10_WORKFLOWS;_SIDECAR_SOURCE_SLICE_EXACT_HEAD_CI_PENDING;_READ_LIVE_GITHUB_FOR_CURRENT_PR_HEAD",
     "additionalOfflineDiagnosticsFactory": "MAIN_OPTIONALLY_MOUNTS_OWNER_AUTH_CSRF_DIAGNOSTICS_SUPPORT_BUNDLE_AND_CONFIGURED_FIXED_ORIGIN_GITHUB_FEED;_AUTH_AND_FEED_DISABLED_WITHOUT_ENV_CONFIG",
     "notDelivered": [
       "REVIEWED_COMPATIBILITY_MANIFEST_AND_EVIDENCE_BASED_IMPACT_CLASSIFICATION",
       "TRUSTED_OWNER_MANUAL_APPROVAL_WORKFLOW_WITHOUT_AUTOMATIC_INSTALL",
-      "AUTHENTICATED_SCREEN_API_INTEGRATION_FOR_IDENTITY_READING_SIDECAR_OPDS_AND_SETTINGS",
+      "AUTHENTICATED_SCREEN_API_INTEGRATION_FOR_IDENTITY_READING_OPDS_AND_SETTINGS",
       "PRODUCTION_RELEASE_PACKAGE_CONFIG_AND_ROLLBACK_HARDENING",
       "LIVE_OWNER_CREDENTIALS_AND_NETWORK_EGRESS_POLICY_NOT_EXERCISED",
       "PHASE09_REAL_NAS_HERMES_READER_E2E_AND_CONSOLIDATED_INDEPENDENT_REVIEW"

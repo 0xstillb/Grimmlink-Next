@@ -109,6 +109,14 @@ describe("Phase02 zero-forward gateway classifier", () => {
     expect(classify("POST", `${preview}/apply`)).toBe("DENY_UPSTREAM");
   });
 
+  it("permits only an owner-authenticated local Sidecar preview submission", () => {
+    const preview = "/api/grimmlink/v2/local/sidecar/preview";
+    expect(classify("POST", preview)).toBe("LOCAL_SIDECAR_PREVIEW");
+    expect(classify("GET", preview)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", `${preview}?debug=1`)).toBe("INVALID_TARGET");
+    expect(classify("POST", `${preview}/apply`)).toBe("DENY_UPSTREAM");
+  });
+
   it.each([
     "/",
     "/api/v1/books",

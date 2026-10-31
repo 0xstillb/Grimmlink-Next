@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { DiagnosticsViewer } from "./DiagnosticsViewer.js";
 import { JobsPanel } from "./JobsPanel.js";
 import { OpfPreviewPanel } from "./OpfPreviewPanel.js";
+import { SidecarPreviewPanel } from "./SidecarPreviewPanel.js";
 import { UpdateCenter } from "./UpdateCenter.js";
 import {
   createServerSupportBundle,
@@ -342,18 +343,7 @@ export function App({ initialSection = "Overview" }: { initialSection?: Section 
         )}
 
         {selected === "Sidecar & Restore" && (
-          <PreviewPanel
-            title="Sidecar and backup restore"
-            description="Sidecar parsing and metadata-only backup verification have offline fixtures. This preview is not connected to a NAS, backup directory or Official restore API."
-            rows={[
-              ["NAS mount", "Not observed"],
-              ["Sidecar import", "Preview-only"],
-              ["Backup inventory", "Not loaded"],
-              ["Restore apply", "OFF"],
-            ]}
-            actions={["Inspect Sidecar", "Verify backup", "Preview restore"]}
-            emptyState="No backup or Sidecar files are being read"
-          />
+          <SidecarPreviewPanel onSignIn={() => setSelected("Logs & Diagnostics")} />
         )}
 
         {selected === "OPDS" && (
