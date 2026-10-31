@@ -53,6 +53,8 @@ it("exposes every Phase08 product area with a scoped preview description", () =>
       expect(html).toContain("UNKNOWN / UNCLASSIFIED · review required");
       expect(html).toContain("NOT_AUTHORIZED");
       expect(html).toContain("No update has been fetched or applied");
+      expect(html).toContain("Review compatibility");
+      expect(html).toContain("Approve installation");
     }
     if (section === "Logs & Diagnostics") {
       expect(html).toContain("Copy safe support bundle");

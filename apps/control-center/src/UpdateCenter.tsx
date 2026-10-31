@@ -185,6 +185,36 @@ export function UpdateCenter() {
         The installed version is unattested. Compatibility manifests, impact classification, manual
         approval, asset downloads, installation and rollback are still unavailable.
       </p>
+      <p className="preview-note" id="update-action-note">
+        Review and installation controls stay disabled until compatibility evidence and the Phase09
+        release gates are complete.
+      </p>
+      <div className="preview-actions" aria-label="Unavailable release actions">
+        <button
+          className="secondary-button"
+          type="button"
+          disabled
+          aria-describedby="update-action-note"
+        >
+          Review compatibility
+        </button>
+        <button
+          className="secondary-button"
+          type="button"
+          disabled
+          aria-describedby="update-action-note"
+        >
+          Approve installation
+        </button>
+        <button
+          className="secondary-button"
+          type="button"
+          disabled
+          aria-describedby="update-action-note"
+        >
+          Install / rollback
+        </button>
+      </div>
     </section>
   );
 }
