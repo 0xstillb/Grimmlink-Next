@@ -147,6 +147,60 @@ describe("foundation server", () => {
     await server.close();
   });
 
+  it("documents and mounts only the owner-gated local jobs API", async () => {
+    const ownerAuth = createOwnerAuthenticator({
+      passwordHash: OWNER_HASH,
+      sessionSigningKey: Buffer.alloc(32, 0x63),
+      publicOrigin: "http://127.0.0.1:5173",
+    });
+    const server = await buildServer("info", {
+      ownerAuth,
+      localJobs: {
+        authorizeOwner: async (request) => request.headers["x-test-owner"] === "yes",
+        verifyCsrf: async (request) => request.headers["x-test-csrf"] === "yes",
+        listJobs: () => [],
+        replayEvents: () => [],
+        controlJob: () => ({ status: "APPLIED" }),
+      },
+    });
+
+    const docs = await server.inject({ method: "GET", url: "/openapi.json" });
+    expect(docs.json().paths["/api/grimmlink/v2/local/jobs"].get.responses["200"]).toBeDefined();
+    expect(
+      docs.json().paths["/api/grimmlink/v2/local/jobs/events"].get.responses["200"].content[
+        "text/event-stream"
+      ],
+    ).toBeDefined();
+    expect(
+      docs.json().paths["/api/grimmlink/v2/local/jobs/{id}/control"].post.requestBody,
+    ).toBeDefined();
+
+    const anonymous = await server.inject({
+      method: "GET",
+      url: "/api/grimmlink/v2/local/jobs",
+    });
+    expect(anonymous.statusCode).toBe(403);
+    const owner = await server.inject({
+      method: "GET",
+      url: "/api/grimmlink/v2/local/jobs",
+      headers: { "x-test-owner": "yes" },
+    });
+    expect(owner.statusCode).toBe(200);
+    expect(owner.json()).toMatchObject({
+      jobs: [],
+      execution: "DISABLED_NO_WORKER",
+      officialWrites: "OFF",
+    });
+    const stream = await server.inject({
+      method: "GET",
+      url: "/api/grimmlink/v2/local/jobs/events",
+      headers: { "x-test-owner": "yes", accept: "text/event-stream" },
+    });
+    expect(stream.statusCode).toBe(200);
+    expect(stream.headers["content-type"]).toContain("text/event-stream");
+    await server.close();
+  });
+
   it("mounts configured update feeds only behind the local owner session", async () => {
     const ownerAuth = createOwnerAuthenticator({
       passwordHash: OWNER_HASH,

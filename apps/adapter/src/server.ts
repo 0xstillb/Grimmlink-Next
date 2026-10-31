@@ -15,6 +15,7 @@ import {
 import { classifyGatewayRequest } from "./gateway/route-policy.js";
 import type { OwnerAuthenticator } from "./auth/owner-auth.js";
 import { registerIsolatedUpdateFeedRoutes, type UpdateFeedReader } from "./update-feed.js";
+import { registerLocalJobsRoutes, type LocalJobsRouteSource } from "./local-jobs-routes.js";
 
 export type AdapterDiagnostics = Readonly<{
   buffers: Readonly<Record<string, SafeLogBuffer>>;
@@ -32,6 +33,8 @@ export type AdapterServerOptions = Readonly<{
   ownerAuth?: OwnerAuthenticator;
   /** Optional bounded public GitHub release/advisory feed; requires owner auth. */
   updateFeed?: UpdateFeedReader;
+  /** Optional owner-authenticated local queue reader/controller; no worker or upstream transport. */
+  localJobs?: LocalJobsRouteSource;
 }>;
 
 const diagnosticsByServer = new WeakMap<object, AdapterDiagnostics>();
@@ -52,6 +55,9 @@ export async function buildServer(
   if (options.updateFeed && !options.ownerAuth) {
     throw new Error("An update feed requires the configured local owner authenticator");
   }
+  if (options.localJobs && !options.ownerAuth) {
+    throw new Error("Local job routes require the configured local owner authenticator");
+  }
   const buffer = new SafeLogBuffer("adapter");
   const leases = new DiagnosticLeases();
   const buffers = Object.freeze({ adapter: buffer });
@@ -67,6 +73,7 @@ export async function buildServer(
     loggerInstance: createLogger("adapter", logLevel, destination),
     genReqId: () => randomUUID(),
     disableRequestLogging: true,
+    ajv: { customOptions: { removeAdditional: false } },
   });
   diagnosticsByServer.set(server, diagnostics);
   // Plugin registration happens before routes; Fastify builds the OpenAPI
@@ -82,7 +89,12 @@ export async function buildServer(
   // This is the first executable deny-before-forward layer, NOT runtime ACL proof.
   server.addHook("onRequest", async (req, reply) => {
     const decision = classifyGatewayRequest(req.method, req.raw.url ?? "", req.headers);
-    if (decision === "LOCAL_READ" || decision === "LOCAL_DIAGNOSTICS" || decision === "LOCAL_AUTH")
+    if (
+      decision === "LOCAL_READ" ||
+      decision === "LOCAL_DIAGNOSTICS" ||
+      decision === "LOCAL_AUTH" ||
+      decision === "LOCAL_JOBS"
+    )
       return;
     return reply.code(decision === "INVALID_TARGET" ? 400 : 403).send({
       error: decision === "INVALID_TARGET" ? "INVALID_REQUEST_TARGET" : "UPSTREAM_DENIED",
@@ -204,6 +216,9 @@ export async function buildServer(
   );
   if (options.ownerAuth) {
     options.ownerAuth.registerRoutes(server as unknown as FastifyInstance);
+  }
+  if (options.localJobs) {
+    registerLocalJobsRoutes(server as unknown as FastifyInstance, options.localJobs);
   }
   const diagnosticsGuards = options.ownerAuth ?? options.diagnostics;
   if (diagnosticsGuards) {

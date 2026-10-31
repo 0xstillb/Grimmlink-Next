@@ -28,7 +28,6 @@ it("exposes every Phase08 product area with a scoped preview description", () =>
   expect(Object.keys(sectionDescriptions)).toEqual(sections);
   const expectedContent: Partial<Record<(typeof sections)[number], string>> = {
     "OPF Sync": "No source books or metadata changes are loaded",
-    Jobs: "No job telemetry is connected",
     Identity: "No verified identity or device records to display",
     Reading: "No verified reading position is available",
     "Sidecar & Restore": "No backup or Sidecar files are being read",
@@ -47,6 +46,12 @@ it("exposes every Phase08 product area with a scoped preview description", () =>
     if (expected) {
       expect(html).toContain(expected);
       if (section !== "Logs & Diagnostics") expect(html).toContain("disabled=");
+    }
+    if (section === "Jobs") {
+      expect(html).toContain("Checking the authenticated local job API.");
+      expect(html).toContain("DISABLED · no worker");
+      expect(html).toContain("Official writes");
+      expect(html).toContain("Recent queue events");
     }
     if (section === "Update Center") {
       expect(html).toContain("Evidence only");

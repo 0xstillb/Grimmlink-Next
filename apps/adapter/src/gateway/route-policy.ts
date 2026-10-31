@@ -6,6 +6,7 @@
 export type GatewayDecision =
   | "LOCAL_READ"
   | "LOCAL_DIAGNOSTICS"
+  | "LOCAL_JOBS"
   | "LOCAL_AUTH"
   | "INVALID_TARGET"
   | "DENY_UPSTREAM";
@@ -23,6 +24,10 @@ const SUPPORT_BUNDLE_DOWNLOAD_PATH =
   /^\/api\/grimmlink\/v2\/local\/support-bundle\/[A-Za-z0-9_-]{22}$/;
 const UPDATE_FEED_LIST_PATH = "/api/grimmlink/v2/local/updates";
 const UPDATE_FEED_SOURCE_PATH = /^\/api\/grimmlink\/v2\/local\/updates\/[a-z][a-z0-9-]{0,31}$/;
+const LOCAL_JOBS_PATH = "/api/grimmlink/v2/local/jobs";
+const LOCAL_JOBS_EVENTS_PATH = `${LOCAL_JOBS_PATH}/events`;
+const LOCAL_JOB_CONTROL_PATH =
+  /^\/api\/grimmlink\/v2\/local\/jobs\/[A-Za-z0-9][A-Za-z0-9:_-]{0,119}\/control$/;
 const SAFE_LOG_LEVELS = new Set(["trace", "debug", "info", "warn", "error", "fatal"]);
 const SAFE_LOG_CODES = new Set(["REQUEST_SUMMARY", "SQLITE_RETRY", "MIGRATION_STAGE"]);
 const FORBIDDEN_HEADER_NAMES = new Set([
@@ -105,7 +110,9 @@ export function classifyGatewayRequest(
       key.startsWith("x-forwarded-") ||
       key.startsWith("sec-websocket-") ||
       ["upgrade", "range", "if-range", "proxy-authorization", "transfer-encoding"].includes(key) ||
-      (key === "accept" && String(value).toLowerCase().includes("text/event-stream")) ||
+      (key === "accept" &&
+        String(value).toLowerCase().includes("text/event-stream") &&
+        !(method === "GET" && path === LOCAL_JOBS_EVENTS_PATH)) ||
       (key === "host" && (Array.isArray(value) || typeof value !== "string" || value.includes(",")))
     ) {
       return "INVALID_TARGET";
@@ -129,6 +136,16 @@ export function classifyGatewayRequest(
   if (path === UPDATE_FEED_LIST_PATH || UPDATE_FEED_SOURCE_PATH.test(path)) {
     if (query !== undefined) return "INVALID_TARGET";
     if (method === "GET") return "LOCAL_DIAGNOSTICS";
+  }
+  if (
+    path === LOCAL_JOBS_PATH ||
+    path === LOCAL_JOBS_EVENTS_PATH ||
+    LOCAL_JOB_CONTROL_PATH.test(path)
+  ) {
+    if (query !== undefined) return "INVALID_TARGET";
+    if ((path === LOCAL_JOBS_PATH || path === LOCAL_JOBS_EVENTS_PATH) && method === "GET")
+      return "LOCAL_JOBS";
+    if (LOCAL_JOB_CONTROL_PATH.test(path) && method === "POST") return "LOCAL_JOBS";
   }
   const diagnosticsPath = DIAGNOSTICS_PATH.exec(path);
   if (diagnosticsPath) {

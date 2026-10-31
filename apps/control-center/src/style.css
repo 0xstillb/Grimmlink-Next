@@ -468,6 +468,117 @@ footer {
   background: #1c2433;
   opacity: 0.72;
 }
+.job-safety-row {
+  display: grid;
+  grid-template-columns: max-content 1fr max-content 1fr;
+  align-items: baseline;
+  gap: 10px 18px;
+  padding: 14px 16px;
+  border: 1px solid #343d50;
+  border-radius: 12px;
+  background: #121a28;
+  font-size: 12px;
+}
+.job-safety-row span {
+  color: #9ca8be;
+}
+.job-safety-row strong {
+  color: #c9d3e5;
+  font-weight: 600;
+}
+.job-toolbar,
+.job-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.job-toolbar {
+  margin-top: 14px;
+}
+.jobs-table-wrap {
+  overflow-x: auto;
+  border: 1px solid #30394d;
+  border-radius: 12px;
+}
+.jobs-table {
+  width: 100%;
+  min-width: 670px;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.jobs-table th,
+.jobs-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #30394d;
+  text-align: left;
+  vertical-align: middle;
+}
+.jobs-table thead th {
+  color: #9ca8be;
+  background: #121a28;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.jobs-table tbody tr:last-child th,
+.jobs-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.jobs-table tbody th {
+  display: grid;
+  gap: 5px;
+  font-weight: 500;
+}
+.jobs-table code,
+.job-events code {
+  color: #c8b9f5;
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+.jobs-table small {
+  color: #d5c2a1;
+}
+.job-events {
+  margin-top: 24px;
+  border-top: 1px solid #30394d;
+  padding-top: 18px;
+}
+.job-events h3 {
+  margin: 0;
+  font-size: 15px;
+}
+.job-events ol {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.job-events li {
+  display: grid;
+  grid-template-columns: minmax(130px, 0.8fr) minmax(100px, 1fr) minmax(100px, 0.7fr) minmax(
+      120px,
+      1fr
+    );
+  align-items: center;
+  gap: 8px 14px;
+  padding: 11px 13px;
+  border: 1px solid #30394d;
+  border-radius: 10px;
+  background: #121a28;
+  font-size: 12px;
+}
+.job-events time,
+.job-events li > span {
+  color: #9ca8be;
+}
+.job-events li > strong {
+  color: #dce4f2;
+}
+.jobs-panel [role="status"] {
+  min-height: 24px;
+}
 footer {
   margin-top: 26px;
   font-size: 12px;
@@ -516,6 +627,12 @@ footer {
   .diagnostic-entry time,
   .diagnostic-entry code {
     grid-column: 1 / -1;
+  }
+  .job-safety-row {
+    grid-template-columns: max-content 1fr;
+  }
+  .job-events li {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }
 }
 @media (prefers-reduced-motion: reduce) {

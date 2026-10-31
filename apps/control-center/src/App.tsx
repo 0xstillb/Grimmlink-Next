@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { DiagnosticsViewer } from "./DiagnosticsViewer.js";
+import { JobsPanel } from "./JobsPanel.js";
 import { UpdateCenter } from "./UpdateCenter.js";
 import {
   createServerSupportBundle,
@@ -379,19 +380,7 @@ export function App({ initialSection = "Overview" }: { initialSection?: Section 
           />
         )}
 
-        {selected === "Jobs" && (
-          <PreviewPanel
-            title="Jobs and event stream"
-            description="The Phase 04 queue, replay and recovery contracts have isolated tests. The production adapter does not mount this route factory, so there is no live queue or SSE stream to display."
-            rows={[
-              ["Queue state", "Not observed"],
-              ["Event stream", "Unavailable"],
-              ["Automatic retry", "Disabled"],
-            ]}
-            actions={["Pause jobs", "Resume jobs", "Retry failed job"]}
-            emptyState="No job telemetry is connected"
-          />
-        )}
+        {selected === "Jobs" && <JobsPanel onSignIn={() => setSelected("Logs & Diagnostics")} />}
 
         {selected === "Logs & Diagnostics" && (
           <section className="panel" aria-label="Diagnostics">

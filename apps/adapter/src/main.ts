@@ -2,6 +2,10 @@ import { validateEnvironment } from "@grimmlink/contracts";
 import { buildServer } from "./server.js";
 import { createOwnerAuthenticatorFromEnvironment } from "./auth/owner-auth.js";
 import { createGitHubUpdateFeedReader, parseConfiguredUpdateFeedSources } from "./update-feed.js";
+import { openLocalStore } from "@grimmlink/persistence";
+import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import { createLocalJobsRouteSource } from "./local-jobs-sqlite.js";
 
 const config = validateEnvironment(process.env);
 const ownerAuth = createOwnerAuthenticatorFromEnvironment(process.env);
@@ -12,15 +16,24 @@ if (updateSources.length > 0 && !ownerAuth) {
 }
 const updateFeed =
   updateSources.length > 0 ? createGitHubUpdateFeedReader({ sources: updateSources }) : undefined;
+const localStore = openLocalStore(
+  config.SQLITE_PATH,
+  resolve(fileURLToPath(new URL("../../../packages/persistence/migrations", import.meta.url))),
+);
 const server = await buildServer(config.LOG_LEVEL, {
   ...(ownerAuth ? { ownerAuth } : {}),
   ...(updateFeed ? { updateFeed } : {}),
+  ...(ownerAuth ? { localJobs: createLocalJobsRouteSource(localStore, ownerAuth) } : {}),
 });
 let closing = false;
 const close = async () => {
   if (closing) return;
   closing = true;
-  await server.close();
+  try {
+    await server.close();
+  } finally {
+    localStore.close();
+  }
 };
 process.once("SIGTERM", () => {
   void close();

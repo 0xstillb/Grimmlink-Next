@@ -47,6 +47,23 @@ describe("Phase02 zero-forward gateway classifier", () => {
     );
   });
 
+  it("permits only owner-guarded local job list, finite event replay and controls", () => {
+    const jobs = "/api/grimmlink/v2/local/jobs";
+    const events = `${jobs}/events`;
+    const control = `${jobs}/job-1/control`;
+    expect(classify("GET", jobs)).toBe("LOCAL_JOBS");
+    expect(classify("GET", events)).toBe("LOCAL_JOBS");
+    expect(classify("GET", events, { accept: "text/event-stream" })).toBe("LOCAL_JOBS");
+    expect(classify("POST", control)).toBe("LOCAL_JOBS");
+    expect(classify("HEAD", jobs)).toBe("DENY_UPSTREAM");
+    expect(classify("PUT", control)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", `${jobs}/job-1/control?x=1`)).toBe("INVALID_TARGET");
+    expect(classify("GET", `${jobs}/job-1`)).toBe("DENY_UPSTREAM");
+    expect(
+      classify("GET", events, { accept: "text/event-stream", "x-forwarded-host": "evil" }),
+    ).toBe("INVALID_TARGET");
+  });
+
   it("permits only the local owner-session methods without query strings", () => {
     const session = "/api/grimmlink/v2/local/auth/session";
     const login = "/api/grimmlink/v2/local/auth/login";
