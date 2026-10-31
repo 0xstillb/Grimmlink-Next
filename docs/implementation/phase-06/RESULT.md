@@ -1,29 +1,38 @@
-# Phase 06 — EPUB XPointer/CFI, PDF Progress and Continue Reading (2026-10-30)
+# Phase 06 — EPUB XPointer/CFI, PDF Progress and Continue Reading
 
-**Scope:** Single-Owner Private, offline synthetic fixtures + local SQLite only. **Offline development checks PASS at verified source; final documentation HEAD requires separate exact-head CI.** This is not operational synchronization, not actual cross-reader success, and not a security approval.
+## Reconciliation status — 2026-10-31
 
-**GitHub:** [PR #10](https://github.com/0xstillb/Grimmlink-Next/pull/10) `feat/next-phase-06` → `integration/grimmlink-next`. Base is merged Phase05 `3b5321ede76f74fd1d94ebaece119fc4f6f11aaf`. `main` unchanged.
+Phase 06 now has an offline DOM-position bridge and a simulated reading-state readback model on Draft [PR #13](https://github.com/0xstillb/Grimmlink-Next/pull/13), targeting `integration/grimmlink-next`. Code source [`a32103e4`](https://github.com/0xstillb/Grimmlink-Next/commit/a32103e4ef9e4104ac5885ef79dcb5ad12831390) passed all 12 exact-head checks, including Phase06, ARM64 and pinned Spring runtime evidence. The documentation checkpoint still needs exact-head CI. This is a development handoff, not live sync approval.
 
 ## Delivered implementation
-- `packages/sync/src/phase06.ts`: exact-match **synthetic** EPUB anchor catalog, paired XPointer and CFI with one SHA256 edition, BookId, BookFileId, spine href and identical text anchor. Every unknown, ambiguous, changed chapter, stale edition or missing quote fails closed. It does **not** derive/guess CFI from arbitrary XPointer or parse actual EPUB bytes. It exposes `OFFLINE_SYNTHETIC_FIXTURE_ONLY` explicitly; no general conversion coverage claim.
-- PDF one-based page number with equal fixture-confirmed total pages, no fractional in-page position or fabricated percent.
-- Continue Reading local projection selecting highest accepted **server revision**, not device timestamp or greatest page; conflicting events at same revision reject, empty state stays `NO_POSITION`, percent is `null`.
-- `packages/persistence/migrations/0005_phase06_progress.sql` + `phase06-progress.ts`: single-owner file/edition lock, SQLite persistent PDF/EPUB mock progress, transactional CAS, event-id idempotency and collision rejection, paired-device token expiry/revocation, local resume read. No real Official login, no mounted network route, no adapter write.
-- Tests: synthetic bilingual chapter roundtrip, edition drift, changed anchors/ambiguous catalog, PDF page boundaries and page counts, continue-reading revision races, SQLite restart, replay and revoked device.
-- `.github/workflows/phase06-offline.yml`: frozen install/native SQLite, build/typecheck/format/lint/all unit tests, historical Phase00 integrity, unchanged operational deny switches. Historical Phase00 gate extended to fail-closed Phase06 checkpoint and regression tests.
-- Existing `syncCapability.positionBridge=false` and `nativeKOSyncProgress=false` remain **OFF**. Data from this phase cannot currently be synced with real KOReader, Readest, CrossPoint or Official Grimmory.
 
-## Evidence / verification
-- Initial PR commit `46902799ecc1d776c3a92a3f23b26291a4350252`: [Phase06 CI #41046094151](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41046094151) **FAILED** from a TS implicit-any anchor segment. Fixed in later commit `64c80d2381396df1e58c8b85ce4f0aef4f894b1b`.
-- The new TypeScript fixtures were reformatted with pinned Prettier in `c8629a9ff911dc8b426dee78b135482aa06e9d1c` and the temporary formatter workflow was removed. **Never cite these earlier CI runs as proof of a later HEAD**.
-- **Verified implementation source** `85279988762fe8ddbc217854a3c74d0e9e091806`: Phase06 [#41046894465](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41046894465) SUCCESS (frozen install, native SQLite, build/typecheck/Prettier/lint/all unit/mock tests, Phase00 historical integrity, fail-closed invariants). Phase00 [#41046894483](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41046894483), Phase02 Gateway [#41046894482](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41046894482), Phase04 [#41046894605](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41046894605), Phase05 [#41046894598](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41046894598) all SUCCESS at that same source HEAD. Phase01 ARM64 and Pinned Spring workflow remained in progress at closure preparation; **recheck all workflows on the final docs HEAD before integration merge**.
+- `packages/sync/src/epub-position.ts` reads bounded EPUB ZIP/container/OPF/manifest/spine/XHTML data, binds it to the supplied SHA-256 edition, and uses `@prose-reader/koreader` to convert and roundtrip CFI/XPointer through parsed DOM text anchors. Results distinguish `DOM_ANCHOR_MATCH`, `CHAPTER_ONLY` and `UNRESOLVED`; only a same-spine, same-text, successful roundtrip can create an offline exact resume candidate.
+- The pinned MIT synthetic EPUB oracle fixture currently yields 313 DOM anchor matches and 23 chapter-only fallbacks. This is fixture evidence, not broad book compatibility or device E2E.
+- Fixtures cover Thai combining marks, ruby, encoded/decoded EPUB hrefs with spaces, whitespace, indexed text nodes, DocFragment, embedded XHTML IDs, edition/file mismatch and native pointer preservation.
+- `packages/sync/src/phase06-reading-state.ts` accepts only a changed native position with same-edition DOM roundtrip evidence and an event ID/time. It plans `READING` only from `UNREAD` or `UNSET`; all other and manually selected statuses are preserved. The plan sends no request and has no percentage.
+- A separate `SIMULATED_OFFICIAL_RESPONSE` evaluator reports readStatus, lastReadTime and readProgress presence/mismatch. It reports `EXACT_RESUME` only when simulated CFI and spine href read back exactly; otherwise it reports `LOCAL_STARTED_READING`. A reported 0.0% marks the Official card as not guaranteed. Missing fields remain missing and never become guessed progress.
+- PDF position mapping is one-based with a fixture-confirmed page count and supports 0/1-based index conversion. It does not parse real PDF files or infer an in-page location.
+- Local Continue Reading uses accepted revision ordering, rejects conflicting same-revision observations, and never synthesizes a percentage. SQLite retains owner/file/edition binding, CAS, idempotent event replay, revocation and restart behavior. Position evidence is persisted separately from the native pointer.
+- `syncCapability.positionBridge` and `nativeKOSyncProgress` remain OFF. No Official request, adapter route, device write or production action is enabled.
 
-## Phase09 deferred / limitations
-1. Actual binary EPUB and PDF golden source fixtures, EPUB container/spine parser and verified real DOM text anchor extraction; synthetic anchors are not proof of file correctness.
-2. Exact KOReader v2026.07.1 ↔ Readest v0.12.16 ↔ CrossPoint TH physical roundtrip, CFI/XPointer normalizations, real PDF page-count parsing and history semantics.
-3. Official atomic owner-book-file entitlement, authenticated client/device bridge, Native KOSync and managed writes, protected ingress, real NAS/Hermes E2E and one consolidated Independent Security Review with remediation.
-4. KO binary partial-MD5 helper/golden EPUB still unverified from Phase05. No magic migration across different editions, formats or unsupported locations.
+## Verification
 
-**Safety:** Official forwarding `DENY_ALL`; Native KOSync, managed projection, personal and session writes `OFF`; adapter Phase06 routes **not mounted**, production `NOT_AUTHORIZED`; one owner without multi-tenant RBAC.
+Local direct-workspace checks at code source `a32103e4ef9e4104ac5885ef79dcb5ad12831390`:
 
-**Next:** verify exact-head CI; resolve only actual failures, then close development handoff and optionally merge **integration only**, never `main`/production without explicit release approval. Phase07 may begin after safe handoff; independent review is not a Phase06 gate.
+- Phase06 sync/EPUB tests: **16/16 passed** across `phase06.test.ts`, `phase06-reading-state.test.ts` and `epub-position.test.ts`.
+- `tsc --noEmit -p packages/sync/tsconfig.json`: passed.
+- Targeted Prettier and ESLint for changed Phase06 files: passed.
+- The pinned MIT fixture test validates 313 exact DOM anchors and 23 chapter-only fallbacks.
+- [Phase06 offline CI #41172155176](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41172155176) passed at that exact code source. All 12 current PR check runs passed there, including [ARM64/foundation #41172155203](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41172155203) and [pinned Spring runtime #41172155219](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41172155219). Corepack could not download the pinned pnpm package because registry DNS was unavailable; installed workspace binaries were used locally. The exact documentation head still needs its own check.
+
+## Limits and Phase09 carry-forward
+
+- `EPUB_DOM_ROUNDTRIP_ONLY` means parsed fixture/DOM evidence; it does not prove another reader stores or resumes the same position.
+- Official progress DTO fields are source-inspected, but authenticated status endpoint side effects and real readback are not verified. Pinned native KOReader sync can derive status from percentage thresholds and overwrite manually chosen states; this bridge therefore remains a no-transport simulation and does not send percentage.
+- PDF page count remains fixture-supplied; no real PDF parser or reader is connected.
+- Actual KOReader/Readest/CrossPoint roundtrip, real Official owner authentication/authorization, NAS/Hermes, device install/runtime and full-stack E2E are Phase09. One consolidated independent security review/remediation is also Phase09.
+- Official forwarding remains `DENY_ALL`; protected writes and all sync capabilities remain OFF; production is `NOT_AUTHORIZED`.
+
+## Next action
+
+Commit the truthful documentation checkpoint and recheck its exact-head CI. Update the Phase06 Notion page only after GitHub confirms the final branch/PR SHA. Continue the Phase07–08 reconciliation without enabling live writes or merging this Draft PR.
