@@ -32,6 +32,8 @@ import {
   registerLocalIdentityRoutes,
   type LocalIdentityRouteSource,
 } from "./local-identity-routes.js";
+import { registerLocalUpdateReviewRoutes } from "./local-update-review-routes.js";
+import type { LocalUpdateReviewLedger } from "./local-update-review-sqlite.js";
 
 export type AdapterDiagnostics = Readonly<{
   buffers: Readonly<Record<string, SafeLogBuffer>>;
@@ -49,6 +51,8 @@ export type AdapterServerOptions = Readonly<{
   ownerAuth?: OwnerAuthenticator;
   /** Optional bounded public GitHub release/advisory feed; requires owner auth. */
   updateFeed?: UpdateFeedReader;
+  /** Optional append-only local review ledger; requires owner auth and a configured feed. */
+  updateReviewLedger?: LocalUpdateReviewLedger;
   /** Optional owner-authenticated local queue reader/controller; no worker or upstream transport. */
   localJobs?: LocalJobsRouteSource;
   /** Optional owner-authenticated local paired-reader inventory; no reader transport. */
@@ -76,6 +80,11 @@ export async function buildServer(
   }
   if (options.updateFeed && !options.ownerAuth) {
     throw new Error("An update feed requires the configured local owner authenticator");
+  }
+  if (options.updateReviewLedger && (!options.updateFeed || !options.ownerAuth)) {
+    throw new Error(
+      "An update review ledger requires the configured owner session and update feed",
+    );
   }
   if (options.localJobs && !options.ownerAuth) {
     throw new Error("Local job routes require the configured local owner authenticator");
@@ -282,6 +291,13 @@ export async function buildServer(
     registerIsolatedUpdateFeedRoutes(server as unknown as FastifyInstance, {
       authorizeOwner: options.ownerAuth.authorizeOwner,
       reader: options.updateFeed,
+    });
+  }
+  if (options.updateFeed && options.updateReviewLedger && options.ownerAuth) {
+    registerLocalUpdateReviewRoutes(server as unknown as FastifyInstance, {
+      ownerAuth: options.ownerAuth,
+      reader: options.updateFeed,
+      ledger: options.updateReviewLedger,
     });
   }
   // NO fallback, Official backend client, reading proxy, or runtime feature toggles.

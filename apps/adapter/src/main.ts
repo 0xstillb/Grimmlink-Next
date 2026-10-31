@@ -9,6 +9,7 @@ import { createLocalJobsRouteSource } from "./local-jobs-sqlite.js";
 import { createLocalDevicesRouteSource } from "./local-devices-sqlite.js";
 import { createLocalReadingRouteSource } from "./local-reading-sqlite.js";
 import { createLocalIdentityRouteSource } from "./local-identity-sqlite.js";
+import { createLocalUpdateReviewLedger } from "./local-update-review-sqlite.js";
 
 const config = validateEnvironment(process.env);
 const ownerAuth = createOwnerAuthenticatorFromEnvironment(process.env);
@@ -30,6 +31,7 @@ const server = await buildServer(config.LOG_LEVEL, {
   ...(ownerAuth ? { localDevices: createLocalDevicesRouteSource(localStore, ownerAuth) } : {}),
   ...(ownerAuth ? { localReading: createLocalReadingRouteSource(localStore, ownerAuth) } : {}),
   ...(ownerAuth ? { localIdentity: createLocalIdentityRouteSource(localStore, ownerAuth) } : {}),
+  ...(updateFeed ? { updateReviewLedger: createLocalUpdateReviewLedger(localStore) } : {}),
 });
 let closing = false;
 const close = async () => {

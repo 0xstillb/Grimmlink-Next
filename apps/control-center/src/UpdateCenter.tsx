@@ -4,6 +4,14 @@ import {
   fetchOwnerSession,
   fetchUpdateFeedSnapshot,
   fetchUpdateFeedSources,
+  fetchUpdateReviews,
+  submitUpdateReview,
+  type UpdateReviewCompatibility,
+  type UpdateReviewDecision,
+  type UpdateReviewImpact,
+  type UpdateReviewInput,
+  type UpdateReviewRecord,
+  type CompatibilityManifest,
   type UpdateFeedSnapshot,
 } from "./diagnostics-client.js";
 
@@ -28,6 +36,18 @@ export function UpdateCenter() {
   const [sourceIds, setSourceIds] = useState<readonly string[]>([]);
   const [sourceId, setSourceId] = useState("");
   const [snapshot, setSnapshot] = useState<UpdateFeedSnapshot | null>(null);
+  const [csrfToken, setCsrfToken] = useState<string | null>(null);
+  const [reviews, setReviews] = useState<readonly UpdateReviewRecord[]>([]);
+  const [compatibilityManifest, setCompatibilityManifest] = useState<CompatibilityManifest | null>(
+    null,
+  );
+  const [compatibilityManifestSha256, setCompatibilityManifestSha256] = useState<string | null>(
+    null,
+  );
+  const [compatibility, setCompatibility] = useState<UpdateReviewCompatibility>("UNKNOWN");
+  const [impact, setImpact] = useState<UpdateReviewImpact>("UNKNOWN");
+  const [decision, setDecision] = useState<UpdateReviewDecision>("DEFERRED");
+  const [rationale, setRationale] = useState("");
   const [busy, setBusy] = useState(false);
 
   const loadSources = useCallback(async (signal?: AbortSignal) => {
@@ -35,13 +55,20 @@ export function UpdateCenter() {
       const session = await fetchOwnerSession(signal);
       if (signal?.aborted) return;
       if (!session.authenticated) {
+        setCsrfToken(null);
         setState("owner-required");
         setMessage("Sign in under Logs & Diagnostics before checking configured sources.");
         return;
       }
+      setCsrfToken(session.csrfToken);
       const nextSources = await fetchUpdateFeedSources(signal);
       if (signal?.aborted) return;
       setSourceIds(nextSources);
+      const reviewState = await fetchUpdateReviews(signal);
+      if (signal?.aborted) return;
+      setReviews(reviewState.reviews);
+      setCompatibilityManifest(reviewState.compatibilityManifest);
+      setCompatibilityManifestSha256(reviewState.compatibilityManifestSha256);
       setSourceId((current) => (nextSources.includes(current) ? current : (nextSources[0] ?? "")));
       setState(nextSources.length > 0 ? "ready" : "unavailable");
       setMessage(
@@ -83,6 +110,38 @@ export function UpdateCenter() {
     }
   };
 
+  const recordOwnerReview = async () => {
+    if (!snapshot || !csrfToken || !compatibilityManifestSha256 || busy) return;
+    const input: UpdateReviewInput = {
+      sourceId: snapshot.sourceId,
+      candidateTag: snapshot.release.tag,
+      evidenceSha256: snapshot.evidenceSha256,
+      compatibilityManifestSha256,
+      compatibility,
+      impact,
+      decision,
+      rationale,
+    };
+    setBusy(true);
+    setMessage("Rechecking the exact public evidence and recording the owner review.");
+    try {
+      const review = await submitUpdateReview(input, csrfToken);
+      setReviews((current) => [review, ...current].slice(0, 50));
+      setMessage(
+        "Owner review recorded for this evidence hash. It does not authorize installation or rollback.",
+      );
+    } catch (error) {
+      const next = statusFor(error);
+      setMessage(
+        error instanceof DiagnosticsClientError && error.status === 409
+          ? "The feed evidence or compatibility manifest changed. Refresh both before recording a review."
+          : next.message,
+      );
+    } finally {
+      setBusy(false);
+    }
+  };
+
   return (
     <section className="panel update-center" aria-label="Update Center">
       <div className="panel-heading">
@@ -105,6 +164,34 @@ export function UpdateCenter() {
         <span>Approval / installation</span>
         <strong>NOT_AUTHORIZED / DISABLED</strong>
       </div>
+      {compatibilityManifest && compatibilityManifestSha256 && (
+        <details className="update-compatibility-manifest">
+          <summary>
+            Compatibility manifest · deployed versions unknown · SHA-256{" "}
+            {compatibilityManifestSha256}
+          </summary>
+          <p>
+            {compatibilityManifest.status.replaceAll("_", " ")}. This lists audited source baselines
+            and does not verify installed binaries or runtime compatibility.
+          </p>
+          <ul>
+            {compatibilityManifest.components.map((component) => (
+              <li key={component.id}>
+                <strong>{component.id}</strong>
+                <span>
+                  Source{" "}
+                  {component.auditedSourceVersion ??
+                    component.observedRelease ??
+                    component.declaredSourceVersion ??
+                    "unknown"}
+                  {" · deployed: unknown · "}
+                  {component.evidence}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </details>
+      )}
       {sourceIds.length > 0 && (
         <div className="preview-actions">
           <label>
@@ -154,6 +241,9 @@ export function UpdateCenter() {
             Published {snapshot.release.publishedAt}; fetched {snapshot.fetchedAt}. Public payload
             is unverified.
           </p>
+          <p>
+            Evidence SHA-256: <code>{snapshot.evidenceSha256}</code>
+          </p>
           <a href={snapshot.release.url} target="_blank" rel="noreferrer">
             View release page on GitHub
           </a>
@@ -182,13 +272,109 @@ export function UpdateCenter() {
         <p className="empty-state">No update has been fetched or applied</p>
       )}
       <p className="preview-note">
-        The installed version is unattested. Compatibility manifests, impact classification, manual
-        approval, asset downloads, installation and rollback are still unavailable.
+        Owner review records are linked to exact public evidence and this compatibility manifest.
+        Installed versions remain unattested; review does not authorize an update.
       </p>
       <p className="preview-note" id="update-action-note">
         Review and installation controls stay disabled until compatibility evidence and the Phase09
         release gates are complete.
       </p>
+      {snapshot && (
+        <div className="update-review-form" aria-label="Manual owner review">
+          <h3>Record owner review</h3>
+          <p>
+            This records a manual classification against the displayed evidence hash. Installed
+            runtime versions are still unknown. A Phase 09 evaluation decision is not install or
+            production approval.
+          </p>
+          <label>
+            Compatibility with documented source baseline
+            <select
+              value={compatibility}
+              disabled={busy}
+              onChange={(event) =>
+                setCompatibility(event.target.value as UpdateReviewCompatibility)
+              }
+            >
+              <option value="UNKNOWN">Unknown — evidence incomplete</option>
+              <option value="SOURCE_BASELINE_REVIEWED_COMPATIBLE">
+                Reviewed against source baseline
+              </option>
+              <option value="INCOMPATIBLE">Incompatible</option>
+            </select>
+          </label>
+          <label>
+            Impact classification
+            <select
+              value={impact}
+              disabled={busy}
+              onChange={(event) => setImpact(event.target.value as UpdateReviewImpact)}
+            >
+              <option value="UNKNOWN">Unknown</option>
+              <option value="NO_KNOWN_SOURCE_IMPACT">No known source impact</option>
+              <option value="POTENTIAL_IMPACT">Potential impact</option>
+            </select>
+          </label>
+          <label>
+            Owner decision
+            <select
+              value={decision}
+              disabled={busy}
+              onChange={(event) => setDecision(event.target.value as UpdateReviewDecision)}
+            >
+              <option value="DEFERRED">Defer</option>
+              <option value="REJECTED">Reject candidate</option>
+              <option value="SUBMIT_FOR_PHASE09_EVALUATION">Submit for Phase 09 evaluation</option>
+            </select>
+          </label>
+          <label>
+            Review rationale (20–500 characters; do not include secrets or private book data)
+            <textarea
+              value={rationale}
+              maxLength={500}
+              disabled={busy}
+              onChange={(event) => setRationale(event.target.value)}
+            />
+          </label>
+          <button
+            className="primary-button"
+            type="button"
+            disabled={
+              busy ||
+              !csrfToken ||
+              !compatibilityManifestSha256 ||
+              rationale.trim().length < 20 ||
+              (decision === "SUBMIT_FOR_PHASE09_EVALUATION" &&
+                (compatibility !== "SOURCE_BASELINE_REVIEWED_COMPATIBLE" ||
+                  impact !== "NO_KNOWN_SOURCE_IMPACT"))
+            }
+            onClick={() => void recordOwnerReview()}
+          >
+            {busy ? "Recording review…" : "Recheck evidence and record review"}
+          </button>
+        </div>
+      )}
+      {reviews.length > 0 && (
+        <div className="update-review-history" aria-label="Recent owner review records">
+          <h3>Recent owner review records</h3>
+          <ul>
+            {reviews.slice(0, 10).map((review) => (
+              <li key={review.id}>
+                <strong>
+                  {review.candidateTag} · {review.decision.replaceAll("_", " ")}
+                </strong>
+                <span>
+                  {new Date(review.reviewedAt).toISOString()} · {review.compatibility} ·{" "}
+                  {review.impact}
+                </span>
+                <code>{review.evidenceSha256}</code>
+                <span>Manifest SHA-256: {review.compatibilityManifestSha256}</span>
+                <span>{review.rationale}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       <div className="preview-actions" aria-label="Unavailable release actions">
         <button
           className="secondary-button"

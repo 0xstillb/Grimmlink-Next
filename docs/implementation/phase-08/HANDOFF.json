@@ -52,7 +52,7 @@
     "FULL_REAL_HERMES_NAS_READER_E2E",
     "ONE_FINAL_INDEPENDENT_SECURITY_REVIEW_AND_REMEDIATION"
   ],
-  "nextAction": "Configure trusted domain data providers for Identity, Reading and OPDS, complete device inventory and editable settings scope, review compatibility evidence and owner approval, and harden package/config/rollback before claiming Phase08 ready for Phase09.",
+  "nextAction": "Verify runtime device provisioning and deployed component versions, configure trusted domain providers for Identity, Reading and OPDS, implement editable settings and production package/config/rollback hardening, then obtain exact-head CI for the local Phase08 slices. Keep feeds, approvals, installation and protected writes fail-closed; do not claim Phase08 ready for Phase09 until its live scope is reconciled.",
   "reconciliationCheckpoint": {
     "date": "2026-10-31",
     "status": "IN_PROGRESS_OFFLINE_RECONCILIATION",
@@ -83,7 +83,10 @@
       "OWNER_CSRF_GUARDED_USER_SELECTED_OPF_PREVIEW_IN_MEMORY_NO_NAS_NO_WRITEBACK",
       "OWNER_CSRF_GUARDED_USER_SELECTED_SIDECAR_JSON_METADATA_PREVIEW_IN_MEMORY_NO_IMPORT_NO_ADJACENT_WRITE",
       "OWNER_AUTHENTICATED_READ_ONLY_FIXED_FAIL_CLOSED_SETTINGS_POLICY_SNAPSHOT",
-      "OWNER_AUTHENTICATED_IDENTITY_READING_OPDS_UNAVAILABLE_STATUS_SCREEN_API_NO_DOMAIN_DATA"
+      "OWNER_AUTHENTICATED_IDENTITY_READING_OPDS_UNAVAILABLE_STATUS_SCREEN_API_NO_DOMAIN_DATA",
+      "FAIL_CLOSED_COMPATIBILITY_SOURCE_BASELINE_MANIFEST_WITH_DEPLOYED_VERSIONS_UNKNOWN",
+      "OWNER_AUTHENTICATED_APPEND_ONLY_UPDATE_REVIEW_BOUND_TO_PUBLIC_FEED_AND_MANIFEST_SHA256",
+      "UPDATE_CENTER_EXPLICIT_OWNER_EVIDENCE_REVIEW_AND_PHASE09_EVALUATION_DECISIONS_NO_INSTALL"
     ],
     "localChecks": {
       "controlCenterTypecheck": "PASS_LOCAL_WORKSPACE_BINARY",
@@ -138,8 +141,8 @@
     "currentCheckpointExactHeadLinuxCI": "AD87CF22_PASS_10_WORKFLOWS;_DOMAIN_SCREEN_STATUS_SLICE_EXACT_HEAD_CI_VERIFIED",
     "additionalOfflineDiagnosticsFactory": "MAIN_OPTIONALLY_MOUNTS_OWNER_AUTH_CSRF_DIAGNOSTICS_SUPPORT_BUNDLE_AND_CONFIGURED_FIXED_ORIGIN_GITHUB_FEED;_AUTH_AND_FEED_DISABLED_WITHOUT_ENV_CONFIG",
     "notDelivered": [
-      "REVIEWED_COMPATIBILITY_MANIFEST_AND_EVIDENCE_BASED_IMPACT_CLASSIFICATION",
-      "TRUSTED_OWNER_MANUAL_APPROVAL_WORKFLOW_WITHOUT_AUTOMATIC_INSTALL",
+      "DEPLOYED_VERSION_COMPATIBILITY_CERTIFICATION_AND_ADVISORY_IMPACT_AUDIT",
+      "TRUSTED_PRODUCTION_APPROVAL_WORKFLOW;_LOCAL_REVIEW_ONLY_SUBMITS_TO_PHASE09",
       "OFFICIAL_IDENTITY_READING_PROVIDERS_AND_OPDS_CATALOG_NOT_CONFIGURED",
       "OWNER_AUTHENTICATED_DEVICE_ACTIONS_PRESENT_BUT_RUNTIME_PROVISIONING_NOT_VERIFIED_AND_MUTABLE_SETTINGS_NOT_IMPLEMENTED",
       "PRODUCTION_RELEASE_PACKAGE_CONFIG_AND_ROLLBACK_HARDENING",
@@ -149,7 +152,8 @@
     "localOwnerReadbackSlice": {
       "status": "LOCAL_COMMIT_CREATED_NOT_PUSHED_EXACT_HEAD_CI_PENDING",
       "localCommit": "05e0463954a15ae745ae5945ab2ea2b92e00a7cf",
-      "basedOnLastVerifiedPrHead": "75301ed8fbb270ef98c2b926cb9136c904fe3533",
+      "basedOnLocalParentHead": "06559347993395e45441b8b2669cc7a3d0652f1f",
+      "observedPr13Head": "75301ed8fbb270ef98c2b926cb9136c904fe3533",
       "delivered": [
         "OWNER_AUTHENTICATED_LOCAL_DEVICE_LIST_ROTATE_REVOKE",
         "OWNER_AUTHENTICATED_LOCAL_IDENTITY_REGISTRATION_READBACK",
@@ -170,6 +174,33 @@
         "persistenceBuild": "PASS",
         "persistenceFullVitestWindows": "FAIL_19_PLATFORM_PERMISSION_OR_SYMLINK_CASES;_8_PASSED",
         "exactHeadGitHubCiForNewSlice": "PENDING_NEW_COMMIT"
+      }
+    },
+    "localUpdateReviewSlice": {
+      "status": "LOCAL_COMMIT_NOT_ON_PR_HEAD_EXACT_HEAD_CI_PENDING",
+      "basedOnLocalHead": "f8d5e64",
+      "delivered": [
+        "FAIL_CLOSED_SOURCE_BASELINE_MANIFEST_DEPLOYED_VERSIONS_AND_DIGESTS_UNKNOWN",
+        "STABLE_NORMALIZED_PUBLIC_FEED_EVIDENCE_SHA256",
+        "OWNER_AND_CSRF_GUARDED_APPEND_ONLY_SQLITE_REVIEW_LEDGER",
+        "REVIEW_RECHECKS_FEED_AND_MANIFEST_HASH_BEFORE_RECORDING",
+        "CONTROL_CENTER_REVIEW_RECORDS_EXACT_EVIDENCE_AND_EXPLICITLY_CANNOT_INSTALL"
+      ],
+      "limits": [
+        "SOURCE_BASELINES_ARE_NOT_COMPATIBILITY_CERTIFICATION",
+        "OWNER_REVIEW_CAN_ONLY_DEFER_REJECT_OR_SUBMIT_FOR_PHASE09_EVALUATION",
+        "NO_ASSET_DOWNLOAD_INSTALL_ROLLBACK_OR_PRODUCTION_APPROVAL",
+        "NO_EXACT_HEAD_GITHUB_CI_FOR_THIS_LOCAL_WORKTREE_SLICE"
+      ],
+      "localChecks": {
+        "targetedReviewFeedAndRouteTests": "PASS_19_TESTS_ACROSS_5_FILES",
+        "adapterAndControlCenterTests": "PASS_173_TESTS_ACROSS_36_FILES",
+        "adapterTypecheck": "PASS",
+        "controlCenterTypecheck": "PASS",
+        "controlCenterViteProductionBuild": "PASS",
+        "changedFilesEslintPrettierAndDiffCheck": "PASS",
+        "migrationAndAppendOnlyConstraintFixtures": "PASS_IN_SQLITE_TESTS",
+        "exactHeadGitHubCi": "PENDING_LOCAL_CHANGES_NOT_ON_REMOTE_PR"
       }
     },
     "safety": {

@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import { scryptSync } from "node:crypto";
 import { createOwnerAuthenticator } from "./auth/owner-auth.js";
 import { buildServer, getAdapterDiagnostics } from "./server.js";
+import { hashUpdateFeedEvidence } from "./update-feed.js";
+import type { LocalUpdateReviewLedger } from "./local-update-review-sqlite.js";
 
 const OWNER_PASSWORD = "server-test-owner-password";
 const OWNER_SALT = Buffer.from("server-auth-test");
@@ -325,28 +327,45 @@ describe("foundation server", () => {
     });
     const updateFeed = {
       sourceIds: ["grimmory"],
-      read: async () => ({
-        sourceId: "grimmory",
-        fetchedAt: "2026-10-31T00:00:00.000Z",
-        release: {
-          tag: "v3.5.1",
-          title: "Grimmory 3.5.1",
-          publishedAt: "2026-10-30T12:00:00.000Z",
-          url: "https://github.com/grimmory-tools/grimmory/releases/tag/v3.5.1",
-          assets: [],
-        },
-        advisories: [],
-        sourceEvidence: "PUBLIC_GITHUB_PAYLOAD_UNVERIFIED",
-        compatibility: "UNKNOWN_REQUIRES_REVIEW",
-        impact: "UNCLASSIFIED_REQUIRES_REVIEW",
-        approval: "NOT_AUTHORIZED",
+      read: async () => {
+        const evidence = {
+          sourceId: "grimmory",
+          fetchedAt: "2026-10-31T00:00:00.000Z",
+          release: {
+            tag: "v3.5.1",
+            title: "Grimmory 3.5.1",
+            publishedAt: "2026-10-30T12:00:00.000Z",
+            url: "https://github.com/grimmory-tools/grimmory/releases/tag/v3.5.1",
+            assets: [],
+          },
+          advisories: [],
+          sourceEvidence: "PUBLIC_GITHUB_PAYLOAD_UNVERIFIED" as const,
+          compatibility: "UNKNOWN_REQUIRES_REVIEW" as const,
+          impact: "UNCLASSIFIED_REQUIRES_REVIEW" as const,
+          approval: "NOT_AUTHORIZED" as const,
+          installationAllowed: false as const,
+        };
+        return { ...evidence, evidenceSha256: hashUpdateFeedEvidence(evidence) };
+      },
+    } as const;
+    const reviewLedger = {
+      list: () => [],
+      record: (input: Record<string, unknown>) => ({
+        ...input,
+        id: "6ca5a426-3ea8-4a90-bfad-512301b825ec",
+        reviewer: "LOCAL_OWNER_SESSION",
+        reviewedAt: 1_798_000_000_000,
         installationAllowed: false,
       }),
-    } as const;
+    } as unknown as LocalUpdateReviewLedger;
     await expect(buildServer("info", { updateFeed })).rejects.toThrow(
       "An update feed requires the configured local owner authenticator",
     );
-    const server = await buildServer("info", { ownerAuth, updateFeed });
+    const server = await buildServer("info", {
+      ownerAuth,
+      updateFeed,
+      updateReviewLedger: reviewLedger,
+    });
     const sourcesUrl = "/api/grimmlink/v2/local/updates";
     const anonymous = await server.inject({ method: "GET", url: sourcesUrl });
     expect(anonymous.statusCode).toBe(403);
@@ -375,6 +394,46 @@ describe("foundation server", () => {
       compatibility: "UNKNOWN_REQUIRES_REVIEW",
       impact: "UNCLASSIFIED_REQUIRES_REVIEW",
       approval: "NOT_AUTHORIZED",
+      installationAllowed: false,
+    });
+    const csrfToken = login.json().csrfToken as string;
+    const reviewList = await server.inject({
+      method: "GET",
+      url: "/api/grimmlink/v2/local/update-reviews",
+      headers: { cookie },
+    });
+    expect(reviewList.statusCode).toBe(200);
+    expect(reviewList.json()).toMatchObject({
+      reviews: [],
+      compatibilityManifest: {
+        status: "SOURCE_BASELINES_ONLY_DEPLOYED_VERSIONS_UNKNOWN",
+        installationAllowed: false,
+      },
+      compatibilityManifestSha256: expect.stringMatching(/^[a-f0-9]{64}$/),
+      installationAllowed: false,
+    });
+    const review = await server.inject({
+      method: "POST",
+      url: "/api/grimmlink/v2/local/update-reviews",
+      headers: {
+        cookie,
+        origin: "http://127.0.0.1:5173",
+        "x-csrf-token": csrfToken,
+      },
+      payload: {
+        sourceId: "grimmory",
+        candidateTag: "v3.5.1",
+        evidenceSha256: snapshot.json().snapshot.evidenceSha256,
+        compatibilityManifestSha256: reviewList.json().compatibilityManifestSha256,
+        compatibility: "UNKNOWN",
+        impact: "UNKNOWN",
+        decision: "DEFERRED",
+        rationale: "Compatibility evidence is incomplete; keep this candidate deferred.",
+      },
+    });
+    expect(review.statusCode).toBe(201);
+    expect(review.json()).toMatchObject({
+      review: { candidateTag: "v3.5.1", installationAllowed: false },
       installationAllowed: false,
     });
     await server.close();

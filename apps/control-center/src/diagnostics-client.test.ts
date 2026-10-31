@@ -6,6 +6,8 @@ import {
   fetchOwnerSession,
   fetchUpdateFeedSnapshot,
   fetchUpdateFeedSources,
+  fetchUpdateReviews,
+  submitUpdateReview,
   fetchDiagnosticLogs,
   fetchServerSupportBundle,
   loginOwner,
@@ -170,6 +172,7 @@ it("loads owner-only update sources and validates unverified release evidence", 
   const snapshot = {
     sourceId: "grimmlink-next",
     fetchedAt: "2026-10-31T00:00:00.000Z",
+    evidenceSha256: "b".repeat(64),
     release: {
       tag: "v0.1.0",
       title: "Grimmlink Next 0.1.0",
@@ -230,6 +233,115 @@ it("loads owner-only update sources and validates unverified release evidence", 
   await expect(fetchUpdateFeedSnapshot("https://attacker.invalid")).rejects.toThrow(
     "UPDATE_FEED_SOURCE_INVALID",
   );
+});
+
+it("reads and submits append-only owner update reviews with CSRF and install disabled", async () => {
+  const review = {
+    id: "6ca5a426-3ea8-4a90-bfad-512301b825ec",
+    sourceId: "grimmlink-next",
+    candidateTag: "v0.1.0",
+    evidenceSha256: "b".repeat(64),
+    compatibilityManifestSha256: "c".repeat(64),
+    compatibility: "UNKNOWN",
+    impact: "UNKNOWN",
+    decision: "DEFERRED",
+    rationale: "Current installed versions are unknown; defer pending evidence.",
+    reviewer: "LOCAL_OWNER_SESSION",
+    reviewedAt: 1_798_000_000_000,
+    installationAllowed: false,
+  } as const;
+  const compatibilityManifest = {
+    schema: "grimmlink.compatibility-manifest.v1",
+    revision: "2026-10-31-source-baselines",
+    status: "SOURCE_BASELINES_ONLY_DEPLOYED_VERSIONS_UNKNOWN",
+    sourceManifest: "docs/implementation/UPSTREAM-MANIFEST.json",
+    components: [
+      {
+        id: "grimmory",
+        auditedSourceVersion: "v3.5.0",
+        deployedVersion: null,
+        evidence: "SOURCE_PATH_DTO_VERIFIED_NOT_RUNTIME",
+      },
+      {
+        id: "readest",
+        auditedSourceVersion: "v0.12.16",
+        deployedVersion: null,
+        evidence: "CLIENT_SOURCE_VERIFIED_NOT_BINARY",
+      },
+      {
+        id: "koreader",
+        observedRelease: "v2026.07.1",
+        deployedVersion: null,
+        evidence: "RELEASE_SEEN_ONLY",
+      },
+      {
+        id: "prose-koreader",
+        auditedSourceVersion: "30.2.0",
+        deployedVersion: null,
+        evidence: "SOURCE_SIGNATURE_VERIFIED_NOT_PINNED_DEPENDENCY",
+      },
+      {
+        id: "grimmlink-adapter",
+        declaredSourceVersion: "0.1.0",
+        deployedVersion: null,
+        evidence: "LOCAL_PACKAGE_VERSION_ONLY",
+      },
+    ],
+    constraints: [
+      "Audited source versions do not attest deployed binaries or runtime versions.",
+      "Public release and advisory payloads are unverified and are not package signatures.",
+      "Compatibility and impact require an owner review against this exact manifest hash.",
+      "Owner review never authorizes download, installation, rollback, or production release.",
+    ],
+    installationAllowed: false,
+    releaseAuthorization: "NOT_AUTHORIZED",
+  } as const;
+  const state = {
+    reviews: [review],
+    compatibilityManifest,
+    compatibilityManifestSha256: "d".repeat(64),
+    installationAllowed: false,
+  } as const;
+  const fetchMock = vi
+    .fn()
+    .mockResolvedValueOnce(
+      new Response(JSON.stringify(state), {
+        headers: { "content-type": "application/json" },
+      }),
+    )
+    .mockResolvedValueOnce(
+      new Response(JSON.stringify({ review, installationAllowed: false }), {
+        headers: { "content-type": "application/json" },
+      }),
+    );
+  vi.stubGlobal("fetch", fetchMock);
+  expect(await fetchUpdateReviews()).toEqual(state);
+  expect(
+    await submitUpdateReview(
+      {
+        sourceId: review.sourceId,
+        candidateTag: review.candidateTag,
+        evidenceSha256: review.evidenceSha256,
+        compatibilityManifestSha256: review.compatibilityManifestSha256,
+        compatibility: "UNKNOWN",
+        impact: "UNKNOWN",
+        decision: "DEFERRED",
+        rationale: review.rationale,
+      },
+      "csrf-token-0123456789abcdef0123456789abcdef",
+    ),
+  ).toEqual(review);
+  expect(fetchMock.mock.calls[1]?.[1]).toMatchObject({
+    method: "POST",
+    credentials: "same-origin",
+    mode: "same-origin",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "x-csrf-token": "csrf-token-0123456789abcdef0123456789abcdef",
+    },
+  });
+  expect(fetchMock.mock.calls[1]?.[0]).toBe("/api/grimmlink/v2/local/update-reviews");
 });
 
 it("treats an expired or missing owner cookie as signed out and rejects malformed login data", async () => {

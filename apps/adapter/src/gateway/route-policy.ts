@@ -28,6 +28,7 @@ const SUPPORT_BUNDLE_DOWNLOAD_PATH =
   /^\/api\/grimmlink\/v2\/local\/support-bundle\/[A-Za-z0-9_-]{22}$/;
 const UPDATE_FEED_LIST_PATH = "/api/grimmlink/v2/local/updates";
 const UPDATE_FEED_SOURCE_PATH = /^\/api\/grimmlink\/v2\/local\/updates\/[a-z][a-z0-9-]{0,31}$/;
+const LOCAL_UPDATE_REVIEWS_PATH = "/api/grimmlink/v2/local/update-reviews";
 const LOCAL_JOBS_PATH = "/api/grimmlink/v2/local/jobs";
 const LOCAL_OPF_PREVIEW_PATH = "/api/grimmlink/v2/local/opf/preview";
 const LOCAL_SIDECAR_PREVIEW_PATH = "/api/grimmlink/v2/local/sidecar/preview";
@@ -178,6 +179,10 @@ export function classifyGatewayRequest(
   if (path === UPDATE_FEED_LIST_PATH || UPDATE_FEED_SOURCE_PATH.test(path)) {
     if (query !== undefined) return "INVALID_TARGET";
     if (method === "GET") return "LOCAL_DIAGNOSTICS";
+  }
+  if (path === LOCAL_UPDATE_REVIEWS_PATH) {
+    if (query !== undefined) return "INVALID_TARGET";
+    if (method === "GET" || method === "POST") return "LOCAL_DIAGNOSTICS";
   }
   if (
     path === LOCAL_JOBS_PATH ||

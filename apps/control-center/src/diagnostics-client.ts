@@ -33,6 +33,7 @@ export type OwnerLogin = Readonly<{ csrfToken: string; expiresAtMs: number }>;
 export type UpdateFeedSnapshot = Readonly<{
   sourceId: string;
   fetchedAt: string;
+  evidenceSha256: string;
   release: Readonly<{
     tag: string;
     title: string;
@@ -55,6 +56,45 @@ export type UpdateFeedSnapshot = Readonly<{
   compatibility: "UNKNOWN_REQUIRES_REVIEW";
   impact: "UNCLASSIFIED_REQUIRES_REVIEW";
   approval: "NOT_AUTHORIZED";
+  installationAllowed: false;
+}>;
+export type UpdateReviewCompatibility =
+  | "UNKNOWN"
+  | "SOURCE_BASELINE_REVIEWED_COMPATIBLE"
+  | "INCOMPATIBLE";
+export type UpdateReviewImpact = "UNKNOWN" | "NO_KNOWN_SOURCE_IMPACT" | "POTENTIAL_IMPACT";
+export type UpdateReviewDecision = "DEFERRED" | "REJECTED" | "SUBMIT_FOR_PHASE09_EVALUATION";
+export type UpdateReviewInput = Readonly<{
+  sourceId: string;
+  candidateTag: string;
+  evidenceSha256: string;
+  compatibilityManifestSha256: string;
+  compatibility: UpdateReviewCompatibility;
+  impact: UpdateReviewImpact;
+  decision: UpdateReviewDecision;
+  rationale: string;
+}>;
+export type UpdateReviewRecord = UpdateReviewInput &
+  Readonly<{
+    id: string;
+    reviewer: "LOCAL_OWNER_SESSION";
+    reviewedAt: number;
+    installationAllowed: false;
+  }>;
+export type CompatibilityManifest = Readonly<{
+  schema: "grimmlink.compatibility-manifest.v1";
+  revision: string;
+  status: "SOURCE_BASELINES_ONLY_DEPLOYED_VERSIONS_UNKNOWN";
+  sourceManifest: "docs/implementation/UPSTREAM-MANIFEST.json";
+  components: readonly Readonly<Record<string, string | null>>[];
+  constraints: readonly string[];
+  installationAllowed: false;
+  releaseAuthorization: "NOT_AUTHORIZED";
+}>;
+export type UpdateReviewState = Readonly<{
+  reviews: readonly UpdateReviewRecord[];
+  compatibilityManifest: CompatibilityManifest;
+  compatibilityManifestSha256: string;
   installationAllowed: false;
 }>;
 export type SupportBundleReceipt = Readonly<{
@@ -341,6 +381,7 @@ export async function fetchUpdateFeedSnapshot(
     !hasOnlyKeys(snapshot, [
       "sourceId",
       "fetchedAt",
+      "evidenceSha256",
       "release",
       "advisories",
       "sourceEvidence",
@@ -351,6 +392,8 @@ export async function fetchUpdateFeedSnapshot(
     ]) ||
     snapshot.sourceId !== sourceId ||
     !canonicalIsoTimestamp(snapshot.fetchedAt) ||
+    typeof snapshot.evidenceSha256 !== "string" ||
+    !SHA256_HEX.test(snapshot.evidenceSha256) ||
     !record(snapshot.release) ||
     !hasOnlyKeys(snapshot.release, ["tag", "title", "publishedAt", "url", "assets"]) ||
     !safeUpdateText(snapshot.release.tag, 128) ||
@@ -408,6 +451,164 @@ export async function fetchUpdateFeedSnapshot(
     throw new Error("UPDATE_FEED_RESPONSE_INVALID");
   }
   return snapshot as unknown as UpdateFeedSnapshot;
+}
+
+const UPDATE_REVIEW_PATH = "/api/grimmlink/v2/local/update-reviews";
+const REVIEW_COMPATIBILITY = new Set([
+  "UNKNOWN",
+  "SOURCE_BASELINE_REVIEWED_COMPATIBLE",
+  "INCOMPATIBLE",
+]);
+const REVIEW_IMPACT = new Set(["UNKNOWN", "NO_KNOWN_SOURCE_IMPACT", "POTENTIAL_IMPACT"]);
+const REVIEW_DECISION = new Set(["DEFERRED", "REJECTED", "SUBMIT_FOR_PHASE09_EVALUATION"]);
+
+function parseUpdateReview(value: unknown): UpdateReviewRecord {
+  if (
+    !record(value) ||
+    !hasOnlyKeys(value, [
+      "id",
+      "sourceId",
+      "candidateTag",
+      "evidenceSha256",
+      "compatibilityManifestSha256",
+      "compatibility",
+      "impact",
+      "decision",
+      "rationale",
+      "reviewer",
+      "reviewedAt",
+      "installationAllowed",
+    ]) ||
+    typeof value.id !== "string" ||
+    !UUID.test(value.id) ||
+    typeof value.sourceId !== "string" ||
+    !UPDATE_SOURCE_ID.test(value.sourceId) ||
+    typeof value.candidateTag !== "string" ||
+    !UPDATE_TAG.test(value.candidateTag) ||
+    typeof value.evidenceSha256 !== "string" ||
+    !SHA256_HEX.test(value.evidenceSha256) ||
+    typeof value.compatibilityManifestSha256 !== "string" ||
+    !SHA256_HEX.test(value.compatibilityManifestSha256) ||
+    typeof value.compatibility !== "string" ||
+    !REVIEW_COMPATIBILITY.has(value.compatibility) ||
+    typeof value.impact !== "string" ||
+    !REVIEW_IMPACT.has(value.impact) ||
+    typeof value.decision !== "string" ||
+    !REVIEW_DECISION.has(value.decision) ||
+    !safeUpdateText(value.rationale, 500) ||
+    value.rationale.trim().length < 20 ||
+    value.reviewer !== "LOCAL_OWNER_SESSION" ||
+    typeof value.reviewedAt !== "number" ||
+    !Number.isSafeInteger(value.reviewedAt) ||
+    value.reviewedAt < 0 ||
+    !Number.isFinite(new Date(value.reviewedAt).getTime()) ||
+    value.installationAllowed !== false
+  ) {
+    throw new Error("UPDATE_REVIEW_RESPONSE_INVALID");
+  }
+  return value as unknown as UpdateReviewRecord;
+}
+
+function parseCompatibilityManifest(value: unknown): CompatibilityManifest {
+  if (
+    !record(value) ||
+    !hasOnlyKeys(value, [
+      "schema",
+      "revision",
+      "status",
+      "sourceManifest",
+      "components",
+      "constraints",
+      "installationAllowed",
+      "releaseAuthorization",
+    ]) ||
+    value.schema !== "grimmlink.compatibility-manifest.v1" ||
+    !safeUpdateText(value.revision, 80) ||
+    value.status !== "SOURCE_BASELINES_ONLY_DEPLOYED_VERSIONS_UNKNOWN" ||
+    value.sourceManifest !== "docs/implementation/UPSTREAM-MANIFEST.json" ||
+    !Array.isArray(value.components) ||
+    value.components.length !== 5 ||
+    !value.components.every(
+      (item) =>
+        record(item) &&
+        typeof item.id === "string" &&
+        /^[a-z][a-z0-9-]{0,63}$/.test(item.id) &&
+        item.deployedVersion === null &&
+        typeof item.evidence === "string" &&
+        safeUpdateText(item.evidence, 100) &&
+        Object.entries(item).every(
+          ([key, field]) =>
+            [
+              "id",
+              "auditedSourceVersion",
+              "auditedSourceCommit",
+              "deployedVersion",
+              "deployedImageDigest",
+              "binaryDigest",
+              "observedRelease",
+              "evidence",
+              "publishedVersion",
+              "lockfileSha256",
+              "declaredSourceVersion",
+              "imageDigest",
+            ].includes(key) &&
+            (field === null || safeUpdateText(field, 120)),
+        ),
+    ) ||
+    !Array.isArray(value.constraints) ||
+    value.constraints.length !== 4 ||
+    !value.constraints.every((item) => safeUpdateText(item, 240)) ||
+    value.installationAllowed !== false ||
+    value.releaseAuthorization !== "NOT_AUTHORIZED"
+  ) {
+    throw new Error("COMPATIBILITY_MANIFEST_RESPONSE_INVALID");
+  }
+  return value as unknown as CompatibilityManifest;
+}
+
+export async function fetchUpdateReviews(signal?: AbortSignal): Promise<UpdateReviewState> {
+  const value = await requestJson(UPDATE_REVIEW_PATH, signal === undefined ? {} : { signal });
+  if (
+    !record(value) ||
+    !hasOnlyKeys(value, [
+      "reviews",
+      "compatibilityManifest",
+      "compatibilityManifestSha256",
+      "installationAllowed",
+    ]) ||
+    !Array.isArray(value.reviews) ||
+    value.reviews.length > 50 ||
+    typeof value.compatibilityManifestSha256 !== "string" ||
+    !SHA256_HEX.test(value.compatibilityManifestSha256) ||
+    value.installationAllowed !== false
+  ) {
+    throw new Error("UPDATE_REVIEW_RESPONSE_INVALID");
+  }
+  return {
+    reviews: value.reviews.map(parseUpdateReview),
+    compatibilityManifest: parseCompatibilityManifest(value.compatibilityManifest),
+    compatibilityManifestSha256: value.compatibilityManifestSha256,
+    installationAllowed: false,
+  };
+}
+
+export async function submitUpdateReview(
+  input: UpdateReviewInput,
+  csrfToken: string,
+): Promise<UpdateReviewRecord> {
+  const value = await requestJson(UPDATE_REVIEW_PATH, {
+    method: "POST",
+    body: JSON.stringify(input),
+    csrfToken,
+  });
+  if (
+    !record(value) ||
+    !hasOnlyKeys(value, ["review", "installationAllowed"]) ||
+    value.installationAllowed !== false
+  ) {
+    throw new Error("UPDATE_REVIEW_RESPONSE_INVALID");
+  }
+  return parseUpdateReview(value.review);
 }
 
 function isGitHubReleaseUrl(value: string, tag: string): boolean {

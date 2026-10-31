@@ -120,6 +120,7 @@ describe("bounded GitHub update feed reader", () => {
       approval: "NOT_AUTHORIZED",
       installationAllowed: false,
     });
+    expect(snapshot.evidenceSha256).toMatch(/^[a-f0-9]{64}$/);
     expect(JSON.stringify(snapshot)).not.toContain("attacker.invalid");
     expect(JSON.stringify(snapshot)).not.toContain("Public release notes");
   });
@@ -224,6 +225,7 @@ describe("bounded GitHub update feed reader", () => {
         return {
           sourceId: "grimmory",
           fetchedAt: "2026-10-31T00:00:00.000Z",
+          evidenceSha256: "a".repeat(64),
           release: { tag: "v3.5.1" },
           advisories: [],
           sourceEvidence: "PUBLIC_GITHUB_PAYLOAD_UNVERIFIED",

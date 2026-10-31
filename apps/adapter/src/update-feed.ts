@@ -1,4 +1,5 @@
 import type { FastifyInstance, FastifyRequest } from "fastify";
+import { createHash } from "node:crypto";
 
 const GITHUB_API_ORIGIN = "https://api.github.com";
 const GITHUB_API_VERSION = "2026-03-10";
@@ -40,6 +41,7 @@ export type SafeUpdateAdvisory = Readonly<{
 export type UpdateFeedSnapshot = Readonly<{
   sourceId: string;
   fetchedAt: string;
+  evidenceSha256: string;
   release: SafeUpdateRelease;
   advisories: readonly SafeUpdateAdvisory[];
   sourceEvidence: "PUBLIC_GITHUB_PAYLOAD_UNVERIFIED";
@@ -48,6 +50,19 @@ export type UpdateFeedSnapshot = Readonly<{
   approval: "NOT_AUTHORIZED";
   installationAllowed: false;
 }>;
+
+/** Hash the normalized release/advisory evidence, excluding fetch time and review decisions. */
+export function hashUpdateFeedEvidence(
+  snapshot: Pick<UpdateFeedSnapshot, "sourceId" | "release" | "advisories" | "sourceEvidence">,
+): string {
+  const payload = JSON.stringify({
+    sourceId: snapshot.sourceId,
+    release: snapshot.release,
+    advisories: snapshot.advisories,
+    sourceEvidence: snapshot.sourceEvidence,
+  });
+  return createHash("sha256").update(payload, "utf8").digest("hex");
+}
 
 export type UpdateFeedErrorCode =
   | "UNKNOWN_SOURCE"
@@ -434,7 +449,7 @@ export function createGitHubUpdateFeedReader(options: FeedReaderOptions): Update
         const capturedAt = now();
         if (!Number.isFinite(capturedAt.getTime())) throw new UpdateFeedError("RESPONSE_INVALID");
         const fetchedAt = capturedAt.toISOString();
-        return Object.freeze({
+        const snapshotWithoutHash = {
           sourceId,
           fetchedAt,
           release,
@@ -444,6 +459,10 @@ export function createGitHubUpdateFeedReader(options: FeedReaderOptions): Update
           impact: "UNCLASSIFIED_REQUIRES_REVIEW",
           approval: "NOT_AUTHORIZED",
           installationAllowed: false,
+        } as const;
+        return Object.freeze({
+          ...snapshotWithoutHash,
+          evidenceSha256: hashUpdateFeedEvidence(snapshotWithoutHash),
         });
       } catch (error) {
         if (controller.signal.aborted) {
@@ -467,8 +486,8 @@ export type IsolatedUpdateFeedRouteSource = Readonly<{
 }>;
 
 /**
- * Isolated route factory only. It is deliberately not registered by server.ts:
- * the production session resolver and egress policy must be wired first.
+ * Optional owner-authenticated route factory. The public feed stays absent
+ * unless the operator configures a fixed-source allow-list and owner session.
  */
 export function registerIsolatedUpdateFeedRoutes(
   server: FastifyInstance,
