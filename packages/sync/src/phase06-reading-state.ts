@@ -224,8 +224,12 @@ export function verifySimulatedOfficialReadingState(
       : response.readStatus === plan.plannedReadStatus
         ? "READBACK_MATCH"
         : "READBACK_MISMATCH";
+  const lastReadTimeOutcome = response.lastReadTime === null ? "NOT_RETURNED" : "OBSERVED";
+  const readProgressOutcome = response.readProgress === null ? "NOT_RETURNED" : "OBSERVED";
   const diagnostics: string[] = [];
   if (readStatusOutcome === "READBACK_MISMATCH") diagnostics.push("READ_STATUS_READBACK_MISMATCH");
+  if (lastReadTimeOutcome === "NOT_RETURNED") diagnostics.push("LAST_READ_TIME_NOT_READ_BACK");
+  if (readProgressOutcome === "NOT_RETURNED") diagnostics.push("READ_PROGRESS_NOT_READ_BACK");
   if (!exactPositionReadback) diagnostics.push("EXACT_POSITION_NOT_READ_BACK");
   if (response.readProgress === 0) diagnostics.push("OFFICIAL_0_PERCENT_CARD_NOT_GUARANTEED");
 
@@ -235,6 +239,8 @@ export function verifySimulatedOfficialReadingState(
     eventId: plan.eventId,
     transition: plan.transition,
     readStatusOutcome,
+    lastReadTimeOutcome,
+    readProgressOutcome,
     readStatus: response.readStatus,
     lastReadTime: response.lastReadTime,
     readProgress: response.readProgress,

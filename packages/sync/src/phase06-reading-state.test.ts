@@ -79,6 +79,8 @@ it("plans READING only from UNREAD and confirms exact resume from simulated read
     mode: "OFFLINE_SIMULATED_READBACK_ONLY",
     writeAttempted: false,
     readStatusOutcome: "READBACK_MATCH",
+    lastReadTimeOutcome: "OBSERVED",
+    readProgressOutcome: "OBSERVED",
     readStatus: "READING",
     lastReadTime: occurredAt,
     readProgress: 0,
@@ -167,6 +169,8 @@ it("reports status and exact-position readback mismatches without inventing prog
   });
   expect(verified).toMatchObject({
     readStatusOutcome: "READBACK_MISMATCH",
+    lastReadTimeOutcome: "NOT_RETURNED",
+    readProgressOutcome: "NOT_RETURNED",
     lastReadTime: null,
     readProgress: null,
     percentageInvented: false,
@@ -175,5 +179,7 @@ it("reports status and exact-position readback mismatches without inventing prog
     officialCardVisibility: "NOT_PROVEN",
   });
   expect(verified.diagnostics).toContain("READ_STATUS_READBACK_MISMATCH");
+  expect(verified.diagnostics).toContain("LAST_READ_TIME_NOT_READ_BACK");
+  expect(verified.diagnostics).toContain("READ_PROGRESS_NOT_READ_BACK");
   expect(verified.diagnostics).toContain("EXACT_POSITION_NOT_READ_BACK");
 });
