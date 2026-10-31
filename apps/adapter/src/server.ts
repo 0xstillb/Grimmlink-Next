@@ -1,4 +1,4 @@
-import Fastify from "fastify";
+import Fastify, { type FastifyInstance } from "fastify";
 import swagger from "@fastify/swagger";
 import { randomUUID } from "node:crypto";
 import { HealthSchema, type Health } from "@grimmlink/contracts";
@@ -8,11 +8,24 @@ import {
   DiagnosticLeases,
   SafeLogBuffer,
 } from "@grimmlink/observability";
+import {
+  registerIsolatedDiagnosticsRoutes,
+  type IsolatedDiagnosticsSource,
+} from "./diagnostics-routes.js";
 import { classifyGatewayRequest } from "./gateway/route-policy.js";
 
 export type AdapterDiagnostics = Readonly<{
   buffers: Readonly<Record<string, SafeLogBuffer>>;
   leases: DiagnosticLeases;
+}>;
+
+export type AdapterServerOptions = Readonly<{
+  /**
+   * Routes stay unmounted unless the application supplies both trusted
+   * owner-session and CSRF verifiers. Never derive these callbacks from request
+   * headers or environment-controlled booleans.
+   */
+  diagnostics?: Pick<IsolatedDiagnosticsSource, "authorizeOwner" | "verifyCsrf">;
 }>;
 
 const diagnosticsByServer = new WeakMap<object, AdapterDiagnostics>();
@@ -23,7 +36,10 @@ export function getAdapterDiagnostics(server: object): AdapterDiagnostics | null
 }
 
 /** Phase01 exposes ONLY local health and its schema. No gateway/proxy routes. */
-export async function buildServer(logLevel: "info" | "warn" | "error" = "info") {
+export async function buildServer(
+  logLevel: "info" | "warn" | "error" = "info",
+  options: AdapterServerOptions = {},
+) {
   const buffer = new SafeLogBuffer("adapter");
   const leases = new DiagnosticLeases();
   const buffers = Object.freeze({ adapter: buffer });
@@ -54,7 +70,7 @@ export async function buildServer(logLevel: "info" | "warn" | "error" = "info") 
   // This is the first executable deny-before-forward layer, NOT runtime ACL proof.
   server.addHook("onRequest", async (req, reply) => {
     const decision = classifyGatewayRequest(req.method, req.raw.url ?? "", req.headers);
-    if (decision === "LOCAL_READ") return;
+    if (decision === "LOCAL_READ" || decision === "LOCAL_DIAGNOSTICS") return;
     return reply.code(decision === "INVALID_TARGET" ? 400 : 403).send({
       error: decision === "INVALID_TARGET" ? "INVALID_REQUEST_TARGET" : "UPSTREAM_DENIED",
     });
@@ -173,6 +189,15 @@ export async function buildServer(logLevel: "info" | "warn" | "error" = "info") 
       releaseAuthorization: "NOT_AUTHORIZED",
     }),
   );
+  if (options.diagnostics) {
+    // The route factory uses Fastify's default logger generic; route behavior
+    // is identical for this server's Pino logger instance.
+    registerIsolatedDiagnosticsRoutes(server as unknown as FastifyInstance, {
+      buffers,
+      leases,
+      ...options.diagnostics,
+    });
+  }
   // NO fallback, Official backend client, reading proxy, or runtime feature toggles.
   return server;
 }

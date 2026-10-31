@@ -29,6 +29,11 @@ describe("foundation server", () => {
     expect(contract.json().paths["/health"].get.responses["200"]).toBeDefined();
     expect(contract.json().paths["/api/v1/books"]).toBeUndefined();
     expect(health.headers["x-correlation-id"]).toMatch(/^[0-9a-f-]{36}$/);
+    const diagnosticsRoute = await server.inject({
+      method: "GET",
+      url: "/api/grimmlink/v2/local/diagnostics/adapter/logs",
+    });
+    expect(diagnosticsRoute.statusCode).toBe(404);
     const diagnosticLine = buffer.read({
       code: "REQUEST_SUMMARY",
       requestId: health.headers["x-correlation-id"],
@@ -90,6 +95,73 @@ describe("foundation server", () => {
     expect(rewrite.statusCode).toBe(400);
     const encoded = await server.inject({ method: "GET", url: "/api/%2fadmin" });
     expect(encoded.statusCode).toBe(400);
+    await server.close();
+  });
+
+  it("composes the diagnostics routes only with explicit owner and CSRF verifiers", async () => {
+    const server = await buildServer("info", {
+      diagnostics: {
+        authorizeOwner: async (request) => request.headers["x-test-owner"] === "yes",
+        verifyCsrf: async (request) => request.headers["x-test-csrf"] === "yes",
+      },
+    });
+    const logsUrl = "/api/grimmlink/v2/local/diagnostics/adapter/logs";
+    const leaseUrl = "/api/grimmlink/v2/local/diagnostics/adapter/lease";
+    const anonymous = await server.inject({ method: "GET", url: logsUrl });
+    expect(anonymous.statusCode).toBe(403);
+
+    const deniedLease = await server.inject({
+      method: "PUT",
+      url: leaseUrl,
+      headers: { "x-test-owner": "yes" },
+      payload: { level: "debug", durationMs: 30_000 },
+    });
+    expect(deniedLease.statusCode).toBe(403);
+    expect(deniedLease.json()).toEqual({ error: "CSRF_REQUIRED" });
+
+    const enabledLease = await server.inject({
+      method: "PUT",
+      url: leaseUrl,
+      headers: { "x-test-owner": "yes", "x-test-csrf": "yes" },
+      payload: { level: "debug", durationMs: 30_000 },
+    });
+    expect(enabledLease.statusCode).toBe(200);
+    const health = await server.inject({ method: "GET", url: "/health" });
+    const response = await server.inject({
+      method: "GET",
+      url: `${logsUrl}?requestId=${health.headers["x-correlation-id"]}`,
+      headers: { "x-test-owner": "yes" },
+    });
+    expect(response.statusCode).toBe(200);
+    const line = response.json().lines[0];
+    expect(JSON.parse(line).req).toEqual({ id: health.headers["x-correlation-id"], method: "GET" });
+    expect(line).not.toContain("private");
+    expect(line).not.toContain("/health");
+
+    const deniedClear = await server.inject({
+      method: "DELETE",
+      url: logsUrl,
+      headers: { "x-test-owner": "yes" },
+    });
+    expect(deniedClear.statusCode).toBe(403);
+    const disabledLease = await server.inject({
+      method: "DELETE",
+      url: leaseUrl,
+      headers: { "x-test-owner": "yes", "x-test-csrf": "yes" },
+    });
+    expect(disabledLease.statusCode).toBe(200);
+    const cleared = await server.inject({
+      method: "DELETE",
+      url: logsUrl,
+      headers: { "x-test-owner": "yes", "x-test-csrf": "yes" },
+    });
+    expect(cleared.statusCode).toBe(200);
+    const empty = await server.inject({
+      method: "GET",
+      url: logsUrl,
+      headers: { "x-test-owner": "yes" },
+    });
+    expect(empty.json().lines).toEqual([]);
     await server.close();
   });
 });

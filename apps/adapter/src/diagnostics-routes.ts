@@ -7,8 +7,9 @@ import {
 } from "@grimmlink/observability";
 
 /**
- * Isolated diagnostics controls. The factory is deliberately not registered
- * by server.ts until production owner authentication and CSRF are wired.
+ * Isolated diagnostics controls. The server registers these routes only when
+ * its caller supplies trusted owner-session and CSRF verifiers; the default
+ * process has no authenticated session provider and keeps them unmounted.
  */
 export interface IsolatedDiagnosticsSource {
   buffers: Readonly<Record<string, SafeLogBuffer>>;

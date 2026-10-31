@@ -20,6 +20,33 @@ describe("Phase02 zero-forward gateway classifier", () => {
     expect(classify("OPTIONS", path)).toBe("DENY_UPSTREAM");
   });
 
+  it("permits only the local diagnostics methods and bounded log filters", () => {
+    const logs = "/api/grimmlink/v2/local/diagnostics/adapter/logs";
+    const lease = "/api/grimmlink/v2/local/diagnostics/adapter/lease";
+    expect(classify("GET", logs)).toBe("LOCAL_DIAGNOSTICS");
+    expect(
+      classify(
+        "GET",
+        `${logs}?level=debug&code=REQUEST_SUMMARY&requestId=01234567-89ab-4cde-8f01-23456789abcd&limit=25`,
+      ),
+    ).toBe("LOCAL_DIAGNOSTICS");
+    expect(classify("DELETE", logs)).toBe("LOCAL_DIAGNOSTICS");
+    expect(classify("GET", lease)).toBe("LOCAL_DIAGNOSTICS");
+    expect(classify("PUT", lease)).toBe("LOCAL_DIAGNOSTICS");
+    expect(classify("DELETE", lease)).toBe("LOCAL_DIAGNOSTICS");
+    expect(classify("HEAD", logs)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", lease)).toBe("DENY_UPSTREAM");
+    expect(classify("PATCH", logs)).toBe("DENY_UPSTREAM");
+    expect(classify("GET", `${logs}?url=%2Fprivate`)).toBe("INVALID_TARGET");
+    expect(classify("GET", `${logs}?unknown=x`)).toBe("INVALID_TARGET");
+    expect(classify("GET", `${logs}?level=debug&level=trace`)).toBe("INVALID_TARGET");
+    expect(classify("GET", `${logs}?limit=501`)).toBe("INVALID_TARGET");
+    expect(classify("GET", `${lease}?level=debug`)).toBe("INVALID_TARGET");
+    expect(classify("GET", "/api/grimmlink/v2/local/diagnostics/unknown/logs")).toBe(
+      "DENY_UPSTREAM",
+    );
+  });
+
   it.each([
     "/",
     "/api/v1/books",
