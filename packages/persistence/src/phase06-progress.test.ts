@@ -33,6 +33,12 @@ const epubPosition = {
   nativePosition: "epubcfi(/6/2[chapter1]!/4/2/2:0)",
   evidence: "OFFLINE_SYNTHETIC_FIXTURE_ONLY" as const,
 };
+const domEpubPosition = {
+  kind: "EPUB_EXACT" as const,
+  anchorId: "dom_verified_anchor",
+  nativePosition: "/body/DocFragment[1]/body/p[1]/text().0",
+  evidence: "EPUB_DOM_ROUNDTRIP_ONLY" as const,
+};
 
 it("persists PDF page and EPUB native position across restarts, no invented percentage", () => {
   const dir = mkdtempSync(join(tmpdir(), "phase06-persist-"));
@@ -99,6 +105,7 @@ it("persists PDF page and EPUB native position across restarts, no invented perc
       pageNumber: 12,
       pageCount: 220,
       label: "Page 12 of 220",
+      evidence: "OFFLINE_FIXTURE_PAGE_COUNT_ONLY",
       percentage: null,
     });
     expect(
@@ -114,7 +121,39 @@ it("persists PDF page and EPUB native position across restarts, no invented perc
       revision: 1,
       kind: "EPUB_EXACT",
       nativePosition: epubPosition.nativePosition,
-      label: "Resume at exact EPUB anchor",
+      label: "Resume at synthetic fixture anchor",
+      evidence: "OFFLINE_SYNTHETIC_FIXTURE_ONLY",
+      percentage: null,
+    });
+    expect(
+      recordOfflinePhase06Progress(store.sqlite, {
+        ownerId: owner.accountId,
+        deviceId: "reader",
+        token: paired.token,
+        identity: epub,
+        eventId: "evt_epub_dom",
+        expectedRevision: 1,
+        position: domEpubPosition,
+        nowMs: 202,
+      }),
+    ).toEqual({ status: "LOCAL_RECORDED", revision: 2 });
+    store.close();
+    store = openLocalStore(file, migrations);
+    expect(
+      readOfflinePhase06Resume(store.sqlite, {
+        ownerId: owner.accountId,
+        deviceId: "reader",
+        token: paired.token,
+        identity: epub,
+        nowMs: 203,
+      }),
+    ).toEqual({
+      status: "LOCAL_PREVIEW_ONLY",
+      revision: 2,
+      kind: "EPUB_EXACT",
+      nativePosition: domEpubPosition.nativePosition,
+      label: "Resume at EPUB DOM-verified anchor",
+      evidence: "EPUB_DOM_ROUNDTRIP_ONLY",
       percentage: null,
     });
     store.close();

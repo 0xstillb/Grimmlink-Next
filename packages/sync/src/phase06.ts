@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import type { EpubDomConversion } from "./epub-position.js";
 
 /**
  * Phase06 strictly offline/mock position handling.
@@ -20,6 +21,48 @@ export type EpubAnchorPair = Readonly<{
   xpointer: string;
   cfi: string;
 }>;
+
+export type OfflineEpubResumePosition = Readonly<{
+  kind: "EPUB_EXACT";
+  anchorId: string;
+  nativePosition: string;
+  evidence: "EPUB_DOM_ROUNDTRIP_ONLY";
+}>;
+
+/** Preserve the reader's source pointer while carrying the DOM proof separately. */
+export function toOfflineEpubResumePosition(
+  conversion: EpubDomConversion,
+): OfflineEpubResumePosition {
+  if (
+    !conversion ||
+    conversion.status !== "DOM_ANCHOR_MATCH" ||
+    !conversion.targetPosition ||
+    conversion.spineIndex === null ||
+    conversion.spineId === null ||
+    conversion.spineHref === null ||
+    !conversion.textAnchorSha256
+  )
+    throw new Error("PHASE06_DOM_ANCHOR_REQUIRED");
+  const anchorId =
+    "dom_" +
+    createHash("sha256")
+      .update(
+        JSON.stringify([
+          conversion.spineIndex,
+          conversion.spineId,
+          conversion.spineHref,
+          conversion.nativePosition,
+          conversion.textAnchorSha256,
+        ]),
+      )
+      .digest("hex");
+  return Object.freeze({
+    kind: "EPUB_EXACT",
+    anchorId,
+    nativePosition: conversion.nativePosition,
+    evidence: "EPUB_DOM_ROUNDTRIP_ONLY",
+  });
+}
 
 const safeId = (value: unknown): value is string =>
   typeof value === "string" && /^[A-Za-z0-9_-]{1,128}$/.test(value);

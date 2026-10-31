@@ -108,7 +108,7 @@ export type OfflineProgressPosition =
       kind: "EPUB_EXACT";
       anchorId: string;
       nativePosition: string;
-      evidence: "OFFLINE_SYNTHETIC_FIXTURE_ONLY";
+      evidence: "OFFLINE_SYNTHETIC_FIXTURE_ONLY" | "EPUB_DOM_ROUNDTRIP_ONLY";
     }>
   | Readonly<{ kind: "PDF_PAGE"; pageNumber: number }>;
 
@@ -122,7 +122,8 @@ function validatePosition(
       ? identity.format !== "EPUB" ||
         !id(position.anchorId) ||
         !opaque(position.nativePosition) ||
-        position.evidence !== "OFFLINE_SYNTHETIC_FIXTURE_ONLY"
+        (position.evidence !== "OFFLINE_SYNTHETIC_FIXTURE_ONLY" &&
+          position.evidence !== "EPUB_DOM_ROUNDTRIP_ONLY")
       : position.kind === "PDF_PAGE"
         ? identity.format !== "PDF" ||
           !validInt(position.pageNumber) ||
@@ -221,12 +222,15 @@ export function recordOfflinePhase06Progress(
       if (accepted) {
         const result = sqlite
           .prepare(
-            "UPDATE phase06_offline_progress SET revision=revision+1,position_kind=?,native_position=?,page_number=?,last_event_id=? WHERE book_file_id=? AND revision=?",
+            "UPDATE phase06_offline_progress SET revision=revision+1,position_kind=?,native_position=?,page_number=?,position_evidence=?,last_event_id=? WHERE book_file_id=? AND revision=?",
           )
           .run(
             input.position.kind,
             input.position.kind === "EPUB_EXACT" ? input.position.nativePosition : null,
             input.position.kind === "PDF_PAGE" ? input.position.pageNumber : null,
+            input.position.kind === "EPUB_EXACT"
+              ? input.position.evidence
+              : "OFFLINE_FIXTURE_PAGE_COUNT_ONLY",
             input.eventId,
             input.identity.bookFileId,
             input.expectedRevision,
@@ -265,7 +269,7 @@ export function readOfflinePhase06Resume(
   assertOwner(sqlite, input.ownerId);
   const row = sqlite
     .prepare(
-      "SELECT owner_id,book_id,format,edition_sha256,verified_fixture_page_count,revision,position_kind,native_position,page_number FROM phase06_offline_progress WHERE book_file_id=?",
+      "SELECT owner_id,book_id,format,edition_sha256,verified_fixture_page_count,revision,position_kind,native_position,page_number,position_evidence FROM phase06_offline_progress WHERE book_file_id=?",
     )
     .get(input.identity.bookFileId) as
     | {
@@ -278,6 +282,7 @@ export function readOfflinePhase06Resume(
         position_kind: string | null;
         native_position: string | null;
         page_number: number | null;
+        position_evidence: string | null;
       }
     | undefined;
   if (
@@ -303,16 +308,26 @@ export function readOfflinePhase06Resume(
       pageNumber: row.page_number,
       pageCount: row.verified_fixture_page_count,
       label: "Page " + row.page_number + " of " + row.verified_fixture_page_count,
+      evidence: "OFFLINE_FIXTURE_PAGE_COUNT_ONLY" as const,
       percentage: null,
     });
   }
-  if (row.position_kind === "EPUB_EXACT" && row.native_position !== null) {
+  if (
+    row.position_kind === "EPUB_EXACT" &&
+    row.native_position !== null &&
+    (row.position_evidence === "OFFLINE_SYNTHETIC_FIXTURE_ONLY" ||
+      row.position_evidence === "EPUB_DOM_ROUNDTRIP_ONLY")
+  ) {
     return Object.freeze({
       status: "LOCAL_PREVIEW_ONLY" as const,
       revision: row.revision,
       kind: "EPUB_EXACT" as const,
       nativePosition: row.native_position,
-      label: "Resume at exact EPUB anchor",
+      label:
+        row.position_evidence === "EPUB_DOM_ROUNDTRIP_ONLY"
+          ? "Resume at EPUB DOM-verified anchor"
+          : "Resume at synthetic fixture anchor",
+      evidence: row.position_evidence,
       percentage: null,
     });
   }

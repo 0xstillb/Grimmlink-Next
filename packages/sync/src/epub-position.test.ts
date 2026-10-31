@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { strToU8, zipSync } from "fflate";
 import { describe, expect, it } from "vitest";
+import { toOfflineEpubResumePosition } from "./phase06.js";
 import { openOfflineEpubPositions } from "./epub-position.js";
 
 const container = `<?xml version="1.0"?>
@@ -157,17 +158,109 @@ describe("Phase06 EPUB DOM position conversion", () => {
     ).toMatchObject({ status: "DOM_ANCHOR_MATCH", spineId: "first" });
   });
 
+  it("covers combining Thai marks, ruby, embedded XHTML IDs, indexed text, and whitespace", async () => {
+    const xhtml = `<html xmlns="http://www.w3.org/1999/xhtml"><head><title>ตำแหน่ง</title></head><body>
+      <p id="thai-mark">😀 กี๊ยว</p>
+      <p><ruby><rb>漢字</rb><rt>かんじ</rt></ruby></p>
+      <div id="embedded-fragment"><p>ก่อน<strong>ตรงกลาง</strong>หลัง</p></div>
+      <p>A\t  \r\nB</p>
+    </body></html>`;
+    const { bytes, edition } = fixture({ "OEBPS/Text/chapter 1.xhtml": xhtml });
+    const book = await openOfflineEpubPositions(bytes, edition);
+
+    const mark = book.convert({
+      source: "XPOINTER",
+      nativePosition: "/body/DocFragment[1]/body/p[1]/text().2",
+      expectedText: "กี๊ยว",
+    });
+    expect(mark.status).toBe("DOM_ANCHOR_MATCH");
+    expect(mark.targetPosition).toContain("[thai-mark]");
+    expect(toOfflineEpubResumePosition(mark)).toMatchObject({
+      kind: "EPUB_EXACT",
+      nativePosition: mark.nativePosition,
+      evidence: "EPUB_DOM_ROUNDTRIP_ONLY",
+    });
+    expect(
+      book.convert({
+        source: "CFI",
+        nativePosition: mark.targetPosition!,
+        expectedText: "กี๊ยว",
+      }),
+    ).toMatchObject({ status: "DOM_ANCHOR_MATCH", targetPosition: mark.nativePosition });
+
+    expect(
+      book.convert({
+        source: "XPOINTER",
+        nativePosition: "/body/DocFragment[1]/body/p[2]/ruby/rb/text().0",
+        expectedText: "漢字",
+      }),
+    ).toMatchObject({ status: "DOM_ANCHOR_MATCH", spineIndex: 0 });
+
+    const indexed = book.convert({
+      source: "XPOINTER",
+      nativePosition: "/body/DocFragment[1]/body/div[1]/p[1]/text()[2].0",
+      expectedText: "หลัง",
+    });
+    expect(indexed.status).toBe("DOM_ANCHOR_MATCH");
+    expect(indexed.targetPosition).toContain("[embedded-fragment]");
+
+    expect(
+      book.convert({
+        source: "XPOINTER",
+        nativePosition: "/body/DocFragment[1]/body/p[3]/text().2",
+        expectedText: "B",
+      }),
+    ).toMatchObject({ status: "DOM_ANCHOR_MATCH", spineId: "first" });
+  });
+
+  it("preserves DocFragment indexes when a non-XHTML spine item is unsupported", async () => {
+    const opfWithSvg = opf
+      .replace(
+        '<item id="second" href="Text/chapter2.xhtml" media-type="application/xhtml+xml"/>',
+        '<item id="svg" href="Text/plate.svg" media-type="image/svg+xml"/>\n    <item id="second" href="Text/chapter2.xhtml" media-type="application/xhtml+xml"/>',
+      )
+      .replace(
+        '<itemref idref="second" linear="no"/>',
+        '<itemref idref="svg"/>\n    <itemref idref="second" linear="no"/>',
+      );
+    const { bytes, edition } = fixture({
+      "OEBPS/content.opf": opfWithSvg,
+      "OEBPS/Text/plate.svg": '<svg xmlns="http://www.w3.org/2000/svg"/>',
+    });
+    const book = await openOfflineEpubPositions(bytes, edition);
+    expect(book.spineCount).toBe(3);
+    expect(
+      book.convert({
+        source: "XPOINTER",
+        nativePosition: "/body/DocFragment[2]/body",
+        expectedText: "plate",
+      }),
+    ).toMatchObject({
+      status: "CHAPTER_ONLY",
+      spineIndex: 1,
+      spineId: "svg",
+      reason: "SPINE_UNSUPPORTED",
+    });
+    expect(
+      book.convert({
+        source: "XPOINTER",
+        nativePosition: "/body/DocFragment[3]/body/p/text().0",
+        expectedText: "บทที่สอง",
+      }),
+    ).toMatchObject({ status: "DOM_ANCHOR_MATCH", spineIndex: 2, spineId: "second" });
+  });
+
   it("preserves the native position when the quote or pointer cannot be proven", async () => {
     const { bytes, edition } = fixture();
     const book = await openOfflineEpubPositions(bytes, edition);
     const nativePosition = "/body/DocFragment[1]/body/p/text().0";
-    expect(
-      book.convert({ source: "XPOINTER", nativePosition, expectedText: "ข้อความอื่น" }),
-    ).toMatchObject({
+    const mismatch = book.convert({ source: "XPOINTER", nativePosition, expectedText: "ข้อความอื่น" });
+    expect(mismatch).toMatchObject({
       status: "CHAPTER_ONLY",
       nativePosition,
       targetPosition: null,
     });
+    expect(() => toOfflineEpubResumePosition(mismatch)).toThrow("PHASE06_DOM_ANCHOR_REQUIRED");
     expect(book.convert({ source: "XPOINTER", nativePosition })).toMatchObject({
       status: "CHAPTER_ONLY",
       nativePosition,
