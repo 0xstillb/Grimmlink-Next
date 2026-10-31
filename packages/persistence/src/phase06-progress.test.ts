@@ -208,6 +208,19 @@ it("rejects drift, unauthenticated/revoked readers, invalid pages and cross-form
         position: epubPosition,
       }),
     ).toThrow("PHASE06_OFFLINE_POSITION_INVALID");
+    expect(() =>
+      recordOfflinePhase06Progress(store.sqlite, {
+        ...put,
+        identity: { ...pdf, editionSha256: "d".repeat(64) },
+      }),
+    ).toThrow("PHASE06_EVENT_EDITION_MISMATCH");
+    expect(() =>
+      recordOfflinePhase06Progress(store.sqlite, {
+        ...put,
+        identity: epub,
+        position: epubPosition,
+      }),
+    ).toThrow("PHASE06_EVENT_EDITION_MISMATCH");
     registerOfflineProgressFile(store.sqlite, owner, epub);
     expect(() =>
       recordOfflinePhase06Progress(store.sqlite, {
@@ -222,19 +235,6 @@ it("rejects drift, unauthenticated/revoked readers, invalid pages and cross-form
         },
       }),
     ).toThrow("PHASE06_OFFLINE_POSITION_INVALID");
-    expect(() =>
-      recordOfflinePhase06Progress(store.sqlite, {
-        ...put,
-        identity: { ...pdf, editionSha256: "d".repeat(64) },
-      }),
-    ).toThrow("PHASE06_EVENT_EDITION_MISMATCH");
-    expect(() =>
-      recordOfflinePhase06Progress(store.sqlite, {
-        ...put,
-        identity: epub,
-        position: epubPosition,
-      }),
-    ).toThrow("PHASE06_EVENT_EDITION_MISMATCH");
     revokeOfflineReader(store.sqlite, owner, "tablet", 202);
     expect(() =>
       recordOfflinePhase06Progress(store.sqlite, {
