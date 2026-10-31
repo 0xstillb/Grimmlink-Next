@@ -44,14 +44,17 @@ work; they do not keep the Adapter development gate open.
 
 `adapterCloseout.sourceHead` identifies the exact Adapter implementation
 commit that passed CI. After that CI succeeds, make one handoff-only commit
-that updates `ACTIVE-SESSION.json`,
-`phase-08/RESULT.md`, `phase-08/HANDOFF.json`, `SESSION-HANDOFF.md` and the
-Phase09 acceptance plan's existing-Staging target note with the actual run IDs
-and final status. Regenerate
+that updates `docs/implementation/ACTIVE-SESSION.json`,
+`docs/implementation/phase-08/RESULT.md`,
+`docs/implementation/phase-08/HANDOFF.json`,
+`docs/implementation/SESSION-HANDOFF.md`,
+`docs/implementation/phase-08/PHASE09-ACCEPTANCE-PLAN.md` (existing-Staging
+target note), this file (only to correct this handoff-file list), and the
+generated `docs/implementation/phase-00/PHASE00-GATE-STATUS.json` with the
+actual run IDs and final status. Regenerate
 `phase-00/PHASE00-GATE-STATUS.json` from the updated `ACTIVE-SESSION.json` in
-that same commit; it is a derived receipt, not a second gate. The gate file may
-be updated in that same documentation commit only to correct this handoff-file
-list; final documentation-head checks validate the resulting set. These
+that same commit; it is a derived receipt, not a second gate. Final
+documentation-head checks validate the resulting set. These
 documentation changes do not change `sourceHead` or reopen the Adapter code
 gate. Confirm the diff contains only those handoff files, the Phase09 target
 note, this gate-file list, and the generated Phase00 receipt. Any code, test,

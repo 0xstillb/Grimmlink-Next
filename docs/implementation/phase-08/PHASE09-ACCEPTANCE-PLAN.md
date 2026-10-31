@@ -1,6 +1,10 @@
 # Phase 09 Acceptance Plan — Single-Owner Private
 
-**Status: STAGING_HOST_CONFIRMED_BY_OWNER; DEPLOYMENT_AND_TESTS_NOT_RUN.** The existing Staging machine is waiting for a code candidate. This document prepares that deployment and test run; it is not test evidence, permission to connect production, or authorization to enable a protected route. Full-stack, NAS, Hermes and physical-reader tests remain Phase09-only.
+**Status: STAGING_HOST_CONFIRMED_BY_OWNER; DEPLOYMENT_AND_AUTHENTICATED_TESTS_NOT_RUN.** The existing Staging machine is `192.168.1.116`; Grimmory is reported on port `6060`, and the Adapter candidate will use private port `6062`. The owner has added a Grimmory user, but its OPDS identity and library scope still need verification. This document prepares deployment and testing; it is not test evidence, permission to connect production, or authorization to enable protected writes. Full-stack, NAS, Hermes and physical-reader tests remain Phase09-only.
+
+## Existing Staging target
+
+Deploy to the already available host `192.168.1.116`; do not provision a second machine. The Grimmory OPDS base is `http://192.168.1.116:6060/api/v1/opds`. Keep the Adapter bound privately at `192.168.1.116:6062` so its test API does not collide with Grimmory. The first live Grimmory scenario is one bounded, authenticated catalog `GET` using an OPDS account whose parent user is restricted to the disposable test library. Reject redirects; keep credentials in memory only; report counts only; do not follow book or acquisition links. The last observed unauthenticated response was `401`, so no authenticated catalog read has passed yet.
 
 ## Entry conditions
 

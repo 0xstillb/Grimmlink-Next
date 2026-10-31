@@ -1,12 +1,12 @@
 # Phase 08 — Single-Owner Control Center, Diagnostics and Offline Packaging
 
-## Current execution checkpoint — Adapter implementation passed, plugin next (2026-10-31)
+## Current execution checkpoint — Adapter closed; plugin next (2026-10-31)
 
-The Adapter/Control Center implementation gate passed at source `cd26c0dbaf5304144f4069a1abe2d403fc6fcf5d`: targeted checks passed and all 10 required PR workflows passed on that exact source. The Phase08 workflow is [run 41188204494](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41188204494); the complete exact-head run set is recorded in `ACTIVE-SESSION.json` and `HANDOFF.json`. The owner readback and update-review slices once described as local are ancestors of this source and are covered by its CI.
+The Adapter/Control Center workstream passed its exact-source gate at `9e872755fbabd93dabc254372574cc5e77f6a639`. All 10 PR workflows passed, including Phase01 ARM64 build/smoke, Phase02 pinned Spring evidence and Phase07 Staging topology validation. Run IDs and local validation are recorded in `ACTIVE-SESSION.json` and `HANDOFF.json`.
 
-Adapter is closed as an offline development workstream. KOReader plugin work is next and remains a separate implementation, test, CI and handoff scope. Phase08 overall remains `IN_PROGRESS_OFFLINE_RECONCILIATION` until that plugin workstream passes. The single post-Adapter handoff commit includes the generated Phase00 receipt; its final documentation-head CI is checked live and recorded in Notion, with no follow-up repository commit to copy CI IDs.
+Adapter is closed as an offline development workstream. The private Staging Adapter API is limited to owner-authenticated local pairing and event persistence. KOReader plugin work starts after this handoff commit and remains a separate implementation, test, CI and handoff scope. Phase08 overall remains `IN_PROGRESS_OFFLINE_RECONCILIATION` until the plugin workstream passes.
 
-This closeout does not claim a staging deployment or real-device test. The owner confirms the Staging machine already exists and is waiting for code; no candidate has been deployed or tested there yet. After the plugin's exact-head CI and handoff pass, deploy the candidate to that existing Staging machine and run the Phase09 acceptance scenarios, confirming the isolated test account/library, verified backup, read-only NAS, owner session, private ingress and test readers before mutation. Staging testing does not authorize production. Production remains `NOT_AUTHORIZED` pending Phase09 evidence, security review, proven rollback and explicit owner approval.
+The owner confirms `192.168.1.116` already hosts Grimmory and has added a user. Deployment and authenticated catalog reading have not yet been verified. After plugin exact-head CI and handoff, deploy to the existing Staging host, verify the new OPDS user's access is limited to the disposable test library, and perform one fixed catalog GET that reports only bounded counts. Do not follow acquisition links or download book files. Keep Grimmory writes, protected Adapter writes and production deployment disabled. Phase09 NAS/Hermes/device E2E, security review, signing and rollback remain separate deferred work.
 
 ## Historical local checkpoints — superseded by the exact-head result above
 
