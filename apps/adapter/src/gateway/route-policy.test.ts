@@ -20,6 +20,184 @@ describe("Phase02 zero-forward gateway classifier", () => {
     expect(classify("OPTIONS", path)).toBe("DENY_UPSTREAM");
   });
 
+  it("permits only the local diagnostics methods and bounded log filters", () => {
+    const logs = "/api/grimmlink/v2/local/diagnostics/adapter/logs";
+    const lease = "/api/grimmlink/v2/local/diagnostics/adapter/lease";
+    expect(classify("GET", logs)).toBe("LOCAL_DIAGNOSTICS");
+    expect(
+      classify(
+        "GET",
+        `${logs}?level=debug&code=REQUEST_SUMMARY&requestId=01234567-89ab-4cde-8f01-23456789abcd&limit=25`,
+      ),
+    ).toBe("LOCAL_DIAGNOSTICS");
+    expect(classify("DELETE", logs)).toBe("LOCAL_DIAGNOSTICS");
+    expect(classify("GET", lease)).toBe("LOCAL_DIAGNOSTICS");
+    expect(classify("PUT", lease)).toBe("LOCAL_DIAGNOSTICS");
+    expect(classify("DELETE", lease)).toBe("LOCAL_DIAGNOSTICS");
+    expect(classify("HEAD", logs)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", lease)).toBe("DENY_UPSTREAM");
+    expect(classify("PATCH", logs)).toBe("DENY_UPSTREAM");
+    expect(classify("GET", `${logs}?url=%2Fprivate`)).toBe("INVALID_TARGET");
+    expect(classify("GET", `${logs}?unknown=x`)).toBe("INVALID_TARGET");
+    expect(classify("GET", `${logs}?level=debug&level=trace`)).toBe("INVALID_TARGET");
+    expect(classify("GET", `${logs}?limit=501`)).toBe("INVALID_TARGET");
+    expect(classify("GET", `${lease}?level=debug`)).toBe("INVALID_TARGET");
+    expect(classify("GET", "/api/grimmlink/v2/local/diagnostics/unknown/logs")).toBe(
+      "DENY_UPSTREAM",
+    );
+  });
+
+  it("permits only owner-guarded local job list, finite event replay and controls", () => {
+    const jobs = "/api/grimmlink/v2/local/jobs";
+    const events = `${jobs}/events`;
+    const control = `${jobs}/job-1/control`;
+    expect(classify("GET", jobs)).toBe("LOCAL_JOBS");
+    expect(classify("GET", events)).toBe("LOCAL_JOBS");
+    expect(classify("GET", events, { accept: "text/event-stream" })).toBe("LOCAL_JOBS");
+    expect(classify("POST", control)).toBe("LOCAL_JOBS");
+    expect(classify("HEAD", jobs)).toBe("DENY_UPSTREAM");
+    expect(classify("PUT", control)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", `${jobs}/job-1/control?x=1`)).toBe("INVALID_TARGET");
+    expect(classify("GET", `${jobs}/job-1`)).toBe("DENY_UPSTREAM");
+    expect(
+      classify("GET", events, { accept: "text/event-stream", "x-forwarded-host": "evil" }),
+    ).toBe("INVALID_TARGET");
+  });
+
+  it("permits only the local owner-session methods without query strings", () => {
+    const session = "/api/grimmlink/v2/local/auth/session";
+    const login = "/api/grimmlink/v2/local/auth/login";
+    const logout = "/api/grimmlink/v2/local/auth/logout";
+    expect(classify("GET", session)).toBe("LOCAL_AUTH");
+    expect(classify("POST", login)).toBe("LOCAL_AUTH");
+    expect(classify("POST", logout)).toBe("LOCAL_AUTH");
+    expect(classify("HEAD", session)).toBe("DENY_UPSTREAM");
+    expect(classify("DELETE", logout)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", session)).toBe("DENY_UPSTREAM");
+    expect(classify("GET", `${session}?token=ignored`)).toBe("INVALID_TARGET");
+    expect(classify("POST", `${login}?redirect=https://example.test`)).toBe("INVALID_TARGET");
+    expect(classify("POST", "/api/grimmlink/v2/local/auth/unknown")).toBe("DENY_UPSTREAM");
+  });
+
+  it("permits only authenticated support-bundle create and download paths", () => {
+    const collection = "/api/grimmlink/v2/local/support-bundle";
+    const download = `${collection}/AbCdEf0123456789_-AbCd`;
+    expect(classify("POST", collection)).toBe("LOCAL_DIAGNOSTICS");
+    expect(classify("GET", download)).toBe("LOCAL_DIAGNOSTICS");
+    expect(classify("GET", collection)).toBe("DENY_UPSTREAM");
+    expect(classify("DELETE", download)).toBe("DENY_UPSTREAM");
+    expect(classify("GET", `${download}?path=/private`)).toBe("INVALID_TARGET");
+    expect(classify("GET", `${collection}/short-id`)).toBe("DENY_UPSTREAM");
+  });
+
+  it("permits only authenticated update-feed source and snapshot GETs", () => {
+    const sources = "/api/grimmlink/v2/local/updates";
+    const snapshot = `${sources}/grimmory`;
+    expect(classify("GET", sources)).toBe("LOCAL_DIAGNOSTICS");
+    expect(classify("GET", snapshot)).toBe("LOCAL_DIAGNOSTICS");
+    expect(classify("HEAD", sources)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", snapshot)).toBe("DENY_UPSTREAM");
+    expect(classify("GET", `${sources}?source=attacker`)).toBe("INVALID_TARGET");
+    expect(classify("GET", `${sources}/Uppercase`)).toBe("DENY_UPSTREAM");
+  });
+
+  it("permits only owner-authenticated local update review reads and writes", () => {
+    const reviews = "/api/grimmlink/v2/local/update-reviews";
+    expect(classify("GET", reviews)).toBe("LOCAL_DIAGNOSTICS");
+    expect(classify("POST", reviews)).toBe("LOCAL_DIAGNOSTICS");
+    expect(classify("HEAD", reviews)).toBe("DENY_UPSTREAM");
+    expect(classify("DELETE", reviews)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", `${reviews}?candidate=v1`)).toBe("INVALID_TARGET");
+  });
+
+  it("permits only an owner-authenticated local OPF preview submission", () => {
+    const preview = "/api/grimmlink/v2/local/opf/preview";
+    expect(classify("POST", preview)).toBe("LOCAL_OPF_PREVIEW");
+    expect(classify("GET", preview)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", `${preview}?debug=1`)).toBe("INVALID_TARGET");
+    expect(classify("POST", `${preview}/apply`)).toBe("DENY_UPSTREAM");
+  });
+
+  it("permits only an owner-authenticated local Sidecar preview submission", () => {
+    const preview = "/api/grimmlink/v2/local/sidecar/preview";
+    expect(classify("POST", preview)).toBe("LOCAL_SIDECAR_PREVIEW");
+    expect(classify("GET", preview)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", `${preview}?debug=1`)).toBe("INVALID_TARGET");
+    expect(classify("POST", `${preview}/apply`)).toBe("DENY_UPSTREAM");
+  });
+
+  it("permits only the owner-authenticated read-only local settings policy", () => {
+    const status = "/api/grimmlink/v2/local/settings/status";
+    expect(classify("GET", status)).toBe("LOCAL_SETTINGS");
+    expect(classify("HEAD", status)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", status)).toBe("DENY_UPSTREAM");
+    expect(classify("GET", `${status}?mode=prod`)).toBe("INVALID_TARGET");
+  });
+
+  it("permits only owner-guarded local diagnostics retention settings", () => {
+    const settings = "/api/grimmlink/v2/local/settings/diagnostics";
+    expect(classify("GET", settings)).toBe("LOCAL_SETTINGS");
+    expect(classify("PUT", settings)).toBe("LOCAL_SETTINGS");
+    expect(classify("POST", settings)).toBe("DENY_UPSTREAM");
+    expect(classify("DELETE", settings)).toBe("DENY_UPSTREAM");
+    expect(classify("GET", `${settings}?x=1`)).toBe("INVALID_TARGET");
+  });
+
+  it("permits only the owner-guarded local device inventory and mutation paths", () => {
+    const devices = "/api/grimmlink/v2/local/devices";
+    expect(classify("GET", devices)).toBe("LOCAL_SETTINGS");
+    expect(classify("POST", devices)).toBe("LOCAL_SETTINGS");
+    expect(classify("POST", `${devices}/reader-1/rotate`)).toBe("LOCAL_SETTINGS");
+    expect(classify("POST", `${devices}/reader-1/revoke`)).toBe("LOCAL_SETTINGS");
+    expect(classify("HEAD", devices)).toBe("DENY_UPSTREAM");
+    expect(classify("PUT", devices)).toBe("DENY_UPSTREAM");
+    expect(classify("DELETE", `${devices}/reader-1/revoke`)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", `${devices}/reader-1/revoke?x=1`)).toBe("INVALID_TARGET");
+    expect(classify("POST", `${devices}/reader%2f2/revoke`)).toBe("INVALID_TARGET");
+    expect(classify("POST", `${devices}/reader-1/unknown`)).toBe("DENY_UPSTREAM");
+  });
+
+  it("permits only the owner-authenticated local unavailable-screen status", () => {
+    const status = "/api/grimmlink/v2/local/screens/status";
+    expect(classify("GET", status)).toBe("LOCAL_SCREEN_STATUS");
+    expect(classify("HEAD", status)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", status)).toBe("DENY_UPSTREAM");
+    expect(classify("GET", `${status}?reader=1`)).toBe("INVALID_TARGET");
+  });
+
+  it("permits only the owner-authenticated local reading projection GET", () => {
+    const reading = "/api/grimmlink/v2/local/reading";
+    expect(classify("GET", reading)).toBe("LOCAL_SCREEN_STATUS");
+    expect(classify("HEAD", reading)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", reading)).toBe("DENY_UPSTREAM");
+    expect(classify("GET", `${reading}?owner=other`)).toBe("INVALID_TARGET");
+  });
+
+  it("permits only the owner-authenticated local identity projection GET", () => {
+    const identity = "/api/grimmlink/v2/local/identity";
+    expect(classify("GET", identity)).toBe("LOCAL_SCREEN_STATUS");
+    expect(classify("HEAD", identity)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", identity)).toBe("DENY_UPSTREAM");
+    expect(classify("GET", `${identity}?owner=other`)).toBe("INVALID_TARGET");
+  });
+
+  it("permits only the explicit local Staging reader API methods", () => {
+    const prefix = "/api/grimmlink/v2/local/reader";
+    expect(classify("GET", `${prefix}/status`)).toBe("LOCAL_READER_API");
+    expect(classify("GET", `${prefix}/files`)).toBe("LOCAL_READER_API");
+    expect(classify("POST", `${prefix}/files`)).toBe("LOCAL_READER_API");
+    expect(classify("GET", `${prefix}/personal/file-1/BOOKMARK/bm-1`)).toBe("LOCAL_READER_API");
+    expect(classify("PUT", `${prefix}/personal/file-1/BOOKMARK/bm-1`)).toBe("LOCAL_READER_API");
+    expect(classify("POST", `${prefix}/sessions/session-1`)).toBe("LOCAL_READER_API");
+    expect(classify("POST", `${prefix}/shelf-preview`)).toBe("LOCAL_READER_API");
+    expect(classify("PUT", `${prefix}/files`)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", `${prefix}/personal/file-1/BOOKMARK/bm-1`)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", `${prefix}/status`)).toBe("DENY_UPSTREAM");
+    expect(classify("GET", `${prefix}/personal/file-1/RESET/rating`)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", `${prefix}/sessions/session-1?retry=true`)).toBe("INVALID_TARGET");
+    expect(classify("POST", `${prefix}/events/official`)).toBe("DENY_UPSTREAM");
+  });
+
   it.each([
     "/",
     "/api/v1/books",

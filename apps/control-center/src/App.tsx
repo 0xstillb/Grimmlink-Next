@@ -1,20 +1,53 @@
 import { useCallback, useEffect, useState } from "react";
+import { DiagnosticsViewer } from "./DiagnosticsViewer.js";
+import { JobsPanel } from "./JobsPanel.js";
+import { OpfPreviewPanel } from "./OpfPreviewPanel.js";
+import { SidecarPreviewPanel } from "./SidecarPreviewPanel.js";
+import { SettingsPanel } from "./SettingsPanel.js";
+import { ReadingPanel } from "./ReadingPanel.js";
+import { IdentityPanel } from "./IdentityPanel.js";
+import { UnavailableDomainPanel } from "./UnavailableDomainPanel.js";
+import { UpdateCenter } from "./UpdateCenter.js";
+import {
+  createServerSupportBundle,
+  fetchOwnerSession,
+  fetchServerSupportBundle,
+} from "./diagnostics-client.js";
 import {
   DISCONNECTED,
+  createSafeSupportBundle,
   inspectLocalAdapter,
-  safeDiagnosticExport,
   type LocalSnapshot,
+  type SafeSupportBundle,
 } from "./phase08-model.js";
 
-const sections = [
+export const sections = [
   "Overview",
-  "Devices",
+  "OPF Sync",
   "Jobs",
-  "Diagnostics",
+  "Identity",
+  "Reading",
+  "Sidecar & Restore",
+  "OPDS",
+  "Logs & Diagnostics",
+  "Settings & Devices",
   "Update Center",
-  "Settings",
 ] as const;
 type Section = (typeof sections)[number];
+
+export const sectionDescriptions: Record<Section, string> = {
+  Overview: "Development readiness and the current offline safety boundary.",
+  "OPF Sync": "Review source and metadata capabilities without scanning a live library.",
+  Jobs: "Inspect job and event-stream availability without submitting work.",
+  Identity: "Book-file identity and reader pairing status for the single owner.",
+  Reading: "Position and Continue Reading status without inventing progress.",
+  "Sidecar & Restore": "Backup and Sidecar capabilities in preview-only mode.",
+  OPDS: "Subscription status without claiming full shelf membership sync.",
+  "Logs & Diagnostics":
+    "Inspect allow-listed process logs and use short owner-authorized diagnostic leases.",
+  "Settings & Devices": "Private owner settings and paired-reader availability.",
+  "Update Center": "Review bounded public release evidence without installing or rolling back.",
+};
 
 const cards = [
   ["Gateway", "DENY_ALL", "Official upstream traffic is disabled"],
@@ -22,11 +55,18 @@ const cards = [
   ["Release", "NOT AUTHORIZED", "Phase 09 review and device tests required"],
 ] as const;
 
-export function App() {
-  const [selected, setSelected] = useState<Section>("Overview");
+export function App({ initialSection = "Overview" }: { initialSection?: Section }) {
+  const [selected, setSelected] = useState<Section>(initialSection);
   const [snapshot, setSnapshot] = useState<LocalSnapshot>(DISCONNECTED);
   const [checking, setChecking] = useState(false);
   const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
+  const [supportBundle, setSupportBundle] = useState<SafeSupportBundle | null>(null);
+  const [serverBundleState, setServerBundleState] = useState<
+    "idle" | "creating" | "downloaded" | "failed"
+  >("idle");
+  const [serverBundleMessage, setServerBundleMessage] = useState(
+    "Requires a signed-in local owner session.",
+  );
 
   const refresh = useCallback(async (signal: AbortSignal) => {
     setChecking(true);
@@ -43,12 +83,62 @@ export function App() {
     return () => controller.abort();
   }, [refresh]);
 
+  useEffect(() => {
+    if (!supportBundle) return;
+    const timer = window.setTimeout(
+      () => {
+        setSupportBundle(null);
+        setCopyState("idle");
+      },
+      Math.max(0, supportBundle.expiresAtMs - Date.now()),
+    );
+    return () => window.clearTimeout(timer);
+  }, [supportBundle]);
+
   const copyDiagnostics = async () => {
     try {
-      await navigator.clipboard.writeText(safeDiagnosticExport(snapshot));
+      const bundle = await createSafeSupportBundle(snapshot);
+      setSupportBundle(bundle);
+      await navigator.clipboard.writeText(bundle.text);
       setCopyState("copied");
     } catch {
       setCopyState("failed");
+    }
+  };
+
+  const downloadAuthenticatedBundle = async () => {
+    if (serverBundleState === "creating") return;
+    setServerBundleState("creating");
+    setServerBundleMessage("Collecting the allow-listed server report.");
+    try {
+      const session = await fetchOwnerSession();
+      if (!session.authenticated || !session.csrfToken) {
+        setServerBundleState("failed");
+        setServerBundleMessage("Sign in above before collecting a server support bundle.");
+        return;
+      }
+      const receipt = await createServerSupportBundle(session.csrfToken);
+      const bundle = await fetchServerSupportBundle(receipt.bundleId);
+      if (bundle.checksum.value !== receipt.checksumSha256) {
+        throw new Error("SUPPORT_BUNDLE_CHECKSUM_MISMATCH");
+      }
+      const objectUrl = URL.createObjectURL(
+        new Blob([JSON.stringify(bundle, null, 2)], { type: "application/json" }),
+      );
+      const link = document.createElement("a");
+      link.href = objectUrl;
+      link.download = `grimmlink-support-bundle-${receipt.bundleId}.json`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(objectUrl), 10_000);
+      setServerBundleState("downloaded");
+      setServerBundleMessage(
+        `Bundle downloaded; server retention expires at ${receipt.expiresAt}.`,
+      );
+    } catch {
+      setServerBundleState("failed");
+      setServerBundleMessage("Server bundle collection or download is unavailable.");
     }
   };
 
@@ -76,6 +166,9 @@ export function App() {
               onClick={() => {
                 setSelected(label);
                 setCopyState("idle");
+                setSupportBundle(null);
+                setServerBundleState("idle");
+                setServerBundleMessage("Requires a signed-in local owner session.");
               }}
             >
               {label}
@@ -88,14 +181,12 @@ export function App() {
           No production connection
         </p>
       </aside>
-      <main id="main-content">
+      <main id="main-content" aria-labelledby="page-title">
         <header>
           <div>
             <p className="eyebrow">CONTROL CENTER / PHASE 08</p>
-            <h1>{selected}</h1>
-            <p className="muted">
-              Private single-owner preview · no real reader or Official operations
-            </p>
+            <h1 id="page-title">{selected}</h1>
+            <p className="muted">{sectionDescriptions[selected]}</p>
           </div>
           <div className="header-actions">
             <span className="state">
@@ -148,8 +239,9 @@ export function App() {
                 <span className="pill">Mock-only</span>
               </div>
               <p>
-                Phases 01–07 have offline development deliverables. Real Hermes, NAS and reader
-                verification, independent security review and release approval remain in Phase 09.
+                This preview does not certify phase exit gates. Check each phase handoff for
+                verified code and CI evidence. Real Hermes, NAS and reader verification, the
+                consolidated security review and release approval remain in Phase 09.
               </p>
               <div className="status-row">
                 <span>Source</span>
@@ -167,38 +259,51 @@ export function App() {
           </>
         )}
 
-        {selected === "Devices" && (
-          <section className="panel">
-            <h2>Paired readers</h2>
-            <p>
-              No verified device inventory is connected to this preview. Pairing and revocation
-              require a trusted owner session and are not exposed here.
-            </p>
-            <p className="empty-state">No device data to display</p>
-          </section>
+        {selected === "OPF Sync" && (
+          <OpfPreviewPanel onSignIn={() => setSelected("Logs & Diagnostics")} />
         )}
 
-        {selected === "Jobs" && (
-          <section className="panel">
-            <h2>Local jobs</h2>
-            <p>
-              Phase 04 SQLite job and recovery primitives are tested with isolated fixtures. This UI
-              does not read a live queue or submit jobs.
-            </p>
-            <p className="empty-state">No job telemetry to display</p>
-          </section>
+        {selected === "Identity" && (
+          <IdentityPanel
+            onSignIn={() => setSelected("Logs & Diagnostics")}
+            onManageDevices={() => setSelected("Settings & Devices")}
+          />
         )}
 
-        {selected === "Diagnostics" && (
+        {selected === "Reading" && (
+          <ReadingPanel onSignIn={() => setSelected("Logs & Diagnostics")} />
+        )}
+
+        {selected === "Sidecar & Restore" && (
+          <SidecarPreviewPanel onSignIn={() => setSelected("Logs & Diagnostics")} />
+        )}
+
+        {selected === "OPDS" && (
+          <UnavailableDomainPanel
+            screen="OPDS"
+            onSignIn={() => setSelected("Logs & Diagnostics")}
+          />
+        )}
+
+        {selected === "Jobs" && <JobsPanel onSignIn={() => setSelected("Logs & Diagnostics")} />}
+
+        {selected === "Logs & Diagnostics" && (
           <section className="panel" aria-label="Diagnostics">
             <div className="panel-heading">
-              <h2>Secret-safe diagnostics</h2>
+              <h2>Logs and secret-safe diagnostics</h2>
               <span className="pill">Allow-list export</span>
             </div>
             <p>
-              Only known local capability fields are included. Credentials, server logs, notes,
-              device IDs and library records are never exported.
+              The viewer reads only allow-listed process events through the same-origin diagnostics
+              API. Local owner login is available when the Adapter receives a password verifier and
+              session key; it stays disabled if either value is missing. The support report below
+              uses known local capability fields only.
             </p>
+            <DiagnosticsViewer />
+            <div className="status-row">
+              <span>Diagnostics retention</span>
+              <strong>In-memory safe events · Docker mock stdout rotates at 10 MiB × 3</strong>
+            </div>
             <div className="status-row">
               <span>Local adapter</span>
               <strong>{snapshot.adapter}</strong>
@@ -220,67 +325,50 @@ export function App() {
               <strong>{snapshot.nativeKosync}</strong>
             </div>
             <button className="primary-button" type="button" onClick={() => void copyDiagnostics()}>
-              Copy safe diagnostic report
+              Copy safe support bundle
+            </button>
+            <button
+              className="secondary-button"
+              type="button"
+              disabled={serverBundleState === "creating"}
+              onClick={() => void downloadAuthenticatedBundle()}
+            >
+              {serverBundleState === "creating"
+                ? "Collecting server bundle…"
+                : "Download authenticated server bundle"}
             </button>
             <p role="status" aria-live="polite">
-              {copyState === "copied"
-                ? "Safe report copied."
+              {serverBundleMessage} Contains only allow-listed local status and up to 100 safe
+              process events. The in-memory server copy expires after one hour.
+            </p>
+            <p className="bundle-expiry-note">
+              The one-hour timer clears this page preview; copied text cannot be revoked.
+            </p>
+            <p role="status" aria-live="polite">
+              {copyState === "copied" && supportBundle
+                ? `Support bundle copied. This page preview expires at ${supportBundle.expiresAt}.`
                 : copyState === "failed"
-                  ? "Copy unavailable in this browser."
+                  ? supportBundle
+                    ? "Bundle preview is ready; clipboard access is unavailable."
+                    : "Bundle generation or clipboard access is unavailable in this browser."
                   : "No device or backend details are collected."}
             </p>
+            {supportBundle && (
+              <details className="bundle-preview">
+                <summary>Preview the allow-listed bundle</summary>
+                <p>
+                  SHA-256: <code>{supportBundle.checksumSha256}</code>
+                </p>
+                <pre>{supportBundle.text}</pre>
+              </details>
+            )}
           </section>
         )}
 
-        {selected === "Update Center" && (
-          <section className="panel">
-            <div className="panel-heading">
-              <h2>Update Center</h2>
-              <span className="pill">Preview only</span>
-            </div>
-            <p>
-              Package artifacts are generated and checksummed by isolated CI. This page cannot
-              download, install, roll back or schedule an update.
-            </p>
-            <div className="status-row">
-              <span>UI package</span>
-              <strong>Phase 08 development</strong>
-            </div>
-            <div className="status-row">
-              <span>Installed runtime version</span>
-              <strong>Not verified</strong>
-            </div>
-            <div className="status-row">
-              <span>Auto-update</span>
-              <strong>Disabled</strong>
-            </div>
-            <div className="status-row">
-              <span>Rollback</span>
-              <strong>Requires Phase 09 real restore test</strong>
-            </div>
-            <p className="empty-state">No update can be applied from this preview</p>
-          </section>
-        )}
+        {selected === "Update Center" && <UpdateCenter />}
 
-        {selected === "Settings" && (
-          <section className="panel">
-            <h2>Private configuration</h2>
-            <p>
-              One canonical owner, multiple future paired readers. No multi-tenant roles or public
-              sharing controls.
-            </p>
-            {cards.map(([title, value, description]) => (
-              <div className="status-row" key={title}>
-                <span>
-                  {title} · {description}
-                </span>
-                <strong>{value}</strong>
-              </div>
-            ))}
-            <p className="empty-state">
-              Settings are read-only until trusted owner authentication is connected
-            </p>
-          </section>
+        {selected === "Settings & Devices" && (
+          <SettingsPanel onSignIn={() => setSelected("Logs & Diagnostics")} />
         )}
 
         <footer>

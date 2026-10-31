@@ -27,6 +27,20 @@ const mutation = {
 describe("admin Control Center mutation guard (pure contract)", () => {
   it("allows a verified, unexpired admin with server-bound CSRF and exact origin", () => {
     expect(authorizeAdminMutation(admin, mutation)).toBe("ALLOW");
+    expect(
+      authorizeAdminMutation(admin, {
+        ...mutation,
+        origin: "http://127.0.0.1:5173",
+        expectedOrigin: "http://127.0.0.1:5173",
+      }),
+    ).toBe("ALLOW");
+    expect(
+      authorizeAdminMutation(admin, {
+        ...mutation,
+        origin: "http://192.168.1.116:6062",
+        expectedOrigin: "http://192.168.1.116:6062",
+      }),
+    ).toBe("ALLOW");
   });
   it("denies missing identity and refuses admin token use from a reader", () => {
     expect(authorizeAdminMutation(null, mutation)).toBe("UNAUTHENTICATED");
@@ -48,6 +62,13 @@ describe("admin Control Center mutation guard (pure contract)", () => {
     );
     expect(
       authorizeAdminMutation(admin, { ...mutation, expectedOrigin: "http://evil.invalid" }),
+    ).toBe("INVALID_REQUEST");
+    expect(
+      authorizeAdminMutation(admin, {
+        ...mutation,
+        expectedOrigin: "http://203.0.113.10:6060",
+        origin: "http://203.0.113.10:6060",
+      }),
     ).toBe("INVALID_REQUEST");
   });
   it("denies GET mutations and expired or malformed sessions", () => {

@@ -1,0 +1,73 @@
+# Private-LAN Staging only. The Adapter has no Grimmory/NAS mount or client.
+services:
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile.private-staging
+    image: grimmlink-caddy:phase08-staging-local
+    user: "1000:1000"
+    read_only: true
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+    environment:
+      XDG_DATA_HOME: /tmp/caddy-data
+      XDG_CONFIG_HOME: /tmp/caddy-config
+    volumes:
+      - ./gateway/Caddyfile.phase08.staging-local:/etc/caddy/Caddyfile:ro
+    tmpfs:
+      - /tmp:rw,nosuid,noexec,size=16m
+    ports:
+      - "192.168.1.116:6062:6062"
+    networks:
+      - local-staging
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+  adapter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: grimmlink-next:phase08-staging-local
+    network_mode: "service:gateway"
+    depends_on:
+      - gateway
+    env_file:
+      - ./.env.staging
+    environment:
+      HOST: 127.0.0.1
+      PORT: "6063"
+      LOG_LEVEL: info
+      SQLITE_PATH: /app/data/adapter.sqlite
+      GRIMMLINK_DEPLOYMENT_ENV: staging
+      GRIMMLINK_LOCAL_READER_MODE: STAGING_LOCAL_ONLY
+      GRIMMLINK_UPDATE_FEED_SOURCES: ""
+    volumes:
+      - ./staging-data:/app/data
+    read_only: true
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+    tmpfs:
+      - /tmp:rw,nosuid,noexec,size=16m
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:6063/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 15s
+      timeout: 3s
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    restart: unless-stopped
+networks:
+  local-staging:
+    driver: bridge
+    internal: true

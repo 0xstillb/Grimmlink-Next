@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { Writable } from "node:stream";
-import { DiagnosticLeases, createLogger, createScopedDiagnostics } from "./index.js";
+import { DiagnosticLeases, SafeLogBuffer, createLogger, createScopedDiagnostics } from "./index.js";
 
 describe("diagnostic leases", () => {
   it("requires administrator authorization", () => {
@@ -60,6 +60,20 @@ describe("diagnostic leases", () => {
       0,
     );
     expect(new DiagnosticLeases().levelFor("adapter", 1)).toBe("info");
+  });
+  it("reports active expiry and requires admin authorization to disable a lease", () => {
+    const leases = new DiagnosticLeases();
+    leases.enable(
+      { module: "adapter", level: "debug", durationMs: 1000, adminAuthorized: true },
+      100,
+    );
+    expect(leases.leaseStatus("adapter", 101)).toEqual({ level: "debug", expiresAt: 1100 });
+    expect(() => leases.disable({ module: "adapter", adminAuthorized: false })).toThrow(
+      "Admin authorization required",
+    );
+    leases.disable({ module: "adapter", adminAuthorized: true });
+    expect(leases.leaseStatus("adapter", 101)).toBeNull();
+    expect(leases.levelFor("adapter", 101)).toBe("info");
   });
 });
 
@@ -147,6 +161,116 @@ describe("final sink protection against deep secrets and free-form logging", () 
   });
 });
 
+describe("bounded in-memory safe log buffer", () => {
+  it("supports bounded level, code, and correlation-id filters on allow-listed lines", () => {
+    let now = 1_000;
+    const buffer = new SafeLogBuffer("adapter", {
+      maxEntries: 3,
+      maxBytes: 2_048,
+      retentionMs: 5_000,
+      now: () => now,
+    });
+    const logger = createLogger("adapter", "info", buffer);
+    const requestId = "550e8400-e29b-41d4-a716-446655440000";
+    logger.info(
+      {
+        code: "REQUEST_SUMMARY",
+        count: 1,
+        req: { id: requestId, method: "GET", url: "/private?token=canary" },
+      },
+      "SCOPED_DIAGNOSTIC",
+    );
+    now += 1;
+    logger.warn({ code: "SQLITE_RETRY", count: 2 }, "SCOPED_DIAGNOSTIC");
+    now += 1;
+    logger.error({ code: "MIGRATION_STAGE", count: 3, token: "secret-canary" }, "raw-secret");
+
+    const info = buffer.read({ level: "info", code: "REQUEST_SUMMARY", requestId }, now);
+    expect(info).toHaveLength(1);
+    expect(JSON.parse(info[0]!).req.id).toBe(requestId);
+    expect(buffer.read({ level: "warn" }, now)).toHaveLength(1);
+    const all = buffer.read({}, now).join("");
+    expect(all).not.toContain("secret-canary");
+    expect(all).not.toContain("raw-secret");
+    expect(all).not.toContain("/private");
+  });
+
+  it("evicts by entry count, expires by retention, and clears on request", () => {
+    let now = 50;
+    const buffer = new SafeLogBuffer("adapter", {
+      maxEntries: 2,
+      maxBytes: 1_024,
+      retentionMs: 100,
+      now: () => now,
+    });
+    const logger = createLogger("adapter", "info", buffer);
+    for (let count = 1; count <= 3; count += 1) {
+      logger.info({ code: "REQUEST_SUMMARY", count }, "SCOPED_DIAGNOSTIC");
+    }
+    const bounded = buffer.read({}, now);
+    expect(bounded).toHaveLength(2);
+    expect(bounded.join("")).not.toContain('"count":1');
+
+    const byteBounded = new SafeLogBuffer("adapter", {
+      maxEntries: 10,
+      maxBytes: 256,
+      retentionMs: 100,
+      now: () => now,
+    });
+    const byteLogger = createLogger("adapter", "info", byteBounded);
+    for (let count = 1; count <= 5; count += 1) {
+      byteLogger.info({ code: "REQUEST_SUMMARY", count }, "SCOPED_DIAGNOSTIC");
+    }
+    const byteLimited = byteBounded.read({}, now).join("");
+    expect(byteLimited).toContain('"count":5');
+    expect(byteLimited).not.toContain('"count":1');
+
+    now += 100;
+    expect(buffer.read({}, now)).toEqual([]);
+    logger.info({ code: "SQLITE_RETRY", count: 1 }, "SCOPED_DIAGNOSTIC");
+    buffer.clear();
+    expect(buffer.read({}, now)).toEqual([]);
+  });
+
+  it("applies owner-selected retention bounds immediately without exceeding hard caps", () => {
+    let now = 500;
+    const buffer = new SafeLogBuffer("adapter", {
+      maxEntries: 10,
+      maxBytes: 4_096,
+      retentionMs: 1_000,
+      now: () => now,
+    });
+    const logger = createLogger("adapter", "info", buffer);
+    for (let count = 1; count <= 3; count += 1) {
+      logger.info({ code: "REQUEST_SUMMARY", count }, "SCOPED_DIAGNOSTIC");
+      now += 1;
+    }
+    buffer.configure({ maxEntries: 1, maxBytes: 512, retentionMs: 2 });
+    expect(buffer.limits()).toEqual({ maxEntries: 1, maxBytes: 512, retentionMs: 2 });
+    expect(buffer.read({}, now)).toHaveLength(1);
+    now += 3;
+    expect(buffer.read({}, now)).toEqual([]);
+    expect(() => buffer.configure({ maxEntries: 10_001, maxBytes: 512, retentionMs: 2 })).toThrow(
+      "Invalid log buffer limits",
+    );
+  });
+
+  it("rejects unbounded limits and malformed filters", () => {
+    expect(() => new SafeLogBuffer("../adapter")).toThrow("Invalid log buffer module");
+    expect(() => new SafeLogBuffer("adapter", { maxEntries: 10_001 })).toThrow(
+      "Invalid log buffer limits",
+    );
+    const buffer = new SafeLogBuffer("adapter");
+    expect(() => buffer.read({ level: "notice" as never })).toThrow("Invalid log buffer query");
+    expect(() => buffer.read({ level: "__proto__" as never })).toThrow("Invalid log buffer query");
+    expect(() => buffer.read({ requestId: "not-a-correlation-id" })).toThrow(
+      "Invalid log buffer query",
+    );
+    expect(() => buffer.read({ extra: "ignored" } as never)).toThrow("Invalid log buffer query");
+    expect(() => buffer.read(null as never)).toThrow("Invalid log buffer query");
+  });
+});
+
 describe("bounded diagnostics and error sanitization", () => {
   it("does not print thrown Error.message or stack", () => {
     const chunks: string[] = [];
@@ -178,7 +302,29 @@ describe("bounded diagnostics and error sanitization", () => {
       1000,
     );
     expect(scoped.trace({ code: "REQUEST_SUMMARY", count: 3 }, 1001)).toBe(true);
-    expect(scoped.debug({ code: "SQLITE_RETRY", count: 1 }, 1002)).toBe(true);
+    expect(
+      scoped.debug(
+        {
+          code: "SQLITE_RETRY",
+          count: 1,
+          request: { id: "01234567-89ab-cdef-0123-456789abcdef", method: "GET" },
+        },
+        1002,
+      ),
+    ).toBe(true);
+    expect(() =>
+      scoped.debug(
+        {
+          code: "REQUEST_SUMMARY",
+          request: {
+            id: "01234567-89ab-cdef-0123-456789abcdef",
+            method: "GET",
+            url: "/private/book",
+          } as never,
+        },
+        1003,
+      ),
+    ).toThrow("Invalid diagnostic request summary");
     expect(scoped.trace({ code: "REQUEST_SUMMARY" }, 3000)).toBe(false);
     expect(chunks.join("")).toContain("SCOPED_DIAGNOSTIC");
     expect(chunks.join("")).not.toContain("password");

@@ -1,4 +1,5 @@
 import { createHash, timingSafeEqual } from "node:crypto";
+import { getKoreaderFileDigest } from "@prose-reader/koreader";
 
 /** A byte fingerprint is evidence of an edition, never proof of an owner's rights. */
 export type BookFileIdentity = Readonly<{
@@ -56,6 +57,26 @@ export function fingerprintBookFile(input: {
       ? Object.freeze({ algorithm: "KO_PARTIAL_MD5" as const, digest: input.koPartialMd5 })
       : null,
     entitlementVerified: false as const,
+  });
+}
+
+/**
+ * Calculate both fingerprints from the same immutable byte snapshot. KOReader's
+ * partial MD5 is a protocol lookup key, not a content-integrity or rights check.
+ */
+export async function fingerprintBookFileForKOSync(input: {
+  bookId: string;
+  bookFileId: string;
+  relativePath: string;
+  bytes: Uint8Array;
+}): Promise<BookFileIdentity> {
+  if (!(input.bytes instanceof Uint8Array)) throw new Error("IDENTITY_MISSING_BYTES");
+  const snapshot = Uint8Array.from(input.bytes);
+  const identity = fingerprintBookFile({ ...input, bytes: snapshot });
+  const koPartialMd5 = await getKoreaderFileDigest(new Blob([snapshot]));
+  return Object.freeze({
+    ...identity,
+    koDocumentHash: Object.freeze({ algorithm: "KO_PARTIAL_MD5" as const, digest: koPartialMd5 }),
   });
 }
 

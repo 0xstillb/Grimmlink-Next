@@ -69,6 +69,7 @@ web_modules/
 .env
 .env.*
 !.env.example
+!.env.staging.example
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -127,6 +128,10 @@ dist
 
 # pnpm
 .pnpm-store
+
+# Python bytecode from security-gate tests
+__pycache__/
+*.py[cod]
 
 # yarn v3
 .pnp.*

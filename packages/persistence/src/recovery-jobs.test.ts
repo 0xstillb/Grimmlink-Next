@@ -9,6 +9,7 @@ import {
   controlPendingPlan,
   enqueueDurablePlan,
   getJobSnapshot,
+  listDurableJobs,
   reconcileUnknownPlan,
   recoverExpiredLeases,
   replayJobEvents,
@@ -32,6 +33,23 @@ it("survives process restart, quarantines uncertain writes and replays durable e
     };
     expect(enqueueDurablePlan(store.sqlite, item)).toBe("job1");
     expect(enqueueDurablePlan(store.sqlite, item)).toBe("job1");
+    expect(listDurableJobs(store.sqlite)).toEqual([
+      {
+        id: "job1",
+        kind: "METADATA_MOCK",
+        state: "PENDING",
+        paused: false,
+        attempts: 0,
+        maxAttempts: 3,
+        dueAt: 10,
+        lastCode: null,
+        createdAt: 10,
+        updatedAt: 10,
+      },
+    ]);
+    expect(JSON.stringify(listDurableJobs(store.sqlite))).not.toContain(hash);
+    expect(Object.keys(listDurableJobs(store.sqlite)[0]!)).not.toContain("book_id");
+    expect(() => listDurableJobs(store.sqlite, 101)).toThrow("limit");
     expect(() => enqueueDurablePlan(store.sqlite, { ...item, bookId: "another" })).toThrow(
       "conflicts",
     );

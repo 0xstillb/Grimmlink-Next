@@ -1,17 +1,140 @@
-import Fastify from "fastify";
+import Fastify, { type FastifyInstance } from "fastify";
 import swagger from "@fastify/swagger";
 import { randomUUID } from "node:crypto";
 import { HealthSchema, type Health } from "@grimmlink/contracts";
-import { createLogger } from "@grimmlink/observability";
+import {
+  createLogger,
+  createScopedDiagnostics,
+  DiagnosticLeases,
+  SafeLogBuffer,
+} from "@grimmlink/observability";
+import {
+  registerIsolatedDiagnosticsRoutes,
+  type IsolatedDiagnosticsSource,
+} from "./diagnostics-routes.js";
 import { classifyGatewayRequest } from "./gateway/route-policy.js";
+import type { OwnerAuthenticator } from "./auth/owner-auth.js";
+import { registerIsolatedUpdateFeedRoutes, type UpdateFeedReader } from "./update-feed.js";
+import { registerLocalJobsRoutes, type LocalJobsRouteSource } from "./local-jobs-routes.js";
+import { registerLocalOpfPreviewRoutes } from "./local-opf-preview-routes.js";
+import { registerLocalSidecarPreviewRoutes } from "./local-sidecar-preview-routes.js";
+import { registerLocalSettingsRoutes } from "./local-settings-routes.js";
+import { registerLocalScreenStatusRoutes } from "./local-screen-status-routes.js";
+import {
+  registerLocalDevicesRoutes,
+  type LocalDevicesRouteSource,
+} from "./local-devices-routes.js";
+import {
+  registerLocalReadingRoutes,
+  type LocalReadingRouteSource,
+} from "./local-reading-routes.js";
+import {
+  registerLocalIdentityRoutes,
+  type LocalIdentityRouteSource,
+} from "./local-identity-routes.js";
+import { registerLocalReaderRoutes, type LocalReaderRouteSource } from "./local-reader-routes.js";
+import { registerLocalUpdateReviewRoutes } from "./local-update-review-routes.js";
+import type { LocalUpdateReviewLedger } from "./local-update-review-sqlite.js";
+import { registerLocalDiagnosticsSettingsRoutes } from "./local-diagnostics-settings-routes.js";
+import {
+  toLogBufferLimits,
+  type LocalDiagnosticsSettingsSource,
+} from "./local-diagnostics-settings-sqlite.js";
+
+export type AdapterDiagnostics = Readonly<{
+  buffers: Readonly<Record<string, SafeLogBuffer>>;
+  leases: DiagnosticLeases;
+}>;
+
+export type AdapterServerOptions = Readonly<{
+  /**
+   * Routes stay unmounted unless the application supplies both trusted
+   * owner-session and CSRF verifiers. Never derive these callbacks from request
+   * headers or environment-controlled booleans.
+   */
+  diagnostics?: Pick<IsolatedDiagnosticsSource, "authorizeOwner" | "verifyCsrf">;
+  /** Optional one-owner local login; absent configuration leaves protected routes unmounted. */
+  ownerAuth?: OwnerAuthenticator;
+  /** Optional bounded public GitHub release/advisory feed; requires owner auth. */
+  updateFeed?: UpdateFeedReader;
+  /** Optional append-only local review ledger; requires owner auth and a configured feed. */
+  updateReviewLedger?: LocalUpdateReviewLedger;
+  /** Optional owner-authenticated local queue reader/controller; no worker or upstream transport. */
+  localJobs?: LocalJobsRouteSource;
+  /** Optional owner-authenticated local paired-reader inventory; no reader transport. */
+  localDevices?: LocalDevicesRouteSource;
+  /** Optional owner-authenticated offline progress projection; no reader or Official transport. */
+  localReading?: LocalReadingRouteSource;
+  /** Optional owner-authenticated local identity registration readback; no Official entitlement. */
+  localIdentity?: LocalIdentityRouteSource;
+  /** Explicitly configured local Staging reader event API; never calls Official. */
+  localReader?: LocalReaderRouteSource;
+  /** Optional owner-editable bounded diagnostics retention, persisted locally. */
+  localDiagnosticsSettings?: LocalDiagnosticsSettingsSource;
+}>;
+
+const diagnosticsByServer = new WeakMap<object, AdapterDiagnostics>();
+
+/** Process-local diagnostics state; no HTTP endpoint or authorization bypass. */
+export function getAdapterDiagnostics(server: object): AdapterDiagnostics | null {
+  return diagnosticsByServer.get(server) ?? null;
+}
 
 /** Phase01 exposes ONLY local health and its schema. No gateway/proxy routes. */
-export async function buildServer(logLevel: "info" | "warn" | "error" = "info") {
+export async function buildServer(
+  logLevel: "info" | "warn" | "error" = "info",
+  options: AdapterServerOptions = {},
+) {
+  if (options.diagnostics && options.ownerAuth) {
+    throw new Error("Specify ownerAuth or test diagnostics guards, not both");
+  }
+  if (options.updateFeed && !options.ownerAuth) {
+    throw new Error("An update feed requires the configured local owner authenticator");
+  }
+  if (options.updateReviewLedger && (!options.updateFeed || !options.ownerAuth)) {
+    throw new Error(
+      "An update review ledger requires the configured owner session and update feed",
+    );
+  }
+  if (options.localJobs && !options.ownerAuth) {
+    throw new Error("Local job routes require the configured local owner authenticator");
+  }
+  if (options.localDevices && !options.ownerAuth) {
+    throw new Error("Local device routes require the configured local owner authenticator");
+  }
+  if (options.localReading && !options.ownerAuth) {
+    throw new Error("Local reading routes require the configured local owner authenticator");
+  }
+  if (options.localIdentity && !options.ownerAuth) {
+    throw new Error("Local identity routes require the configured local owner authenticator");
+  }
+  if (options.localReader && !options.ownerAuth) {
+    throw new Error("Local reader routes require the configured local owner authenticator");
+  }
+  if (options.localDiagnosticsSettings && !options.ownerAuth) {
+    throw new Error("Local diagnostics settings require the configured local owner authenticator");
+  }
+  const configuredLogLimits = options.localDiagnosticsSettings
+    ? toLogBufferLimits(options.localDiagnosticsSettings.read())
+    : undefined;
+  const buffer = new SafeLogBuffer("adapter", configuredLogLimits);
+  const leases = new DiagnosticLeases();
+  const buffers = Object.freeze({ adapter: buffer });
+  const diagnostics: AdapterDiagnostics = Object.freeze({ buffers, leases });
+  const destination = {
+    write(chunk: string) {
+      process.stdout.write(chunk);
+      buffer.write(chunk);
+    },
+  };
+  const scoped = createScopedDiagnostics("adapter", leases, destination);
   const server = Fastify({
-    loggerInstance: createLogger("adapter", logLevel),
+    loggerInstance: createLogger("adapter", logLevel, destination),
     genReqId: () => randomUUID(),
     disableRequestLogging: true,
+    ajv: { customOptions: { removeAdditional: false } },
   });
+  diagnosticsByServer.set(server, diagnostics);
   // Plugin registration happens before routes; Fastify builds the OpenAPI
   // document from the same TypeBox route schema, no hand-maintained drift.
   await server.register(swagger, {
@@ -25,7 +148,18 @@ export async function buildServer(logLevel: "info" | "warn" | "error" = "info") 
   // This is the first executable deny-before-forward layer, NOT runtime ACL proof.
   server.addHook("onRequest", async (req, reply) => {
     const decision = classifyGatewayRequest(req.method, req.raw.url ?? "", req.headers);
-    if (decision === "LOCAL_READ") return;
+    if (
+      decision === "LOCAL_READ" ||
+      decision === "LOCAL_DIAGNOSTICS" ||
+      decision === "LOCAL_AUTH" ||
+      decision === "LOCAL_JOBS" ||
+      decision === "LOCAL_OPF_PREVIEW" ||
+      decision === "LOCAL_SIDECAR_PREVIEW" ||
+      decision === "LOCAL_SETTINGS" ||
+      decision === "LOCAL_SCREEN_STATUS" ||
+      decision === "LOCAL_READER_API"
+    )
+      return;
     return reply.code(decision === "INVALID_TARGET" ? 400 : 403).send({
       error: decision === "INVALID_TARGET" ? "INVALID_REQUEST_TARGET" : "UPSTREAM_DENIED",
     });
@@ -33,6 +167,17 @@ export async function buildServer(logLevel: "info" | "warn" | "error" = "info") 
   server.addHook("onSend", async (req, reply, payload) => {
     reply.header("x-correlation-id", req.id);
     return payload;
+  });
+  server.addHook("onResponse", (request) => {
+    const level = leases.levelFor("adapter");
+    if (level === "info") return;
+    const signal = {
+      code: "REQUEST_SUMMARY" as const,
+      count: 1,
+      request: { id: request.id, method: request.method },
+    };
+    if (level === "trace") scoped.trace(signal);
+    else scoped.debug(signal);
   });
   server.get(
     "/health",
@@ -133,6 +278,59 @@ export async function buildServer(logLevel: "info" | "warn" | "error" = "info") 
       releaseAuthorization: "NOT_AUTHORIZED",
     }),
   );
+  if (options.ownerAuth) {
+    options.ownerAuth.registerRoutes(server as unknown as FastifyInstance);
+    registerLocalOpfPreviewRoutes(server as unknown as FastifyInstance, options.ownerAuth);
+    registerLocalSidecarPreviewRoutes(server as unknown as FastifyInstance, options.ownerAuth);
+    registerLocalSettingsRoutes(server as unknown as FastifyInstance, options.ownerAuth);
+    registerLocalScreenStatusRoutes(server as unknown as FastifyInstance, options.ownerAuth);
+    if (options.localDiagnosticsSettings) {
+      registerLocalDiagnosticsSettingsRoutes(
+        server as unknown as FastifyInstance,
+        options.ownerAuth,
+        options.localDiagnosticsSettings,
+        buffer,
+      );
+    }
+  }
+  if (options.localJobs) {
+    registerLocalJobsRoutes(server as unknown as FastifyInstance, options.localJobs);
+  }
+  if (options.localDevices) {
+    registerLocalDevicesRoutes(server as unknown as FastifyInstance, options.localDevices);
+  }
+  if (options.localReading) {
+    registerLocalReadingRoutes(server as unknown as FastifyInstance, options.localReading);
+  }
+  if (options.localIdentity) {
+    registerLocalIdentityRoutes(server as unknown as FastifyInstance, options.localIdentity);
+  }
+  if (options.localReader) {
+    registerLocalReaderRoutes(server as unknown as FastifyInstance, options.localReader);
+  }
+  const diagnosticsGuards = options.ownerAuth ?? options.diagnostics;
+  if (diagnosticsGuards) {
+    // The route factory uses Fastify's default logger generic; route behavior
+    // is identical for this server's Pino logger instance.
+    registerIsolatedDiagnosticsRoutes(server as unknown as FastifyInstance, {
+      buffers,
+      leases,
+      ...diagnosticsGuards,
+    });
+  }
+  if (options.updateFeed && options.ownerAuth) {
+    registerIsolatedUpdateFeedRoutes(server as unknown as FastifyInstance, {
+      authorizeOwner: options.ownerAuth.authorizeOwner,
+      reader: options.updateFeed,
+    });
+  }
+  if (options.updateFeed && options.updateReviewLedger && options.ownerAuth) {
+    registerLocalUpdateReviewRoutes(server as unknown as FastifyInstance, {
+      ownerAuth: options.ownerAuth,
+      reader: options.updateFeed,
+      ledger: options.updateReviewLedger,
+    });
+  }
   // NO fallback, Official backend client, reading proxy, or runtime feature toggles.
   return server;
 }

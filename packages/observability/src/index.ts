@@ -30,15 +30,26 @@ export class DiagnosticLeases {
     }
     this.leases.set(input.module, { level: input.level, expiresAt: now + input.durationMs });
   }
-  levelFor(module: string, now = Date.now()): "info" | DiagnosticLevel {
-    if (!Number.isSafeInteger(now)) return "info";
+
+  disable(input: { module: string; adminAuthorized: boolean }): void {
+    if (!input.adminAuthorized) throw new Error("Admin authorization required");
+    if (!/^[a-z][a-z0-9_-]{0,63}$/.test(input.module)) throw new Error("Invalid module");
+    this.leases.delete(input.module);
+  }
+
+  leaseStatus(module: string, now = Date.now()): Readonly<Lease> | null {
+    if (!/^[a-z][a-z0-9_-]{0,63}$/.test(module) || !Number.isSafeInteger(now)) return null;
     const value = this.leases.get(module);
-    if (!value) return "info";
+    if (!value) return null;
     if (value.expiresAt <= now) {
       this.leases.delete(module);
-      return "info";
+      return null;
     }
-    return value.level;
+    return Object.freeze({ ...value });
+  }
+
+  levelFor(module: string, now = Date.now()): "info" | DiagnosticLevel {
+    return this.leaseStatus(module, now)?.level ?? "info";
   }
 }
 
@@ -123,6 +134,203 @@ function safeDestination(module: string, destination?: DestinationStream): Desti
   };
 }
 
+export type SafeLogLevel = "trace" | "debug" | "info" | "warn" | "error" | "fatal";
+export type SafeLogCode = SafeDiagnosticSignal["code"];
+type BufferedLog = Readonly<{
+  capturedAtMs: number;
+  bytes: number;
+  text: string;
+  level: number | undefined;
+  code: string | undefined;
+  requestId: string | undefined;
+}>;
+
+const LOG_LEVEL_NUMBER: Readonly<Record<SafeLogLevel, number>> = {
+  trace: 10,
+  debug: 20,
+  info: 30,
+  warn: 40,
+  error: 50,
+  fatal: 60,
+};
+const SAFE_LOG_CODES = new Set<SafeLogCode>(["REQUEST_SUMMARY", "SQLITE_RETRY", "MIGRATION_STAGE"]);
+const DEFAULT_LOG_BUFFER = Object.freeze({
+  maxEntries: 500,
+  maxBytes: 1_048_576,
+  retentionMs: 24 * 60 * 60_000,
+});
+
+/**
+ * Bounded in-memory diagnostic retention. Every line passes through the same
+ * final allow-list as stdout; this buffer is safe to use as a logger sink.
+ * It is intentionally not persistent and exposes no HTTP/authentication path.
+ */
+export class SafeLogBuffer implements DestinationStream {
+  private readonly entries: BufferedLog[] = [];
+  private retainedBytes = 0;
+  private maxEntries: number;
+  private maxBytes: number;
+  private retentionMs: number;
+  private readonly clock: () => number;
+
+  constructor(
+    private readonly module: string,
+    options: {
+      maxEntries?: number;
+      maxBytes?: number;
+      retentionMs?: number;
+      now?: () => number;
+    } = {},
+  ) {
+    this.maxEntries = options.maxEntries ?? DEFAULT_LOG_BUFFER.maxEntries;
+    this.maxBytes = options.maxBytes ?? DEFAULT_LOG_BUFFER.maxBytes;
+    this.retentionMs = options.retentionMs ?? DEFAULT_LOG_BUFFER.retentionMs;
+    this.clock = options.now ?? Date.now;
+    if (!/^[a-z][a-z0-9_-]{0,63}$/.test(module)) throw new Error("Invalid log buffer module");
+    this.assertLimits(this.maxEntries, this.maxBytes, this.retentionMs);
+  }
+
+  limits(): Readonly<{ maxEntries: number; maxBytes: number; retentionMs: number }> {
+    return Object.freeze({
+      maxEntries: this.maxEntries,
+      maxBytes: this.maxBytes,
+      retentionMs: this.retentionMs,
+    });
+  }
+
+  /** Change bounded retention without allowing a caller to expand beyond hard caps. */
+  configure(limits: Readonly<{ maxEntries: number; maxBytes: number; retentionMs: number }>): void {
+    this.assertLimits(limits.maxEntries, limits.maxBytes, limits.retentionMs);
+    this.maxEntries = limits.maxEntries;
+    this.maxBytes = limits.maxBytes;
+    this.retentionMs = limits.retentionMs;
+    let now: number;
+    try {
+      now = this.clock();
+    } catch {
+      now = -1;
+    }
+    if (Number.isSafeInteger(now) && now >= 0) this.prune(now);
+    while (this.entries.length > this.maxEntries || this.retainedBytes > this.maxBytes) {
+      this.removeOldest();
+    }
+  }
+
+  private assertLimits(maxEntries: number, maxBytes: number, retentionMs: number): void {
+    if (
+      !Number.isSafeInteger(maxEntries) ||
+      maxEntries < 1 ||
+      maxEntries > 10_000 ||
+      !Number.isSafeInteger(maxBytes) ||
+      maxBytes < 256 ||
+      maxBytes > 8 * 1024 * 1024 ||
+      !Number.isSafeInteger(retentionMs) ||
+      retentionMs < 1 ||
+      retentionMs > DEFAULT_LOG_BUFFER.retentionMs
+    ) {
+      throw new Error("Invalid log buffer limits");
+    }
+  }
+
+  write(chunk: string): void {
+    let capturedAtMs: number;
+    try {
+      capturedAtMs = this.clock();
+    } catch {
+      return;
+    }
+    if (!Number.isSafeInteger(capturedAtMs) || capturedAtMs < 0) return;
+
+    // The buffer re-applies the final allow-list even if used as a direct sink.
+    const text = safeLogLine(typeof chunk === "string" ? chunk : String(chunk), this.module);
+    let parsed: Record<string, unknown>;
+    try {
+      parsed = JSON.parse(text) as Record<string, unknown>;
+    } catch {
+      return;
+    }
+    const bytes = Buffer.byteLength(text, "utf8");
+    this.prune(capturedAtMs);
+    if (bytes > this.maxBytes) return;
+    const req = parsed.req;
+    const requestId =
+      req && typeof req === "object" && !Array.isArray(req)
+        ? (req as Record<string, unknown>).id
+        : undefined;
+    const entry: BufferedLog = {
+      capturedAtMs,
+      bytes,
+      text,
+      level: typeof parsed.level === "number" ? parsed.level : undefined,
+      code: typeof parsed.code === "string" ? parsed.code : undefined,
+      requestId: typeof requestId === "string" ? requestId : undefined,
+    };
+    this.entries.push(entry);
+    this.retainedBytes += bytes;
+    while (this.entries.length > this.maxEntries || this.retainedBytes > this.maxBytes) {
+      this.removeOldest();
+    }
+  }
+
+  read(
+    query: {
+      level?: SafeLogLevel;
+      code?: SafeLogCode;
+      requestId?: string;
+      limit?: number;
+    } = {},
+    nowMs = this.clock(),
+  ): readonly string[] {
+    if (
+      !query ||
+      typeof query !== "object" ||
+      Array.isArray(query) ||
+      Object.keys(query).some((key) => !["level", "code", "requestId", "limit"].includes(key)) ||
+      !Number.isSafeInteger(nowMs) ||
+      nowMs < 0 ||
+      (query.level !== undefined && !Object.hasOwn(LOG_LEVEL_NUMBER, query.level)) ||
+      (query.code !== undefined && !SAFE_LOG_CODES.has(query.code)) ||
+      (query.requestId !== undefined && !/^[0-9a-f-]{36}$/i.test(query.requestId)) ||
+      (query.limit !== undefined &&
+        (!Number.isSafeInteger(query.limit) || query.limit < 1 || query.limit > 500))
+    ) {
+      throw new Error("Invalid log buffer query");
+    }
+    this.prune(nowMs);
+    const levelNumber = query.level === undefined ? undefined : LOG_LEVEL_NUMBER[query.level];
+    const limit = query.limit ?? 100;
+    return this.entries
+      .filter(
+        (entry) =>
+          (levelNumber === undefined || entry.level === levelNumber) &&
+          (query.code === undefined || entry.code === query.code) &&
+          (query.requestId === undefined || entry.requestId === query.requestId),
+      )
+      .slice(-limit)
+      .map((entry) => entry.text);
+  }
+
+  clear(): void {
+    this.entries.length = 0;
+    this.retainedBytes = 0;
+  }
+
+  private prune(nowMs: number): void {
+    while (
+      this.entries.length > 0 &&
+      nowMs >= this.entries[0]!.capturedAtMs &&
+      nowMs - this.entries[0]!.capturedAtMs >= this.retentionMs
+    ) {
+      this.removeOldest();
+    }
+  }
+
+  private removeOldest(): void {
+    const entry = this.entries.shift();
+    if (entry) this.retainedBytes -= entry.bytes;
+  }
+}
+
 /** Never serialize request bodies or raw headers in foundational logs. */
 export function createLogger(
   module: string,
@@ -176,6 +384,7 @@ export function createLogger(
 export type SafeDiagnosticSignal = Readonly<{
   code: "REQUEST_SUMMARY" | "SQLITE_RETRY" | "MIGRATION_STAGE";
   count?: number;
+  request?: Readonly<{ id: string; method: string }>;
 }>;
 /**
  * Explicit limited diagnostic API. No raw payload, paths, headers or book data.
@@ -190,6 +399,14 @@ export function createScopedDiagnostics(
   const emit = (level: DiagnosticLevel, signal: SafeDiagnosticSignal, now: number): boolean => {
     const authorized = leases.levelFor(module, now);
     if (authorized !== "trace" && (level !== "debug" || authorized !== "debug")) return false;
+    if (
+      !signal ||
+      typeof signal !== "object" ||
+      Array.isArray(signal) ||
+      Object.keys(signal).some((key) => !["code", "count", "request"].includes(key))
+    ) {
+      throw new Error("Unsupported diagnostic signal");
+    }
     const code = signal.code;
     if (code !== "REQUEST_SUMMARY" && code !== "SQLITE_RETRY" && code !== "MIGRATION_STAGE") {
       throw new Error("Unsupported diagnostic signal");
@@ -197,7 +414,25 @@ export function createScopedDiagnostics(
     const count = signal.count;
     if (count !== undefined && (!Number.isSafeInteger(count) || count < 0))
       throw new Error("Invalid diagnostic counter");
-    const safe = count === undefined ? { code } : { code, count };
+    const request = signal.request;
+    if (
+      request !== undefined &&
+      (!request ||
+        typeof request !== "object" ||
+        Array.isArray(request) ||
+        Object.keys(request).sort().join(",") !== "id,method" ||
+        typeof request.id !== "string" ||
+        !/^[0-9a-f-]{36}$/i.test(request.id) ||
+        typeof request.method !== "string" ||
+        !["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"].includes(request.method))
+    ) {
+      throw new Error("Invalid diagnostic request summary");
+    }
+    const safe = {
+      code,
+      ...(count === undefined ? {} : { count }),
+      ...(request === undefined ? {} : { req: { id: request.id, method: request.method } }),
+    };
     if (level === "trace") logger.trace(safe, "SCOPED_DIAGNOSTIC");
     else logger.debug(safe, "SCOPED_DIAGNOSTIC");
     return true;

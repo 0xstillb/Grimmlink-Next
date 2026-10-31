@@ -2,6 +2,18 @@ import type Database from "better-sqlite3";
 import { createHash } from "node:crypto";
 
 export type DurableState = "PENDING" | "LEASED" | "FAILED" | "UNKNOWN" | "DONE" | "CANCELED";
+export type DurableJobSummary = Readonly<{
+  id: string;
+  kind: "METADATA_MOCK" | "COVER_MOCK" | "RESTORE_PREVIEW";
+  state: DurableState;
+  paused: boolean;
+  attempts: number;
+  maxAttempts: number;
+  dueAt: number;
+  lastCode: string | null;
+  createdAt: number;
+  updatedAt: number;
+}>;
 type JobRow = {
   id: string;
   kind: string;
@@ -155,17 +167,28 @@ export function settleClaim(
         throw new Error("Lease mismatch or already settled");
       let state: DurableState;
       let code: string;
-      if (outcome.type === "READBACK_MATCH") {
+      if (outcome && typeof outcome === "object" && outcome.type === "READBACK_MATCH") {
         if (outcome.observedHash !== row.plan_hash)
           throw new Error("HTTP success without matching readback");
         state = "DONE";
         code = "FAKE_READBACK_VERIFIED";
-      } else if (outcome.type === "FAILED_BEFORE_DISPATCH") {
+      } else if (
+        outcome &&
+        typeof outcome === "object" &&
+        outcome.type === "FAILED_BEFORE_DISPATCH" &&
+        ["NAS_OFFLINE", "OFFICIAL_OFFLINE", "STALE_PLAN", "INVALID_FIXTURE"].includes(outcome.code)
+      ) {
         state = "FAILED";
         code = outcome.code;
       } else {
         state = "UNKNOWN";
-        code = outcome.code;
+        code =
+          outcome &&
+          typeof outcome === "object" &&
+          outcome.type === "POST_OUTCOME_UNKNOWN" &&
+          ["OFFICIAL_OFFLINE", "TIMEOUT", "PROCESS_INTERRUPTED"].includes(outcome.code)
+            ? outcome.code
+            : "INVALID_OUTCOME";
       }
       sqlite
         .prepare(
@@ -212,6 +235,11 @@ export function reconcileUnknownPlan(
     | { type: "CONFIRMED_NOT_APPLIED" },
 ): DurableState {
   time(now);
+  if (
+    !observation ||
+    (observation.type !== "MATCHING_READBACK" && observation.type !== "CONFIRMED_NOT_APPLIED")
+  )
+    throw new Error("Invalid reconciliation evidence");
   return sqlite
     .transaction(() => {
       const row = sqlite.prepare("SELECT * FROM durable_jobs WHERE id=?").get(id) as
@@ -237,6 +265,8 @@ export function controlPendingPlan(
   action: "PAUSE" | "RESUME" | "CANCEL",
 ): void {
   time(now);
+  if (action !== "PAUSE" && action !== "RESUME" && action !== "CANCEL")
+    throw new Error("Invalid plan action");
   sqlite
     .transaction(() => {
       const row = sqlite.prepare("SELECT * FROM durable_jobs WHERE id=?").get(id) as
@@ -264,6 +294,62 @@ export function getJobSnapshot(sqlite: Database.Database, id: string) {
     )
     .get(id);
   return row ?? null;
+}
+/** Owner dashboard projection. File identity and plan hashes are deliberately excluded. */
+export function listDurableJobs(
+  sqlite: Database.Database,
+  limit = 100,
+): readonly DurableJobSummary[] {
+  if (!Number.isSafeInteger(limit) || limit < 1 || limit > 100)
+    throw new Error("Invalid local job list limit");
+  const rows = sqlite
+    .prepare(
+      "SELECT id,kind,state,paused,attempts,max_attempts AS maxAttempts,due_at AS dueAt,last_code AS lastCode,created_at AS createdAt,updated_at AS updatedAt FROM durable_jobs ORDER BY updated_at DESC,id DESC LIMIT ?",
+    )
+    .all(limit) as Array<{
+    id: string;
+    kind: string;
+    state: string;
+    paused: number;
+    attempts: number;
+    maxAttempts: number;
+    dueAt: number;
+    lastCode: string | null;
+    createdAt: number;
+    updatedAt: number;
+  }>;
+  return rows.map((row) => {
+    if (
+      !validId(row.id) ||
+      !["METADATA_MOCK", "COVER_MOCK", "RESTORE_PREVIEW"].includes(row.kind) ||
+      !["PENDING", "LEASED", "FAILED", "UNKNOWN", "DONE", "CANCELED"].includes(row.state) ||
+      (row.paused !== 0 && row.paused !== 1) ||
+      !Number.isSafeInteger(row.attempts) ||
+      row.attempts < 0 ||
+      !Number.isSafeInteger(row.maxAttempts) ||
+      row.maxAttempts < 1 ||
+      row.maxAttempts > 5 ||
+      row.attempts > row.maxAttempts ||
+      !Number.isSafeInteger(row.dueAt) ||
+      !Number.isSafeInteger(row.createdAt) ||
+      !Number.isSafeInteger(row.updatedAt) ||
+      (row.lastCode !== null && !/^[A-Z_]{1,64}$/.test(row.lastCode))
+    ) {
+      throw new Error("Invalid local job row");
+    }
+    return Object.freeze({
+      id: row.id,
+      kind: row.kind as DurableJobSummary["kind"],
+      state: row.state as DurableState,
+      paused: row.paused === 1,
+      attempts: row.attempts,
+      maxAttempts: row.maxAttempts,
+      dueAt: row.dueAt,
+      lastCode: row.lastCode,
+      createdAt: row.createdAt,
+      updatedAt: row.updatedAt,
+    });
+  });
 }
 export function replayJobEvents(sqlite: Database.Database, afterSeq: number, limit = 100) {
   if (

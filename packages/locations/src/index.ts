@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { constants } from "node:fs";
 import { lstat, open, readlink, realpath } from "node:fs/promises";
-import { isAbsolute, join, normalize, relative, resolve, sep } from "node:path";
+import { isAbsolute, join, posix, relative, resolve, sep } from "node:path";
 
 export type NasLocationPlan = Readonly<{ relativePath: string; access: "UNVERIFIED_READ_ONLY" }>;
 /** Reject unsafe lexical paths before touching the filesystem. */
@@ -17,8 +17,11 @@ export function planReadOnlyLocation(relativePath: string): NasLocationPlan {
   ) {
     throw new Error("Unsafe NAS relative path");
   }
-  const clean = normalize(relativePath);
-  if (clean.startsWith(".." + sep) || clean === "..") throw new Error("Unsafe NAS relative path");
+  // Relative NAS identities use slash separators on every development host.
+  // Native Windows normalization would turn a valid identity into a backslash
+  // path that subsequent OPF and identity validation rejects.
+  const clean = posix.normalize(relativePath);
+  if (clean.startsWith("../") || clean === "..") throw new Error("Unsafe NAS relative path");
   return Object.freeze({ relativePath: clean, access: "UNVERIFIED_READ_ONLY" });
 }
 

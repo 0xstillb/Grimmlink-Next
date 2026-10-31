@@ -42,6 +42,10 @@ services:
       PORT: "6061"
       LOG_LEVEL: info
       SQLITE_PATH: /app/data/adapter.sqlite
+      GRIMMLINK_OWNER_PASSWORD_HASH: ${GRIMMLINK_OWNER_PASSWORD_HASH:-}
+      GRIMMLINK_SESSION_SIGNING_KEY: ${GRIMMLINK_SESSION_SIGNING_KEY:-}
+      GRIMMLINK_PUBLIC_ORIGIN: ${GRIMMLINK_PUBLIC_ORIGIN:-}
+      GRIMMLINK_UPDATE_FEED_SOURCES: ${GRIMMLINK_UPDATE_FEED_SOURCES:-}
     read_only: true
     cap_drop: ["ALL"]
     security_opt: ["no-new-privileges:true"]
@@ -49,7 +53,13 @@ services:
       - /tmp:rw,nosuid,noexec,size=16m
       - /app/data:rw,nosuid,noexec,size=16m,uid=1000,gid=1000,mode=0700
     healthcheck:
-      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:6061/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:6061/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
       interval: 30s
       timeout: 3s
       retries: 3

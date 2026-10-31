@@ -13,6 +13,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@prose-reader/koreader": "36.0.0",
     "better-sqlite3": "12.4.1",
     "drizzle-orm": "0.44.7"
   },

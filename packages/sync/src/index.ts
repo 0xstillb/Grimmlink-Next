@@ -9,3 +9,5 @@ export function assertSyncCapabilityEnabled(): never {
 }
 export * from "./phase05.js";
 export * from "./phase06.js";
+export * from "./phase06-reading-state.js";
+export * from "./epub-position.js";

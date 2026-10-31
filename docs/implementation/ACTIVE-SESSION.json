@@ -15,7 +15,7 @@
   "lastVerifiedPriorCommit": "b1a2a0424bbaa87e07e7d5429db923551155952e",
   "currentHead": "READ_LIVE_GITHUB_NO_SELF_SHA",
   "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/12",
-  "prStatus": "DRAFT_OPEN_UNMERGED",
+  "prStatus": "MERGED_INTEGRATION",
   "phase00Review": "PASS_PHASE00_DESIGN_ONLY_RUNTIME_NOT_VERIFIED",
   "phase01Authorized": true,
   "codeImplemented": true,
@@ -37,7 +37,7 @@
     "REAL_NAS_AND_PHYSICAL_HARDWARE_E2E_PHASE09"
   ],
   "notion": {
-    "phase": "https://app.notion.com/p/407c7efbc0098104bfa8c31d931ff31d",
+    "phase": "https://app.notion.com/p/407c7efbc009811b92c6dbac757abba2",
     "handoff": "https://app.notion.com/p/407c7efbc009816ca3b1fe2b098e8c78"
   },
   "safety": {
@@ -57,8 +57,8 @@
     "Metadata-only local backup does not cover EPUB/notes or cover payloads and does not imply real rollback",
     "Independent security review and remediation consolidated in Phase09"
   ],
-  "nextAction": "Verify exact final Phase08 documentation HEAD CI. Keep stacked PR #12 Draft and unmerged; no main or production. Phase09 retains full integrated hardware E2E and one security review/remediation.",
-  "updatedAt": "2026-10-30",
+  "nextAction": "Reconcile Phase01-08 deliverables against live Notion and the merged integration branch. Keep protected runtime features OFF while implementation and isolated verification continue; Phase09 retains integrated hardware E2E and final security review.",
+  "updatedAt": "2026-10-31",
   "contractLocked": true,
   "phase01Scope": "FOUNDATION_ONLY",
   "securityCapability": {
@@ -351,7 +351,28 @@
       "run": "41058248957",
       "conclusion": "SUCCESS_AT_SOURCE_HEAD"
     },
-    "latestHeadCI": "RECHECK_AFTER_THIS_CLOSURE_COMMIT"
+    "latestHeadCI": "PASS_ALL_12_PR13_CHECKS_AT_75301ED8FBB270EF98C2B926CB9136C904FE3533",
+    "latestPr13HeadVerification": {
+      "head": "75301ed8fbb270ef98c2b926cb9136c904fe3533",
+      "passedChecks": 12,
+      "totalChecks": 12,
+      "status": "ALL_SUCCESS",
+      "physicalReaderInstall": "NOT_RUN_PHASE09",
+      "liveGrimmoryAndOfficialSync": "NOT_RUN_PHASE09"
+    },
+    "reconciliationCheckpoint": {
+      "date": "2026-10-31",
+      "status": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS_OFFLINE_PLUGIN_UI_ONLY",
+      "branch": "codex/phase-01-08-completion",
+      "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/13",
+      "baseIntegrationHead": "68b7d74daecdacc909ac095c86f6f95aed84ffe7",
+      "sourceHead": "301ef63a9208c1ba69a860a110cb721fcf14602b",
+      "pluginSourceCommit": "40f960135c8b12fb85b2182a0a29c4d8eb0459ed",
+      "localLuaSyntaxAndMenuMock": "PASS_AT_PLUGIN_SOURCE_COMMIT",
+      "exactHeadLinuxCI": "PASS_PHASE07_WORKFLOW_41165704788_AT_301EF63A; ALL_10_PR_WORKFLOWS_PASS",
+      "deviceInstallAndSync": "NOT_RUN",
+      "networkAndProtectedWrites": "OFF"
+    }
   },
   "phase08Work": {
     "phase": "08",
@@ -366,14 +387,225 @@
     "productionEnabled": false,
     "independentReview": "DEFERRED_TO_PHASE09",
     "fullE2e": "DEFERRED_TO_PHASE09",
-    "latestHeadCI": "RECHECK_AFTER_FINAL_DOCUMENTATION_COMMIT",
+    "latestHeadCI": "SUCCESS_AT_PHASE08_PULL_REQUEST_HEAD_41061715377",
     "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/12",
+    "integrationMerge": {
+      "baseBranch": "integration/grimmlink-next",
+      "mergeCommit": "68b7d74daecdacc909ac095c86f6f95aed84ffe7",
+      "mergedAt": "2026-10-30T13:35:54Z",
+      "pullRequestHead": "ba5930614df1c48546f244226e38462319cd2f97",
+      "ciRun": "41061715377",
+      "ciConclusion": "SUCCESS"
+    },
     "latestCodeCI": {
-      "sourceHead": "3bd8fa209857bab80054349f654cbfe5ba04c979",
-      "run": "41061321816",
-      "runUrl": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/41061321816",
+      "sourceHead": "cd26c0dbaf5304144f4069a1abe2d403fc6fcf5d",
+      "run": "41188204494",
+      "runUrl": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/41188204494",
       "conclusion": "SUCCESS",
-      "scope": "FROZEN_BUILD_TYPES_FORMAT_LINT_ALL_UNIT_MOCK_UI_PACKAGE_PHASE00_HISTORICAL_SECURITY"
+      "scope": "PHASE08_WORKFLOW_SUCCESS; ALL_10_PR_HEAD_WORKFLOWS_SUCCESS"
+    },
+    "reconciliationCheckpoint": {
+      "date": "2026-10-31",
+      "status": "IN_PROGRESS_OFFLINE_RECONCILIATION",
+      "branch": "codex/phase-01-08-completion",
+      "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/13",
+      "baseIntegrationHead": "68b7d74daecdacc909ac095c86f6f95aed84ffe7",
+      "sourceHead": "0432eb7e3c4babf8de47909ec2e4f1c376f3d6ec",
+      "workstreamOrder": [
+        "ADAPTER",
+        "KOREADER_PLUGIN"
+      ],
+      "currentWorkstream": "PHASE09_STAGING_E2E",
+      "nextWorkstream": "AUTHENTICATED_READ_ONLY_OPDS_TEST",
+      "phase09Status": "NOT_RUN",
+      "stagingHostStatus": "EXISTS_OWNER_CONFIRMED_GRIMMORY_PRESENT_SINGLE_OWNER_OPDS_USER_ADDED_DEPLOYMENT_PENDING",
+      "productionStatus": "NOT_AUTHORIZED",
+      "officialGatewayForwarding": "DENY_ALL",
+      "protectedWrites": "OFF",
+      "previousCommittedSourceHead": "49d0746ae2c779846e284b1c42f877651b89799d",
+      "previousExactHeadLinuxCI": "B49AFC780879DAD2E0E4F1DDC29CACF967DD0146_SUCCESS_10_WORKFLOWS",
+      "exactHeadLinuxCI": "PASS_10_WORKFLOWS_AT_0432EB7_INCLUDING_PHASE01_ARM64_PHASE02_SPRING_PHASE07_AND_PHASE08",
+      "adapterCloseout": {
+        "status": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
+        "sourceHead": "9e872755fbabd93dabc254372574cc5e77f6a639",
+        "exactHeadCI": {
+          "sourceHead": "9e872755fbabd93dabc254372574cc5e77f6a639",
+          "conclusion": "SUCCESS",
+          "totalWorkflows": 10,
+          "passedWorkflows": 10,
+          "workflowRunIds": [
+            41196889495,
+            41196889447,
+            41196889468,
+            41196889449,
+            41196889474,
+            41196889444,
+            41196889439,
+            41196889493,
+            41196889533,
+            41196889508
+          ]
+        },
+        "localValidation": "PASS_134_ADAPTER_TESTS_ACROSS_11_FILES; PERSISTENCE_AND_ADAPTER_TYPECHECKS; TARGETED_ESLINT_PRETTIER_DIFF_CHECK; PHASE00_60_TESTS_AND_GATE_VALIDATOR; EXACT_HEAD_CI_VALIDATED_COMPOSE_CADDY_AND_STAGING_SMOKE_SCRIPT",
+        "deferredToPhase09": [
+          "DEPLOY_TO_EXISTING_STAGING_HOST",
+          "AUTHENTICATED_FIXED_OPDS_GET",
+          "KOReader_DEVICE_INSTALL_AND_PHYSICAL_READER_WORKFLOW",
+          "NAS_HERMES_FULL_SYNC",
+          "PRODUCTION_PACKAGE_SIGNING_AND_ROLLBACK",
+          "CONSOLIDATED_INDEPENDENT_SECURITY_REVIEW"
+        ]
+      },
+      "uiNavigationSections": 10,
+      "releaseEvidenceParserTests": "PASS_5_TESTS",
+      "safeSupportBundleTests": "PASS_2_TESTS",
+      "safeLogBufferTests": "PASS_3_TESTS",
+      "observabilityTests": "PASS_14_ACROSS_2_FILES",
+      "diagnosticsRouteTests": "PASS_2_ISOLATED_ROUTE_FIXTURES",
+      "adapterObservabilityCombinedTests": "PASS_101_TESTS_ACROSS_13_FILES",
+      "observabilityTypecheck": "PASS",
+      "controlCenterTests": "PASS_15_TOTAL",
+      "controlCenterDiagnosticsClientTests": "PASS_3_TESTS",
+      "crossScopeAdapterObservabilityControlCenterTests": "PASS_116_TESTS_ACROSS_17_FILES",
+      "controlCenterTypecheckAfterDiagnosticsUI": "PASS",
+      "controlCenterViteBuildAfterDiagnosticsUI": "PASS",
+      "adapterTypecheck": "PASS_LOCAL_WORKSPACE_BINARY",
+      "adapterTests": "PASS_85_TESTS_ACROSS_11_FILES",
+      "changedAdapterPrettier": "PASS",
+      "changedAdapterEslint": "PASS",
+      "controlCenterTypecheck": "PASS_LOCAL_WORKSPACE_BINARY",
+      "changedFilesPrettier": "PASS",
+      "changedUiEslint": "PASS",
+      "viteProductionBuild": "PASS",
+      "phase08StaticPolicyScan": "PASS",
+      "phase00PythonUnit": "PASS_57_WITH_WORKSPACE_WRITABLE_TEMP",
+      "phase00GateValidator": "PASS_13_GATE_ROWS",
+      "packageManager": "COREPACK_DOWNLOAD_BLOCKED_LOCAL_WORKSPACE_BINARIES_USED",
+      "opfJobsGatewayServerAndUiTests": "PASS_62_ACROSS_5_FILES",
+      "adapterTypecheckForNewWorkspaceDependency": "PASS_WITH_TEMPORARY_PATH_MAPPINGS",
+      "controlCenterTypecheckForOpf": "PASS",
+      "controlCenterViteProductionBuildForOpf": "PASS",
+      "opfChangedFilesEslintPrettierAndDiffCheck": "PASS",
+      "newWorkspaceDependencyInstall": "BLOCKED_COREPACK_REGISTRY_DNS_LOCALLY;_EXACT_HEAD_CI_PASS_AT_CD26C0DB",
+      "sidecarPreviewTests": "PASS_68_TESTS_ACROSS_7_FILES",
+      "sidecarAdapterTypecheck": "PASS_WITH_TEMPORARY_WORKSPACE_PATH_MAPPINGS",
+      "sidecarControlCenterTypecheck": "PASS",
+      "sidecarControlCenterViteBuild": "PASS",
+      "sidecarTargetedEslintPrettierDiffCheck": "PASS",
+      "settingsSnapshotTests": "PASS_72_TESTS_ACROSS_9_FILES",
+      "settingsAdapterTypecheck": "PASS_WITH_TEMPORARY_WORKSPACE_PATH_MAPPINGS",
+      "settingsControlCenterTypecheck": "PASS",
+      "settingsControlCenterViteBuild": "PASS",
+      "settingsTargetedEslintPrettierDiffCheck": "PASS",
+      "domainScreenStatusTests": "PASS_76_TESTS_ACROSS_11_FILES",
+      "domainScreenStatusAdapterTypecheck": "PASS_WITH_TEMPORARY_WORKSPACE_PATH_MAPPINGS",
+      "domainScreenStatusControlCenterTypecheck": "PASS",
+      "domainScreenStatusControlCenterViteBuild": "PASS",
+      "domainScreenStatusTargetedEslintPrettierDiffCheck": "PASS",
+      "localUpdateReviewSlice": {
+        "status": "COMMITTED_TO_PR13_EXACT_HEAD_CI_PASS_AT_CD26C0DB",
+        "basedOnLocalHead": "f8d5e64",
+        "localCommit": "9d5bad67a718c66c4c31e708270d7906e88ca9e3",
+        "delivered": [
+          "FAIL_CLOSED_SOURCE_BASELINE_MANIFEST_DEPLOYED_VERSIONS_UNKNOWN",
+          "NORMALIZED_PUBLIC_FEED_EVIDENCE_SHA256",
+          "OWNER_CSRF_APPEND_ONLY_REVIEW_LEDGER_BOUND_TO_FEED_AND_MANIFEST_HASHES",
+          "UPDATE_CENTER_REVIEW_DECISIONS_CANNOT_INSTALL_OR_ROLLBACK"
+        ],
+        "limits": [
+          "MANIFEST_IS_NOT_COMPATIBILITY_CERTIFICATION",
+          "OWNER_REVIEW_ONLY_DEFER_REJECT_OR_SUBMIT_FOR_PHASE09_EVALUATION"
+        ],
+        "localChecks": {
+          "targetedTests": "PASS_19_ACROSS_5_FILES",
+          "adapterAndControlCenterTests": "PASS_173_ACROSS_36_FILES",
+          "adapterAndControlCenterTypechecks": "PASS",
+          "controlCenterViteProductionBuild": "PASS",
+          "changedFilesEslintPrettierMigrationFixturesAndDiffCheck": "PASS",
+          "exactHeadGitHubCi": "PASS_10_WORKFLOWS_AT_CD26C0DB"
+        }
+      },
+      "delivered": [
+        "BOUNDED_GITHUB_RELEASE_AND_ADVISORY_PARSERS_WITH_FIXTURE_TESTS",
+        "FAIL_CLOSED_COMPATIBILITY_IMPACT_AND_INSTALL_AUTHORIZATION_SUMMARY",
+        "ALLOWLISTED_SUPPORT_BUNDLE_PREVIEW_SHA256_AND_ONE_HOUR_IN_PAGE_EXPIRY",
+        "BOUNDED_IN_MEMORY_SAFE_LOG_BUFFER_LEVEL_CODE_CORRELATION_FILTERS_RETENTION",
+        "ADAPTER_PROCESS_LOCAL_SAFE_LOG_BUFFER_REQUEST_ID_AND_METHOD_SUMMARY_WHILE_DEBUG_TRACE_LEASE_ACTIVE",
+        "OPTIONAL_BUILD_SERVER_DIAGNOSTICS_ROUTES_WITH_SYNTHETIC_OWNER_CSRF_COMPOSITION_TESTS_AND_STRICT_LOCAL_GATEWAY_ALLOWLIST",
+        "CONTROL_CENTER_SAME_ORIGIN_SAFE_LOG_VIEWER_FILTERS_BOUNDED_LEASE_AND_CLEAR_CLIENT",
+        "BOUNDED_GITHUB_RELEASE_ADVISORY_READER_AND_OWNER_AUTH_GATED_UNMOUNTED_ROUTE_FACTORY",
+        "ISOLATED_OWNER_CSRF_DIAGNOSTICS_LOG_AND_LEASE_ROUTE_FACTORY_NOT_MOUNTED",
+        "OWNER_AUTHENTICATED_LOCAL_JOBS_SCREEN_AND_SQLITE_QUEUE_API",
+        "OWNER_CSRF_GUARDED_USER_SELECTED_OPF_PREVIEW_IN_MEMORY_NO_NAS_NO_WRITEBACK",
+        "OWNER_CSRF_GUARDED_USER_SELECTED_SIDECAR_JSON_METADATA_PREVIEW_IN_MEMORY_NO_IMPORT_NO_ADJACENT_WRITE",
+        "OWNER_AUTHENTICATED_READ_ONLY_FIXED_FAIL_CLOSED_SETTINGS_POLICY_SNAPSHOT",
+        "OWNER_AUTHENTICATED_IDENTITY_READING_OPDS_UNAVAILABLE_STATUS_SCREEN_API_NO_DOMAIN_DATA"
+      ],
+      "supportBundle": {
+        "checksumScope": "CANONICAL_ALLOWLISTED_REPORT_JSON_ONLY",
+        "expiry": "ONE_HOUR_IN_PAGE_PREVIEW_ONLY",
+        "clipboardRevocable": false,
+        "serverCollectionAndRetention": "NOT_IMPLEMENTED"
+      },
+      "phase09AcceptancePlan": "docs/implementation/phase-08/PHASE09-ACCEPTANCE-PLAN.md",
+      "protectedActionsEnabled": false,
+      "remaining": [
+        "DEFAULT_MAIN_HAS_NO_TRUSTED_OWNER_SESSION_PROVIDER_AND_KEEPS_DIAGNOSTICS_ROUTE_UNMOUNTED",
+        "SERVER_SIDE_LOG_ROTATION_AND_RETENTION_CONFIGURATION_NOT_IMPLEMENTED_BEYOND_PROCESS_MEMORY_TTL",
+        "DURABLE_SERVER_SIDE_SUPPORT_BUNDLE_RETENTION_NOT_IMPLEMENTED",
+        "CONNECT_FEED_READER_TO_VERIFIED_OWNER_SESSION_CONFIGURED_EGRESS_AND_UPDATE_CENTER",
+        "DEPLOYED_VERSION_COMPATIBILITY_CERTIFICATION_AND_ADVISORY_IMPACT_AUDIT",
+        "TRUSTED_PRODUCTION_APPROVAL_WORKFLOW;_LOCAL_REVIEW_ONLY_SUBMITS_TO_PHASE09",
+        "TRUSTED_DOMAIN_DATA_PROVIDERS_FOR_IDENTITY_READING_AND_OPDS_NOT_CONFIGURED",
+        "OWNER_AUTHENTICATED_DEVICE_INVENTORY_AND_MUTABLE_SETTINGS_NOT_IMPLEMENTED",
+        "PRODUCTION_PACKAGE_CONFIG_AND_ROLLBACK_HARDENING"
+      ],
+      "pluginCloseout": {
+        "status": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
+        "sourceHead": "0432eb7e3c4babf8de47909ec2e4f1c376f3d6ec",
+        "exactHeadCI": {
+          "sourceHead": "0432eb7e3c4babf8de47909ec2e4f1c376f3d6ec",
+          "conclusion": "SUCCESS",
+          "totalWorkflows": 10,
+          "passedWorkflows": 10,
+          "workflowRunIds": [
+            41199337691,
+            41199337674,
+            41199337708,
+            41199337709,
+            41199337680,
+            41199337697,
+            41199337692,
+            41199337698,
+            41199337681,
+            41199337725
+          ]
+        },
+        "changedFiles": [
+          ".github/workflows/phase07-offline.yml",
+          "docs/implementation/phase-08/GATE.md",
+          "plugins/koreader/grimmlink_next.koplugin/README.md",
+          "plugins/koreader/grimmlink_next.koplugin/_meta.lua",
+          "plugins/koreader/grimmlink_next.koplugin/main.lua",
+          "plugins/koreader/grimmlink_next.koplugin/reader_client.lua",
+          "scripts/phase-07/package_plugin.py",
+          "scripts/phase-07/test-lua-mock.lua"
+        ],
+        "localValidation": "PASS_LUA_SYNTAX_AND_OPDS_MOCK; VERSIONED_ZIP_DETERMINISTIC_SHA256_B8E9EBE76EF53902A39C4F1079008EDD56B9093E24DC26EBEB8178C4CD5C8404; PHASE07_WORKFLOW_AND_ALL_10_PR_WORKFLOWS_PASS",
+        "artifact": {
+          "name": "grimmlink-next-koreader-staging-readonly-0.2.0",
+          "sha256": "B8E9EBE76EF53902A39C4F1079008EDD56B9093E24DC26EBEB8178C4CD5C8404"
+        },
+        "liveGrimmoryOpdsRead": "NOT_RUN_STAGING_DEPLOYMENT_PENDING",
+        "deferredToPhase09": [
+          "DEPLOY_TO_EXISTING_STAGING_HOST",
+          "AUTHENTICATED_FIXED_OPDS_GET",
+          "KOReader_DEVICE_INSTALL_AND_PHYSICAL_READER_WORKFLOW",
+          "NAS_HERMES_FULL_SYNC",
+          "PRODUCTION_PACKAGE_SIGNING_AND_ROLLBACK",
+          "CONSOLIDATED_INDEPENDENT_SECURITY_REVIEW"
+        ]
+      }
     }
   }
 }

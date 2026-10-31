@@ -59,7 +59,8 @@ jobs:
           python3 -m unittest discover -s scripts/phase-00 -p 'test_*.py' -v
           python3 scripts/phase-00/validate-phase00-release-gates.py --repo . --output "$RUNNER_TEMP/phase08-phase00.json"
           ! grep -Eq 'phase08|update.center' apps/adapter/src/server.ts
-          test ! -e plugins/koreader/_meta.lua
+          test -f plugins/koreader/grimmlink_next.koplugin/_meta.lua
+          test -f plugins/koreader/grimmlink_next.koplugin/main.lua
       - name: Dependency advisory evidence (non-release gate; report errors instead of silent pass)
         if: always()
         run: |

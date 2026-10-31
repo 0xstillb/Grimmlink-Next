@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { parseXPointer } from "@prose-reader/koreader";
 import type Database from "better-sqlite3";
 import { type OfflineOwner, verifyOfflineReader } from "./phase05-devices.js";
 
@@ -18,8 +19,8 @@ const clean = (v: unknown, max: number, allowEmpty = false): v is string =>
   !/[\u0000-\u001f\u007f]/.test(v);
 const position = (v: unknown): v is string =>
   clean(v, 2048) &&
-  (v.startsWith("epubcfi(/") || v.startsWith("xpointer(/")) &&
-  v.endsWith(")") &&
+  (((v.startsWith("epubcfi(/") || v.startsWith("xpointer(/")) && v.endsWith(")")) ||
+    (v.startsWith("/body/") && parseXPointer(v) !== undefined)) &&
   !/[<>%\\]/.test(v);
 const digest = (parts: unknown[]): string =>
   createHash("sha256").update(JSON.stringify(parts), "utf8").digest("hex");
@@ -161,6 +162,59 @@ export function registerOfflinePhase07File(
       assertKnownFile(sqlite, actor.accountId, file);
     })
     .immediate();
+}
+
+/** Owner-authenticated local registration for an explicit Staging test file. */
+export function registerAuthenticatedPhase07File(
+  sqlite: Database.Database,
+  actor: OfflineOwner,
+  file: Phase07File,
+): void {
+  if (actor.kind !== "authenticated-local-owner")
+    throw new Error("PHASE07_AUTHENTICATED_OWNER_REQUIRED");
+  assertFile(file);
+  sqlite
+    .transaction(() => {
+      assertOwner(sqlite, actor.accountId);
+      const progress = sqlite
+        .prepare(
+          "SELECT owner_id,book_id,edition_sha256 FROM phase06_offline_progress WHERE book_file_id=?",
+        )
+        .get(file.bookFileId) as
+        | { owner_id: string; book_id: string; edition_sha256: string }
+        | undefined;
+      if (
+        progress &&
+        (progress.owner_id !== actor.accountId ||
+          progress.book_id !== file.bookId ||
+          progress.edition_sha256 !== file.editionSha256)
+      )
+        throw new Error("PHASE07_FILE_EDITION_MISMATCH");
+      sqlite
+        .prepare(
+          "INSERT OR IGNORE INTO phase07_files(book_file_id,owner_id,book_id,edition_sha256) VALUES (?,?,?,?)",
+        )
+        .run(file.bookFileId, actor.accountId, file.bookId, file.editionSha256);
+      assertKnownFile(sqlite, actor.accountId, file);
+    })
+    .immediate();
+}
+
+export function listAuthenticatedPhase07Files(
+  sqlite: Database.Database,
+  actor: OfflineOwner,
+): readonly Phase07File[] {
+  if (actor.kind !== "authenticated-local-owner")
+    throw new Error("PHASE07_AUTHENTICATED_OWNER_REQUIRED");
+  assertOwner(sqlite, actor.accountId);
+  const files = sqlite
+    .prepare(
+      "SELECT book_id AS bookId,book_file_id AS bookFileId,edition_sha256 AS editionSha256 FROM phase07_files WHERE owner_id=? ORDER BY book_id,book_file_id LIMIT 1001",
+    )
+    .all(actor.accountId) as Phase07File[];
+  if (files.length > 1000) throw new Error("PHASE07_FILE_LIST_TOO_LARGE");
+  for (const file of files) assertFile(file);
+  return Object.freeze(files.map((file) => Object.freeze({ ...file })));
 }
 
 /** SQLite CAS and replay receipts. A revoked device cannot replay a prior event. */
@@ -331,7 +385,7 @@ export function recordOfflinePhase07Session(
   )
     throw new Error("PHASE07_SESSION_INVALID");
   assertFile(input.file);
-  const hash = digest([
+  const eventParts = [
     input.ownerId,
     input.deviceId,
     input.file,
@@ -339,15 +393,16 @@ export function recordOfflinePhase07Session(
     input.eventId,
     input.action,
     input.expectedRevision,
-    input.nowMs,
-  ]);
+  ];
+  // Receipt identity must not depend on the server clock at retry time.
+  const hash = digest(eventParts);
   return sqlite
     .transaction(() => {
       assertReader(sqlite, input.ownerId, input.deviceId, input.token, input.nowMs);
       assertKnownFile(sqlite, input.ownerId, input.file);
       const past = sqlite
         .prepare(
-          "SELECT session_id,payload_sha256,status,observed_revision FROM phase07_session_events WHERE event_id=?",
+          "SELECT session_id,payload_sha256,status,observed_revision,created_at FROM phase07_session_events WHERE event_id=?",
         )
         .get(input.eventId) as
         | {
@@ -355,10 +410,16 @@ export function recordOfflinePhase07Session(
             payload_sha256: string;
             status: Phase07Result["status"];
             observed_revision: number;
+            created_at: number;
           }
         | undefined;
       if (past) {
-        if (past.session_id !== input.sessionId || past.payload_sha256 !== hash)
+        // Existing fixture receipts used their original server clock in the digest.
+        const legacyHash = digest([...eventParts, past.created_at]);
+        if (
+          past.session_id !== input.sessionId ||
+          (past.payload_sha256 !== hash && past.payload_sha256 !== legacyHash)
+        )
           throw new Error("PHASE07_SESSION_REPLAY_COLLISION");
         return { status: past.status, revision: past.observed_revision };
       }

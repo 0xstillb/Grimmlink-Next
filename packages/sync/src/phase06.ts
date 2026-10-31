@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import type { EpubDomConversion } from "./epub-position.js";
 
 /**
  * Phase06 strictly offline/mock position handling.
@@ -20,6 +21,48 @@ export type EpubAnchorPair = Readonly<{
   xpointer: string;
   cfi: string;
 }>;
+
+export type OfflineEpubResumePosition = Readonly<{
+  kind: "EPUB_EXACT";
+  anchorId: string;
+  nativePosition: string;
+  evidence: "EPUB_DOM_ROUNDTRIP_ONLY";
+}>;
+
+/** Preserve the reader's source pointer while carrying the DOM proof separately. */
+export function toOfflineEpubResumePosition(
+  conversion: EpubDomConversion,
+): OfflineEpubResumePosition {
+  if (
+    !conversion ||
+    conversion.status !== "DOM_ANCHOR_MATCH" ||
+    !conversion.targetPosition ||
+    conversion.spineIndex === null ||
+    conversion.spineId === null ||
+    conversion.spineHref === null ||
+    !conversion.textAnchorSha256
+  )
+    throw new Error("PHASE06_DOM_ANCHOR_REQUIRED");
+  const anchorId =
+    "dom_" +
+    createHash("sha256")
+      .update(
+        JSON.stringify([
+          conversion.spineIndex,
+          conversion.spineId,
+          conversion.spineHref,
+          conversion.nativePosition,
+          conversion.textAnchorSha256,
+        ]),
+      )
+      .digest("hex");
+  return Object.freeze({
+    kind: "EPUB_EXACT",
+    anchorId,
+    nativePosition: conversion.nativePosition,
+    evidence: "EPUB_DOM_ROUNDTRIP_ONLY",
+  });
+}
 
 const safeId = (value: unknown): value is string =>
   typeof value === "string" && /^[A-Za-z0-9_-]{1,128}$/.test(value);
@@ -177,6 +220,40 @@ export function validateOfflinePdfPage(
     percentage: null,
     editionSha256: edition.editionSha256,
     evidence: "OFFLINE_SYNTHETIC_FIXTURE_ONLY" as const,
+  });
+}
+
+/** Convert page indexes only when the same PDF edition and page count are known. */
+export function mapOfflinePdfPage(
+  edition: OfflineEdition,
+  input: Readonly<{
+    edition: OfflineEdition;
+    pageIndex: number;
+    sourceBase: 0 | 1;
+    targetBase: 0 | 1;
+    pageCount: number;
+    verifiedFixturePageCount: number;
+  }>,
+) {
+  if (
+    (input.sourceBase !== 0 && input.sourceBase !== 1) ||
+    (input.targetBase !== 0 && input.targetBase !== 1) ||
+    !Number.isSafeInteger(input.pageIndex)
+  )
+    throw new Error("PHASE06_PDF_PAGE_UNVERIFIED");
+  const pageNumber = input.sourceBase === 0 ? input.pageIndex + 1 : input.pageIndex;
+  const checked = validateOfflinePdfPage(edition, {
+    edition: input.edition,
+    pageNumber,
+    pageCount: input.pageCount,
+    verifiedFixturePageCount: input.verifiedFixturePageCount,
+  });
+  return Object.freeze({
+    ...checked,
+    sourceIndex: input.pageIndex,
+    sourceBase: input.sourceBase,
+    targetIndex: input.targetBase === 0 ? pageNumber - 1 : pageNumber,
+    targetBase: input.targetBase,
   });
 }
 

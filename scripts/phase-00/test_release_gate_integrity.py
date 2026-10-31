@@ -24,6 +24,9 @@ FILES=[
 "docs/implementation/phase-00/FRESH-CONTEXT-DESIGN-LOCK-REVIEW-2026-10-29.md",
 "docs/implementation/ACTIVE-SESSION.json",
 "docs/implementation/phase-01/FINAL-INDEPENDENT-REVIEW-ATTESTATION-2026-10-29.md",
+"docs/implementation/phase-08/RESULT.md",
+"docs/implementation/phase-08/HANDOFF.json",
+"docs/implementation/phase-08/GATE.md",
 ]
 
 class GateTests(unittest.TestCase):
@@ -331,6 +334,78 @@ class GateTests(unittest.TestCase):
             self.mutate(path,change)
             with self.assertRaisesRegex(ValueError,"active Phase06 development checkpoint invalid|active Phase08 development checkpoint invalid"):
                 gate.validate(self.root,self.out)
+
+    def test_phase08_merged_receipt_requires_exact_observed_pr_and_ci(self):
+        path="docs/implementation/ACTIVE-SESSION.json"
+        pristine=(self.root/path).read_text()
+        gate.validate(self.root,self.out)
+        mutations=(
+            lambda j:j["phase08Work"].pop("integrationMerge"),
+            lambda j:j["phase08Work"]["integrationMerge"].update(baseBranch="main"),
+            lambda j:j["phase08Work"]["integrationMerge"].update(mergeCommit="0"*40),
+            lambda j:j["phase08Work"]["integrationMerge"].update(pullRequestHead="0"*40),
+            lambda j:j["phase08Work"]["integrationMerge"].update(ciRun="0"),
+            lambda j:j["phase08Work"]["integrationMerge"].update(ciConclusion="PENDING"),
+            lambda j:j["phase08Work"]["integrationMerge"].update(unreviewed="PASS"),
+            lambda j:j.update(pr="https://github.com/0xstillb/Grimmlink-Next/pull/13"),
+            lambda j:j.update(prStatus="MERGED_TO_MAIN"),
+            lambda j:j.update(prStatus="DRAFT_OPEN_UNMERGED"),
+        )
+        for change in mutations:
+            (self.root/path).write_text(pristine)
+            self.mutate(path,change)
+            with self.assertRaisesRegex(ValueError,"active Phase08 development checkpoint invalid"):
+                gate.validate(self.root,self.out)
+
+    def complete_phase08_reconciliation(self):
+        path="docs/implementation/ACTIVE-SESSION.json"
+        def complete(j):
+            checkpoint=j["phase08Work"]["reconciliationCheckpoint"]
+            checkpoint["status"]="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS"
+            checkpoint["sourceHead"]="a"*40
+            checkpoint["exactHeadCI"]={
+                "sourceHead":checkpoint["sourceHead"],
+                "conclusion":"SUCCESS",
+                "totalWorkflows":10,
+                "passedWorkflows":10,
+                "workflowRunIds":list(range(1,11)),
+            }
+            checkpoint["deferredToPhase09"]=["STAGING_E2E","FINAL_SECURITY_REVIEW"]
+            checkpoint["phase09Status"]="NOT_RUN"
+            checkpoint["productionStatus"]="NOT_AUTHORIZED"
+            checkpoint["officialGatewayForwarding"]="DENY_ALL"
+            checkpoint["protectedWrites"]="OFF"
+        self.mutate(path,complete)
+
+    def test_phase08_current_reconciliation_is_not_masked_by_old_phase_pass(self):
+        gate.validate(self.root,self.out)
+        obj=json.loads(self.out.read_text())
+        self.assertEqual(obj["phase08ReconciliationStatus"],"IN_PROGRESS_OFFLINE_RECONCILIATION")
+        self.assertEqual(obj["phase08StagingExecution"],"NOT_RUN_PHASE09")
+        self.assertEqual(obj["phase08ProductionAuthorization"],"NOT_AUTHORIZED")
+
+    def test_phase08_close_requires_exact_head_ci_and_explicit_phase09_deferred_items(self):
+        self.complete_phase08_reconciliation()
+        gate.validate(self.root,self.out)
+        path="docs/implementation/ACTIVE-SESSION.json"
+        pristine=(self.root/path).read_text()
+        invalid_mutations=(
+            lambda j:j["phase08Work"]["reconciliationCheckpoint"]["exactHeadCI"].update(sourceHead="b"*40),
+            lambda j:j["phase08Work"]["reconciliationCheckpoint"]["exactHeadCI"].update(passedWorkflows=9),
+            lambda j:j["phase08Work"]["reconciliationCheckpoint"].update(deferredToPhase09=[]),
+            lambda j:j["phase08Work"]["reconciliationCheckpoint"].update(productionStatus="AUTHORIZED"),
+        )
+        for change in invalid_mutations:
+            (self.root/path).write_text(pristine)
+            self.mutate(path,change)
+            with self.assertRaisesRegex(ValueError,"Phase08 close requires|Phase08 reconciliation safety"):
+                gate.validate(self.root,self.out)
+
+    def test_phase08_reconciliation_requires_pr13_identity(self):
+        path="docs/implementation/ACTIVE-SESSION.json"
+        self.mutate(path,lambda j:j["phase08Work"]["reconciliationCheckpoint"].update(pr="https://github.com/0xstillb/Grimmlink-Next/pull/12"))
+        with self.assertRaisesRegex(ValueError,"Phase08 reconciliation source identity invalid"):
+            gate.validate(self.root,self.out)
 
     def test_phase01_sensitive_feature_enable_rejected(self):
         self.mutate("docs/implementation/ACTIVE-SESSION.json",

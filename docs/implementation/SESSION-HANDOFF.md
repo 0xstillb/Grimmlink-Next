@@ -1,6 +1,28 @@
-## PHASE06 OFFLINE DEV CHECKPOINT — 2026-10-30
+## CURRENT EXECUTION — Adapter and plugin code passed; Staging next (2026-10-31)
 
-At implementation source `85279988762fe8ddbc217854a3c74d0e9e091806`, [Phase06 CI #41046894465](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41046894465) succeeded (native SQLite, workspace build/types/Prettier/lint/unit+mock, Phase00 gate and deny invariants). Other same-head successes: Phase00 #41046894483, Gateway #41046894482, Phase04 #41046894605, Phase05 #41046894598. Phase01 ARM64 and Pinned Spring were pending at checkpoint. **Final closure HEAD needs its own CI recheck**; this statement is source-head proof only. [PR #10](https://github.com/0xstillb/Grimmlink-Next/pull/10) remains Draft to integration; main and production unchanged. Local synthetic EPUB/PDF only; Native KOSync and actual reader/protected writes stay OFF, final independent review/E2E Phase09.
+Adapter/Control Center passed at exact source `9e872755fbabd93dabc254372574cc5e77f6a639`, and its handoff head `8997c918b8483b9fedccfb91358591f0cb910c96` passed all 10 PR workflows. KOReader plugin source `0432eb7e3c4babf8de47909ec2e4f1c376f3d6ec` also passed all 10 exact-head workflows passed, including Phase01 ARM64, Phase02 pinned Spring, Phase07 OPDS mocks and packaging. This plugin handoff-only commit records the source, exact run IDs, changed files, local checks, artifact hash, Phase09 Staging target, this file, the GATE handoff list and generated Phase00 receipt. Final documentation-head CI must pass before Staging deployment.
+
+The owner confirms the existing Staging host is `192.168.1.116`, Grimmory is installed there, and an OPDS user was added for the single-owner account. No candidate has been deployed and the authenticated catalog GET has not passed. After plugin documentation-head CI passes, deploy the plugin candidate to that host and perform the fixed bounded read-only OPDS catalog GET; do not follow feed links or download book files. Keep Adapter event/pairing API on private port `6062`, Grimmory on `6060`, all Grimmory mutations and protected writes disabled, and production `NOT_AUTHORIZED`. NAS/Hermes/physical-reader E2E, consolidated security review, signing and rollback remain deferred to Phase09.
+
+## HISTORICAL LOCAL CHECKPOINT — superseded by current execution above (2026-10-31)
+
+Phase07 offline coding checks are closed: the KOReader ZIP and Lua/mock UI callbacks passed the source-head checks recorded below; device installation and real sync remain Phase09. Phase08 has a new local update-review slice based on `f8d5e64`: fail-closed source-baseline manifest, stable public-feed evidence SHA-256, owner/CSRF append-only SQLite review ledger, and Update Center review controls. Local checks passed 19/19 targeted and 173/173 combined Adapter/Control Center tests, both typechecks, Control Center production build, targeted ESLint/Prettier, migration fixtures and diff check. It is not on PR #13 and has no exact-head CI. Deployed versions remain unknown; owner review only defers/rejects/submits for Phase09 evaluation and cannot authorize installation or rollback. Phase08 remains open for domain providers, editable settings, runtime device provisioning and release/config/rollback hardening. Preserve three unrelated dirty Phase00/Phase01 review documents. The earlier remote-write attempt was rejected by automatic review; do not retry GitHub writes without explicit authorization for PR #13's exact destination. Keep Official forwarding `DENY_ALL`, protected writes `OFF`, production unauthorized, and all Phase09 E2E NOT_RUN.
+
+## HISTORICAL WORKTREE CHECKPOINT — superseded by current execution above (2026-10-31)
+
+The live Draft PR #13 head is `75301ed8fbb270ef98c2b926cb9136c904fe3533`, with all 10 PR workflows successful. Local commit `05e0463954a15ae745ae5945ab2ea2b92e00a7cf` adds Phase08 authenticated local device list/rotate/revoke, identity registration readback, and offline reading readback with Control Center panels. Local checks: Adapter 121/121, Control Center 45/45, both typechecks, Control Center Vite build, targeted ESLint/Prettier, and persistence build passed. Persistence full Vitest on Windows is not green (19 permission/symlink platform failures, 8 passed); Linux exact-head CI for this slice is pending. These routes expose local SQLite state only, not Official entitlement or reader sync. The GitHub auto-review rejected pushing this commit to PR #13 without explicit authorization for that destination; do not retry before approval. Keep the three unrelated modified Phase00/Phase01 review documents unstaged. Integration merge still requires owner approval; `main`, Official forwarding, protected writes and production remain untouched.
+
+## HISTORICAL CHECKPOINT — Phase 01–08 reconciliation before Adapter closeout (2026-10-31)
+
+Draft [PR #13](https://github.com/0xstillb/Grimmlink-Next/pull/13) targets `integration/grimmlink-next`. Source `3ef91558179d02fe781b0884d26ee9632c19f907` passes **10/10 exact-head workflows**, including Phase01 Foundation/ARM64, Phase02 pinned Spring and Phase07. Phase01–07 coding checks are closed at this source within their offline scopes. Phase06's source `a32103e4ef9e4104ac5885ef79dcb5ad12831390` passed all 12 checks and its bounded EPUB DOM/CFI/XPointer bridge, PDF fixture mapping, and simulated Official readback remain offline-only.
+
+Phase07's ZIP (`18E3CBB0F10B6A518F7C79A9837CEA6E52A2F08E5C7091D2EFA470CA7BD7153A`) is installable as an **offline UI preview** by copying its plugin folder into KOReader's `plugins` directory. The menu now groups Connection/setup, sync actions, reading/session/shelf/personal data, Advanced Settings, Diagnostics and About. Callbacks remain informational; there is no network, sync, book write, shelf mutation, or physical-device validation. It is not a ready-to-use sync client. Phase08 has ten navigation areas, but many remain preview-only: authenticated API integration for identity/reading/OPDS/settings, persistent server log retention, compatibility/impact evidence, trusted owner approval and production packaging/rollback remain open. The new Sidecar route/UI is an authenticated local metadata preview only; it does not import or write. Physical reader, NAS/Hermes E2E and the consolidated independent security review remain Phase09.
+
+Three unrelated modified Phase00/Phase01 review documents remain in the working tree and must stay unstaged. Official forwarding stays `DENY_ALL`, protected writes stay `OFF`, PR #13 remains Draft/unmerged, and production remains `NOT_AUTHORIZED`.
+
+## PRIOR PHASE06 CHECKPOINT — 2026-10-30 (historical)
+
+At source `85279988762fe8ddbc217854a3c74d0e9e091806`, [Phase06 CI #41046894465](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41046894465) succeeded (native SQLite, workspace build/types/Prettier/lint/unit+mock, Phase00 gate and deny invariants). At that older checkpoint the parser/reading-state work later added here did not yet exist. This is historical source-head evidence, not current closure proof.
 
 ---
 
@@ -141,6 +163,7 @@ Gate remains `FOUNDATION_IN_PROGRESS / INDEPENDENT_REVIEW_PENDING`. Prettier che
 Frozen pnpm, TypeScript, ESLint, local mock/unit tests including safe logs + scoped TTL, native SQLite on Linux ARM64 image, no-network compose were executed and passed. This does **not** authorize any Grimmory upstream operation, user/book permission, production/migration or E2E. Phase01 **FOUNDATION_IN_PROGRESS; fresh independent review still required.** Full Hermes/NAS/readers E2E Phase09.
 
 ---
+
 ## CURRENT — PHASE 01 FOUNDATION IMPLEMENTED, REVIEW PENDING (2026-10-29)
 
 **Branch:** `feat/next-phase-01`, [Draft PR #5](https://github.com/0xstillb/Grimmlink-Next/pull/5) -> `integration/grimmlink-next`; base `4b4a924cf225734dab0d17114f878b5b1982d4a9`. Latest committed code changes through [223c0d5b](https://github.com/0xstillb/Grimmlink-Next/commit/223c0d5b2fa2fd5249f0e9719b5ca632f5d65209); branch tip has later CI/workflow-only commit, always fetch LIVE.
@@ -165,7 +188,7 @@ Frozen pnpm, TypeScript, ESLint, local mock/unit tests including safe logs + sco
 
 **State:** `CODE_COMMITTED_TESTS_PASS_ISOLATED` / `FOUNDATION_IN_PROGRESS`; **NOT** `FOUNDATION_REVIEWED`. No independent Phase01 review, approved reproducible pnpm lockfile, Docker ARM64 verification, OpenAPI, migration backup/restore test, complete domain packages, live health/dashboard binding or full accessibility review. [Phase01 Notion spec](https://app.notion.com/p/407c7efbc0098130a215ebe15c887e4f).
 
-**Safety invariant:** Phase00 `PASS_PHASE00_DESIGN_ONLY` permits foundation *only*. All Official static 403 route candidates remain DENY; no gateway, native KO progress, OPF apply, personal/session bridge or reset. [Issue #4](https://github.com/0xstillb/Grimmlink-Next/issues/4) is hard security gate for Phase02/05/07. Full Hermes/NAS/reader E2E deferred to Phase09; `main` and production untouched.
+**Safety invariant:** Phase00 `PASS_PHASE00_DESIGN_ONLY` permits foundation _only_. All Official static 403 route candidates remain DENY; no gateway, native KO progress, OPF apply, personal/session bridge or reset. [Issue #4](https://github.com/0xstillb/Grimmlink-Next/issues/4) is hard security gate for Phase02/05/07. Full Hermes/NAS/reader E2E deferred to Phase09; `main` and production untouched.
 
 **Next action:** obtain/review/commit deterministic pnpm-lock.yaml; switch CI to frozen lockfile; implement durable migration backup/restore, OpenAPI/config/error contracts, safe scoped diagnostics runtime control and remaining package modules; independently review exact source diff before exiting Phase01. Do not merge draft PR yet.
 
@@ -187,7 +210,7 @@ Frozen pnpm, TypeScript, ESLint, local mock/unit tests including safe logs + sco
 
 ## PHASE00 LATEST REVIEW-GATE EVIDENCE — 2026-10-29: INDEPENDENT PASS STILL REQUIRED
 
-[GitHub Actions 40831672425](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40831672425) SUCCESS: 403/403 pinned Official method/path/verb source variants classified against ordered SecurityConfig source chain candidates; all 403 DENY gateway forwarding, not executable runtime Spring authorization. **348 mapping records but only 346 unique method names** due to overloaded BookCoverController#regenerateCovers and FileUploadController#uploadFile. Fixed source-key collision by using file + mapping line + handler. Exactly one representative matcher ambiguity for /api/v1/opds versus OPDS /** root; runtime decision NOT_RUN.
+[GitHub Actions 40831672425](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40831672425) SUCCESS: 403/403 pinned Official method/path/verb source variants classified against ordered SecurityConfig source chain candidates; all 403 DENY gateway forwarding, not executable runtime Spring authorization. **348 mapping records but only 346 unique method names** due to overloaded BookCoverController#regenerateCovers and FileUploadController#uploadFile. Fixed source-key collision by using file + mapping line + handler. Exactly one representative matcher ambiguity for /api/v1/opds versus OPDS /\*\* root; runtime decision NOT_RUN.
 
 [GitHub Actions 40831960179](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40831960179) SUCCESS: machine [Phase00 gate integrity checklist](phase-00/PHASE00-GATE-STATUS.json) verifies 923/923 SHA+AST, 15/15 source constants, 43/43 auth source triage with 0 authorized, 348/348 source handler records, 403/403 route candidates, 160 inheritance flags, 65 repositories, 109/109 static fixture definitions, unmodified independent review report. It correctly enforces **contractLocked=false and phase01Authorized=false** pending real proof.
 
@@ -235,9 +258,9 @@ Frozen pnpm, TypeScript, ESLint, local mock/unit tests including safe logs + sco
 
 ## CURRENT EVIDENCE — 2026-10-29 pinned full Java body scan (implementer, NOT reviewer approval)
 
-**Verified static CI:** [Actions run 40817012499](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40817012499) and [source evidence commit](https://github.com/0xstillb/Grimmlink-Next/commit/0b6fef1002c8a86fa5e15a2c416c16ff1b64ae9a). All **923/923** pinned Java bodies were read, SHA checked and AST parsed, **0 errors**. Exactly **64 Controller markers, 348 method mapping +63 class mapping =411 mapping annotation occurrences**, NOT 411 HTTP routes. Additional **15 programmatic signals**, including WebMvcConfig static **/*** resource fallback, OPDS/Komga interceptors and WebSocketConfig **/ws** handshake; see [source mechanism reconciliation](phase-00/SOURCE-WIDE-MECHANISM-RECONCILIATION-2026-10-29.md) and [per-file ledger](phase-00/JAVA-SOURCE-WIDE-CENSUS.json). (Links here are relative to docs/implementation for documents in that directory; Phase00 files use local equivalents.) **97 fixtures** static validated, zero static failures, all actual negative tests **NOT_RUN**.
+**Verified static CI:** [Actions run 40817012499](https://github.com/0xstillb/Grimmlink-Next/actions/runs/40817012499) and [source evidence commit](https://github.com/0xstillb/Grimmlink-Next/commit/0b6fef1002c8a86fa5e15a2c416c16ff1b64ae9a). All **923/923** pinned Java bodies were read, SHA checked and AST parsed, **0 errors**. Exactly **64 Controller markers, 348 method mapping +63 class mapping =411 mapping annotation occurrences**, NOT 411 HTTP routes. Additional **15 programmatic signals**, including WebMvcConfig static **/\*** resource fallback, OPDS/Komga interceptors and WebSocketConfig **/ws** handshake; see [source mechanism reconciliation](phase-00/SOURCE-WIDE-MECHANISM-RECONCILIATION-2026-10-29.md) and [per-file ledger](phase-00/JAVA-SOURCE-WIDE-CENSUS.json). (Links here are relative to docs/implementation for documents in that directory; Phase00 files use local equivalents.) **97 fixtures** static validated, zero static failures, all actual negative tests **NOT_RUN**.
 
-**IMPORTANT:** prior statements describing 859 unread Java bodies are historical and superseded *only as to content-read coverage*. The source has **161 files with lexical inheritance/semantic questions**; 348 method mappings, aliases/conditional/proxy, WebSocket/static, gateway auth ownership and Spring runtime evidence are **NOT yet contract complete**. `SOURCE_ANNOTATION_COMPLETE=false`, `RUNTIME_ROUTE_COMPLETE=NOT_RUN`. **NEW-P0-01 remains P0 BLOCKED**. Historical Independent verdict **CHANGES_REQUIRED** unchanged. **CORRECTION_INCOMPLETE / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED**. Do not self-approve/merge PR #2, start Phase 01 or expose Official backend. Feature gates for personal writes, native KO progress, metadata apply and session outbox remain OFF/BLOCKED.
+**IMPORTANT:** prior statements describing 859 unread Java bodies are historical and superseded _only as to content-read coverage_. The source has **161 files with lexical inheritance/semantic questions**; 348 method mappings, aliases/conditional/proxy, WebSocket/static, gateway auth ownership and Spring runtime evidence are **NOT yet contract complete**. `SOURCE_ANNOTATION_COMPLETE=false`, `RUNTIME_ROUTE_COMPLETE=NOT_RUN`. **NEW-P0-01 remains P0 BLOCKED**. Historical Independent verdict **CHANGES_REQUIRED** unchanged. **CORRECTION_INCOMPLETE / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED**. Do not self-approve/merge PR #2, start Phase 01 or expose Official backend. Feature gates for personal writes, native KO progress, metadata apply and session outbox remain OFF/BLOCKED.
 
 ## CURRENT — Phase00 Final Security Correction Checkpoint (2026-10-29; implementer, not independent approval)
 
@@ -260,12 +283,18 @@ Start `1370f9f38482af1442a3ecd7570e7dbbc4ac3bdd` (independent report commit); in
 [Security remediation](phase-00/SECURITY-REMEDIATION-2026-10-29.md) · [Full annotation census](phase-00/ROUTE-CENSUS-INDEX.md) · [ADR-025](ADR-025-NATIVE-KOSYNC-SECURITY.md)
 
 <!-- Current 2026-10-29 reviewer packet: [RE-REVIEW-PACKET.md](phase-00/RE-REVIEW-PACKET.md). Prior checkpoints below historical. -->
+
 # GRIMMLINK NEXT — GPT Web Session Handoff
+
+## HISTORICAL CHECKPOINT — 2026-10-31 Phase01–08 reconciliation before Adapter closeout
+
+Live `integration/grimmlink-next` was fetched at `68b7d74daecdacc909ac095c86f6f95aed84ffe7`. Continue in worktree branch `codex/phase-01-08-completion` and Draft [PR #13](https://github.com/0xstillb/Grimmlink-Next/pull/13); do not modify or merge `main`. The Phase08 Control Center has 10 offline navigation areas and disabled protected actions. The current offline checkpoint adds fixture-tested release/advisory parsers, a SHA-256 support-bundle preview with one-hour page-only expiry, an allow-list-filtered in-memory log buffer with bounded retention, and optional diagnostics route composition that requires injected owner and CSRF verifiers. The buffer is now wired to process-local adapter logs; the default main keeps routes unmounted because no trusted session provider is wired. At pushed head `d47afc5`, all 10 Actions workflows passed; the local follow-up after that head passed Adapter/observability typecheck, 101 tests, targeted Prettier and ESLint. Its exact-head CI remains pending. The full Windows workspace run had platform/loopback failures and the full-repository format check reported unrelated existing files. See [Phase08 RESULT](phase-08/RESULT.md), [HANDOFF](phase-08/HANDOFF.json) and [Phase09 acceptance plan](phase-08/PHASE09-ACCEPTANCE-PLAN.md).
+
+Phase08 is **not closed** against the full Notion requirements. The process-local Pino buffer, optional owner/CSRF-gated route composition, and same-origin UI viewer/control client now have mock integration coverage. Production owner session, server-side rotation/retention, support-bundle lifecycle, connected Update Center/egress, reviewed compatibility/impact evidence and approval, remaining screen APIs, and package/rollback hardening are incomplete. Keep Official forwarding `DENY_ALL`, protected writes `OFF`, production `NOT_AUTHORIZED`; Phase09 owns real NAS/Hermes/readers, the consolidated review and release gate. Check exact-head CI after the follow-up commit, then continue the remaining safe offline scope without enabling runtime routes.
 
 ## HISTORICAL — 2026-10-29 Implementer Final Remediation (RE-REVIEW REQUIRED)
 
 **Implementation-document checkpoint:** `IMPLEMENTER_FINAL_REMEDIATION_COMMITTED_AWAITING_FRESH_INDEPENDENT_REVIEW`. This is **not** reviewer approval. Last actual independent verdict [FINAL-INDEPENDENT-REVIEW-2026-10-29.md](phase-00/FINAL-INDEPENDENT-REVIEW-2026-10-29.md) = **CHANGES_REQUIRED / NOT_APPROVED / NOT_CONTRACT_LOCKED / PHASE01_NOT_AUTHORIZED** (8 DOC_FIXED / 4 DOC_PARTIAL on cea6485). See [FINAL-REMEDIATION-2026-10-29.md](phase-00/FINAL-REMEDIATION-2026-10-29.md). Fetch live GitHub HEAD (prior starting SHA `f263e6208d9dc520e29e3113dcf6bd632f239b72`), do not embed self SHA. PR #1 merged into integration in history; PR #2 remains Draft. R-02 KOSync progress **BLOCKED/OFF** due to non-atomic no-fork ACL proof, other metadata/personal/session writes OFF. All real integrated E2E Phase09 only; no Phase01 or merge.
-
 
 ## HISTORICAL FRESH FINAL INDEPENDENT REVIEW — 2026-10-29 (supersedes review-pending banners below)
 
@@ -273,12 +302,10 @@ Start `1370f9f38482af1442a3ecd7570e7dbbc4ac3bdd` (independent report commit); in
 - Remaining: R-01 P0 scalar allowlist, R-02 P0 authoritative user-to-book entitlement and bypass-free public :6060 gateway, R-09 P1 uncertain-session ACK/at-most-once, R-11 P1 stale historical handoff. **External KOSync progress BLOCKED/OFF**, personal bridge/metadata writes OFF. Never allow blind Official passthrough, impersonation, or source NAS writes.
 - Phase00 corrections need a NEW independent review before CONTRACT_LOCKED. **Do not merge Draft PR #2, modify main, or start Phase01.** Source-only review + JSON validation; build/unit/mock/live API NOT_RUN; integrated Hermes/NAS/physical readers/full E2E Phase09 only. Obtain the real current branch SHA from GitHub, not from this file.
 
-
 ## NEW INDEPENDENT RE-REVIEW — 2026-10-29 (read first)
 
 - [Re-review report](phase-00/RE-REVIEW-2026-10-29.md) evaluated original correction HEAD `411b68bd1ed2ffeca28165c55cc52fda6d88ea6c` and issued **CHANGES_REQUIRED**. Review documents R-01–R-12 and source evidence, not hardware/runtime PASS.
 - Same session authored **subsequent** contract/gateway/metadata/Sidecar clarity fixes. Those new changes are **not independently re-reviewed**; new reviewer must inspect actual diff after `411b68` and assess the remaining design-level auth gate. **NOT CONTRACT_LOCKED, NO Phase01, no merge**; full integrated E2E Phase09 only. Fetch live HEAD.
-
 
 ## HISTORICAL CORRECTION CHECKPOINT — 2026-10-29 (supersedes earlier reviewed head below)
 
@@ -302,32 +329,37 @@ Start `1370f9f38482af1442a3ecd7570e7dbbc4ac3bdd` (independent report commit); in
 **2026-10-28; PHASE 00 SOURCE_AUDITED_REVIEW_PENDING (NOT CONTRACT_LOCKED).** Not a release. `main` and `integration/grimmlink-next` intentionally untouched. Draft PR [#1](https://github.com/0xstillb/Grimmlink-Next/pull/1) from `feat/next-phase-00`.
 
 ## Mandatory next-session read order
+
 1. Fetch **LIVE** GitHub branch HEAD/PR; current commit hash is intentionally NOT embedded in its own changed files.
 2. Read [AGENTS.md](../../AGENTS.md), [ACTIVE-SESSION.json](ACTIVE-SESSION.json), [COMMIT-POLICY.md](COMMIT-POLICY.md), [CONTRACT.md](CONTRACT.md), [API-INVENTORY.md](API-INVENTORY.md), [DISCREPANCIES.md](DISCREPANCIES.md), [DECISIONS.md](DECISIONS.md), [UPSTREAM-MANIFEST.json](UPSTREAM-MANIFEST.json).
 3. Read [Phase00 RESULT](phase-00/RESULT.md), [HANDOFF](phase-00/HANDOFF.json), [REVIEW](phase-00/REVIEW.md) and exact [Notion Phase00](https://app.notion.com/p/407c7efbc00981e2b08ff8fb45c3f846).
 4. Inspect actual source at cited SHAs and PR diff, never guess deployed version or claim shell/E2E PASS.
 
 ## What is complete
+
 - Source-only candidate audit: Grimmory Official v3.5.0 controller/DTO/service, Readest v0.12.16 KOSync/OPDS, GrimmLink Lua, old Python parity reference, Prose reader source.
 - Comprehensive API Inventory, ADR and safety contract, version manifest separating installed UNKNOWN vs observed source, 15 issues, fixture plan, result/handoff.
 - HIGH RISK: `PUT /api/v1/books/{bookId}/metadata` defaults `REPLACE_ALL`; explicitly supply `REPLACE_WHEN_PROVIDED` and false clearFlags. KOSync Official prefix `/api/koreader`, Readest appends `/users/auth` and `/syncs/progress`; no blind rewrite.
-- No TypeScript runtime or source implementation; this is *documentation/source audit* exactly per Phase00. No unit, live endpoints, Hermes/NAS/physical tests.
+- No TypeScript runtime or source implementation; this is _documentation/source audit_ exactly per Phase00. No unit, live endpoints, Hermes/NAS/physical tests.
 
 ## Gaps and blocking conditions
+
 - Source routes verified **at source level only**; actual deployed version, permissions, DB/Flyway, exact auth payload and migration remain unverified.
 - Independent reviewer must be a **fresh GPT Web context**; [REVIEW.md](phase-00/REVIEW.md) currently says PENDING and cannot be self-signed.
 - P0 discrepancy register C-001..C-006 must be reviewed; safety switches before enabling live writes.
 - Phase 00 gate remains REVIEW_PENDING, Phase 01 cannot be declared approved without separate review and actual contract lock.
 
 ## Exact next action
+
 Open Draft PR #1 and do adversarial independent review (not implementation self-review), document defects `path:line`, create proper reviewed Phase00 gate only when source contract sufficiently locked. If issues, return to Phase00 branch and correct with reviewable commits. Do not merge `main`; integrated E2E only Phase09. Update Notion with **server-confirmed** commit SHA only after GitHub readback.
 
 ## Tests/commits
+
 Audit performed by connected GitHub source reads and in-process JSON validation. Terminal runner **NOT_USED**. GitHub PR current HEAD and new commit are the authority; do not put self SHA here. Historical base `7d5bc8a421bcca29101453c6e46a2b4677363c51` only. No production data touched.
 
 ## Follow-up source check
-Verified JWT source DTO shape, Bearer filter, nonempty collection replacement under REPLACE_WHEN_PROVIDED, and SidecarMetadataWriter direct Files.writeString path; see [API-INVENTORY.md](API-INVENTORY.md) and discrepancy **C-016**. No runtime tests. Review these paths before contract lock.
 
+Verified JWT source DTO shape, Bearer filter, nonempty collection replacement under REPLACE_WHEN_PROVIDED, and SidecarMetadataWriter direct Files.writeString path; see [API-INVENTORY.md](API-INVENTORY.md) and discrepancy **C-016**. No runtime tests. Review these paths before contract lock.
 
 ## 2026-10-29 — Targeted source recheck checkpoint (implementer)
 
@@ -335,7 +367,12 @@ Following a live HEAD check at prior commit `7a3647a6aff08c7d0868fc976646e09a31e
 
 **Next:** obtain genuinely separate reviewer review of entire PR and new findings; after documented corrections and approval, user-controlled integration PR gate. Do not start Phase01 or pretend that installed Grimmory/DB/NAS status is known. Retrieve current live HEAD rather than trusting this checkpoint.
 
-
 ## 2026-10-29 PR continuity correction
 
 GitHub live check found [PR #1](https://github.com/0xstillb/Grimmlink-Next/pull/1) **merged into non-production integration** on 2026-10-28 17:02:39Z at merge SHA `5470c7ad807cb701381ae8bcd9abe516f351b150`. That merge did **not** supply the required independent-review evidence or approve Phase01. The subsequent recheck commit `a5eb72d4b0f8e01f876fb20c8895813df33c8ddb` is proposed separately through **[Draft PR #2](https://github.com/0xstillb/Grimmlink-Next/pull/2)**, still review-pending. `main` remains untouched. Use PR #2 for current Phase00 improvements, PR #1 as historical audit foundation. Continue to read live heads before any mutation.
+
+## 2026-10-31 — Phase08 authenticated OPF preview checkpoint
+
+Live `codex/phase-01-08-completion` was checked at `3ef91558179d02fe781b0884d26ee9632c19f907`; its exact-head PR CI passed **10/10 workflows**, validating Phase01–07 coding checks within their offline scopes. The committed Sidecar route parses one owner-selected JSON file in memory and returns sparse metadata; imports and adjacent writes remain OFF. The OPF route similarly parses a user-selected file in memory, and Jobs is connected to the local SQLite queue.
+
+This checkout adds a read-only owner-authenticated Settings policy snapshot. It returns only fixed fail-closed Adapter constants; it does not edit configuration, enumerate devices or prove deployment state. Local validation for this slice: **72 targeted tests passed across nine files**, Adapter and Control Center typechecks passed (Adapter used temporary workspace path mappings because local package installation is blocked by registry DNS), Control Center Vite production build passed, and targeted ESLint/Prettier plus `git diff --check` passed. Exact-head CI for this slice is pending. Phase08 remains open for Identity/Reading/OPDS APIs, device inventory and mutable settings, compatibility evidence/manual approval, package/rollback hardening and remaining log retention. Phase09-only device/NAS/Hermes E2E and consolidated independent security review remain NOT_RUN. Do not merge PR #13 or change `main`.

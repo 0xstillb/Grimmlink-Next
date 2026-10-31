@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Phase00 release-gate integrity check: implementer CANNOT self-authorize Phase01."""
-import argparse,hashlib,json,pathlib,subprocess,sys
+import argparse,hashlib,json,pathlib,re,subprocess,sys
 REVIEW_BLOB="085c8bedb16513df38575fcff2a432ab72de2ad8"
 FRESH_DESIGN_REVIEW_BLOB="e910a70fff151eaded60596e3e3042c59673b5aa"
 REVIEWED_SOURCE_HEAD="f071229d9d9a1b7fb680cb68f83c763bc53138c6"
@@ -11,6 +11,47 @@ PHASE01_REVIEWED_HEAD="2eb613b0cac39b689710501cc3dbad812e5486a2"
 PHASE01_REVIEW_ATTESTATION_BLOB="c2f27b7a6d9cef5e139f7ce052aaa5118d6a177d"
 PHASE01_REVIEW_ID="5699254459"
 def load(root,path):return json.loads((root/path).read_text("utf8"))
+def validate_phase08_reconciliation(root,current):
+    phase08=current.get("phase08Work",{})
+    checkpoint=phase08.get("reconciliationCheckpoint")
+    if not isinstance(checkpoint,dict):
+        raise ValueError("active Phase08 reconciliation checkpoint missing")
+    status=checkpoint.get("status")
+    if status not in ("IN_PROGRESS_OFFLINE_RECONCILIATION","DEV_CHECKS_PASS_WITH_DEFERRED_RISKS"):
+        raise ValueError("active Phase08 reconciliation status invalid")
+    if (checkpoint.get("branch")!="codex/phase-01-08-completion"
+        or checkpoint.get("pr")!="https://github.com/0xstillb/Grimmlink-Next/pull/13"
+        or not re.fullmatch(r"[0-9a-f]{40}",str(checkpoint.get("baseIntegrationHead","")))
+        or not re.fullmatch(r"[0-9a-f]{40}",str(checkpoint.get("sourceHead","")))):
+        raise ValueError("active Phase08 reconciliation source identity invalid")
+    if (checkpoint.get("phase09Status")!="NOT_RUN"
+        or checkpoint.get("productionStatus")!="NOT_AUTHORIZED"
+        or checkpoint.get("officialGatewayForwarding")!="DENY_ALL"
+        or checkpoint.get("protectedWrites")!="OFF"):
+        raise ValueError("active Phase08 reconciliation safety boundary invalid")
+    if status=="DEV_CHECKS_PASS_WITH_DEFERRED_RISKS":
+        ci=checkpoint.get("exactHeadCI")
+        runs=ci.get("workflowRunIds") if isinstance(ci,dict) else None
+        total=ci.get("totalWorkflows") if isinstance(ci,dict) else None
+        passed=ci.get("passedWorkflows") if isinstance(ci,dict) else None
+        if (not isinstance(ci,dict)
+            or ci.get("sourceHead")!=checkpoint.get("sourceHead")
+            or ci.get("conclusion")!="SUCCESS"
+            or not isinstance(total,int) or total<1
+            or passed!=total
+            or not isinstance(runs,list) or len(runs)!=total
+            or any(not isinstance(run,int) or run<1 for run in runs)
+            or len(set(runs))!=len(runs)):
+            raise ValueError("Phase08 close requires successful exact-head CI receipt")
+        deferred=checkpoint.get("deferredToPhase09")
+        if not isinstance(deferred,list) or not deferred or any(not isinstance(item,str) or not item.strip() for item in deferred):
+            raise ValueError("Phase08 close requires explicit Phase09 deferred work")
+        for path in ("docs/implementation/phase-08/RESULT.md",
+                     "docs/implementation/phase-08/HANDOFF.json",
+                     "docs/implementation/phase-08/GATE.md"):
+            if not (root/path).is_file():
+                raise ValueError("Phase08 close requires result, handoff and gate documents")
+
 def validate(root,out):
     p="docs/implementation/phase-00/"
     census=load(root,p+"JAVA-SOURCE-WIDE-CENSUS.json")
@@ -289,9 +330,25 @@ def validate(root,out):
                 raise ValueError("active Phase07 development checkpoint invalid")
             if active_phase=="08":
                 phase08=current.get("phase08Work",{})
+                # This is a recorded integration merge, not a production or
+                # runtime-security approval. The offline gate cannot itself
+                # query GitHub; the exact PR/CI receipt must be verified live.
+                merged_receipt={
+                    "baseBranch":"integration/grimmlink-next",
+                    "mergeCommit":"68b7d74daecdacc909ac095c86f6f95aed84ffe7",
+                    "mergedAt":"2026-10-30T13:35:54Z",
+                    "pullRequestHead":"ba5930614df1c48546f244226e38462319cd2f97",
+                    "ciRun":"41061715377",
+                    "ciConclusion":"SUCCESS",
+                }
+                pr_record_ok=(
+                    (current.get("prStatus")=="DRAFT_OPEN_UNMERGED" and phase08.get("integrationMerge") is None)
+                    or (current.get("prStatus")=="MERGED_INTEGRATION" and phase08.get("integrationMerge")==merged_receipt)
+                )
                 if (current.get("phaseStatus") not in ("CODE_IMPLEMENTED_CI_PENDING","DEV_CHECKS_PASS_WITH_DEFERRED_RISKS")
                     or current.get("branch")!="feat/next-phase-08"
-                    or current.get("prStatus")!="DRAFT_OPEN_UNMERGED"
+                    or current.get("pr")!="https://github.com/0xstillb/Grimmlink-Next/pull/12"
+                    or not pr_record_ok
                     or current.get("baseIntegrationCommit")!="3b5321ede76f74fd1d94ebaece119fc4f6f11aaf"
                     or current.get("deliveryPolicy",{}).get("mode")!="SINGLE_OWNER_PRIVATE"
                     or phase08.get("status")!=current.get("phaseStatus")
@@ -333,6 +390,9 @@ def validate(root,out):
                     or phase07.get("sessionBridgeEnabled") is not False
                     or phase06.get("nativeKosyncEnabled") is not False):
                     raise ValueError("active Phase08 development checkpoint invalid")
+                # PR #12 is a historical integration receipt. Validate PR #13
+                # separately so the old PASS cannot mask current closeout work.
+                validate_phase08_reconciliation(root,current)
     else:
         raise ValueError("unreviewed active phase transition")
     phase01_accepted=(active_phase in ("02","03","04","05","06","07","08") or
@@ -428,12 +488,20 @@ def validate(root,out):
       "sourceRouteCountNotRuntime":403,"methodMappingRecords":348,
       "methodNamesNotUnique":346,"prioritySourceReviewRecords":43,
       "fixtureDefinitionsStaticValidated":109,
-      "gateRows":[{"id":k,"status":v,"owner":who,"reason":reason} for k,v,who,reason in gates]}
+      "gateRows":[{"id":k,"status":v,"owner":who,"reason":reason} for k,v,who,reason in gates],
+      "phase08ReconciliationStatus":current.get("phase08Work",{}).get("reconciliationCheckpoint",{}).get("status") if active_phase=="08" else None,
+      "phase08CurrentSourceHead":current.get("phase08Work",{}).get("reconciliationCheckpoint",{}).get("sourceHead") if active_phase=="08" else None,
+      "phase08StagingExecution":"NOT_RUN_PHASE09" if active_phase=="08" else None,
+      "phase08ProductionAuthorization":"NOT_AUTHORIZED" if active_phase=="08" else None}
     out.parent.mkdir(parents=True,exist_ok=True)
     out.write_text(json.dumps(obj,ensure_ascii=False,indent=2)+"\n",encoding="utf8")
     print(json.dumps({"phase00SourceCensusVerified":True,"sourceHandlerAndRouteVerified":"348 / 403",
       "sourceReview43":True,"runtimeTests":"NOT_RUN","phase01Authorized":True,
-      "gateRows":len(gates)},indent=2))
+      "gateRows":len(gates),
+      "phase08ReconciliationStatus":obj["phase08ReconciliationStatus"],
+      "phase08CurrentSourceHead":obj["phase08CurrentSourceHead"],
+      "phase08StagingExecution":obj["phase08StagingExecution"],
+      "phase08ProductionAuthorization":obj["phase08ProductionAuthorization"]},indent=2))
 if __name__=="__main__":
     p=argparse.ArgumentParser()
     p.add_argument("--repo",type=pathlib.Path,required=True)

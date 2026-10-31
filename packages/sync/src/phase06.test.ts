@@ -1,6 +1,7 @@
 import { expect, it } from "vitest";
 import {
   buildOfflineEpubAnchorMap,
+  mapOfflinePdfPage,
   projectOfflineContinueReading,
   requireOfflineEdition,
   validateOfflinePdfPage,
@@ -133,6 +134,34 @@ it("accepts page-accurate PDF mock only with known matching page count; never gu
       verifiedFixturePageCount: 2,
     }),
   ).toThrow("PHASE06_EDITION_MISMATCH");
+});
+
+it("maps zero- and one-based PDF pages only for the same verified file", () => {
+  const source = {
+    edition: pdf,
+    pageIndex: 0,
+    sourceBase: 0 as const,
+    targetBase: 1 as const,
+    pageCount: 120,
+    verifiedFixturePageCount: 120,
+  };
+  expect(mapOfflinePdfPage(pdf, source)).toMatchObject({
+    pageNumber: 1,
+    targetIndex: 1,
+    percentage: null,
+  });
+  expect(
+    mapOfflinePdfPage(pdf, { ...source, pageIndex: 120, sourceBase: 1, targetBase: 0 }),
+  ).toMatchObject({ pageNumber: 120, targetIndex: 119 });
+  expect(() => mapOfflinePdfPage(pdf, { ...source, pageIndex: 120 })).toThrow(
+    "PHASE06_PDF_PAGE_UNVERIFIED",
+  );
+  expect(() =>
+    mapOfflinePdfPage(pdf, { ...source, edition: { ...pdf, bookFileId: "another_file" } }),
+  ).toThrow("PHASE06_EDITION_MISMATCH");
+  expect(() => mapOfflinePdfPage(pdf, { ...source, verifiedFixturePageCount: 119 })).toThrow(
+    "PHASE06_PDF_PAGE_UNVERIFIED",
+  );
 });
 
 it("Continue Reading chooses server revision instead of clock/page, fails on same-revision conflicts", () => {

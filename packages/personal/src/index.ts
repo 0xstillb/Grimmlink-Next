@@ -1,3 +1,5 @@
+import { parseXPointer } from "@prose-reader/koreader";
+
 /**
  * Phase07 pure, OFFLINE-ONLY personal-data contracts.
  * No Official API, credentials, or automatic sync in this package.
@@ -29,8 +31,9 @@ const cleanOptionalText = (value: unknown, max: number): value is string =>
   typeof value === "string" && value.length <= max && !/[\u0000-\u001f\u007f]/.test(value);
 const cleanPosition = (value: unknown): value is string =>
   cleanText(value, 2048) &&
-  (value.startsWith("epubcfi(/") || value.startsWith("xpointer(/")) &&
-  value.endsWith(")") &&
+  ((value.startsWith("epubcfi(/") && value.endsWith(")")) ||
+    (value.startsWith("xpointer(/") && value.endsWith(")")) ||
+    (value.startsWith("/body/") && parseXPointer(value) !== undefined)) &&
   !/[<>%\\]/.test(value);
 
 export function validateOfflinePersonalValue(value: unknown): OfflinePersonalValue {
@@ -73,6 +76,8 @@ export function validateOfflinePersonalValue(value: unknown): OfflinePersonalVal
     });
   throw new Error("PHASE07_PERSONAL_PAYLOAD_INVALID");
 }
+
+export * from "./rating.js";
 
 export type OfflineShelfPlan = Readonly<{
   mode: "MANUAL_PREVIEW_ONLY";
