@@ -4,6 +4,8 @@ import { JobsPanel } from "./JobsPanel.js";
 import { OpfPreviewPanel } from "./OpfPreviewPanel.js";
 import { SidecarPreviewPanel } from "./SidecarPreviewPanel.js";
 import { SettingsPanel } from "./SettingsPanel.js";
+import { ReadingPanel } from "./ReadingPanel.js";
+import { IdentityPanel } from "./IdentityPanel.js";
 import { UnavailableDomainPanel } from "./UnavailableDomainPanel.js";
 import { UpdateCenter } from "./UpdateCenter.js";
 import {
@@ -262,17 +264,14 @@ export function App({ initialSection = "Overview" }: { initialSection?: Section 
         )}
 
         {selected === "Identity" && (
-          <UnavailableDomainPanel
-            screen="Identity"
+          <IdentityPanel
             onSignIn={() => setSelected("Logs & Diagnostics")}
+            onManageDevices={() => setSelected("Settings & Devices")}
           />
         )}
 
         {selected === "Reading" && (
-          <UnavailableDomainPanel
-            screen="Reading"
-            onSignIn={() => setSelected("Logs & Diagnostics")}
-          />
+          <ReadingPanel onSignIn={() => setSelected("Logs & Diagnostics")} />
         )}
 
         {selected === "Sidecar & Restore" && (

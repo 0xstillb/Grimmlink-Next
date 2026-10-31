@@ -20,6 +20,18 @@ import { registerLocalOpfPreviewRoutes } from "./local-opf-preview-routes.js";
 import { registerLocalSidecarPreviewRoutes } from "./local-sidecar-preview-routes.js";
 import { registerLocalSettingsRoutes } from "./local-settings-routes.js";
 import { registerLocalScreenStatusRoutes } from "./local-screen-status-routes.js";
+import {
+  registerLocalDevicesRoutes,
+  type LocalDevicesRouteSource,
+} from "./local-devices-routes.js";
+import {
+  registerLocalReadingRoutes,
+  type LocalReadingRouteSource,
+} from "./local-reading-routes.js";
+import {
+  registerLocalIdentityRoutes,
+  type LocalIdentityRouteSource,
+} from "./local-identity-routes.js";
 
 export type AdapterDiagnostics = Readonly<{
   buffers: Readonly<Record<string, SafeLogBuffer>>;
@@ -39,6 +51,12 @@ export type AdapterServerOptions = Readonly<{
   updateFeed?: UpdateFeedReader;
   /** Optional owner-authenticated local queue reader/controller; no worker or upstream transport. */
   localJobs?: LocalJobsRouteSource;
+  /** Optional owner-authenticated local paired-reader inventory; no reader transport. */
+  localDevices?: LocalDevicesRouteSource;
+  /** Optional owner-authenticated offline progress projection; no reader or Official transport. */
+  localReading?: LocalReadingRouteSource;
+  /** Optional owner-authenticated local identity registration readback; no Official entitlement. */
+  localIdentity?: LocalIdentityRouteSource;
 }>;
 
 const diagnosticsByServer = new WeakMap<object, AdapterDiagnostics>();
@@ -61,6 +79,15 @@ export async function buildServer(
   }
   if (options.localJobs && !options.ownerAuth) {
     throw new Error("Local job routes require the configured local owner authenticator");
+  }
+  if (options.localDevices && !options.ownerAuth) {
+    throw new Error("Local device routes require the configured local owner authenticator");
+  }
+  if (options.localReading && !options.ownerAuth) {
+    throw new Error("Local reading routes require the configured local owner authenticator");
+  }
+  if (options.localIdentity && !options.ownerAuth) {
+    throw new Error("Local identity routes require the configured local owner authenticator");
   }
   const buffer = new SafeLogBuffer("adapter");
   const leases = new DiagnosticLeases();
@@ -231,6 +258,15 @@ export async function buildServer(
   }
   if (options.localJobs) {
     registerLocalJobsRoutes(server as unknown as FastifyInstance, options.localJobs);
+  }
+  if (options.localDevices) {
+    registerLocalDevicesRoutes(server as unknown as FastifyInstance, options.localDevices);
+  }
+  if (options.localReading) {
+    registerLocalReadingRoutes(server as unknown as FastifyInstance, options.localReading);
+  }
+  if (options.localIdentity) {
+    registerLocalIdentityRoutes(server as unknown as FastifyInstance, options.localIdentity);
   }
   const diagnosticsGuards = options.ownerAuth ?? options.diagnostics;
   if (diagnosticsGuards) {

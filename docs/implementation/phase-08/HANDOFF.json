@@ -146,6 +146,31 @@
       "LIVE_OWNER_CREDENTIALS_AND_NETWORK_EGRESS_POLICY_NOT_EXERCISED",
       "PHASE09_REAL_NAS_HERMES_READER_E2E_AND_CONSOLIDATED_INDEPENDENT_REVIEW"
     ],
+    "localOwnerReadbackSlice": {
+      "status": "LOCAL_IMPLEMENTATION_AND_TARGETED_CHECKS_PASS_EXACT_HEAD_CI_PENDING",
+      "basedOnLastVerifiedPrHead": "75301ed8fbb270ef98c2b926cb9136c904fe3533",
+      "delivered": [
+        "OWNER_AUTHENTICATED_LOCAL_DEVICE_LIST_ROTATE_REVOKE",
+        "OWNER_AUTHENTICATED_LOCAL_IDENTITY_REGISTRATION_READBACK",
+        "OWNER_AUTHENTICATED_OFFLINE_READING_READBACK",
+        "CONTROL_CENTER_LOCAL_DEVICES_IDENTITY_READING_PANELS"
+      ],
+      "limits": [
+        "NO_OFFICIAL_ENTITLEMENT_OR_REMOTE_READER_DATA",
+        "OPDS_PROVIDER_REMAINS_UNCONFIGURED",
+        "NO_OFFICIAL_WRITES_OR_DEVICE_E2E"
+      ],
+      "localChecks": {
+        "adapterVitest": "PASS_121_TESTS_ACROSS_21_FILES",
+        "adapterTypecheck": "PASS",
+        "controlCenterVitest": "PASS_45_TESTS_ACROSS_12_FILES",
+        "controlCenterTypecheckAndViteBuild": "PASS",
+        "changedFilesEslintPrettier": "PASS",
+        "persistenceBuild": "PASS",
+        "persistenceFullVitestWindows": "FAIL_19_PLATFORM_PERMISSION_OR_SYMLINK_CASES;_8_PASSED",
+        "exactHeadGitHubCiForNewSlice": "PENDING_NEW_COMMIT"
+      }
+    },
     "safety": {
       "officialGatewayForwarding": "DENY_ALL",
       "protectedWrites": "OFF",

@@ -28,8 +28,8 @@ it("exposes every Phase08 product area with a scoped preview description", () =>
   expect(Object.keys(sectionDescriptions)).toEqual(sections);
   const expectedContent: Partial<Record<(typeof sections)[number], string>> = {
     "OPF Sync": "Choose one OPF file to inspect its metadata.",
-    Identity: "Checking the authenticated local screen status API.",
-    Reading: "Checking the authenticated local screen status API.",
+    Identity: "Checking the authenticated local identity API.",
+    Reading: "Checking the authenticated local reading API.",
     "Sidecar & Restore": "Choose one Sidecar JSON file to inspect its metadata.",
     OPDS: "Checking the authenticated local screen status API.",
     "Logs & Diagnostics": "No diagnostic log text is displayed.",
@@ -49,7 +49,9 @@ it("exposes every Phase08 product area with a scoped preview description", () =>
         section !== "Logs & Diagnostics" &&
         section !== "OPF Sync" &&
         section !== "Sidecar & Restore" &&
-        section !== "Settings & Devices"
+        section !== "Settings & Devices" &&
+        section !== "Identity" &&
+        section !== "Reading"
       )
         expect(html).toContain("disabled=");
     }
@@ -64,10 +66,25 @@ it("exposes every Phase08 product area with a scoped preview description", () =>
       expect(html).toContain("Adjacent file writes");
       expect(html).toContain("parsed in memory and discarded");
     }
-    if (section === "Identity" || section === "Reading" || section === "OPDS") {
+    if (section === "OPDS") {
       expect(html).toContain("Provider unavailable");
       expect(html).toContain("Refresh provider status");
       expect(html).toContain("disabled=");
+    }
+    if (section === "Identity") {
+      expect(html).toContain("Book identity and readers");
+      expect(html).toContain("Local registration only");
+      expect(html).toContain("Manage pairing in Settings &amp; Devices");
+      expect(html).toContain("do not prove Official ownership or entitlement");
+      expect(html).not.toContain("Pair a reader</button>");
+    }
+    if (section === "Reading") {
+      expect(html).toContain("Continue Reading");
+      expect(html).toContain("Offline local preview");
+      expect(html).toContain("does not connect to KOReader");
+      expect(html).toContain("calculate reading percentages");
+      expect(html).not.toContain("Resume reading");
+      expect(html).not.toContain("100% synced");
     }
     if (section === "Settings & Devices") {
       expect(html).toContain("Read-only policy");

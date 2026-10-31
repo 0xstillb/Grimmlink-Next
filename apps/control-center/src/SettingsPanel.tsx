@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { DiagnosticsClientError, fetchOwnerSession } from "./diagnostics-client.js";
 import { fetchLocalSecurityPolicy, type LocalSecurityPolicy } from "./local-settings-client.js";
+import { LocalDevicesPanel } from "./LocalDevicesPanel.js";
 
 type ConnectionState = "loading" | "ready" | "owner-required" | "unavailable" | "error";
 
@@ -78,7 +79,7 @@ export function SettingsPanel({ onSignIn }: { onSignIn: () => void }) {
   return (
     <section className="panel settings-panel" aria-label="Owner-authenticated safety settings">
       <div className="panel-heading">
-        <h2>Private settings and devices</h2>
+        <h2>Private safety settings</h2>
         <span className="pill">Read-only policy</span>
       </div>
       <p>
@@ -115,6 +116,7 @@ export function SettingsPanel({ onSignIn }: { onSignIn: () => void }) {
           <p className="muted">Source: {policy.source}</p>
         </div>
       )}
+      <LocalDevicesPanel onSignIn={onSignIn} />
     </section>
   );
 }

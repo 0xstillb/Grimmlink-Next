@@ -1,5 +1,9 @@
 # Phase 01–08 reconciliation — in progress
 
+## Worktree checkpoint — 2026-10-31 (owner-readback slice pending exact-head CI)
+
+The verified PR #13 head is `75301ed8fbb270ef98c2b926cb9136c904fe3533`; its 10 PR workflows pass, including Phase07. The current local worktree adds owner-authenticated Device list/rotate/revoke, Identity registration readback, and offline Reading readback to Phase08, with responsive panels. These APIs read local SQLite only; they do not establish Official ownership, live reader sync, or OPDS catalog data. Local checks: Adapter **121/121 tests**, Control Center **45/45**, both typechecks, Control Center Vite build, targeted ESLint/Prettier and persistence build passed. The full persistence Vitest run on Windows failed 19 tests (8 passed) at POSIX directory-mode and symlink-permission assertions; Linux exact-head CI for the new slice is pending. The change is not committed to the remote PR yet. Three unrelated Phase00/Phase01 review-document edits remain user-owned and must stay unstaged.
+
 Baseline: integration commit `68b7d74daecdacc909ac095c86f6f95aed84ffe7`,
 read from GitHub on 2026-10-30. Previous checkpoint commit:
 `ef5a03fe2b29cbd122004942e4735e307a1470ee` on 2026-10-31. This document tracks work on the separate

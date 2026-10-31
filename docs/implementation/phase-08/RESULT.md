@@ -1,5 +1,11 @@
 # Phase 08 — Single-Owner Control Center, Diagnostics and Offline Packaging
 
+## Local owner-readback slice — 2026-10-31 (not yet on PR head)
+
+The current worktree adds owner-authenticated local Device, Identity and Reading data paths. Devices are listed and can be rotated or revoked through the local owner session; Identity reads only local file/edition registrations; Reading reads only local offline progress. The Control Center now renders those real local records. Identity is explicitly marked `LOCAL_REGISTRATION_ONLY`; Official ownership/entitlement remains unverified. Reading percentages are not synthesized, and no resume action is exposed. OPDS remains unavailable because no trusted catalog provider is configured. These routes do not call Grimmory, transmit reader data, or enable protected writes.
+
+**Local validation on the current worktree:** Adapter Vitest **121/121 across 21 files**, Adapter TypeScript, Control Center Vitest **45/45 across 12 files**, Control Center TypeScript + Vite production build, targeted ESLint and Prettier all passed. Persistence package build passed. Its full Windows Vitest run failed **19 tests / 8 passed** because the local store enforces POSIX 0700 directory permissions and Windows denies symlink creation; the Linux exact-head run for the unchanged PR baseline is green, but exact-head CI for this local slice is still pending. The currently verified remote PR head remains `75301ed8fbb270ef98c2b926cb9136c904fe3533`; this worktree's new files are uncommitted and have no server SHA yet.
+
 ## Reconciliation checkpoint — 2026-10-31 (IN PROGRESS)
 
 The live integration base is `68b7d74daecdacc909ac095c86f6f95aed84ffe7`. Draft [PR #13](https://github.com/0xstillb/Grimmlink-Next/pull/13) remains open and Draft. The Control Center exposes 10 requirement areas and labels missing live data as unavailable. Optional local owner auth mounts session, diagnostics and CSRF-guarded routes only when a password verifier and signing key are configured.

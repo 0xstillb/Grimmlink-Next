@@ -125,12 +125,42 @@ describe("Phase02 zero-forward gateway classifier", () => {
     expect(classify("GET", `${status}?mode=prod`)).toBe("INVALID_TARGET");
   });
 
+  it("permits only the owner-guarded local device inventory and mutation paths", () => {
+    const devices = "/api/grimmlink/v2/local/devices";
+    expect(classify("GET", devices)).toBe("LOCAL_SETTINGS");
+    expect(classify("POST", devices)).toBe("LOCAL_SETTINGS");
+    expect(classify("POST", `${devices}/reader-1/rotate`)).toBe("LOCAL_SETTINGS");
+    expect(classify("POST", `${devices}/reader-1/revoke`)).toBe("LOCAL_SETTINGS");
+    expect(classify("HEAD", devices)).toBe("DENY_UPSTREAM");
+    expect(classify("PUT", devices)).toBe("DENY_UPSTREAM");
+    expect(classify("DELETE", `${devices}/reader-1/revoke`)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", `${devices}/reader-1/revoke?x=1`)).toBe("INVALID_TARGET");
+    expect(classify("POST", `${devices}/reader%2f2/revoke`)).toBe("INVALID_TARGET");
+    expect(classify("POST", `${devices}/reader-1/unknown`)).toBe("DENY_UPSTREAM");
+  });
+
   it("permits only the owner-authenticated local unavailable-screen status", () => {
     const status = "/api/grimmlink/v2/local/screens/status";
     expect(classify("GET", status)).toBe("LOCAL_SCREEN_STATUS");
     expect(classify("HEAD", status)).toBe("DENY_UPSTREAM");
     expect(classify("POST", status)).toBe("DENY_UPSTREAM");
     expect(classify("GET", `${status}?reader=1`)).toBe("INVALID_TARGET");
+  });
+
+  it("permits only the owner-authenticated local reading projection GET", () => {
+    const reading = "/api/grimmlink/v2/local/reading";
+    expect(classify("GET", reading)).toBe("LOCAL_SCREEN_STATUS");
+    expect(classify("HEAD", reading)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", reading)).toBe("DENY_UPSTREAM");
+    expect(classify("GET", `${reading}?owner=other`)).toBe("INVALID_TARGET");
+  });
+
+  it("permits only the owner-authenticated local identity projection GET", () => {
+    const identity = "/api/grimmlink/v2/local/identity";
+    expect(classify("GET", identity)).toBe("LOCAL_SCREEN_STATUS");
+    expect(classify("HEAD", identity)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", identity)).toBe("DENY_UPSTREAM");
+    expect(classify("GET", `${identity}?owner=other`)).toBe("INVALID_TARGET");
   });
 
   it.each([

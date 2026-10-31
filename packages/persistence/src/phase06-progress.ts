@@ -342,3 +342,124 @@ export function readOfflinePhase06Resume(
   }
   throw new Error("PHASE06_CORRUPT_POSITION");
 }
+
+export type OwnerLocalReadingItem = Readonly<{
+  bookId: string;
+  bookFileId: string;
+  format: "EPUB" | "PDF";
+  editionSha256: string;
+  revision: number;
+  status: "NO_POSITION" | "LOCAL_PREVIEW_ONLY";
+  position:
+    | null
+    | Readonly<{
+        kind: "EPUB_EXACT";
+        nativePosition: string;
+        evidence: "OFFLINE_SYNTHETIC_FIXTURE_ONLY" | "EPUB_DOM_ROUNDTRIP_ONLY";
+      }>
+    | Readonly<{
+        kind: "PDF_PAGE";
+        pageNumber: number;
+        pageCount: number;
+        evidence: "OFFLINE_FIXTURE_PAGE_COUNT_ONLY";
+      }>;
+  percentage: null;
+}>;
+
+/** Owner-authenticated local screen projection; it never implies a live reader or verified EPUB file. */
+export function listOwnerOfflineReading(
+  sqlite: Database.Database,
+  actor: OfflineOwner,
+): Readonly<{ items: readonly OwnerLocalReadingItem[]; truncated: boolean }> {
+  if (
+    (actor.kind !== "verified-owner-fixture" && actor.kind !== "authenticated-local-owner") ||
+    !id(actor.accountId)
+  )
+    throw new Error("PHASE06_OWNER_REQUIRED");
+  assertOwner(sqlite, actor.accountId);
+  const rows = sqlite
+    .prepare(
+      "SELECT book_id AS bookId,book_file_id AS bookFileId,format,edition_sha256 AS editionSha256,revision,position_kind AS positionKind,native_position AS nativePosition,page_number AS pageNumber,verified_fixture_page_count AS pageCount,position_evidence AS evidence FROM phase06_offline_progress WHERE owner_id=? ORDER BY book_id,book_file_id LIMIT 101",
+    )
+    .all(actor.accountId) as {
+    bookId: string;
+    bookFileId: string;
+    format: string;
+    editionSha256: string;
+    revision: number;
+    positionKind: string | null;
+    nativePosition: string | null;
+    pageNumber: number | null;
+    pageCount: number | null;
+    evidence: string | null;
+  }[];
+  const truncated = rows.length > 100;
+  const items = rows.slice(0, 100).map((row): OwnerLocalReadingItem => {
+    if (
+      !id(row.bookId) ||
+      !id(row.bookFileId) ||
+      !sha(row.editionSha256) ||
+      !validInt(row.revision) ||
+      (row.format !== "EPUB" && row.format !== "PDF")
+    )
+      throw new Error("PHASE06_CORRUPT_POSITION");
+    const base = {
+      bookId: row.bookId,
+      bookFileId: row.bookFileId,
+      format: row.format,
+      editionSha256: row.editionSha256,
+      revision: row.revision,
+      percentage: null,
+    } as const;
+    if (row.revision === 0) {
+      if (
+        row.positionKind !== null ||
+        row.nativePosition !== null ||
+        row.pageNumber !== null ||
+        row.evidence !== null
+      )
+        throw new Error("PHASE06_CORRUPT_POSITION");
+      return { ...base, status: "NO_POSITION", position: null };
+    }
+    if (
+      row.format === "EPUB" &&
+      row.positionKind === "EPUB_EXACT" &&
+      row.nativePosition !== null &&
+      opaque(row.nativePosition) &&
+      (row.evidence === "OFFLINE_SYNTHETIC_FIXTURE_ONLY" ||
+        row.evidence === "EPUB_DOM_ROUNDTRIP_ONLY")
+    ) {
+      return {
+        ...base,
+        status: "LOCAL_PREVIEW_ONLY",
+        position: {
+          kind: "EPUB_EXACT",
+          nativePosition: row.nativePosition,
+          evidence: row.evidence,
+        },
+      };
+    }
+    if (
+      row.format === "PDF" &&
+      row.positionKind === "PDF_PAGE" &&
+      validInt(row.pageNumber) &&
+      validInt(row.pageCount) &&
+      row.pageNumber >= 1 &&
+      row.pageNumber <= row.pageCount &&
+      row.evidence === "OFFLINE_FIXTURE_PAGE_COUNT_ONLY"
+    ) {
+      return {
+        ...base,
+        status: "LOCAL_PREVIEW_ONLY",
+        position: {
+          kind: "PDF_PAGE",
+          pageNumber: row.pageNumber,
+          pageCount: row.pageCount,
+          evidence: "OFFLINE_FIXTURE_PAGE_COUNT_ONLY",
+        },
+      };
+    }
+    throw new Error("PHASE06_CORRUPT_POSITION");
+  });
+  return Object.freeze({ items, truncated });
+}

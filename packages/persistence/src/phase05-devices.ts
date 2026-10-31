@@ -2,8 +2,9 @@ import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
 import type Database from "better-sqlite3";
 
 /**
- * Phase05 OFFLINE contract only. No production route mounts or Official
- * impersonation: trusted owner principal must come from future live login.
+ * Phase05 local single-owner contract. The test fixture actor remains limited
+ * to tests; application routes may use the authenticated local owner actor only
+ * after the owner-session guard has succeeded. This is never an Official actor.
  * SQLite is local, private (0600) and carries only token hashes.
  */
 const validId = (id: string): boolean => /^[A-Za-z0-9_-]{1,128}$/.test(id);
@@ -13,10 +14,17 @@ const validTime = (value: number): boolean => Number.isSafeInteger(value) && val
 const tokenHash = (token: string): string =>
   createHash("sha256").update(token, "utf8").digest("hex");
 
-export type OfflineOwner = Readonly<{ kind: "verified-owner-fixture"; accountId: string }>;
+export type OfflineOwner = Readonly<{
+  kind: "verified-owner-fixture" | "authenticated-local-owner";
+  accountId: string;
+}>;
 
 function requireOwner(actor: OfflineOwner, now: number): void {
-  if (actor.kind !== "verified-owner-fixture" || !validId(actor.accountId) || !validTime(now)) {
+  if (
+    (actor.kind !== "verified-owner-fixture" && actor.kind !== "authenticated-local-owner") ||
+    !validId(actor.accountId) ||
+    !validTime(now)
+  ) {
     throw new Error("OWNER_FIXTURE_REQUIRED");
   }
 }
@@ -26,6 +34,19 @@ function assertCanonicalOwner(sqlite: Database.Database, ownerId: string): void 
     | { owner_id: string }
     | undefined;
   if (!owner || owner.owner_id !== ownerId) throw new Error("OWNER_MISMATCH");
+}
+
+/** Initialize the one local owner slot after the application has authenticated its owner. */
+export function initializeOfflineOwner(sqlite: Database.Database, actor: OfflineOwner): void {
+  requireOwner(actor, 0);
+  sqlite
+    .transaction(() => {
+      sqlite
+        .prepare("INSERT OR IGNORE INTO single_owner(slot,owner_id) VALUES (1,?)")
+        .run(actor.accountId);
+      assertCanonicalOwner(sqlite, actor.accountId);
+    })
+    .immediate();
 }
 
 export function pairOfflineReader(
@@ -168,6 +189,55 @@ export function listOfflineReaders(
     expiresAtMs: number;
     revokedAtMs: number | null;
   }[];
+}
+
+/** Owner-scoped local registrations only; this is not proof of Official entitlement. */
+export type OfflineIdentityRegistration = Readonly<{
+  koDocumentMd5: string;
+  bookFileId: string;
+  editionSha256: string;
+  localWriterMode: MockWriterMode;
+  revision: number;
+  identityEvidence: "LOCAL_REGISTRATION_ONLY";
+}>;
+
+export function listOfflineIdentityRegistrations(
+  sqlite: Database.Database,
+  actor: OfflineOwner,
+): Readonly<{
+  items: readonly OfflineIdentityRegistration[];
+  truncated: boolean;
+}> {
+  requireOwner(actor, 0);
+  assertCanonicalOwner(sqlite, actor.accountId);
+  const rows = sqlite
+    .prepare(
+      "SELECT document_id AS koDocumentMd5,book_file_id AS bookFileId,edition_sha256 AS editionSha256,mode AS localWriterMode,revision FROM phase05_writer_state WHERE owner_id=? ORDER BY book_file_id,document_id LIMIT 101",
+    )
+    .all(actor.accountId) as {
+    koDocumentMd5: string;
+    bookFileId: string;
+    editionSha256: string;
+    localWriterMode: string;
+    revision: number;
+  }[];
+  const truncated = rows.length > 100;
+  const items = rows.slice(0, 100).map((row) => {
+    if (
+      !validKoHash(row.koDocumentMd5) ||
+      !validId(row.bookFileId) ||
+      !validHash(row.editionSha256) ||
+      (row.localWriterMode !== "DISABLED" && row.localWriterMode !== "MOCK_MANAGED") ||
+      !validTime(row.revision)
+    )
+      throw new Error("SYNC_IDENTITY_CORRUPT");
+    return Object.freeze({
+      ...row,
+      localWriterMode: row.localWriterMode,
+      identityEvidence: "LOCAL_REGISTRATION_ONLY" as const,
+    });
+  });
+  return Object.freeze({ items: Object.freeze(items), truncated });
 }
 
 export type MockWriterMode = "DISABLED" | "MOCK_MANAGED";
