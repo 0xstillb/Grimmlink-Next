@@ -55,7 +55,7 @@
   "nextAction": "Continue Phase01-08 offline reconciliation on PR #13. Check its exact-head Linux CI, then implement and verify the remaining Phase08 log, release-watcher, authenticated screen contracts and package hardening before claiming the phase ready for Phase09.",
   "reconciliationCheckpoint": {
     "date": "2026-10-31",
-    "status": "IN_PROGRESS_OFFLINE_UI_SCOPE",
+    "status": "IN_PROGRESS_OFFLINE_RECONCILIATION",
     "branch": "codex/phase-01-08-completion",
     "pullRequest": "https://github.com/0xstillb/Grimmlink-Next/pull/13",
     "baseIntegrationHead": "68b7d74daecdacc909ac095c86f6f95aed84ffe7",
@@ -63,13 +63,15 @@
     "delivered": [
       "10_NAVIGATION_SECTIONS_WITH_EXPLICIT_UNAVAILABLE_STATES",
       "PROTECTED_PREVIEW_ACTIONS_DISABLED_WITH_ACCESSIBLE_REASON",
-      "PHASE09_STAGING_ACCEPTANCE_PLAN"
+      "PHASE09_STAGING_ACCEPTANCE_PLAN",
+      "BOUNDED_GITHUB_RELEASE_AND_ADVISORY_PARSERS_WITH_FIXTURE_TESTS",
+      "FAIL_CLOSED_COMPATIBILITY_IMPACT_AND_INSTALL_AUTHORIZATION_SUMMARY"
     ],
     "localChecks": {
       "controlCenterTypecheck": "PASS",
-      "controlCenterTests": "PASS_5_TESTS",
+      "controlCenterTests": "PASS_10_TESTS",
       "changedFilesPrettier": "PASS",
-      "appsPackagesEslint": "PASS",
+      "changedUiEslint": "PASS",
       "viteProductionBuild": "PASS",
       "phase00PythonUnit": "PASS_57_WITH_WORKSPACE_WRITABLE_TEMP",
       "phase00GateValidator": "PASS",
@@ -81,7 +83,9 @@
     "exactHeadLinuxCI": "PENDING",
     "notDelivered": [
       "LIVE_LOG_VIEWER_ROTATION_RETENTION_AND_AUTHENTICATED_UI_CONTROL_FOR_EXISTING_DEBUG_TRACE_LEASES",
-      "FAKE_RELEASE_ADVISORY_WATCHER_COMPATIBILITY_AND_MANUAL_APPROVAL",
+      "RELEASE_AND_ADVISORY_FEED_TRANSPORT_AND_AUTHENTICATED_DATA_FLOW",
+      "REVIEWED_COMPATIBILITY_MANIFEST_AND_EVIDENCE_BASED_IMPACT_CLASSIFICATION",
+      "TRUSTED_OWNER_MANUAL_APPROVAL_WORKFLOW_WITHOUT_AUTOMATIC_INSTALL",
       "MOUNTED_AUTHENTICATED_APP_API_SCREEN_INTEGRATION",
       "PRODUCTION_PACKAGE_CONFIG_AND_ROLLBACK_HARDENING"
     ],

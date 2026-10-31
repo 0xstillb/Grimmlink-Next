@@ -386,10 +386,12 @@ export function App({ initialSection = "Overview" }: { initialSection?: Section 
         {selected === "Update Center" && (
           <PreviewPanel
             title="Update Center"
-            description="This screen does not contact GitHub or download release metadata. Compatibility review, signed artifacts, manual approval, install and rollback are not wired to this preview."
+            description="Offline release and advisory payload parsers are covered by fixture tests, but this screen does not contact GitHub or download release metadata. Compatibility review, owner approval, install and rollback are not wired to this preview."
             rows={[
-              ["Release watcher", "Not connected"],
+              ["Release payload validation", "Fixture-only parser · no feed fetched"],
+              ["Advisory payload validation", "Fixture-only parser · no feed fetched"],
               ["Compatibility manifest", "Not loaded"],
+              ["Compatibility assessment", "UNKNOWN · review required"],
               ["Installed runtime version", "Not verified"],
               ["Automatic update", "Disabled"],
               ["Release authorization", "NOT_AUTHORIZED"],
