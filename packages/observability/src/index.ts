@@ -354,6 +354,7 @@ export function createLogger(
 export type SafeDiagnosticSignal = Readonly<{
   code: "REQUEST_SUMMARY" | "SQLITE_RETRY" | "MIGRATION_STAGE";
   count?: number;
+  request?: Readonly<{ id: string; method: string }>;
 }>;
 /**
  * Explicit limited diagnostic API. No raw payload, paths, headers or book data.
@@ -368,6 +369,14 @@ export function createScopedDiagnostics(
   const emit = (level: DiagnosticLevel, signal: SafeDiagnosticSignal, now: number): boolean => {
     const authorized = leases.levelFor(module, now);
     if (authorized !== "trace" && (level !== "debug" || authorized !== "debug")) return false;
+    if (
+      !signal ||
+      typeof signal !== "object" ||
+      Array.isArray(signal) ||
+      Object.keys(signal).some((key) => !["code", "count", "request"].includes(key))
+    ) {
+      throw new Error("Unsupported diagnostic signal");
+    }
     const code = signal.code;
     if (code !== "REQUEST_SUMMARY" && code !== "SQLITE_RETRY" && code !== "MIGRATION_STAGE") {
       throw new Error("Unsupported diagnostic signal");
@@ -375,7 +384,25 @@ export function createScopedDiagnostics(
     const count = signal.count;
     if (count !== undefined && (!Number.isSafeInteger(count) || count < 0))
       throw new Error("Invalid diagnostic counter");
-    const safe = count === undefined ? { code } : { code, count };
+    const request = signal.request;
+    if (
+      request !== undefined &&
+      (!request ||
+        typeof request !== "object" ||
+        Array.isArray(request) ||
+        Object.keys(request).sort().join(",") !== "id,method" ||
+        typeof request.id !== "string" ||
+        !/^[0-9a-f-]{36}$/i.test(request.id) ||
+        typeof request.method !== "string" ||
+        !["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"].includes(request.method))
+    ) {
+      throw new Error("Invalid diagnostic request summary");
+    }
+    const safe = {
+      code,
+      ...(count === undefined ? {} : { count }),
+      ...(request === undefined ? {} : { req: { id: request.id, method: request.method } }),
+    };
     if (level === "trace") logger.trace(safe, "SCOPED_DIAGNOSTIC");
     else logger.debug(safe, "SCOPED_DIAGNOSTIC");
     return true;

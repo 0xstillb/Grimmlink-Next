@@ -1,9 +1,19 @@
 import { describe, expect, it } from "vitest";
-import { buildServer } from "./server.js";
+import { buildServer, getAdapterDiagnostics } from "./server.js";
 
 describe("foundation server", () => {
   it("returns truthful local-only health and no API proxy", async () => {
     const server = await buildServer();
+    const diagnostics = getAdapterDiagnostics(server);
+    expect(diagnostics).not.toBeNull();
+    const buffer = diagnostics!.buffers.adapter!;
+    expect(buffer.read()).toEqual([]);
+    diagnostics!.leases.enable({
+      module: "adapter",
+      level: "debug",
+      durationMs: 30_000,
+      adminAuthorized: true,
+    });
     const health = await server.inject({ method: "GET", url: "/health" });
     expect(health.statusCode).toBe(200);
     expect(health.json()).toMatchObject({
@@ -19,6 +29,16 @@ describe("foundation server", () => {
     expect(contract.json().paths["/health"].get.responses["200"]).toBeDefined();
     expect(contract.json().paths["/api/v1/books"]).toBeUndefined();
     expect(health.headers["x-correlation-id"]).toMatch(/^[0-9a-f-]{36}$/);
+    const diagnosticLine = buffer.read({
+      code: "REQUEST_SUMMARY",
+      requestId: health.headers["x-correlation-id"],
+      limit: 1,
+    })[0];
+    expect(diagnosticLine).toBeDefined();
+    const safeDiagnostic = JSON.parse(diagnosticLine!);
+    expect(safeDiagnostic.req).toEqual({ id: health.headers["x-correlation-id"], method: "GET" });
+    expect(diagnosticLine).not.toContain("/health");
+    diagnostics!.leases.disable({ module: "adapter", adminAuthorized: true });
     const capabilities = await server.inject({
       method: "GET",
       url: "/api/grimmlink/v2/capabilities",

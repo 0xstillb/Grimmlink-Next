@@ -279,7 +279,29 @@ describe("bounded diagnostics and error sanitization", () => {
       1000,
     );
     expect(scoped.trace({ code: "REQUEST_SUMMARY", count: 3 }, 1001)).toBe(true);
-    expect(scoped.debug({ code: "SQLITE_RETRY", count: 1 }, 1002)).toBe(true);
+    expect(
+      scoped.debug(
+        {
+          code: "SQLITE_RETRY",
+          count: 1,
+          request: { id: "01234567-89ab-cdef-0123-456789abcdef", method: "GET" },
+        },
+        1002,
+      ),
+    ).toBe(true);
+    expect(() =>
+      scoped.debug(
+        {
+          code: "REQUEST_SUMMARY",
+          request: {
+            id: "01234567-89ab-cdef-0123-456789abcdef",
+            method: "GET",
+            url: "/private/book",
+          } as never,
+        },
+        1003,
+      ),
+    ).toThrow("Invalid diagnostic request summary");
     expect(scoped.trace({ code: "REQUEST_SUMMARY" }, 3000)).toBe(false);
     expect(chunks.join("")).toContain("SCOPED_DIAGNOSTIC");
     expect(chunks.join("")).not.toContain("password");

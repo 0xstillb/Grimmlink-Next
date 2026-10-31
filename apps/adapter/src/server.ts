@@ -2,16 +2,45 @@ import Fastify from "fastify";
 import swagger from "@fastify/swagger";
 import { randomUUID } from "node:crypto";
 import { HealthSchema, type Health } from "@grimmlink/contracts";
-import { createLogger } from "@grimmlink/observability";
+import {
+  createLogger,
+  createScopedDiagnostics,
+  DiagnosticLeases,
+  SafeLogBuffer,
+} from "@grimmlink/observability";
 import { classifyGatewayRequest } from "./gateway/route-policy.js";
+
+export type AdapterDiagnostics = Readonly<{
+  buffers: Readonly<Record<string, SafeLogBuffer>>;
+  leases: DiagnosticLeases;
+}>;
+
+const diagnosticsByServer = new WeakMap<object, AdapterDiagnostics>();
+
+/** Process-local diagnostics state; no HTTP endpoint or authorization bypass. */
+export function getAdapterDiagnostics(server: object): AdapterDiagnostics | null {
+  return diagnosticsByServer.get(server) ?? null;
+}
 
 /** Phase01 exposes ONLY local health and its schema. No gateway/proxy routes. */
 export async function buildServer(logLevel: "info" | "warn" | "error" = "info") {
+  const buffer = new SafeLogBuffer("adapter");
+  const leases = new DiagnosticLeases();
+  const buffers = Object.freeze({ adapter: buffer });
+  const diagnostics: AdapterDiagnostics = Object.freeze({ buffers, leases });
+  const destination = {
+    write(chunk: string) {
+      process.stdout.write(chunk);
+      buffer.write(chunk);
+    },
+  };
+  const scoped = createScopedDiagnostics("adapter", leases, destination);
   const server = Fastify({
-    loggerInstance: createLogger("adapter", logLevel),
+    loggerInstance: createLogger("adapter", logLevel, destination),
     genReqId: () => randomUUID(),
     disableRequestLogging: true,
   });
+  diagnosticsByServer.set(server, diagnostics);
   // Plugin registration happens before routes; Fastify builds the OpenAPI
   // document from the same TypeBox route schema, no hand-maintained drift.
   await server.register(swagger, {
@@ -33,6 +62,17 @@ export async function buildServer(logLevel: "info" | "warn" | "error" = "info") 
   server.addHook("onSend", async (req, reply, payload) => {
     reply.header("x-correlation-id", req.id);
     return payload;
+  });
+  server.addHook("onResponse", (request) => {
+    const level = leases.levelFor("adapter");
+    if (level === "info") return;
+    const signal = {
+      code: "REQUEST_SUMMARY" as const,
+      count: 1,
+      request: { id: request.id, method: request.method },
+    };
+    if (level === "trace") scoped.trace(signal);
+    else scoped.debug(signal);
   });
   server.get(
     "/health",
