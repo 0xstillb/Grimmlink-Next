@@ -114,7 +114,7 @@
     }
   ],
   "phase08ReconciliationStatus": "IN_PROGRESS_OFFLINE_RECONCILIATION",
-  "phase08CurrentSourceHead": "ad87cf22f1a8561b2e8df5e4314f3264d0eaa0a1",
+  "phase08CurrentSourceHead": "cd26c0dbaf5304144f4069a1abe2d403fc6fcf5d",
   "phase08StagingExecution": "NOT_RUN_PHASE09",
   "phase08ProductionAuthorization": "NOT_AUTHORIZED"
 }

@@ -1,11 +1,11 @@
 # Phase 09 Acceptance Plan — Single-Owner Private
 
-**Status: PLANNED_NOT_EXECUTED.** This document prepares the Phase09 run; it is not test evidence, permission to connect production, or authorization to enable a protected route. Full-stack, NAS, Hermes and physical-reader tests remain Phase09-only.
+**Status: STAGING_HOST_CONFIRMED_BY_OWNER; DEPLOYMENT_AND_TESTS_NOT_RUN.** The existing Staging machine is waiting for a code candidate. This document prepares that deployment and test run; it is not test evidence, permission to connect production, or authorization to enable a protected route. Full-stack, NAS, Hermes and physical-reader tests remain Phase09-only.
 
 ## Entry conditions
 
 - Record the exact candidate commit and pinned Grimmory, Adapter, KOReader and Readest versions before testing.
-- Use an isolated staging Grimmory instance, a disposable single-owner account, a dedicated read-only NAS fixture and non-sensitive test books. Do not use a production library or real private annotations.
+- Deploy to the existing owner-confirmed Staging machine and use its isolated Grimmory instance, a disposable single-owner account, a dedicated read-only NAS fixture and non-sensitive test books. Do not provision a duplicate environment or use a production library or real private annotations.
 - Capture a verified backup and checksums before any operation that can mutate state. Keep all feature switches OFF until the individual scenario has passed its prerequisite checks.
 - Use at least two independently paired reader devices to exercise same-owner multi-device behavior. Record device model, OS/KOReader version and app build.
 - Sanitize evidence before storage. Never retain passwords, bearer/device tokens, KO credentials, book text, notes or private annotations in logs, screenshots or artifacts.

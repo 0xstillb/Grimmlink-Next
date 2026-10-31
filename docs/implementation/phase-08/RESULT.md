@@ -1,12 +1,22 @@
 # Phase 08 — Single-Owner Control Center, Diagnostics and Offline Packaging
 
-## Local update-review slice — 2026-10-31 (not on PR head)
+## Current execution checkpoint — Adapter implementation passed, plugin next (2026-10-31)
+
+The Adapter/Control Center implementation gate passed at source `cd26c0dbaf5304144f4069a1abe2d403fc6fcf5d`: targeted checks passed and all 10 required PR workflows passed on that exact source. The Phase08 workflow is [run 41188204494](https://github.com/0xstillb/Grimmlink-Next/actions/runs/41188204494); the complete exact-head run set is recorded in `ACTIVE-SESSION.json` and `HANDOFF.json`. The owner readback and update-review slices once described as local are ancestors of this source and are covered by its CI.
+
+Adapter is closed as an offline development workstream. KOReader plugin work is next and remains a separate implementation, test, CI and handoff scope. Phase08 overall remains `IN_PROGRESS_OFFLINE_RECONCILIATION` until that plugin workstream passes. The single post-Adapter handoff commit includes the generated Phase00 receipt; its final documentation-head CI is checked live and recorded in Notion, with no follow-up repository commit to copy CI IDs.
+
+This closeout does not claim a staging deployment or real-device test. The owner confirms the Staging machine already exists and is waiting for code; no candidate has been deployed or tested there yet. After the plugin's exact-head CI and handoff pass, deploy the candidate to that existing Staging machine and run the Phase09 acceptance scenarios, confirming the isolated test account/library, verified backup, read-only NAS, owner session, private ingress and test readers before mutation. Staging testing does not authorize production. Production remains `NOT_AUTHORIZED` pending Phase09 evidence, security review, proven rollback and explicit owner approval.
+
+## Historical local checkpoints — superseded by the exact-head result above
+
+### Original update-review checkpoint — 2026-10-31
 
 The current worktree adds a fail-closed compatibility source-baseline manifest, a stable SHA-256 for each normalized public release/advisory snapshot, and an owner-authenticated append-only SQLite review ledger. The Control Center displays the exact evidence and manifest hashes and lets the owner record compatibility, source-impact, rationale, and one of `DEFERRED`, `REJECTED`, or `SUBMIT_FOR_PHASE09_EVALUATION`. The POST route re-fetches the bounded public feed and rejects changed evidence or manifest hashes. Every record keeps `installationAllowed=false`; the manifest marks deployed component versions and binary/image digests unknown. This is an evidence review for Phase09 evaluation, not compatibility certification, production approval, asset download, installation, or rollback authorization.
 
 **Local validation on this worktree:** 19/19 targeted tests across five files passed; combined Adapter and Control Center Vitest passed **173/173 across 36 files**; Adapter and Control Center TypeScript checks passed; Control Center Vite production build passed; targeted ESLint, Prettier and `git diff --check` passed. SQLite migration and append-only constraints were exercised by the migration tests. Local commit `9d5bad67a718c66c4c31e708270d7906e88ca9e3` contains the slice; it is not on the PR head and has no exact-head GitHub CI. The compatibility document is a source inventory, not an independently reviewed compatibility assessment.
 
-## Local owner-readback slice — 2026-10-31 (not yet on PR head)
+### Original owner-readback checkpoint — 2026-10-31
 
 The current worktree adds owner-authenticated local Device, Identity and Reading data paths. Devices are listed and can be rotated or revoked through the local owner session; Identity reads only local file/edition registrations; Reading reads only local offline progress. The Control Center now renders those real local records. Identity is explicitly marked `LOCAL_REGISTRATION_ONLY`; Official ownership/entitlement remains unverified. Reading percentages are not synthesized, and no resume action is exposed. OPDS remains unavailable because no trusted catalog provider is configured. These routes do not call Grimmory, transmit reader data, or enable protected writes.
 

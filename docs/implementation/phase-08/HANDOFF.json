@@ -59,11 +59,12 @@
     "branch": "codex/phase-01-08-completion",
     "pullRequest": "https://github.com/0xstillb/Grimmlink-Next/pull/13",
     "baseIntegrationHead": "68b7d74daecdacc909ac095c86f6f95aed84ffe7",
-    "sourceHead": "ad87cf22f1a8561b2e8df5e4314f3264d0eaa0a1",
+    "sourceHead": "cd26c0dbaf5304144f4069a1abe2d403fc6fcf5d",
     "workstreamOrder": ["ADAPTER", "KOREADER_PLUGIN"],
-    "currentWorkstream": "ADAPTER",
-    "nextWorkstream": "KOREADER_PLUGIN",
+    "currentWorkstream": "KOREADER_PLUGIN",
+    "nextWorkstream": "PHASE09_STAGING_E2E",
     "phase09Status": "NOT_RUN",
+    "stagingHostStatus": "EXISTS_OWNER_CONFIRMED_AWAITING_CODE",
     "productionStatus": "NOT_AUTHORIZED",
     "officialGatewayForwarding": "DENY_ALL",
     "protectedWrites": "OFF",
@@ -120,7 +121,7 @@
       "controlCenterTypecheckForOpfScreen": "PASS",
       "controlCenterViteBuildForOpfScreen": "PASS",
       "opfSliceTargetedEslintPrettierAndDiffCheck": "PASS",
-      "newWorkspaceDependencyInstall": "BLOCKED_COREPACK_REGISTRY_DNS; EXACT_HEAD_CI_PENDING",
+      "newWorkspaceDependencyInstall": "BLOCKED_COREPACK_REGISTRY_DNS_LOCALLY; EXACT_HEAD_CI_PASS_AT_CD26C0DB",
       "sidecarPreviewTests": "PASS_68_TESTS_ACROSS_7_FILES",
       "sidecarAdapterTypecheck": "PASS_WITH_TEMPORARY_WORKSPACE_PATH_MAPPINGS",
       "sidecarControlCenterTypecheck": "PASS",
@@ -144,8 +145,28 @@
       "fullWindowsWorkspaceVitest": "FAIL_181_PASSED_26_PLATFORM_OR_LOOPBACK_FAILURES",
       "fullRepositoryPrettier": "FAIL_84_PREEXISTING_FILES_REPORTED"
     },
-    "exactHeadLinuxCI": "PASS_10_WORKFLOWS_AT_AD87CF22_INCLUDING_PHASE01_ARM64_PHASE02_SPRING_PHASE07_AND_PHASE08",
-    "currentCheckpointExactHeadLinuxCI": "AD87CF22_PASS_10_WORKFLOWS;_DOMAIN_SCREEN_STATUS_SLICE_EXACT_HEAD_CI_VERIFIED",
+    "exactHeadLinuxCI": "PASS_10_WORKFLOWS_AT_CD26C0DB_INCLUDING_PHASE01_ARM64_PHASE02_SPRING_PHASE07_AND_PHASE08",
+    "currentCheckpointExactHeadLinuxCI": "CD26C0DB_PASS_10_WORKFLOWS;_ADAPTER_CLOSEOUT_VERIFIED;_PLUGIN_NEXT",
+    "adapterCloseout": {
+      "status": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
+      "sourceHead": "cd26c0dbaf5304144f4069a1abe2d403fc6fcf5d",
+      "exactHeadCI": {
+        "conclusion": "SUCCESS",
+        "totalWorkflows": 10,
+        "passedWorkflows": 10,
+        "workflowRunIds": [
+          41188204766, 41188204477, 41188204563, 41188204526, 41188204503, 41188204480, 41188204494,
+          41188204517, 41188204549, 41188204564
+        ]
+      },
+      "localValidation": "PASS_78_TARGETED_TESTS; ADAPTER_CONTROL_CENTER_OBSERVABILITY_TYPECHECKS; CONTROL_CENTER_VITE_BUILD; TARGETED_ESLINT_PRETTIER; PHASE00_GATE_VALIDATOR_AND_31_INTEGRITY_TESTS_PASS",
+      "deferredToPhase09": [
+        "REAL_READER_INSTALL_AND_GRIMMORY_SYNC",
+        "STAGING_NAS_HERMES_E2E",
+        "PRODUCTION_PACKAGE_SIGNING_AND_ROLLBACK",
+        "CONSOLIDATED_INDEPENDENT_SECURITY_REVIEW"
+      ]
+    },
     "additionalOfflineDiagnosticsFactory": "MAIN_OPTIONALLY_MOUNTS_OWNER_AUTH_CSRF_DIAGNOSTICS_SUPPORT_BUNDLE_AND_CONFIGURED_FIXED_ORIGIN_GITHUB_FEED;_AUTH_AND_FEED_DISABLED_WITHOUT_ENV_CONFIG",
     "notDelivered": [
       "DEPLOYED_VERSION_COMPATIBILITY_CERTIFICATION_AND_ADVISORY_IMPACT_AUDIT",
@@ -157,10 +178,10 @@
       "PHASE09_REAL_NAS_HERMES_READER_E2E_AND_CONSOLIDATED_INDEPENDENT_REVIEW"
     ],
     "localOwnerReadbackSlice": {
-      "status": "LOCAL_COMMIT_CREATED_NOT_PUSHED_EXACT_HEAD_CI_PENDING",
+      "status": "COMMITTED_TO_PR13_EXACT_HEAD_CI_PASS_AT_CD26C0DB",
       "localCommit": "05e0463954a15ae745ae5945ab2ea2b92e00a7cf",
       "basedOnLocalParentHead": "06559347993395e45441b8b2669cc7a3d0652f1f",
-      "observedPr13Head": "75301ed8fbb270ef98c2b926cb9136c904fe3533",
+      "observedPr13Head": "cd26c0dbaf5304144f4069a1abe2d403fc6fcf5d",
       "delivered": [
         "OWNER_AUTHENTICATED_LOCAL_DEVICE_LIST_ROTATE_REVOKE",
         "OWNER_AUTHENTICATED_LOCAL_IDENTITY_REGISTRATION_READBACK",
@@ -180,11 +201,11 @@
         "changedFilesEslintPrettier": "PASS",
         "persistenceBuild": "PASS",
         "persistenceFullVitestWindows": "FAIL_19_PLATFORM_PERMISSION_OR_SYMLINK_CASES;_8_PASSED",
-        "exactHeadGitHubCiForNewSlice": "PENDING_NEW_COMMIT"
+        "exactHeadGitHubCiForNewSlice": "PASS_10_WORKFLOWS_AT_CD26C0DB"
       }
     },
     "localUpdateReviewSlice": {
-      "status": "LOCAL_COMMIT_NOT_ON_PR_HEAD_EXACT_HEAD_CI_PENDING",
+      "status": "COMMITTED_TO_PR13_EXACT_HEAD_CI_PASS_AT_CD26C0DB",
       "basedOnLocalHead": "f8d5e64",
       "localCommit": "9d5bad67a718c66c4c31e708270d7906e88ca9e3",
       "delivered": [
@@ -197,8 +218,7 @@
       "limits": [
         "SOURCE_BASELINES_ARE_NOT_COMPATIBILITY_CERTIFICATION",
         "OWNER_REVIEW_CAN_ONLY_DEFER_REJECT_OR_SUBMIT_FOR_PHASE09_EVALUATION",
-        "NO_ASSET_DOWNLOAD_INSTALL_ROLLBACK_OR_PRODUCTION_APPROVAL",
-        "NO_EXACT_HEAD_GITHUB_CI_FOR_THIS_LOCAL_WORKTREE_SLICE"
+        "NO_ASSET_DOWNLOAD_INSTALL_ROLLBACK_OR_PRODUCTION_APPROVAL"
       ],
       "localChecks": {
         "targetedReviewFeedAndRouteTests": "PASS_19_TESTS_ACROSS_5_FILES",
@@ -208,7 +228,7 @@
         "controlCenterViteProductionBuild": "PASS",
         "changedFilesEslintPrettierAndDiffCheck": "PASS",
         "migrationAndAppendOnlyConstraintFixtures": "PASS_IN_SQLITE_TESTS",
-        "exactHeadGitHubCi": "PENDING_LOCAL_CHANGES_NOT_ON_REMOTE_PR"
+        "exactHeadGitHubCi": "PASS_10_WORKFLOWS_AT_CD26C0DB"
       }
     },
     "safety": {

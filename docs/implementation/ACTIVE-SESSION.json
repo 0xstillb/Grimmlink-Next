@@ -398,9 +398,9 @@
       "ciConclusion": "SUCCESS"
     },
     "latestCodeCI": {
-      "sourceHead": "ad87cf22f1a8561b2e8df5e4314f3264d0eaa0a1",
-      "run": "41178260986",
-      "runUrl": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/41178260986",
+      "sourceHead": "cd26c0dbaf5304144f4069a1abe2d403fc6fcf5d",
+      "run": "41188204494",
+      "runUrl": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/41188204494",
       "conclusion": "SUCCESS",
       "scope": "PHASE08_WORKFLOW_SUCCESS; ALL_10_PR_HEAD_WORKFLOWS_SUCCESS"
     },
@@ -410,17 +410,38 @@
       "branch": "codex/phase-01-08-completion",
       "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/13",
       "baseIntegrationHead": "68b7d74daecdacc909ac095c86f6f95aed84ffe7",
-      "sourceHead": "ad87cf22f1a8561b2e8df5e4314f3264d0eaa0a1",
+      "sourceHead": "cd26c0dbaf5304144f4069a1abe2d403fc6fcf5d",
       "workstreamOrder": ["ADAPTER", "KOREADER_PLUGIN"],
-      "currentWorkstream": "ADAPTER",
-      "nextWorkstream": "KOREADER_PLUGIN",
+      "currentWorkstream": "KOREADER_PLUGIN",
+      "nextWorkstream": "PHASE09_STAGING_E2E",
       "phase09Status": "NOT_RUN",
+      "stagingHostStatus": "EXISTS_OWNER_CONFIRMED_AWAITING_CODE",
       "productionStatus": "NOT_AUTHORIZED",
       "officialGatewayForwarding": "DENY_ALL",
       "protectedWrites": "OFF",
       "previousCommittedSourceHead": "49d0746ae2c779846e284b1c42f877651b89799d",
       "previousExactHeadLinuxCI": "B49AFC780879DAD2E0E4F1DDC29CACF967DD0146_SUCCESS_10_WORKFLOWS",
-      "exactHeadLinuxCI": "PASS_10_WORKFLOWS_AT_AD87CF22_INCLUDING_PHASE01_ARM64_PHASE02_SPRING_PHASE07_AND_PHASE08",
+      "exactHeadLinuxCI": "PASS_10_WORKFLOWS_AT_CD26C0DB_INCLUDING_PHASE01_ARM64_PHASE02_SPRING_PHASE07_AND_PHASE08",
+      "adapterCloseout": {
+        "status": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
+        "sourceHead": "cd26c0dbaf5304144f4069a1abe2d403fc6fcf5d",
+        "exactHeadCI": {
+          "conclusion": "SUCCESS",
+          "totalWorkflows": 10,
+          "passedWorkflows": 10,
+          "workflowRunIds": [
+            41188204766, 41188204477, 41188204563, 41188204526, 41188204503, 41188204480,
+            41188204494, 41188204517, 41188204549, 41188204564
+          ]
+        },
+        "localValidation": "PASS_78_TARGETED_TESTS; ADAPTER_CONTROL_CENTER_OBSERVABILITY_TYPECHECKS; CONTROL_CENTER_VITE_BUILD; TARGETED_ESLINT_PRETTIER; PHASE00_GATE_VALIDATOR_AND_31_INTEGRITY_TESTS_PASS",
+        "deferredToPhase09": [
+          "REAL_READER_INSTALL_AND_GRIMMORY_SYNC",
+          "STAGING_NAS_HERMES_E2E",
+          "PRODUCTION_PACKAGE_SIGNING_AND_ROLLBACK",
+          "CONSOLIDATED_INDEPENDENT_SECURITY_REVIEW"
+        ]
+      },
       "uiNavigationSections": 10,
       "releaseEvidenceParserTests": "PASS_5_TESTS",
       "safeSupportBundleTests": "PASS_2_TESTS",
@@ -451,7 +472,7 @@
       "controlCenterTypecheckForOpf": "PASS",
       "controlCenterViteProductionBuildForOpf": "PASS",
       "opfChangedFilesEslintPrettierAndDiffCheck": "PASS",
-      "newWorkspaceDependencyInstall": "BLOCKED_COREPACK_REGISTRY_DNS;_EXACT_HEAD_CI_PENDING",
+      "newWorkspaceDependencyInstall": "BLOCKED_COREPACK_REGISTRY_DNS_LOCALLY;_EXACT_HEAD_CI_PASS_AT_CD26C0DB",
       "sidecarPreviewTests": "PASS_68_TESTS_ACROSS_7_FILES",
       "sidecarAdapterTypecheck": "PASS_WITH_TEMPORARY_WORKSPACE_PATH_MAPPINGS",
       "sidecarControlCenterTypecheck": "PASS",
@@ -468,7 +489,7 @@
       "domainScreenStatusControlCenterViteBuild": "PASS",
       "domainScreenStatusTargetedEslintPrettierDiffCheck": "PASS",
       "localUpdateReviewSlice": {
-        "status": "LOCAL_COMMIT_NOT_ON_PR_HEAD_EXACT_HEAD_CI_PENDING",
+        "status": "COMMITTED_TO_PR13_EXACT_HEAD_CI_PASS_AT_CD26C0DB",
         "basedOnLocalHead": "f8d5e64",
         "localCommit": "9d5bad67a718c66c4c31e708270d7906e88ca9e3",
         "delivered": [
@@ -479,8 +500,7 @@
         ],
         "limits": [
           "MANIFEST_IS_NOT_COMPATIBILITY_CERTIFICATION",
-          "OWNER_REVIEW_ONLY_DEFER_REJECT_OR_SUBMIT_FOR_PHASE09_EVALUATION",
-          "NO_EXACT_HEAD_GITHUB_CI_FOR_LOCAL_SLICE"
+          "OWNER_REVIEW_ONLY_DEFER_REJECT_OR_SUBMIT_FOR_PHASE09_EVALUATION"
         ],
         "localChecks": {
           "targetedTests": "PASS_19_ACROSS_5_FILES",
@@ -488,7 +508,7 @@
           "adapterAndControlCenterTypechecks": "PASS",
           "controlCenterViteProductionBuild": "PASS",
           "changedFilesEslintPrettierMigrationFixturesAndDiffCheck": "PASS",
-          "exactHeadGitHubCi": "PENDING"
+          "exactHeadGitHubCi": "PASS_10_WORKFLOWS_AT_CD26C0DB"
         }
       },
       "delivered": [
