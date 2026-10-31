@@ -408,6 +408,54 @@ footer {
   gap: 10px;
   margin-top: 20px;
 }
+.update-center .preview-actions {
+  align-items: end;
+}
+.update-center .preview-actions label {
+  display: grid;
+  gap: 6px;
+  min-width: 190px;
+  color: #aeb9cd;
+  font-size: 12px;
+}
+.update-center select {
+  width: 100%;
+  min-height: 40px;
+  border: 1px solid #3c4962;
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: #e6eaf5;
+  background: #0f1622;
+  font: inherit;
+}
+.update-evidence {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 14px;
+  border: 1px solid #34435a;
+  border-radius: 10px;
+  background: #131c2b;
+}
+.update-evidence h3,
+.update-evidence p {
+  margin: 0;
+}
+.update-evidence a {
+  color: #b9a4f3;
+  overflow-wrap: anywhere;
+}
+.update-advisories {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 20px;
+}
+.update-advisories li {
+  display: grid;
+  gap: 4px;
+  color: #c9d3e5;
+}
 .preview-note {
   margin: 18px 0 0;
   color: #aeb9cd;

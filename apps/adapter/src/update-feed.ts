@@ -126,6 +126,44 @@ function validSource(source: UpdateFeedSource): boolean {
   );
 }
 
+/** Parse the operator-supplied, URL-free GitHub source allow-list at startup. */
+export function parseConfiguredUpdateFeedSources(value: string): readonly UpdateFeedSource[] {
+  if (value.length > 8_192) throw new UpdateFeedError("RESPONSE_INVALID");
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(value) as unknown;
+  } catch {
+    throw new UpdateFeedError("RESPONSE_INVALID");
+  }
+  if (!Array.isArray(parsed) || parsed.length === 0 || parsed.length > 32) {
+    throw new UpdateFeedError("RESPONSE_INVALID");
+  }
+  const ids = new Set<string>();
+  const sources: UpdateFeedSource[] = [];
+  for (const item of parsed) {
+    const source = record(item);
+    if (
+      !source ||
+      Object.keys(source).length !== 3 ||
+      !Object.hasOwn(source, "id") ||
+      !Object.hasOwn(source, "owner") ||
+      !Object.hasOwn(source, "repository") ||
+      typeof source.id !== "string" ||
+      typeof source.owner !== "string" ||
+      typeof source.repository !== "string"
+    ) {
+      throw new UpdateFeedError("RESPONSE_INVALID");
+    }
+    const candidate = { id: source.id, owner: source.owner, repository: source.repository };
+    if (!validSource(candidate) || ids.has(candidate.id)) {
+      throw new UpdateFeedError("RESPONSE_INVALID");
+    }
+    ids.add(candidate.id);
+    sources.push(Object.freeze(candidate));
+  }
+  return Object.freeze(sources);
+}
+
 function safeTag(value: unknown): string | null {
   const tag = boundedText(value, 128);
   return tag && /^v?\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/.test(tag) ? tag : null;
@@ -443,6 +481,15 @@ export function registerIsolatedUpdateFeedRoutes(
     if (!(await source.authorizeOwner(request)))
       return reply.code(403).send({ error: "OWNER_AUTH_REQUIRED" });
   };
+  server.get(
+    "/api/grimmlink/v2/local/updates",
+    { preHandler: ownerOnly },
+    async (_request, reply) =>
+      reply
+        .header("cache-control", "no-store")
+        .header("x-content-type-options", "nosniff")
+        .send({ sourceIds: source.reader.sourceIds }),
+  );
   server.get<{ Params: { source: string } }>(
     "/api/grimmlink/v2/local/updates/:source",
     { preHandler: ownerOnly },

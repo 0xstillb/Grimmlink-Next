@@ -30,6 +30,33 @@ export class DiagnosticsClientError extends Error {
 
 export type OwnerSession = Readonly<{ authenticated: boolean; csrfToken: string | null }>;
 export type OwnerLogin = Readonly<{ csrfToken: string; expiresAtMs: number }>;
+export type UpdateFeedSnapshot = Readonly<{
+  sourceId: string;
+  fetchedAt: string;
+  release: Readonly<{
+    tag: string;
+    title: string;
+    publishedAt: string;
+    url: string;
+    assets: readonly Readonly<{ name: string; size: number; sha256: string | null }>[];
+  }>;
+  advisories: readonly Readonly<{
+    id: string;
+    summary: string;
+    severity: "critical" | "high" | "moderate" | "low" | "unknown";
+    packages: readonly Readonly<{
+      ecosystem: string;
+      name: string;
+      vulnerableRange: string;
+      patchedVersions: string;
+    }>[];
+  }>[];
+  sourceEvidence: "PUBLIC_GITHUB_PAYLOAD_UNVERIFIED";
+  compatibility: "UNKNOWN_REQUIRES_REVIEW";
+  impact: "UNCLASSIFIED_REQUIRES_REVIEW";
+  approval: "NOT_AUTHORIZED";
+  installationAllowed: false;
+}>;
 export type SupportBundleReceipt = Readonly<{
   bundleId: string;
   checksumSha256: string;
@@ -265,6 +292,142 @@ export async function logoutOwner(csrfToken: string): Promise<void> {
   });
   if (!response.ok) throw new DiagnosticsClientError(response.status);
   if (response.status !== 204) throw new Error("OWNER_LOGOUT_RESPONSE_INVALID");
+}
+
+const UPDATE_FEED_PATH = "/api/grimmlink/v2/local/updates";
+const UPDATE_SOURCE_ID = /^[a-z][a-z0-9-]{0,31}$/;
+const UPDATE_TAG = /^v?\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
+const SHA256_HEX = /^[a-f0-9]{64}$/;
+const UPDATE_SEVERITIES = new Set(["critical", "high", "moderate", "low", "unknown"]);
+
+function safeUpdateText(value: unknown, maxLength: number, allowEmpty = false): value is string {
+  return (
+    typeof value === "string" &&
+    value.length <= maxLength &&
+    (allowEmpty || value.length > 0) &&
+    !/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/.test(value)
+  );
+}
+
+export async function fetchUpdateFeedSources(signal?: AbortSignal): Promise<readonly string[]> {
+  const value = await requestJson(UPDATE_FEED_PATH, signal === undefined ? {} : { signal });
+  if (
+    !record(value) ||
+    !hasOnlyKeys(value, ["sourceIds"]) ||
+    !Array.isArray(value.sourceIds) ||
+    value.sourceIds.length > 32 ||
+    !value.sourceIds.every((item) => typeof item === "string" && UPDATE_SOURCE_ID.test(item)) ||
+    new Set(value.sourceIds).size !== value.sourceIds.length
+  ) {
+    throw new Error("UPDATE_FEED_SOURCES_INVALID");
+  }
+  return value.sourceIds as string[];
+}
+
+export async function fetchUpdateFeedSnapshot(
+  sourceId: string,
+  signal?: AbortSignal,
+): Promise<UpdateFeedSnapshot> {
+  if (!UPDATE_SOURCE_ID.test(sourceId)) throw new Error("UPDATE_FEED_SOURCE_INVALID");
+  const value = await requestJson(
+    `${UPDATE_FEED_PATH}/${sourceId}`,
+    signal === undefined ? {} : { signal },
+  );
+  if (!record(value) || !hasOnlyKeys(value, ["snapshot"]) || !record(value.snapshot)) {
+    throw new Error("UPDATE_FEED_RESPONSE_INVALID");
+  }
+  const snapshot = value.snapshot;
+  if (
+    !hasOnlyKeys(snapshot, [
+      "sourceId",
+      "fetchedAt",
+      "release",
+      "advisories",
+      "sourceEvidence",
+      "compatibility",
+      "impact",
+      "approval",
+      "installationAllowed",
+    ]) ||
+    snapshot.sourceId !== sourceId ||
+    !canonicalIsoTimestamp(snapshot.fetchedAt) ||
+    !record(snapshot.release) ||
+    !hasOnlyKeys(snapshot.release, ["tag", "title", "publishedAt", "url", "assets"]) ||
+    !safeUpdateText(snapshot.release.tag, 128) ||
+    !UPDATE_TAG.test(snapshot.release.tag) ||
+    !safeUpdateText(snapshot.release.title, 240) ||
+    !canonicalIsoTimestamp(snapshot.release.publishedAt) ||
+    !safeUpdateText(snapshot.release.url, 512) ||
+    !isGitHubReleaseUrl(snapshot.release.url, snapshot.release.tag) ||
+    !Array.isArray(snapshot.release.assets) ||
+    snapshot.release.assets.length > 64 ||
+    !snapshot.release.assets.every(
+      (asset) =>
+        record(asset) &&
+        hasOnlyKeys(asset, ["name", "size", "sha256"]) &&
+        safeUpdateText(asset.name, 120) &&
+        asset.name !== "." &&
+        asset.name !== ".." &&
+        !/[\\/]/.test(asset.name) &&
+        typeof asset.size === "number" &&
+        Number.isSafeInteger(asset.size) &&
+        asset.size >= 0 &&
+        asset.size <= 2_000_000_000 &&
+        (asset.sha256 === null ||
+          (typeof asset.sha256 === "string" && SHA256_HEX.test(asset.sha256))),
+    ) ||
+    !Array.isArray(snapshot.advisories) ||
+    snapshot.advisories.length > 500 ||
+    !snapshot.advisories.every(
+      (advisory) =>
+        record(advisory) &&
+        hasOnlyKeys(advisory, ["id", "summary", "severity", "packages"]) &&
+        safeUpdateText(advisory.id, 32) &&
+        /^GHSA-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/i.test(advisory.id) &&
+        safeUpdateText(advisory.summary, 500) &&
+        typeof advisory.severity === "string" &&
+        UPDATE_SEVERITIES.has(advisory.severity) &&
+        Array.isArray(advisory.packages) &&
+        advisory.packages.length <= 64 &&
+        advisory.packages.every(
+          (pkg) =>
+            record(pkg) &&
+            hasOnlyKeys(pkg, ["ecosystem", "name", "vulnerableRange", "patchedVersions"]) &&
+            safeUpdateText(pkg.ecosystem, 80) &&
+            safeUpdateText(pkg.name, 160) &&
+            safeUpdateText(pkg.vulnerableRange, 240, true) &&
+            safeUpdateText(pkg.patchedVersions, 240, true),
+        ),
+    ) ||
+    snapshot.sourceEvidence !== "PUBLIC_GITHUB_PAYLOAD_UNVERIFIED" ||
+    snapshot.compatibility !== "UNKNOWN_REQUIRES_REVIEW" ||
+    snapshot.impact !== "UNCLASSIFIED_REQUIRES_REVIEW" ||
+    snapshot.approval !== "NOT_AUTHORIZED" ||
+    snapshot.installationAllowed !== false
+  ) {
+    throw new Error("UPDATE_FEED_RESPONSE_INVALID");
+  }
+  return snapshot as unknown as UpdateFeedSnapshot;
+}
+
+function isGitHubReleaseUrl(value: string, tag: string): boolean {
+  try {
+    const url = new URL(value);
+    return (
+      url.protocol === "https:" &&
+      url.origin === "https://github.com" &&
+      url.username === "" &&
+      url.password === "" &&
+      url.search === "" &&
+      url.hash === "" &&
+      /^\/[A-Za-z0-9_.-]{1,100}\/[A-Za-z0-9_.-]{1,100}\/releases\/tag\/[A-Za-z0-9.%+-]+$/.test(
+        url.pathname,
+      ) &&
+      url.pathname.endsWith(`/releases/tag/${encodeURIComponent(tag)}`)
+    );
+  } catch {
+    return false;
+  }
 }
 
 const SUPPORT_BUNDLE_PATH = "/api/grimmlink/v2/local/support-bundle";

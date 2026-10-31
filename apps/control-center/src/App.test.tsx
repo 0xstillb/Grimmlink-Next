@@ -49,9 +49,10 @@ it("exposes every Phase08 product area with a scoped preview description", () =>
       if (section !== "Logs & Diagnostics") expect(html).toContain("disabled=");
     }
     if (section === "Update Center") {
-      expect(html).toContain("Fixture-only parser · no feed fetched");
-      expect(html).toContain("UNKNOWN · review required");
+      expect(html).toContain("Evidence only");
+      expect(html).toContain("UNKNOWN / UNCLASSIFIED · review required");
       expect(html).toContain("NOT_AUTHORIZED");
+      expect(html).toContain("No update has been fetched or applied");
     }
     if (section === "Logs & Diagnostics") {
       expect(html).toContain("Copy safe support bundle");

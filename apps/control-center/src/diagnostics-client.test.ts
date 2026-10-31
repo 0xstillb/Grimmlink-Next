@@ -4,6 +4,8 @@ import {
   createServerSupportBundle,
   enableDiagnosticLease,
   fetchOwnerSession,
+  fetchUpdateFeedSnapshot,
+  fetchUpdateFeedSources,
   fetchDiagnosticLogs,
   fetchServerSupportBundle,
   loginOwner,
@@ -162,6 +164,72 @@ it("uses same-origin owner session, login and logout contracts with bounded resp
     cache: "no-store",
     headers: { Accept: "application/json", "x-csrf-token": csrfToken },
   });
+});
+
+it("loads owner-only update sources and validates unverified release evidence", async () => {
+  const snapshot = {
+    sourceId: "grimmlink-next",
+    fetchedAt: "2026-10-31T00:00:00.000Z",
+    release: {
+      tag: "v0.1.0",
+      title: "Grimmlink Next 0.1.0",
+      publishedAt: "2026-10-30T12:00:00.000Z",
+      url: "https://github.com/0xstillb/Grimmlink-Next/releases/tag/v0.1.0",
+      assets: [{ name: "grimmlink-next.zip", size: 1024, sha256: "a".repeat(64) }],
+    },
+    advisories: [
+      {
+        id: "GHSA-abcd-1234-efgh",
+        summary: "Fixture advisory",
+        severity: "unknown",
+        packages: [
+          {
+            ecosystem: "npm",
+            name: "fixture-package",
+            vulnerableRange: "< 1.0.1",
+            patchedVersions: "1.0.1",
+          },
+        ],
+      },
+    ],
+    sourceEvidence: "PUBLIC_GITHUB_PAYLOAD_UNVERIFIED",
+    compatibility: "UNKNOWN_REQUIRES_REVIEW",
+    impact: "UNCLASSIFIED_REQUIRES_REVIEW",
+    approval: "NOT_AUTHORIZED",
+    installationAllowed: false,
+  } as const;
+  const fetchMock = vi
+    .fn()
+    .mockResolvedValueOnce(
+      new Response(JSON.stringify({ sourceIds: ["grimmlink-next"] }), {
+        headers: { "content-type": "application/json" },
+      }),
+    )
+    .mockResolvedValueOnce(
+      new Response(JSON.stringify({ snapshot }), {
+        headers: { "content-type": "application/json" },
+      }),
+    )
+    .mockResolvedValueOnce(
+      new Response(JSON.stringify({ snapshot: { ...snapshot, installationAllowed: true } }), {
+        headers: { "content-type": "application/json" },
+      }),
+    );
+  vi.stubGlobal("fetch", fetchMock);
+
+  expect(await fetchUpdateFeedSources()).toEqual(["grimmlink-next"]);
+  expect(await fetchUpdateFeedSnapshot("grimmlink-next")).toEqual(snapshot);
+  await expect(fetchUpdateFeedSnapshot("grimmlink-next")).rejects.toThrow(
+    "UPDATE_FEED_RESPONSE_INVALID",
+  );
+  expect(fetchMock.mock.calls.map(([url]) => url)).toEqual([
+    "/api/grimmlink/v2/local/updates",
+    "/api/grimmlink/v2/local/updates/grimmlink-next",
+    "/api/grimmlink/v2/local/updates/grimmlink-next",
+  ]);
+  await expect(fetchUpdateFeedSnapshot("https://attacker.invalid")).rejects.toThrow(
+    "UPDATE_FEED_SOURCE_INVALID",
+  );
 });
 
 it("treats an expired or missing owner cookie as signed out and rejects malformed login data", async () => {

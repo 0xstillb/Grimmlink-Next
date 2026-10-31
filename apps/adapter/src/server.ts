@@ -14,6 +14,7 @@ import {
 } from "./diagnostics-routes.js";
 import { classifyGatewayRequest } from "./gateway/route-policy.js";
 import type { OwnerAuthenticator } from "./auth/owner-auth.js";
+import { registerIsolatedUpdateFeedRoutes, type UpdateFeedReader } from "./update-feed.js";
 
 export type AdapterDiagnostics = Readonly<{
   buffers: Readonly<Record<string, SafeLogBuffer>>;
@@ -29,6 +30,8 @@ export type AdapterServerOptions = Readonly<{
   diagnostics?: Pick<IsolatedDiagnosticsSource, "authorizeOwner" | "verifyCsrf">;
   /** Optional one-owner local login; absent configuration leaves protected routes unmounted. */
   ownerAuth?: OwnerAuthenticator;
+  /** Optional bounded public GitHub release/advisory feed; requires owner auth. */
+  updateFeed?: UpdateFeedReader;
 }>;
 
 const diagnosticsByServer = new WeakMap<object, AdapterDiagnostics>();
@@ -45,6 +48,9 @@ export async function buildServer(
 ) {
   if (options.diagnostics && options.ownerAuth) {
     throw new Error("Specify ownerAuth or test diagnostics guards, not both");
+  }
+  if (options.updateFeed && !options.ownerAuth) {
+    throw new Error("An update feed requires the configured local owner authenticator");
   }
   const buffer = new SafeLogBuffer("adapter");
   const leases = new DiagnosticLeases();
@@ -207,6 +213,12 @@ export async function buildServer(
       buffers,
       leases,
       ...diagnosticsGuards,
+    });
+  }
+  if (options.updateFeed && options.ownerAuth) {
+    registerIsolatedUpdateFeedRoutes(server as unknown as FastifyInstance, {
+      authorizeOwner: options.ownerAuth.authorizeOwner,
+      reader: options.updateFeed,
     });
   }
   // NO fallback, Official backend client, reading proxy, or runtime feature toggles.

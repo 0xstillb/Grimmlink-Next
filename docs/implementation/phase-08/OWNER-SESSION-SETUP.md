@@ -32,4 +32,12 @@ pnpm --filter @grimmlink/control-center dev
 
 Open `http://127.0.0.1:5173`. The Vite dev server proxies `/api` and `/health` to the loopback Gateway on port 6060; it binds only to `127.0.0.1`. Use this exact origin while signing in. Do not use a LAN address or publish the Vite port.
 
-The Phase02 Compose mock uses Docker `json-file` log rotation capped at 10 MiB × 3 files per container. The authenticated diagnostics API reads only the Adapter's bounded in-memory safe-event buffer; it does not expose Docker's disk logs. The support-bundle preview is still browser-local, and persistent authenticated bundle delivery is not implemented.
+The Phase02 Compose mock uses Docker `json-file` log rotation capped at 10 MiB × 3 files per container. The authenticated diagnostics API reads only the Adapter's bounded in-memory safe-event buffer; it does not expose Docker's disk logs. Authenticated server bundles are also process-memory only, capped at eight bundles for one hour; they are not persisted across restarts.
+
+## Optional GitHub update evidence
+
+The read-only feed is disabled unless owner auth is configured and `GRIMMLINK_UPDATE_FEED_SOURCES` contains a JSON array of `{ "id", "owner", "repository" } entries. IDs are lower-case slugs; the server constructs requests only for `https://api.github.com`, omits credentials, rejects redirects, and bounds streamed bytes and advisory pages. The Update Center lists configured IDs after owner login and fetches public evidence only when the owner selects **Fetch release evidence**. Public payloads remain unverified; compatibility and impact remain unknown, approval remains unauthorized, and asset download, installation and rollback remain disabled. Do not put tokens or arbitrary URLs in this setting. Network-level egress restrictions have not been exercised locally; production network policy remains for Phase09.
+
+## Optional GitHub update evidence
+
+The read-only update feed remains disabled unless owner auth is configured and `GRIMMLINK_UPDATE_FEED_SOURCES` contains a JSON array of `{ "id", "owner", "repository" }` entries. The source ID is a lower-case slug; the server constructs URLs only on `https://api.github.com`, omits credentials, rejects redirects, bounds streamed bytes and advisory pages, and returns release/advisory evidence as unverified. The Update Center can display that evidence, but compatibility and impact remain unknown, approval remains unauthorized, and downloads/install/rollback are not enabled. Do not add tokens or URLs to the configuration.

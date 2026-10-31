@@ -147,6 +147,69 @@ describe("foundation server", () => {
     await server.close();
   });
 
+  it("mounts configured update feeds only behind the local owner session", async () => {
+    const ownerAuth = createOwnerAuthenticator({
+      passwordHash: OWNER_HASH,
+      sessionSigningKey: Buffer.alloc(32, 0x62),
+      publicOrigin: "http://127.0.0.1:5173",
+    });
+    const updateFeed = {
+      sourceIds: ["grimmory"],
+      read: async () => ({
+        sourceId: "grimmory",
+        fetchedAt: "2026-10-31T00:00:00.000Z",
+        release: {
+          tag: "v3.5.1",
+          title: "Grimmory 3.5.1",
+          publishedAt: "2026-10-30T12:00:00.000Z",
+          url: "https://github.com/grimmory-tools/grimmory/releases/tag/v3.5.1",
+          assets: [],
+        },
+        advisories: [],
+        sourceEvidence: "PUBLIC_GITHUB_PAYLOAD_UNVERIFIED",
+        compatibility: "UNKNOWN_REQUIRES_REVIEW",
+        impact: "UNCLASSIFIED_REQUIRES_REVIEW",
+        approval: "NOT_AUTHORIZED",
+        installationAllowed: false,
+      }),
+    } as const;
+    await expect(buildServer("info", { updateFeed })).rejects.toThrow(
+      "An update feed requires the configured local owner authenticator",
+    );
+    const server = await buildServer("info", { ownerAuth, updateFeed });
+    const sourcesUrl = "/api/grimmlink/v2/local/updates";
+    const anonymous = await server.inject({ method: "GET", url: sourcesUrl });
+    expect(anonymous.statusCode).toBe(403);
+
+    const login = await server.inject({
+      method: "POST",
+      url: "/api/grimmlink/v2/local/auth/login",
+      headers: { origin: "http://127.0.0.1:5173", "content-type": "application/json" },
+      payload: { password: OWNER_PASSWORD },
+    });
+    const setCookie = login.headers["set-cookie"];
+    const cookie = (Array.isArray(setCookie) ? setCookie : [setCookie])
+      .filter((value): value is string => typeof value === "string")
+      .map((value) => value.split(";", 1)[0]!)
+      .join("; ");
+    const sources = await server.inject({ method: "GET", url: sourcesUrl, headers: { cookie } });
+    expect(sources.statusCode).toBe(200);
+    expect(sources.json()).toEqual({ sourceIds: ["grimmory"] });
+    const snapshot = await server.inject({
+      method: "GET",
+      url: `${sourcesUrl}/grimmory`,
+      headers: { cookie },
+    });
+    expect(snapshot.statusCode).toBe(200);
+    expect(snapshot.json().snapshot).toMatchObject({
+      compatibility: "UNKNOWN_REQUIRES_REVIEW",
+      impact: "UNCLASSIFIED_REQUIRES_REVIEW",
+      approval: "NOT_AUTHORIZED",
+      installationAllowed: false,
+    });
+    await server.close();
+  });
+
   it("composes the diagnostics routes only with explicit owner and CSRF verifiers", async () => {
     const server = await buildServer("info", {
       diagnostics: {

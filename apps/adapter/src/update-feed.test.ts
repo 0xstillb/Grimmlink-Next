@@ -2,6 +2,7 @@ import Fastify from "fastify";
 import { describe, expect, it } from "vitest";
 import {
   createGitHubUpdateFeedReader,
+  parseConfiguredUpdateFeedSources,
   registerIsolatedUpdateFeedRoutes,
   UpdateFeedError,
   type UpdateFeedFetch,
@@ -63,6 +64,23 @@ function emptyAdvisoryPage(url: string): boolean {
 }
 
 describe("bounded GitHub update feed reader", () => {
+  it("parses a strict URL-free startup source allow-list", () => {
+    expect(
+      parseConfiguredUpdateFeedSources(
+        '[{"id":"grimmory","owner":"grimmory-tools","repository":"grimmory"}]',
+      ),
+    ).toEqual([source]);
+    for (const value of [
+      "not-json",
+      "[]",
+      '[{"id":"bad id","owner":"owner","repository":"repo"}]',
+      '[{"id":"ok","owner":"owner","repository":"repo","url":"https://evil.invalid"}]',
+      '[{"id":"same","owner":"owner","repository":"repo"},{"id":"same","owner":"other","repository":"repo"}]',
+    ]) {
+      expect(() => parseConfiguredUpdateFeedSources(value)).toThrow();
+    }
+  });
+
   it("uses fixed GitHub GETs and returns only sanitized, non-authorizing evidence", async () => {
     const calls: { url: string; init: Parameters<UpdateFeedFetch>[1] }[] = [];
     const fetch: UpdateFeedFetch = async (url, init) => {
@@ -229,6 +247,11 @@ describe("bounded GitHub update feed reader", () => {
     expect(denied.statusCode).toBe(403);
     expect(reads).toBe(0);
     expect(denied.body).not.toContain("v3.5.1");
+    const deniedSources = await server.inject({
+      method: "GET",
+      url: "/api/grimmlink/v2/local/updates",
+    });
+    expect(deniedSources.statusCode).toBe(403);
 
     const allowed = await server.inject({
       method: "GET",
@@ -240,6 +263,15 @@ describe("bounded GitHub update feed reader", () => {
     expect(allowed.headers["x-content-type-options"]).toBe("nosniff");
     expect(allowed.json().snapshot.approval).toBe("NOT_AUTHORIZED");
     expect(reads).toBe(1);
+    const sources = await server.inject({
+      method: "GET",
+      url: "/api/grimmlink/v2/local/updates",
+      headers: { authorization: "Bearer test-owner" },
+    });
+    expect(sources.statusCode).toBe(200);
+    expect(sources.headers["cache-control"]).toBe("no-store");
+    expect(sources.headers["x-content-type-options"]).toBe("nosniff");
+    expect(sources.json()).toEqual({ sourceIds: ["grimmory"] });
 
     const unknown = await server.inject({
       method: "GET",

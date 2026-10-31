@@ -73,6 +73,17 @@ describe("Phase02 zero-forward gateway classifier", () => {
     expect(classify("GET", `${collection}/short-id`)).toBe("DENY_UPSTREAM");
   });
 
+  it("permits only authenticated update-feed source and snapshot GETs", () => {
+    const sources = "/api/grimmlink/v2/local/updates";
+    const snapshot = `${sources}/grimmory`;
+    expect(classify("GET", sources)).toBe("LOCAL_DIAGNOSTICS");
+    expect(classify("GET", snapshot)).toBe("LOCAL_DIAGNOSTICS");
+    expect(classify("HEAD", sources)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", snapshot)).toBe("DENY_UPSTREAM");
+    expect(classify("GET", `${sources}?source=attacker`)).toBe("INVALID_TARGET");
+    expect(classify("GET", `${sources}/Uppercase`)).toBe("DENY_UPSTREAM");
+  });
+
   it.each([
     "/",
     "/api/v1/books",

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { DiagnosticsViewer } from "./DiagnosticsViewer.js";
+import { UpdateCenter } from "./UpdateCenter.js";
 import {
   createServerSupportBundle,
   fetchOwnerSession,
@@ -38,7 +39,7 @@ export const sectionDescriptions: Record<Section, string> = {
   "Logs & Diagnostics":
     "Inspect allow-listed process logs and use short owner-authorized diagnostic leases.",
   "Settings & Devices": "Private owner settings and paired-reader availability.",
-  "Update Center": "Compatibility and update approval remain preview-only.",
+  "Update Center": "Review bounded public release evidence without installing or rolling back.",
 };
 
 const cards = [
@@ -470,24 +471,7 @@ export function App({ initialSection = "Overview" }: { initialSection?: Section 
           </section>
         )}
 
-        {selected === "Update Center" && (
-          <PreviewPanel
-            title="Update Center"
-            description="Offline release and advisory payload parsers are covered by fixture tests, but this screen does not contact GitHub or download release metadata. Compatibility review, owner approval, install and rollback are not wired to this preview."
-            rows={[
-              ["Release payload validation", "Fixture-only parser · no feed fetched"],
-              ["Advisory payload validation", "Fixture-only parser · no feed fetched"],
-              ["Compatibility manifest", "Not loaded"],
-              ["Compatibility assessment", "UNKNOWN · review required"],
-              ["Installed runtime version", "Not verified"],
-              ["Automatic update", "Disabled"],
-              ["Release authorization", "NOT_AUTHORIZED"],
-              ["Rollback", "Phase 09 verification required"],
-            ]}
-            actions={["Check for releases", "Review compatibility", "Approve installation"]}
-            emptyState="No update has been fetched or applied"
-          />
-        )}
+        {selected === "Update Center" && <UpdateCenter />}
 
         {selected === "Settings & Devices" && (
           <PreviewPanel
