@@ -19,6 +19,7 @@ import { registerLocalJobsRoutes, type LocalJobsRouteSource } from "./local-jobs
 import { registerLocalOpfPreviewRoutes } from "./local-opf-preview-routes.js";
 import { registerLocalSidecarPreviewRoutes } from "./local-sidecar-preview-routes.js";
 import { registerLocalSettingsRoutes } from "./local-settings-routes.js";
+import { registerLocalScreenStatusRoutes } from "./local-screen-status-routes.js";
 
 export type AdapterDiagnostics = Readonly<{
   buffers: Readonly<Record<string, SafeLogBuffer>>;
@@ -99,7 +100,8 @@ export async function buildServer(
       decision === "LOCAL_JOBS" ||
       decision === "LOCAL_OPF_PREVIEW" ||
       decision === "LOCAL_SIDECAR_PREVIEW" ||
-      decision === "LOCAL_SETTINGS"
+      decision === "LOCAL_SETTINGS" ||
+      decision === "LOCAL_SCREEN_STATUS"
     )
       return;
     return reply.code(decision === "INVALID_TARGET" ? 400 : 403).send({
@@ -225,6 +227,7 @@ export async function buildServer(
     registerLocalOpfPreviewRoutes(server as unknown as FastifyInstance, options.ownerAuth);
     registerLocalSidecarPreviewRoutes(server as unknown as FastifyInstance, options.ownerAuth);
     registerLocalSettingsRoutes(server as unknown as FastifyInstance, options.ownerAuth);
+    registerLocalScreenStatusRoutes(server as unknown as FastifyInstance, options.ownerAuth);
   }
   if (options.localJobs) {
     registerLocalJobsRoutes(server as unknown as FastifyInstance, options.localJobs);

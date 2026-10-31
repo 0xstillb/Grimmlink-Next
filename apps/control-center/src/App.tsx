@@ -4,6 +4,7 @@ import { JobsPanel } from "./JobsPanel.js";
 import { OpfPreviewPanel } from "./OpfPreviewPanel.js";
 import { SidecarPreviewPanel } from "./SidecarPreviewPanel.js";
 import { SettingsPanel } from "./SettingsPanel.js";
+import { UnavailableDomainPanel } from "./UnavailableDomainPanel.js";
 import { UpdateCenter } from "./UpdateCenter.js";
 import {
   createServerSupportBundle,
@@ -51,59 +52,6 @@ const cards = [
   ["Reader sync", "OFF", "KOSync and personal bridges remain disabled"],
   ["Release", "NOT AUTHORIZED", "Phase 09 review and device tests required"],
 ] as const;
-
-function PreviewPanel({
-  title,
-  badge = "Preview only",
-  description,
-  rows,
-  actions,
-  emptyState,
-}: {
-  title: string;
-  badge?: string;
-  description: string;
-  rows?: ReadonlyArray<readonly [string, string]>;
-  actions?: ReadonlyArray<string>;
-  emptyState: string;
-}) {
-  return (
-    <section className="panel">
-      <div className="panel-heading">
-        <h2>{title}</h2>
-        <span className="pill">{badge}</span>
-      </div>
-      <p>{description}</p>
-      {rows?.map(([label, value]) => (
-        <div className="status-row" key={label}>
-          <span>{label}</span>
-          <strong>{value}</strong>
-        </div>
-      ))}
-      {actions && actions.length > 0 && (
-        <>
-          <p className="preview-note" id="preview-action-note">
-            Actions are disabled in this preview; no protected operation is submitted.
-          </p>
-          <div className="preview-actions" aria-label="Unavailable preview actions">
-            {actions.map((action) => (
-              <button
-                className="secondary-button"
-                type="button"
-                key={action}
-                disabled
-                aria-describedby="preview-action-note"
-              >
-                {action}
-              </button>
-            ))}
-          </div>
-        </>
-      )}
-      <p className="empty-state">{emptyState}</p>
-    </section>
-  );
-}
 
 export function App({ initialSection = "Overview" }: { initialSection?: Section }) {
   const [selected, setSelected] = useState<Section>(initialSection);
@@ -314,32 +262,16 @@ export function App({ initialSection = "Overview" }: { initialSection?: Section 
         )}
 
         {selected === "Identity" && (
-          <PreviewPanel
-            title="Book identity and readers"
-            description="Identity requires an exact book-file edition fingerprint. Pairing and revocation require a trusted owner session; no identifiers or reader inventory are connected here."
-            rows={[
-              ["Canonical owner", "Not observed"],
-              ["Book-file mapping", "Not loaded"],
-              ["Reader devices", "Not connected"],
-              ["Pairing and revocation", "Unavailable"],
-            ]}
-            actions={["Pair a reader", "Revoke a reader"]}
-            emptyState="No verified identity or device records to display"
+          <UnavailableDomainPanel
+            screen="Identity"
+            onSignIn={() => setSelected("Logs & Diagnostics")}
           />
         )}
 
         {selected === "Reading" && (
-          <PreviewPanel
-            title="Continue Reading"
-            description="Positions are never estimated from a title, timestamp or percent. Exact Resume requires a file-edition and text-anchor match; native reader positions remain untouched when a match cannot be proven."
-            rows={[
-              ["Resume position", "NO_POSITION"],
-              ["Exact EPUB resume", "Not verified"],
-              ["PDF page mapping", "Fixture-only"],
-              ["Progress percent", "Not estimated"],
-            ]}
-            actions={["Refresh reading state", "Resolve a position"]}
-            emptyState="No verified reading position is available"
+          <UnavailableDomainPanel
+            screen="Reading"
+            onSignIn={() => setSelected("Logs & Diagnostics")}
           />
         )}
 
@@ -348,16 +280,9 @@ export function App({ initialSection = "Overview" }: { initialSection?: Section 
         )}
 
         {selected === "OPDS" && (
-          <PreviewPanel
-            title="OPDS subscriptions"
-            description="Subscription links and reader download sources are distinct from complete two-way shelf membership. No remote catalog or device account is queried here."
-            rows={[
-              ["Catalog connection", "Not connected"],
-              ["Subscriptions", "Not loaded"],
-              ["Shelf reconciliation", "Not supported by this preview"],
-            ]}
-            actions={["Add a subscription", "Refresh catalog"]}
-            emptyState="No OPDS subscription data is available"
+          <UnavailableDomainPanel
+            screen="OPDS"
+            onSignIn={() => setSelected("Logs & Diagnostics")}
           />
         )}
 

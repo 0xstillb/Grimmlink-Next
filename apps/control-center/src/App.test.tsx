@@ -28,10 +28,10 @@ it("exposes every Phase08 product area with a scoped preview description", () =>
   expect(Object.keys(sectionDescriptions)).toEqual(sections);
   const expectedContent: Partial<Record<(typeof sections)[number], string>> = {
     "OPF Sync": "Choose one OPF file to inspect its metadata.",
-    Identity: "No verified identity or device records to display",
-    Reading: "No verified reading position is available",
+    Identity: "Checking the authenticated local screen status API.",
+    Reading: "Checking the authenticated local screen status API.",
     "Sidecar & Restore": "Choose one Sidecar JSON file to inspect its metadata.",
-    OPDS: "No OPDS subscription data is available",
+    OPDS: "Checking the authenticated local screen status API.",
     "Logs & Diagnostics": "No diagnostic log text is displayed.",
     "Settings & Devices": "Checking the authenticated local security policy API.",
     "Update Center": "No update has been fetched or applied",
@@ -63,6 +63,11 @@ it("exposes every Phase08 product area with a scoped preview description", () =>
       expect(html).toContain("Sidecar imports");
       expect(html).toContain("Adjacent file writes");
       expect(html).toContain("parsed in memory and discarded");
+    }
+    if (section === "Identity" || section === "Reading" || section === "OPDS") {
+      expect(html).toContain("Provider unavailable");
+      expect(html).toContain("Refresh provider status");
+      expect(html).toContain("disabled=");
     }
     if (section === "Settings & Devices") {
       expect(html).toContain("Read-only policy");
