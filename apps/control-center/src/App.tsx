@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { DiagnosticsViewer } from "./DiagnosticsViewer.js";
 import {
   DISCONNECTED,
   createSafeSupportBundle,
@@ -29,7 +30,8 @@ export const sectionDescriptions: Record<Section, string> = {
   Reading: "Position and Continue Reading status without inventing progress.",
   "Sidecar & Restore": "Backup and Sidecar capabilities in preview-only mode.",
   OPDS: "Subscription status without claiming full shelf membership sync.",
-  "Logs & Diagnostics": "Secret-safe diagnostics; live logs are not connected.",
+  "Logs & Diagnostics":
+    "Inspect allow-listed process logs and use short owner-authorized diagnostic leases.",
   "Settings & Devices": "Private owner settings and paired-reader availability.",
   "Update Center": "Compatibility and update approval remain preview-only.",
 };
@@ -348,21 +350,15 @@ export function App({ initialSection = "Overview" }: { initialSection?: Section 
               <span className="pill">Allow-list export</span>
             </div>
             <p>
-              Server logs are not connected, so no log text or activity appears here. The report
-              below is generated only from known local capability fields; credentials, notes, device
-              IDs and library records are never exported.
+              The viewer reads only allow-listed process events through the same-origin diagnostics
+              API. A trusted owner session is required, and the default adapter keeps these routes
+              unavailable until its owner-session and CSRF verifiers are connected. The support
+              report below uses known local capability fields only.
             </p>
-            <div className="status-row">
-              <span>Live log viewer</span>
-              <strong>Not connected</strong>
-            </div>
-            <div className="status-row">
-              <span>Scoped DEBUG / TRACE</span>
-              <strong>Unavailable</strong>
-            </div>
+            <DiagnosticsViewer />
             <div className="status-row">
               <span>Rotation and retention</span>
-              <strong>Not configured by this UI</strong>
+              <strong>Process-local buffer · capped retention · no disk rotation</strong>
             </div>
             <div className="status-row">
               <span>Local adapter</span>
@@ -408,9 +404,6 @@ export function App({ initialSection = "Overview" }: { initialSection?: Section 
                 <pre>{supportBundle.text}</pre>
               </details>
             )}
-            <p className="empty-state">
-              No server logs, alerts or remote diagnostics were collected
-            </p>
           </section>
         )}
 

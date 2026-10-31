@@ -33,7 +33,7 @@ it("exposes every Phase08 product area with a scoped preview description", () =>
     Reading: "No verified reading position is available",
     "Sidecar & Restore": "No backup or Sidecar files are being read",
     OPDS: "No OPDS subscription data is available",
-    "Logs & Diagnostics": "No server logs, alerts or remote diagnostics were collected",
+    "Logs & Diagnostics": "No diagnostic log text is displayed.",
     "Settings & Devices": "Settings remain read-only until owner authentication is available",
     "Update Center": "No update has been fetched or applied",
   };
@@ -56,6 +56,9 @@ it("exposes every Phase08 product area with a scoped preview description", () =>
     if (section === "Logs & Diagnostics") {
       expect(html).toContain("Copy safe support bundle");
       expect(html).toContain("copied text cannot be revoked");
+      expect(html).toContain("Live diagnostics");
+      expect(html).toContain("Enable DEBUG");
+      expect(html).toContain("disabled=");
     }
   }
 });
