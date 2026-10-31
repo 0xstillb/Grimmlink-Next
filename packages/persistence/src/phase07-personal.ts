@@ -164,6 +164,59 @@ export function registerOfflinePhase07File(
     .immediate();
 }
 
+/** Owner-authenticated local registration for an explicit Staging test file. */
+export function registerAuthenticatedPhase07File(
+  sqlite: Database.Database,
+  actor: OfflineOwner,
+  file: Phase07File,
+): void {
+  if (actor.kind !== "authenticated-local-owner")
+    throw new Error("PHASE07_AUTHENTICATED_OWNER_REQUIRED");
+  assertFile(file);
+  sqlite
+    .transaction(() => {
+      assertOwner(sqlite, actor.accountId);
+      const progress = sqlite
+        .prepare(
+          "SELECT owner_id,book_id,edition_sha256 FROM phase06_offline_progress WHERE book_file_id=?",
+        )
+        .get(file.bookFileId) as
+        | { owner_id: string; book_id: string; edition_sha256: string }
+        | undefined;
+      if (
+        progress &&
+        (progress.owner_id !== actor.accountId ||
+          progress.book_id !== file.bookId ||
+          progress.edition_sha256 !== file.editionSha256)
+      )
+        throw new Error("PHASE07_FILE_EDITION_MISMATCH");
+      sqlite
+        .prepare(
+          "INSERT OR IGNORE INTO phase07_files(book_file_id,owner_id,book_id,edition_sha256) VALUES (?,?,?,?)",
+        )
+        .run(file.bookFileId, actor.accountId, file.bookId, file.editionSha256);
+      assertKnownFile(sqlite, actor.accountId, file);
+    })
+    .immediate();
+}
+
+export function listAuthenticatedPhase07Files(
+  sqlite: Database.Database,
+  actor: OfflineOwner,
+): readonly Phase07File[] {
+  if (actor.kind !== "authenticated-local-owner")
+    throw new Error("PHASE07_AUTHENTICATED_OWNER_REQUIRED");
+  assertOwner(sqlite, actor.accountId);
+  const files = sqlite
+    .prepare(
+      "SELECT book_id AS bookId,book_file_id AS bookFileId,edition_sha256 AS editionSha256 FROM phase07_files WHERE owner_id=? ORDER BY book_id,book_file_id LIMIT 1001",
+    )
+    .all(actor.accountId) as Phase07File[];
+  if (files.length > 1000) throw new Error("PHASE07_FILE_LIST_TOO_LARGE");
+  for (const file of files) assertFile(file);
+  return Object.freeze(files.map((file) => Object.freeze({ ...file })));
+}
+
 /** SQLite CAS and replay receipts. A revoked device cannot replay a prior event. */
 export function recordOfflinePhase07Personal(
   sqlite: Database.Database,

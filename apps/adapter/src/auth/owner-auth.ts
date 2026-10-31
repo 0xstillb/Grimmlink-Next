@@ -1,6 +1,6 @@
 import { createHash, randomBytes, scrypt, timingSafeEqual } from "node:crypto";
 import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { authorizeAdminMutation, type VerifiedActor } from "./policy.js";
+import { authorizeAdminMutation, isPrivateStagingOrigin, type VerifiedActor } from "./policy.js";
 import { createIsolatedSessionCodec } from "./session-codec.js";
 
 const scryptAsync = (password: string, salt: Buffer): Promise<Buffer> =>
@@ -77,6 +77,7 @@ function validPublicOrigin(value: string): boolean {
       parsed.password === "" &&
       (value === "http://127.0.0.1:6060" ||
         value === "http://127.0.0.1:5173" ||
+        isPrivateStagingOrigin(value) ||
         parsed.protocol === "https:")
     );
   } catch {

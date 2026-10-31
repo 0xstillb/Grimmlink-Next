@@ -12,6 +12,7 @@ export type GatewayDecision =
   | "LOCAL_SIDECAR_PREVIEW"
   | "LOCAL_SETTINGS"
   | "LOCAL_SCREEN_STATUS"
+  | "LOCAL_READER_API"
   | "INVALID_TARGET"
   | "DENY_UPSTREAM";
 
@@ -40,6 +41,13 @@ const LOCAL_DEVICE_ACTION_PATH =
 const LOCAL_SCREEN_STATUS_PATH = "/api/grimmlink/v2/local/screens/status";
 const LOCAL_READING_PATH = "/api/grimmlink/v2/local/reading";
 const LOCAL_IDENTITY_PATH = "/api/grimmlink/v2/local/identity";
+const LOCAL_READER_STATUS_PATH = "/api/grimmlink/v2/local/reader/status";
+const LOCAL_READER_FILES_PATH = "/api/grimmlink/v2/local/reader/files";
+const LOCAL_READER_PERSONAL_PATH =
+  /^\/api\/grimmlink\/v2\/local\/reader\/personal\/[A-Za-z0-9_-]{1,128}\/(RATING|BOOKMARK|ANNOTATION)\/[A-Za-z0-9_-]{1,128}$/;
+const LOCAL_READER_SESSION_PATH =
+  /^\/api\/grimmlink\/v2\/local\/reader\/sessions\/[A-Za-z0-9_-]{1,128}$/;
+const LOCAL_READER_SHELF_PREVIEW_PATH = "/api/grimmlink/v2/local/reader/shelf-preview";
 const LOCAL_JOBS_EVENTS_PATH = `${LOCAL_JOBS_PATH}/events`;
 const LOCAL_JOB_CONTROL_PATH =
   /^\/api\/grimmlink\/v2\/local\/jobs\/[A-Za-z0-9][A-Za-z0-9:_-]{0,119}\/control$/;
@@ -172,6 +180,22 @@ export function classifyGatewayRequest(
   if (path === LOCAL_SCREEN_STATUS_PATH) {
     if (query !== undefined) return "INVALID_TARGET";
     if (method === "GET") return "LOCAL_SCREEN_STATUS";
+  }
+  if (
+    path === LOCAL_READER_STATUS_PATH ||
+    path === LOCAL_READER_FILES_PATH ||
+    LOCAL_READER_PERSONAL_PATH.test(path) ||
+    LOCAL_READER_SESSION_PATH.test(path) ||
+    path === LOCAL_READER_SHELF_PREVIEW_PATH
+  ) {
+    if (query !== undefined) return "INVALID_TARGET";
+    if (path === LOCAL_READER_STATUS_PATH && method === "GET") return "LOCAL_READER_API";
+    if (path === LOCAL_READER_FILES_PATH && ["GET", "POST"].includes(method))
+      return "LOCAL_READER_API";
+    if (LOCAL_READER_PERSONAL_PATH.test(path) && ["GET", "PUT"].includes(method))
+      return "LOCAL_READER_API";
+    if (LOCAL_READER_SESSION_PATH.test(path) && method === "POST") return "LOCAL_READER_API";
+    if (path === LOCAL_READER_SHELF_PREVIEW_PATH && method === "POST") return "LOCAL_READER_API";
   }
   if (path === LOCAL_READING_PATH) {
     if (query !== undefined) return "INVALID_TARGET";

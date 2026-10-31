@@ -154,6 +154,20 @@ describe("single-owner local session routes", () => {
 
   it("leaves routes disabled without secrets and rejects incomplete configuration", () => {
     expect(createOwnerAuthenticatorFromEnvironment({})).toBeNull();
+    expect(
+      createOwnerAuthenticator({
+        passwordHash: HASH,
+        sessionSigningKey: KEY,
+        publicOrigin: "http://192.168.1.116:6062",
+      }),
+    ).toBeDefined();
+    expect(() =>
+      createOwnerAuthenticator({
+        passwordHash: HASH,
+        sessionSigningKey: KEY,
+        publicOrigin: "http://203.0.113.10:6060",
+      }),
+    ).toThrow("OWNER_AUTH_CONFIG_INVALID");
     expect(() =>
       createOwnerAuthenticatorFromEnvironment({ GRIMMLINK_OWNER_PASSWORD_HASH: HASH }),
     ).toThrow("OWNER_AUTH_CONFIG_INCOMPLETE");

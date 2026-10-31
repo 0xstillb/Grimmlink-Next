@@ -32,6 +32,7 @@ import {
   registerLocalIdentityRoutes,
   type LocalIdentityRouteSource,
 } from "./local-identity-routes.js";
+import { registerLocalReaderRoutes, type LocalReaderRouteSource } from "./local-reader-routes.js";
 import { registerLocalUpdateReviewRoutes } from "./local-update-review-routes.js";
 import type { LocalUpdateReviewLedger } from "./local-update-review-sqlite.js";
 import { registerLocalDiagnosticsSettingsRoutes } from "./local-diagnostics-settings-routes.js";
@@ -66,6 +67,8 @@ export type AdapterServerOptions = Readonly<{
   localReading?: LocalReadingRouteSource;
   /** Optional owner-authenticated local identity registration readback; no Official entitlement. */
   localIdentity?: LocalIdentityRouteSource;
+  /** Explicitly configured local Staging reader event API; never calls Official. */
+  localReader?: LocalReaderRouteSource;
   /** Optional owner-editable bounded diagnostics retention, persisted locally. */
   localDiagnosticsSettings?: LocalDiagnosticsSettingsSource;
 }>;
@@ -104,6 +107,9 @@ export async function buildServer(
   }
   if (options.localIdentity && !options.ownerAuth) {
     throw new Error("Local identity routes require the configured local owner authenticator");
+  }
+  if (options.localReader && !options.ownerAuth) {
+    throw new Error("Local reader routes require the configured local owner authenticator");
   }
   if (options.localDiagnosticsSettings && !options.ownerAuth) {
     throw new Error("Local diagnostics settings require the configured local owner authenticator");
@@ -150,7 +156,8 @@ export async function buildServer(
       decision === "LOCAL_OPF_PREVIEW" ||
       decision === "LOCAL_SIDECAR_PREVIEW" ||
       decision === "LOCAL_SETTINGS" ||
-      decision === "LOCAL_SCREEN_STATUS"
+      decision === "LOCAL_SCREEN_STATUS" ||
+      decision === "LOCAL_READER_API"
     )
       return;
     return reply.code(decision === "INVALID_TARGET" ? 400 : 403).send({
@@ -297,6 +304,9 @@ export async function buildServer(
   }
   if (options.localIdentity) {
     registerLocalIdentityRoutes(server as unknown as FastifyInstance, options.localIdentity);
+  }
+  if (options.localReader) {
+    registerLocalReaderRoutes(server as unknown as FastifyInstance, options.localReader);
   }
   const diagnosticsGuards = options.ownerAuth ?? options.diagnostics;
   if (diagnosticsGuards) {

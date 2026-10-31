@@ -181,6 +181,23 @@ describe("Phase02 zero-forward gateway classifier", () => {
     expect(classify("GET", `${identity}?owner=other`)).toBe("INVALID_TARGET");
   });
 
+  it("permits only the explicit local Staging reader API methods", () => {
+    const prefix = "/api/grimmlink/v2/local/reader";
+    expect(classify("GET", `${prefix}/status`)).toBe("LOCAL_READER_API");
+    expect(classify("GET", `${prefix}/files`)).toBe("LOCAL_READER_API");
+    expect(classify("POST", `${prefix}/files`)).toBe("LOCAL_READER_API");
+    expect(classify("GET", `${prefix}/personal/file-1/BOOKMARK/bm-1`)).toBe("LOCAL_READER_API");
+    expect(classify("PUT", `${prefix}/personal/file-1/BOOKMARK/bm-1`)).toBe("LOCAL_READER_API");
+    expect(classify("POST", `${prefix}/sessions/session-1`)).toBe("LOCAL_READER_API");
+    expect(classify("POST", `${prefix}/shelf-preview`)).toBe("LOCAL_READER_API");
+    expect(classify("PUT", `${prefix}/files`)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", `${prefix}/personal/file-1/BOOKMARK/bm-1`)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", `${prefix}/status`)).toBe("DENY_UPSTREAM");
+    expect(classify("GET", `${prefix}/personal/file-1/RESET/rating`)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", `${prefix}/sessions/session-1?retry=true`)).toBe("INVALID_TARGET");
+    expect(classify("POST", `${prefix}/events/official`)).toBe("DENY_UPSTREAM");
+  });
+
   it.each([
     "/",
     "/api/v1/books",

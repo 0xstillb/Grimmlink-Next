@@ -1,0 +1,7 @@
+# Private Staging Caddy gateway; no admin listener or public TLS endpoint.
+FROM caddy:2.10.2-alpine
+USER root
+RUN cp /usr/bin/caddy /usr/bin/caddy-private-staging && chmod 0755 /usr/bin/caddy-private-staging
+USER 1000:1000
+ENTRYPOINT ["/usr/bin/caddy-private-staging"]
+CMD ["run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]

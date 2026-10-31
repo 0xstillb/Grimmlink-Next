@@ -31,7 +31,7 @@ jobs:
           pnpm rebuild better-sqlite3
       - name: Check and diagnose pinned Prettier for changed source
         run: |
-          files="packages/personal/src/index.ts packages/personal/src/index.test.ts packages/persistence/src/index.ts packages/persistence/src/phase07-personal.ts packages/persistence/src/phase07-personal.test.ts apps/adapter/src/phase07-routes.ts apps/adapter/src/phase07-routes.test.ts"
+          files="packages/personal/src/index.ts packages/personal/src/index.test.ts packages/persistence/src/index.ts packages/persistence/src/phase07-personal.ts packages/persistence/src/phase07-personal.test.ts apps/adapter/src/phase07-routes.ts apps/adapter/src/phase07-routes.test.ts apps/adapter/src/local-reader-routes.ts apps/adapter/src/local-reader-routes.test.ts apps/adapter/src/local-reader-sqlite.ts apps/adapter/src/local-reader-sqlite.test.ts apps/adapter/src/gateway/route-policy.ts apps/adapter/src/gateway/route-policy.test.ts apps/adapter/src/auth/policy.ts apps/adapter/src/auth/policy.test.ts apps/adapter/src/auth/owner-auth.ts apps/adapter/src/auth/owner-auth.test.ts apps/adapter/src/main.ts apps/adapter/src/server.ts"
           if ! pnpm exec prettier --check $files; then
             pnpm exec prettier --write $files
             for f in $files; do
@@ -55,6 +55,26 @@ jobs:
           sudo apt-get install -y -qq lua5.4
           luac5.4 -p plugins/koreader/grimmlink_next.koplugin/main.lua plugins/koreader/grimmlink_next.koplugin/offline_core.lua plugins/koreader/grimmlink_next.koplugin/_meta.lua
           lua5.4 scripts/phase-07/test-lua-mock.lua
+      - name: Validate private Staging deployment topology
+        run: |
+          bash -n scripts/phase-09/prepare-private-staging.sh scripts/phase-09/staging-local-smoke.sh
+          cp .env.staging.example .env.staging
+          docker compose -p grimmlink-staging-check -f compose.phase08.staging-local.yml config --format json > "$RUNNER_TEMP/phase08-staging-compose.json"
+          docker run --rm -v "$PWD/gateway/Caddyfile.phase08.staging-local:/etc/caddy/Caddyfile:ro" caddy:2.10.2-alpine validate --config /etc/caddy/Caddyfile --adapter caddyfile
+          python3 - "$RUNNER_TEMP/phase08-staging-compose.json" <<'PY'
+          import json,sys
+          config=json.load(open(sys.argv[1], encoding="utf-8"))
+          gateway=config["services"]["gateway"]
+          adapter=config["services"]["adapter"]
+          assert gateway["ports"][0]["host_ip"] == "192.168.1.116"
+          assert gateway["ports"][0]["published"] == "6062"
+          assert adapter["network_mode"] == "service:gateway"
+          assert adapter["environment"]["GRIMMLINK_DEPLOYMENT_ENV"] == "staging"
+          assert adapter["environment"]["GRIMMLINK_LOCAL_READER_MODE"] == "STAGING_LOCAL_ONLY"
+          assert config["networks"]["local-staging"]["internal"] is True
+          assert "volumes" not in adapter or all("staging-data" in str(v) for v in adapter["volumes"])
+          PY
+          rm .env.staging
       - name: Build and inspect offline KOReader plugin package
         run: |
           python3 scripts/phase-07/package_plugin.py --output "$RUNNER_TEMP/grimmlink-next-offline.zip"
@@ -81,10 +101,14 @@ jobs:
           grep -q 'PERSONAL_BRIDGE_DISABLED_PHASE09' packages/personal/src/index.ts
           grep -q 'MANUAL_PREVIEW_ONLY' packages/persistence/src/phase07-personal.ts
           grep -q 'PHASE07_READER_REVOKED_OR_EXPIRED' packages/persistence/src/phase07-personal.ts
-          ! grep -Eq 'phase07-personal|phase07-routes|grimmlink_next[.]koplugin' apps/adapter/src/server.ts
+          grep -q 'LOCAL_READER_API' apps/adapter/src/gateway/route-policy.ts
+          grep -q 'options.localReader' apps/adapter/src/server.ts
+          grep -q 'LOCAL_READER_API_REQUIRES_STAGING_ENVIRONMENT' apps/adapter/src/main.ts
+          grep -q 'officialForwarding: "DENY_ALL"' apps/adapter/src/local-reader-routes.ts
+          ! grep -Eq 'fetch[(]|create.*Official|GrimmoryClient' apps/adapter/src/local-reader-sqlite.ts
           grep -q '"officialGatewayForwarding": "DENY_ALL"' docs/implementation/ACTIVE-SESSION.json
           grep -q '"personalBridge": "OFF"' docs/implementation/ACTIVE-SESSION.json
           grep -q '"sessionBridge": "OFF"' docs/implementation/ACTIVE-SESSION.json
           test -f plugins/koreader/grimmlink_next.koplugin/_meta.lua
           test -f plugins/koreader/grimmlink_next.koplugin/main.lua
-          echo 'INSTALLABLE OFFLINE UI PREVIEW ONLY; no Official mutation, no live route or device claim.'
+          echo 'Staging-local reader API only; Official forwarding DENY_ALL and protected writes OFF.'

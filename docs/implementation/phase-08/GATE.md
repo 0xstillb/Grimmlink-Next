@@ -73,6 +73,35 @@ plugin its own changed-file list, tests, exact-head CI receipt and handoff. An
 offline UI preview is not evidence of live sync. Device installation and
 same-owner operations remain Phase09 tests.
 
+Before calling the plugin deployable, verify API parity against the running
+Adapter: every Adapter-bound action must target a route mounted by the actual
+server entrypoint and have authentication, request/response, persistence and
+failure contracts covered by route tests. An isolated mock route factory or an
+owner-only Control Center route does not satisfy this requirement. The current
+offline package is not a deployable sync client; finish the selected Adapter API
+slice and its exact-head CI before implementing the client against it.
+
+The selected first real Grimmory check is narrower than sync: one direct
+KOReader `GET http://192.168.1.116:6060/api/v1/opds` for the Atom catalog, using
+a separate OPDS user scoped to the disposable test library. Keep these
+credentials in memory for the current KOReader process, reject redirects, cap
+the response, and report only bounded catalog counts; do not follow book-file
+links or download content in this scenario. Adapter event and pairing requests
+stay on its private Staging API. All Grimmory POST/PUT/DELETE, progress,
+metadata, personal-data, shelf and file-download routes remain disabled.
+Official forwarding remains `DENY_ALL` outside that one fixed read-only OPDS
+request, protected writes remain `OFF`, and NAS is not mounted into the
+Adapter.
+
+The plugin close record must include a route-to-action matrix, tests for
+unauthenticated, invalid/revoked pairing, exact file/edition mismatch, replay,
+conflict and unknown-outcome behavior, plus tests for the fixed OPDS GET,
+credential redaction, redirect denial and bounded catalog parsing, and a
+versioned installable artifact. Staging may verify only the capabilities that
+are mounted and enabled; report unimplemented Official sync, book-file
+download, NAS and physical-reader scenarios as `NOT_RUN`, never as passed
+because mock tests succeeded.
+
 ## Staging and production gates
 
 The owner confirms the existing Staging machine is available and waiting for

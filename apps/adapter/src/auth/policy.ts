@@ -32,6 +32,28 @@ export type AuthDecision =
 const isAccountId = (s: string): boolean => /^[a-zA-Z0-9_-]{1,128}$/.test(s);
 const isDeviceId = (s: string): boolean => /^[a-zA-Z0-9_-]{1,128}$/.test(s);
 
+export function isPrivateStagingOrigin(value: string): boolean {
+  try {
+    const parsed = new URL(value);
+    if (parsed.origin !== value || parsed.protocol !== "http:" || parsed.port !== "6062")
+      return false;
+    const octets = parsed.hostname.split(".").map(Number);
+    if (
+      octets.length !== 4 ||
+      octets.some((part) => !Number.isInteger(part) || part < 0 || part > 255)
+    )
+      return false;
+    const [first, second] = octets;
+    return (
+      first === 10 ||
+      (first === 172 && second! >= 16 && second! <= 31) ||
+      (first === 192 && second === 168)
+    );
+  } catch {
+    return false;
+  }
+}
+
 function sessionStatus(actor: VerifiedActor | null, now: number): AuthDecision {
   if (actor === null) return "UNAUTHENTICATED";
   if (
@@ -70,7 +92,8 @@ export function authorizeAdminMutation(
   if (
     !/^https:\/\/[a-z0-9.-]+(?::[0-9]{1,5})?$/.test(request.expectedOrigin) &&
     request.expectedOrigin !== "http://127.0.0.1:6060" &&
-    request.expectedOrigin !== "http://127.0.0.1:5173"
+    request.expectedOrigin !== "http://127.0.0.1:5173" &&
+    !isPrivateStagingOrigin(request.expectedOrigin)
   ) {
     return "INVALID_REQUEST";
   }

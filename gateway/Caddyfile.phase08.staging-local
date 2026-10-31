@@ -1,0 +1,98 @@
+{
+    admin off
+    auto_https off
+}
+
+# Private Staging only. Grimmory keeps its usual 6060; this Adapter gateway uses 6062.
+# No Grimmory, NAS or Official route is reachable through this gateway.
+:6062 {
+    @staging_host host 192.168.1.116 localhost 127.0.0.1
+
+    @adapter_get {
+        method GET
+        path /health /openapi.json /api/grimmlink/v2/capabilities /api/grimmlink/v2/version
+    }
+
+    @reader_read_api {
+        method GET
+        path /api/grimmlink/v2/local/reader/status /api/grimmlink/v2/local/reader/files /api/grimmlink/v2/local/reader/personal/*
+    }
+
+    @reader_write_api {
+        method POST PUT
+        path /api/grimmlink/v2/local/reader/personal/* /api/grimmlink/v2/local/reader/sessions/*
+    }
+
+    @owner_api {
+        method GET POST PUT DELETE
+        path /api/grimmlink/v2/local/auth/session /api/grimmlink/v2/local/auth/login /api/grimmlink/v2/local/auth/logout /api/grimmlink/v2/local/devices /api/grimmlink/v2/local/devices/* /api/grimmlink/v2/local/reader/files
+    }
+
+    route {
+        handle @staging_host {
+            handle @reader_read_api {
+                reverse_proxy 127.0.0.1:6063 {
+                    header_up -Cookie
+                    header_up -X-Auth-Key
+                    header_up -X-Auth-User
+                    header_up -Proxy-Authorization
+                    header_up -Forwarded
+                    header_up -X-Forwarded-For
+                    header_up -X-Forwarded-Host
+                    header_up -X-Forwarded-Proto
+                    header_up -X-Forwarded-Prefix
+                    header_up -X-Original-URL
+                    header_up -X-Rewrite-URL
+                }
+            }
+            handle @reader_write_api {
+                reverse_proxy 127.0.0.1:6063 {
+                    header_up -Cookie
+                    header_up -X-Auth-Key
+                    header_up -X-Auth-User
+                    header_up -Proxy-Authorization
+                    header_up -Forwarded
+                    header_up -X-Forwarded-For
+                    header_up -X-Forwarded-Host
+                    header_up -X-Forwarded-Proto
+                    header_up -X-Forwarded-Prefix
+                    header_up -X-Original-URL
+                    header_up -X-Rewrite-URL
+                }
+            }
+            handle @owner_api {
+                reverse_proxy 127.0.0.1:6063 {
+                    header_up -Authorization
+                    header_up -X-Auth-Key
+                    header_up -X-Auth-User
+                    header_up -Proxy-Authorization
+                    header_up -Forwarded
+                    header_up -X-Forwarded-For
+                    header_up -X-Forwarded-Host
+                    header_up -X-Forwarded-Proto
+                    header_up -X-Forwarded-Prefix
+                    header_up -X-Original-URL
+                    header_up -X-Rewrite-URL
+                }
+            }
+            handle @adapter_get {
+                reverse_proxy 127.0.0.1:6063 {
+                    header_up -Authorization
+                    header_up -Cookie
+                    header_up -X-Auth-Key
+                    header_up -X-Auth-User
+                    header_up -Proxy-Authorization
+                    header_up -Forwarded
+                    header_up -X-Forwarded-For
+                    header_up -X-Forwarded-Host
+                    header_up -X-Forwarded-Proto
+                    header_up -X-Forwarded-Prefix
+                    header_up -X-Original-URL
+                    header_up -X-Rewrite-URL
+                }
+            }
+            respond "UPSTREAM_DENIED" 403
+        }
+        respond "INVALID_HOST" 421
+    }
+}
