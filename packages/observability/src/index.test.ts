@@ -61,6 +61,20 @@ describe("diagnostic leases", () => {
     );
     expect(new DiagnosticLeases().levelFor("adapter", 1)).toBe("info");
   });
+  it("reports active expiry and requires admin authorization to disable a lease", () => {
+    const leases = new DiagnosticLeases();
+    leases.enable(
+      { module: "adapter", level: "debug", durationMs: 1000, adminAuthorized: true },
+      100,
+    );
+    expect(leases.leaseStatus("adapter", 101)).toEqual({ level: "debug", expiresAt: 1100 });
+    expect(() => leases.disable({ module: "adapter", adminAuthorized: false })).toThrow(
+      "Admin authorization required",
+    );
+    leases.disable({ module: "adapter", adminAuthorized: true });
+    expect(leases.leaseStatus("adapter", 101)).toBeNull();
+    expect(leases.levelFor("adapter", 101)).toBe("info");
+  });
 });
 
 describe("Pino secret redaction", () => {

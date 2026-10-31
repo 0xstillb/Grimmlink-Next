@@ -60,7 +60,7 @@
     "pullRequest": "https://github.com/0xstillb/Grimmlink-Next/pull/13",
     "baseIntegrationHead": "68b7d74daecdacc909ac095c86f6f95aed84ffe7",
     "sourceHead": "READ_LIVE_GITHUB_AFTER_THIS_CHECKPOINT_COMMIT",
-    "previousCommittedHeadLinuxCI": "SUCCESS_AT_41B4DDF_10_WORKFLOWS_PHASE01_FOUNDATION_AND_ARM64_JOBS",
+    "previousCommittedHeadLinuxCI": "B49AFC780879DAD2E0E4F1DDC29CACF967DD0146_SUCCESS_10_WORKFLOWS",
     "delivered": [
       "10_NAVIGATION_SECTIONS_WITH_EXPLICIT_UNAVAILABLE_STATES",
       "PROTECTED_PREVIEW_ACTIONS_DISABLED_WITH_ACCESSIBLE_REASON",
@@ -75,11 +75,12 @@
       "controlCenterTypecheck": "PASS_LOCAL_WORKSPACE_BINARY",
       "controlCenterTests": "PASS_12_TESTS",
       "adapterTypecheck": "PASS_LOCAL_WORKSPACE_BINARY",
-      "adapterTests": "PASS_83_TESTS_ACROSS_10_FILES",
+      "adapterTests": "PASS_85_TESTS_ACROSS_11_FILES",
       "changedAdapterPrettier": "PASS",
       "changedAdapterEslint": "PASS",
       "observabilityTypecheck": "PASS",
-      "observabilityTests": "PASS_11_TESTS",
+      "observabilityTests": "PASS_14_TESTS_ACROSS_2_FILES",
+      "diagnosticsRouteTests": "PASS_2_ISOLATED_ROUTE_FIXTURES",
       "safeLogBufferTests": "PASS_3_TESTS",
       "changedFilesPrettier": "PASS",
       "changedUiEslint": "PASS",
@@ -93,6 +94,7 @@
       "fullRepositoryPrettier": "FAIL_84_PREEXISTING_FILES_REPORTED"
     },
     "exactHeadLinuxCI": "PENDING_FOR_THIS_CHECKPOINT_COMMIT",
+    "additionalOfflineDiagnosticsFactory": "OWNER_CSRF_GATED_LOG_AND_LEASE_ROUTES_TESTED_UNMOUNTED",
     "notDelivered": [
       "AUTHENTICATED_LIVE_LOG_VIEWER_ROTATION_RETENTION_AND_DEBUG_TRACE_UI_CONTROL",
       "LIVE_LOG_BUFFER_NOT_WIRED_TO_ADAPTER_OR_CONTROL_CENTER",

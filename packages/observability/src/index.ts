@@ -30,15 +30,26 @@ export class DiagnosticLeases {
     }
     this.leases.set(input.module, { level: input.level, expiresAt: now + input.durationMs });
   }
-  levelFor(module: string, now = Date.now()): "info" | DiagnosticLevel {
-    if (!Number.isSafeInteger(now)) return "info";
+
+  disable(input: { module: string; adminAuthorized: boolean }): void {
+    if (!input.adminAuthorized) throw new Error("Admin authorization required");
+    if (!/^[a-z][a-z0-9_-]{0,63}$/.test(input.module)) throw new Error("Invalid module");
+    this.leases.delete(input.module);
+  }
+
+  leaseStatus(module: string, now = Date.now()): Readonly<Lease> | null {
+    if (!/^[a-z][a-z0-9_-]{0,63}$/.test(module) || !Number.isSafeInteger(now)) return null;
     const value = this.leases.get(module);
-    if (!value) return "info";
+    if (!value) return null;
     if (value.expiresAt <= now) {
       this.leases.delete(module);
-      return "info";
+      return null;
     }
-    return value.level;
+    return Object.freeze({ ...value });
+  }
+
+  levelFor(module: string, now = Date.now()): "info" | DiagnosticLevel {
+    return this.leaseStatus(module, now)?.level ?? "info";
   }
 }
 
@@ -124,7 +135,7 @@ function safeDestination(module: string, destination?: DestinationStream): Desti
 }
 
 export type SafeLogLevel = "trace" | "debug" | "info" | "warn" | "error" | "fatal";
-type SafeLogCode = SafeDiagnosticSignal["code"];
+export type SafeLogCode = SafeDiagnosticSignal["code"];
 type BufferedLog = Readonly<{
   capturedAtMs: number;
   bytes: number;
