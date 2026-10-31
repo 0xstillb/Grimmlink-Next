@@ -20,7 +20,7 @@
     # The Adapter still enforces exact route methods, owner sessions, Origin and CSRF.
     @adapter_private_api {
         method GET POST PUT DELETE
-        path /api/grimmlink/v2/local/auth/session /api/grimmlink/v2/local/auth/login /api/grimmlink/v2/local/auth/logout /api/grimmlink/v2/local/diagnostics/adapter/logs /api/grimmlink/v2/local/diagnostics/adapter/lease
+        path /api/grimmlink/v2/local/auth/session /api/grimmlink/v2/local/auth/login /api/grimmlink/v2/local/auth/logout /api/grimmlink/v2/local/diagnostics/adapter/logs /api/grimmlink/v2/local/diagnostics/adapter/lease /api/grimmlink/v2/local/support-bundle /api/grimmlink/v2/local/support-bundle/*
     }
 
     route {

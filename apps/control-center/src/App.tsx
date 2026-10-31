@@ -1,6 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { DiagnosticsViewer } from "./DiagnosticsViewer.js";
 import {
+  createServerSupportBundle,
+  fetchOwnerSession,
+  fetchServerSupportBundle,
+} from "./diagnostics-client.js";
+import {
   DISCONNECTED,
   createSafeSupportBundle,
   inspectLocalAdapter,
@@ -101,6 +106,12 @@ export function App({ initialSection = "Overview" }: { initialSection?: Section 
   const [checking, setChecking] = useState(false);
   const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
   const [supportBundle, setSupportBundle] = useState<SafeSupportBundle | null>(null);
+  const [serverBundleState, setServerBundleState] = useState<
+    "idle" | "creating" | "downloaded" | "failed"
+  >("idle");
+  const [serverBundleMessage, setServerBundleMessage] = useState(
+    "Requires a signed-in local owner session.",
+  );
 
   const refresh = useCallback(async (signal: AbortSignal) => {
     setChecking(true);
@@ -140,6 +151,42 @@ export function App({ initialSection = "Overview" }: { initialSection?: Section 
     }
   };
 
+  const downloadAuthenticatedBundle = async () => {
+    if (serverBundleState === "creating") return;
+    setServerBundleState("creating");
+    setServerBundleMessage("Collecting the allow-listed server report.");
+    try {
+      const session = await fetchOwnerSession();
+      if (!session.authenticated || !session.csrfToken) {
+        setServerBundleState("failed");
+        setServerBundleMessage("Sign in above before collecting a server support bundle.");
+        return;
+      }
+      const receipt = await createServerSupportBundle(session.csrfToken);
+      const bundle = await fetchServerSupportBundle(receipt.bundleId);
+      if (bundle.checksum.value !== receipt.checksumSha256) {
+        throw new Error("SUPPORT_BUNDLE_CHECKSUM_MISMATCH");
+      }
+      const objectUrl = URL.createObjectURL(
+        new Blob([JSON.stringify(bundle, null, 2)], { type: "application/json" }),
+      );
+      const link = document.createElement("a");
+      link.href = objectUrl;
+      link.download = `grimmlink-support-bundle-${receipt.bundleId}.json`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(objectUrl), 10_000);
+      setServerBundleState("downloaded");
+      setServerBundleMessage(
+        `Bundle downloaded; server retention expires at ${receipt.expiresAt}.`,
+      );
+    } catch {
+      setServerBundleState("failed");
+      setServerBundleMessage("Server bundle collection or download is unavailable.");
+    }
+  };
+
   return (
     <div className="app">
       <aside className="sidebar" aria-label="Primary navigation">
@@ -165,6 +212,8 @@ export function App({ initialSection = "Overview" }: { initialSection?: Section 
                 setSelected(label);
                 setCopyState("idle");
                 setSupportBundle(null);
+                setServerBundleState("idle");
+                setServerBundleMessage("Requires a signed-in local owner session.");
               }}
             >
               {label}
@@ -383,6 +432,20 @@ export function App({ initialSection = "Overview" }: { initialSection?: Section 
             <button className="primary-button" type="button" onClick={() => void copyDiagnostics()}>
               Copy safe support bundle
             </button>
+            <button
+              className="secondary-button"
+              type="button"
+              disabled={serverBundleState === "creating"}
+              onClick={() => void downloadAuthenticatedBundle()}
+            >
+              {serverBundleState === "creating"
+                ? "Collecting server bundle…"
+                : "Download authenticated server bundle"}
+            </button>
+            <p role="status" aria-live="polite">
+              {serverBundleMessage} Contains only allow-listed local status and up to 100 safe
+              process events. The in-memory server copy expires after one hour.
+            </p>
             <p className="bundle-expiry-note">
               The one-hour timer clears this page preview; copied text cannot be revoked.
             </p>

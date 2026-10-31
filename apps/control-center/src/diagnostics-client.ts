@@ -30,6 +30,29 @@ export class DiagnosticsClientError extends Error {
 
 export type OwnerSession = Readonly<{ authenticated: boolean; csrfToken: string | null }>;
 export type OwnerLogin = Readonly<{ csrfToken: string; expiresAtMs: number }>;
+export type SupportBundleReceipt = Readonly<{
+  bundleId: string;
+  checksumSha256: string;
+  expiresAt: string;
+}>;
+export type ServerSupportBundle = Readonly<{
+  schema: "grimmlink.phase08.support-bundle.v1";
+  createdAt: string;
+  expiresAt: string;
+  checksum: Readonly<{ algorithm: "SHA-256"; covers: "report-json-v1"; value: string }>;
+  report: Readonly<{
+    schema: "grimmlink.phase08.support-report.v1";
+    generatedAt: string;
+    scope: "SAFE_LOCAL_PROCESS_STATUS";
+    status: Readonly<{
+      mode: "MOCK_ONLY";
+      officialConnected: false;
+      gatewayForwarding: "DENY_ALL";
+      protectedWrites: "OFF";
+    }>;
+    diagnostics: readonly string[];
+  }>;
+}>;
 
 const MODULE = "adapter";
 const MAX_RESPONSE_BYTES = 256 * 1024;
@@ -242,6 +265,92 @@ export async function logoutOwner(csrfToken: string): Promise<void> {
   });
   if (!response.ok) throw new DiagnosticsClientError(response.status);
   if (response.status !== 204) throw new Error("OWNER_LOGOUT_RESPONSE_INVALID");
+}
+
+const SUPPORT_BUNDLE_PATH = "/api/grimmlink/v2/local/support-bundle";
+const SUPPORT_BUNDLE_ID = /^[A-Za-z0-9_-]{22}$/;
+const SHA256 = /^[0-9a-f]{64}$/;
+
+function canonicalIsoTimestamp(value: unknown): value is string {
+  if (typeof value !== "string") return false;
+  const parsed = new Date(value);
+  return Number.isFinite(parsed.getTime()) && parsed.toISOString() === value;
+}
+
+export async function createServerSupportBundle(csrfToken: string): Promise<SupportBundleReceipt> {
+  const value = await requestJson(SUPPORT_BUNDLE_PATH, { method: "POST", csrfToken });
+  if (
+    !record(value) ||
+    !hasOnlyKeys(value, ["bundleId", "checksumSha256", "expiresAt"]) ||
+    typeof value.bundleId !== "string" ||
+    !SUPPORT_BUNDLE_ID.test(value.bundleId) ||
+    typeof value.checksumSha256 !== "string" ||
+    !SHA256.test(value.checksumSha256) ||
+    !canonicalIsoTimestamp(value.expiresAt)
+  ) {
+    throw new Error("SUPPORT_BUNDLE_RECEIPT_INVALID");
+  }
+  return {
+    bundleId: value.bundleId,
+    checksumSha256: value.checksumSha256,
+    expiresAt: value.expiresAt,
+  };
+}
+
+export async function fetchServerSupportBundle(bundleId: string): Promise<ServerSupportBundle> {
+  if (!SUPPORT_BUNDLE_ID.test(bundleId)) throw new Error("SUPPORT_BUNDLE_ID_INVALID");
+  const value = await requestJson(`${SUPPORT_BUNDLE_PATH}/${bundleId}`);
+  if (
+    !record(value) ||
+    !hasOnlyKeys(value, ["schema", "createdAt", "expiresAt", "checksum", "report"]) ||
+    value.schema !== "grimmlink.phase08.support-bundle.v1" ||
+    !canonicalIsoTimestamp(value.createdAt) ||
+    !canonicalIsoTimestamp(value.expiresAt) ||
+    Date.parse(value.expiresAt) - Date.parse(value.createdAt) !== 60 * 60_000 ||
+    !record(value.checksum) ||
+    !hasOnlyKeys(value.checksum, ["algorithm", "covers", "value"]) ||
+    value.checksum.algorithm !== "SHA-256" ||
+    value.checksum.covers !== "report-json-v1" ||
+    typeof value.checksum.value !== "string" ||
+    !SHA256.test(value.checksum.value) ||
+    !record(value.report) ||
+    !hasOnlyKeys(value.report, ["schema", "generatedAt", "scope", "status", "diagnostics"]) ||
+    value.report.schema !== "grimmlink.phase08.support-report.v1" ||
+    value.report.generatedAt !== value.createdAt ||
+    value.report.scope !== "SAFE_LOCAL_PROCESS_STATUS" ||
+    !record(value.report.status) ||
+    !hasOnlyKeys(value.report.status, [
+      "mode",
+      "officialConnected",
+      "gatewayForwarding",
+      "protectedWrites",
+    ]) ||
+    value.report.status.mode !== "MOCK_ONLY" ||
+    value.report.status.officialConnected !== false ||
+    value.report.status.gatewayForwarding !== "DENY_ALL" ||
+    value.report.status.protectedWrites !== "OFF" ||
+    !Array.isArray(value.report.diagnostics) ||
+    value.report.diagnostics.length > 100 ||
+    !value.report.diagnostics.every((line) => {
+      try {
+        parseSafeDiagnosticLog(line);
+        return true;
+      } catch {
+        return false;
+      }
+    })
+  ) {
+    throw new Error("SUPPORT_BUNDLE_RESPONSE_INVALID");
+  }
+  const digest = await globalThis.crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(JSON.stringify(value.report)),
+  );
+  const actualChecksum = Array.from(new Uint8Array(digest), (byte) =>
+    byte.toString(16).padStart(2, "0"),
+  ).join("");
+  if (actualChecksum !== value.checksum.value) throw new Error("SUPPORT_BUNDLE_CHECKSUM_INVALID");
+  return value as unknown as ServerSupportBundle;
 }
 
 function parseLogs(value: unknown): readonly SafeDiagnosticLog[] {

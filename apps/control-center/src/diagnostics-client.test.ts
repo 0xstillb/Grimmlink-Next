@@ -1,9 +1,11 @@
 import { afterEach, expect, it, vi } from "vitest";
 import {
   DiagnosticsClientError,
+  createServerSupportBundle,
   enableDiagnosticLease,
   fetchOwnerSession,
   fetchDiagnosticLogs,
+  fetchServerSupportBundle,
   loginOwner,
   logoutOwner,
   parseSafeDiagnosticLog,
@@ -176,4 +178,94 @@ it("treats an expired or missing owner cookie as signed out and rejects malforme
   );
   expect(await fetchOwnerSession()).toEqual({ authenticated: false, csrfToken: null });
   await expect(loginOwner("secure owner password")).rejects.toThrow("OWNER_LOGIN_RESPONSE_INVALID");
+});
+
+it("creates and verifies a bounded server support bundle before download", async () => {
+  const bundleId = "A".repeat(22);
+  const createdAt = "2026-10-31T00:00:00.000Z";
+  const expiresAt = "2026-10-31T01:00:00.000Z";
+  const report = {
+    schema: "grimmlink.phase08.support-report.v1",
+    generatedAt: createdAt,
+    scope: "SAFE_LOCAL_PROCESS_STATUS",
+    status: {
+      mode: "MOCK_ONLY",
+      officialConnected: false,
+      gatewayForwarding: "DENY_ALL",
+      protectedWrites: "OFF",
+    },
+    diagnostics: [safeLine],
+  };
+  const digest = await globalThis.crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(JSON.stringify(report)),
+  );
+  const checksumSha256 = Array.from(new Uint8Array(digest), (byte) =>
+    byte.toString(16).padStart(2, "0"),
+  ).join("");
+  const bundle = {
+    schema: "grimmlink.phase08.support-bundle.v1",
+    createdAt,
+    expiresAt,
+    checksum: { algorithm: "SHA-256", covers: "report-json-v1", value: checksumSha256 },
+    report,
+  };
+  const fetchMock = vi
+    .fn()
+    .mockResolvedValueOnce(
+      new Response(JSON.stringify({ bundleId, checksumSha256, expiresAt }), {
+        headers: { "content-type": "application/json" },
+      }),
+    )
+    .mockResolvedValueOnce(
+      new Response(JSON.stringify(bundle), { headers: { "content-type": "application/json" } }),
+    );
+  vi.stubGlobal("fetch", fetchMock);
+
+  const receipt = await createServerSupportBundle("A".repeat(43));
+  expect(receipt).toEqual({ bundleId, checksumSha256, expiresAt });
+  const downloaded = await fetchServerSupportBundle(bundleId);
+  expect(downloaded.report.diagnostics).toEqual([safeLine]);
+  expect(fetchMock.mock.calls.map(([url]) => url)).toEqual([
+    "/api/grimmlink/v2/local/support-bundle",
+    `/api/grimmlink/v2/local/support-bundle/${bundleId}`,
+  ]);
+  expect(fetchMock.mock.calls[0]?.[1]).toMatchObject({
+    method: "POST",
+    headers: { Accept: "application/json", "x-csrf-token": "A".repeat(43) },
+  });
+  await expect(fetchServerSupportBundle("short-id")).rejects.toThrow("SUPPORT_BUNDLE_ID_INVALID");
+});
+
+it("rejects support bundle checksum changes before making them available for download", async () => {
+  const report = {
+    schema: "grimmlink.phase08.support-report.v1",
+    generatedAt: "2026-10-31T00:00:00.000Z",
+    scope: "SAFE_LOCAL_PROCESS_STATUS",
+    status: {
+      mode: "MOCK_ONLY",
+      officialConnected: false,
+      gatewayForwarding: "DENY_ALL",
+      protectedWrites: "OFF",
+    },
+    diagnostics: [safeLine],
+  };
+  vi.stubGlobal(
+    "fetch",
+    vi.fn().mockResolvedValueOnce(
+      new Response(
+        JSON.stringify({
+          schema: "grimmlink.phase08.support-bundle.v1",
+          createdAt: report.generatedAt,
+          expiresAt: "2026-10-31T01:00:00.000Z",
+          checksum: { algorithm: "SHA-256", covers: "report-json-v1", value: "0".repeat(64) },
+          report,
+        }),
+        { headers: { "content-type": "application/json" } },
+      ),
+    ),
+  );
+  await expect(fetchServerSupportBundle("A".repeat(22))).rejects.toThrow(
+    "SUPPORT_BUNDLE_CHECKSUM_INVALID",
+  );
 });

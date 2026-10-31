@@ -18,6 +18,9 @@ const LOCAL_READ_PATHS = new Set([
 ]);
 const DIAGNOSTICS_PATH = /^\/api\/grimmlink\/v2\/local\/diagnostics\/adapter\/(logs|lease)$/;
 const AUTH_PATH = /^\/api\/grimmlink\/v2\/local\/auth\/(session|login|logout)$/;
+const SUPPORT_BUNDLE_PATH = "/api/grimmlink/v2/local/support-bundle";
+const SUPPORT_BUNDLE_DOWNLOAD_PATH =
+  /^\/api\/grimmlink\/v2\/local\/support-bundle\/[A-Za-z0-9_-]{22}$/;
 const SAFE_LOG_LEVELS = new Set(["trace", "debug", "info", "warn", "error", "fatal"]);
 const SAFE_LOG_CODES = new Set(["REQUEST_SUMMARY", "SQLITE_RETRY", "MIGRATION_STAGE"]);
 const FORBIDDEN_HEADER_NAMES = new Set([
@@ -115,6 +118,11 @@ export function classifyGatewayRequest(
     const action = authPath[1];
     if (action === "session" && method === "GET") return "LOCAL_AUTH";
     if ((action === "login" || action === "logout") && method === "POST") return "LOCAL_AUTH";
+  }
+  if (path === SUPPORT_BUNDLE_PATH || SUPPORT_BUNDLE_DOWNLOAD_PATH.test(path)) {
+    if (query !== undefined) return "INVALID_TARGET";
+    if (path === SUPPORT_BUNDLE_PATH && method === "POST") return "LOCAL_DIAGNOSTICS";
+    if (SUPPORT_BUNDLE_DOWNLOAD_PATH.test(path) && method === "GET") return "LOCAL_DIAGNOSTICS";
   }
   const diagnosticsPath = DIAGNOSTICS_PATH.exec(path);
   if (diagnosticsPath) {

@@ -62,6 +62,17 @@ describe("Phase02 zero-forward gateway classifier", () => {
     expect(classify("POST", "/api/grimmlink/v2/local/auth/unknown")).toBe("DENY_UPSTREAM");
   });
 
+  it("permits only authenticated support-bundle create and download paths", () => {
+    const collection = "/api/grimmlink/v2/local/support-bundle";
+    const download = `${collection}/AbCdEf0123456789_-AbCd`;
+    expect(classify("POST", collection)).toBe("LOCAL_DIAGNOSTICS");
+    expect(classify("GET", download)).toBe("LOCAL_DIAGNOSTICS");
+    expect(classify("GET", collection)).toBe("DENY_UPSTREAM");
+    expect(classify("DELETE", download)).toBe("DENY_UPSTREAM");
+    expect(classify("GET", `${download}?path=/private`)).toBe("INVALID_TARGET");
+    expect(classify("GET", `${collection}/short-id`)).toBe("DENY_UPSTREAM");
+  });
+
   it.each([
     "/",
     "/api/v1/books",

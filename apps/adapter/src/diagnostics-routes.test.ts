@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import Fastify from "fastify";
 import { DiagnosticLeases, SafeLogBuffer } from "@grimmlink/observability";
 import { expect, it } from "vitest";
@@ -138,5 +139,86 @@ it("rejects an invalid diagnostics allowlist", async () => {
       verifyCsrf: async () => true,
     }),
   ).toThrow("Invalid diagnostics module allowlist");
+  await server.close();
+});
+
+it("collects, retains and delivers only a bounded owner-authorized support bundle", async () => {
+  const server = Fastify();
+  let now = 10_000;
+  const logs = new SafeLogBuffer("adapter", { now: () => now });
+  logs.write(
+    JSON.stringify({
+      level: 20,
+      time: now,
+      module: "adapter",
+      msg: "SCOPED_DIAGNOSTIC",
+      code: "REQUEST_SUMMARY",
+      req: { id: "01234567-89ab-4cde-8f01-23456789abcd", method: "GET" },
+    }) + "\n",
+  );
+  registerIsolatedDiagnosticsRoutes(server, {
+    buffers: { adapter: logs },
+    leases: new DiagnosticLeases(),
+    authorizeOwner: async (request) => request.headers["x-owner"] === "yes",
+    verifyCsrf: async (request) => request.headers["x-csrf"] === "yes",
+    now: () => now,
+  });
+  await server.ready();
+
+  const path = "/api/grimmlink/v2/local/support-bundle";
+  expect(
+    (await server.inject({ method: "POST", url: path, headers: { "x-owner": "yes" } })).statusCode,
+  ).toBe(403);
+  const created = await server.inject({
+    method: "POST",
+    url: path,
+    headers: { "x-owner": "yes", "x-csrf": "yes" },
+  });
+  expect(created.statusCode).toBe(200);
+  expect(created.headers["cache-control"]).toBe("no-store");
+  const receipt = created.json() as {
+    bundleId: string;
+    checksumSha256: string;
+    expiresAt: string;
+  };
+  expect(receipt.bundleId).toMatch(/^[A-Za-z0-9_-]{22}$/);
+  expect(receipt.checksumSha256).toMatch(/^[0-9a-f]{64}$/);
+
+  expect(
+    (
+      await server.inject({
+        method: "GET",
+        url: `${path}/${receipt.bundleId}`,
+      })
+    ).statusCode,
+  ).toBe(403);
+  const delivered = await server.inject({
+    method: "GET",
+    url: `${path}/${receipt.bundleId}`,
+    headers: { "x-owner": "yes" },
+  });
+  expect(delivered.statusCode).toBe(200);
+  expect(delivered.headers["content-disposition"]).toBe(
+    'attachment; filename="grimmlink-support-bundle.json"',
+  );
+  const bundle = delivered.json();
+  expect(bundle.schema).toBe("grimmlink.phase08.support-bundle.v1");
+  expect(bundle.checksum.value).toBe(receipt.checksumSha256);
+  expect(bundle.report.diagnostics).toHaveLength(1);
+  expect(bundle.report.diagnostics[0]).not.toContain("token");
+  expect(createHash("sha256").update(JSON.stringify(bundle.report), "utf8").digest("hex")).toBe(
+    receipt.checksumSha256,
+  );
+
+  now += 60 * 60_000;
+  expect(
+    (
+      await server.inject({
+        method: "GET",
+        url: `${path}/${receipt.bundleId}`,
+        headers: { "x-owner": "yes" },
+      })
+    ).statusCode,
+  ).toBe(404);
   await server.close();
 });

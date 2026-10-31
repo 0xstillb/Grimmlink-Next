@@ -1,3 +1,4 @@
+import { createHash, randomBytes } from "node:crypto";
 import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import {
   DiagnosticLeases,
@@ -20,6 +21,11 @@ export interface IsolatedDiagnosticsSource {
 }
 
 const MODULE_ID = /^[a-z][a-z0-9_-]{0,63}$/;
+const SUPPORT_BUNDLE_ID = /^[A-Za-z0-9_-]{22}$/;
+const SUPPORT_BUNDLE_PATH = "/api/grimmlink/v2/local/support-bundle";
+const SUPPORT_BUNDLE_TTL_MS = 60 * 60_000;
+const SUPPORT_BUNDLE_MAX_COUNT = 8;
+const SUPPORT_BUNDLE_MAX_BYTES = 256 * 1024;
 const LOG_LEVELS = new Set<SafeLogLevel>(["trace", "debug", "info", "warn", "error", "fatal"]);
 const LOG_CODES = new Set<SafeLogCode>(["REQUEST_SUMMARY", "SQLITE_RETRY", "MIGRATION_STAGE"]);
 const isRecord = (value: unknown): value is Record<string, unknown> =>
@@ -64,6 +70,23 @@ export function registerIsolatedDiagnosticsRoutes(
   const bufferFor = (module: string): SafeLogBuffer | null =>
     MODULE_ID.test(module) && allowedModules.has(module) ? source.buffers[module]! : null;
   const noStore = (reply: FastifyReply) => reply.header("cache-control", "no-store");
+  type StoredSupportBundle = Readonly<{
+    expiresAtMs: number;
+    content: Readonly<Record<string, unknown>>;
+  }>;
+  const supportBundleNow = (): number | null => {
+    try {
+      return source.now?.() ?? Date.now();
+    } catch {
+      return null;
+    }
+  };
+  const supportBundles = new Map<string, StoredSupportBundle>();
+  const pruneSupportBundles = (at: number) => {
+    for (const [id, bundle] of supportBundles) {
+      if (bundle.expiresAtMs <= at) supportBundles.delete(id);
+    }
+  };
 
   server.get<{ Params: { module: string }; Querystring: Record<string, unknown> }>(
     "/api/grimmlink/v2/local/diagnostics/:module/logs",
@@ -198,6 +221,88 @@ export function registerIsolatedDiagnosticsRoutes(
         return reply.code(400).send({ error: "DIAGNOSTICS_LEASE_INVALID" });
       }
       return reply.send({ module: request.params.module, level: "info", expiresAt: null });
+    },
+  );
+
+  server.post(`${SUPPORT_BUNDLE_PATH}`, { preHandler: ownerCsrfGuard }, async (_request, reply) => {
+    noStore(reply);
+    const at = supportBundleNow();
+    if (at === null) return reply.code(503).send({ error: "SUPPORT_BUNDLE_UNAVAILABLE" });
+    if (!Number.isSafeInteger(at) || at < 0 || !Number.isSafeInteger(at + SUPPORT_BUNDLE_TTL_MS)) {
+      return reply.code(503).send({ error: "SUPPORT_BUNDLE_UNAVAILABLE" });
+    }
+    const createdDate = new Date(at);
+    const expiresAtMs = at + SUPPORT_BUNDLE_TTL_MS;
+    const expiresDate = new Date(expiresAtMs);
+    if (!Number.isFinite(createdDate.getTime()) || !Number.isFinite(expiresDate.getTime())) {
+      return reply.code(503).send({ error: "SUPPORT_BUNDLE_UNAVAILABLE" });
+    }
+    let lines: readonly string[];
+    try {
+      lines = source.buffers.adapter?.read({ limit: 100 }, at) ?? [];
+    } catch {
+      return reply.code(503).send({ error: "SUPPORT_BUNDLE_UNAVAILABLE" });
+    }
+    const report = {
+      schema: "grimmlink.phase08.support-report.v1",
+      generatedAt: createdDate.toISOString(),
+      scope: "SAFE_LOCAL_PROCESS_STATUS",
+      status: {
+        mode: "MOCK_ONLY",
+        officialConnected: false,
+        gatewayForwarding: "DENY_ALL",
+        protectedWrites: "OFF",
+      },
+      diagnostics: lines,
+    };
+    const canonicalReport = JSON.stringify(report);
+    const checksumSha256 = createHash("sha256").update(canonicalReport, "utf8").digest("hex");
+    const content = {
+      schema: "grimmlink.phase08.support-bundle.v1",
+      createdAt: createdDate.toISOString(),
+      expiresAt: expiresDate.toISOString(),
+      checksum: { algorithm: "SHA-256", covers: "report-json-v1", value: checksumSha256 },
+      report,
+    };
+    if (Buffer.byteLength(JSON.stringify(content), "utf8") > SUPPORT_BUNDLE_MAX_BYTES) {
+      return reply.code(503).send({ error: "SUPPORT_BUNDLE_UNAVAILABLE" });
+    }
+    pruneSupportBundles(at);
+    while (supportBundles.size >= SUPPORT_BUNDLE_MAX_COUNT) {
+      const oldest = supportBundles.keys().next().value as string | undefined;
+      if (oldest === undefined) break;
+      supportBundles.delete(oldest);
+    }
+    const bundleId = randomBytes(16).toString("base64url");
+    supportBundles.set(bundleId, { expiresAtMs, content });
+    return reply.send({
+      bundleId,
+      checksumSha256,
+      expiresAt: expiresDate.toISOString(),
+    });
+  });
+
+  server.get<{ Params: { id: string } }>(
+    `${SUPPORT_BUNDLE_PATH}/:id`,
+    { preHandler: ownerGuard },
+    async (request, reply) => {
+      noStore(reply);
+      const at = supportBundleNow();
+      if (
+        at === null ||
+        !Number.isSafeInteger(at) ||
+        at < 0 ||
+        !SUPPORT_BUNDLE_ID.test(request.params.id)
+      ) {
+        return reply.code(404).send({ error: "SUPPORT_BUNDLE_NOT_FOUND" });
+      }
+      pruneSupportBundles(at);
+      const bundle = supportBundles.get(request.params.id);
+      if (!bundle) return reply.code(404).send({ error: "SUPPORT_BUNDLE_NOT_FOUND" });
+      return reply
+        .header("content-disposition", 'attachment; filename="grimmlink-support-bundle.json"')
+        .type("application/json; charset=utf-8")
+        .send(bundle.content);
     },
   );
 }

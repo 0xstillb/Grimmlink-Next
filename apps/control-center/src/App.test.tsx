@@ -55,6 +55,7 @@ it("exposes every Phase08 product area with a scoped preview description", () =>
     }
     if (section === "Logs & Diagnostics") {
       expect(html).toContain("Copy safe support bundle");
+      expect(html).toContain("Download authenticated server bundle");
       expect(html).toContain("copied text cannot be revoked");
       expect(html).toContain("Live diagnostics");
       expect(html).toContain("Enable DEBUG");
