@@ -52,15 +52,15 @@
     "FULL_REAL_HERMES_NAS_READER_E2E",
     "ONE_FINAL_INDEPENDENT_SECURITY_REVIEW_AND_REMEDIATION"
   ],
-  "nextAction": "Verify exact-head CI for the current Identity/Reading/OPDS unavailable-status screens, then add real domain providers only with trusted data sources, complete the device inventory and editable settings scope, review compatibility evidence and owner approval, and harden package/config/rollback before claiming Phase08 ready for Phase09.",
+  "nextAction": "Configure trusted domain data providers for Identity, Reading and OPDS, complete device inventory and editable settings scope, review compatibility evidence and owner approval, and harden package/config/rollback before claiming Phase08 ready for Phase09.",
   "reconciliationCheckpoint": {
     "date": "2026-10-31",
     "status": "IN_PROGRESS_OFFLINE_RECONCILIATION",
     "branch": "codex/phase-01-08-completion",
     "pullRequest": "https://github.com/0xstillb/Grimmlink-Next/pull/13",
     "baseIntegrationHead": "68b7d74daecdacc909ac095c86f6f95aed84ffe7",
-    "sourceHead": "49d0746ae2c779846e284b1c42f877651b89799d",
-    "previousCommittedSourceHead": "3ef91558179d02fe781b0884d26ee9632c19f907",
+    "sourceHead": "ad87cf22f1a8561b2e8df5e4314f3264d0eaa0a1",
+    "previousCommittedSourceHead": "49d0746ae2c779846e284b1c42f877651b89799d",
     "previousCommittedHeadLinuxCI": "B49AFC780879DAD2E0E4F1DDC29CACF967DD0146_SUCCESS_10_WORKFLOWS",
     "delivered": [
       "10_NAVIGATION_SECTIONS_WITH_EXPLICIT_UNAVAILABLE_STATES",
@@ -134,8 +134,8 @@
       "fullWindowsWorkspaceVitest": "FAIL_181_PASSED_26_PLATFORM_OR_LOOPBACK_FAILURES",
       "fullRepositoryPrettier": "FAIL_84_PREEXISTING_FILES_REPORTED"
     },
-    "exactHeadLinuxCI": "PASS_10_WORKFLOWS_AT_49D0746_INCLUDING_PHASE01_ARM64_PHASE02_SPRING_PHASE07_AND_PHASE08",
-    "currentCheckpointExactHeadLinuxCI": "49D0746_PASS_10_WORKFLOWS;_IDENTITY_READING_OPDS_STATUS_SLICE_EXACT_HEAD_CI_PENDING;_READ_LIVE_GITHUB_FOR_CURRENT_PR_HEAD",
+    "exactHeadLinuxCI": "PASS_10_WORKFLOWS_AT_AD87CF22_INCLUDING_PHASE01_ARM64_PHASE02_SPRING_PHASE07_AND_PHASE08",
+    "currentCheckpointExactHeadLinuxCI": "AD87CF22_PASS_10_WORKFLOWS;_DOMAIN_SCREEN_STATUS_SLICE_EXACT_HEAD_CI_VERIFIED",
     "additionalOfflineDiagnosticsFactory": "MAIN_OPTIONALLY_MOUNTS_OWNER_AUTH_CSRF_DIAGNOSTICS_SUPPORT_BUNDLE_AND_CONFIGURED_FIXED_ORIGIN_GITHUB_FEED;_AUTH_AND_FEED_DISABLED_WITHOUT_ENV_CONFIG",
     "notDelivered": [
       "REVIEWED_COMPATIBILITY_MANIFEST_AND_EVIDENCE_BASED_IMPACT_CLASSIFICATION",

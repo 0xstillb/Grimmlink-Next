@@ -390,9 +390,9 @@
       "ciConclusion": "SUCCESS"
     },
     "latestCodeCI": {
-      "sourceHead": "49d0746ae2c779846e284b1c42f877651b89799d",
-      "run": "41177216417",
-      "runUrl": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/41177216417",
+      "sourceHead": "ad87cf22f1a8561b2e8df5e4314f3264d0eaa0a1",
+      "run": "41178260986",
+      "runUrl": "https://github.com/0xstillb/Grimmlink-Next/actions/runs/41178260986",
       "conclusion": "SUCCESS",
       "scope": "PHASE08_WORKFLOW_SUCCESS; ALL_10_PR_HEAD_WORKFLOWS_SUCCESS"
     },
@@ -402,10 +402,10 @@
       "branch": "codex/phase-01-08-completion",
       "pr": "https://github.com/0xstillb/Grimmlink-Next/pull/13",
       "baseIntegrationHead": "68b7d74daecdacc909ac095c86f6f95aed84ffe7",
-      "sourceHead": "49d0746ae2c779846e284b1c42f877651b89799d",
-      "previousCommittedSourceHead": "3ef91558179d02fe781b0884d26ee9632c19f907",
+      "sourceHead": "ad87cf22f1a8561b2e8df5e4314f3264d0eaa0a1",
+      "previousCommittedSourceHead": "49d0746ae2c779846e284b1c42f877651b89799d",
       "previousExactHeadLinuxCI": "B49AFC780879DAD2E0E4F1DDC29CACF967DD0146_SUCCESS_10_WORKFLOWS",
-      "exactHeadLinuxCI": "PASS_10_WORKFLOWS_AT_49D0746_INCLUDING_PHASE01_ARM64_PHASE02_SPRING_PHASE07_AND_PHASE08;_DOMAIN_SCREEN_STATUS_SLICE_CI_PENDING",
+      "exactHeadLinuxCI": "PASS_10_WORKFLOWS_AT_AD87CF22_INCLUDING_PHASE01_ARM64_PHASE02_SPRING_PHASE07_AND_PHASE08",
       "uiNavigationSections": 10,
       "releaseEvidenceParserTests": "PASS_5_TESTS",
       "safeSupportBundleTests": "PASS_2_TESTS",
