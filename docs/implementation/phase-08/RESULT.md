@@ -1,12 +1,12 @@
 # Phase 08 — Single-Owner Control Center, Diagnostics and Offline Packaging
 
-## Current execution checkpoint — Adapter closed; plugin next (2026-10-31)
+## Current execution checkpoint — plugin source passed; Staging next (2026-10-31)
 
 The Adapter/Control Center workstream passed its exact-source gate at `9e872755fbabd93dabc254372574cc5e77f6a639`. All 10 PR workflows passed, including Phase01 ARM64 build/smoke, Phase02 pinned Spring evidence and Phase07 Staging topology validation. Run IDs and local validation are recorded in `ACTIVE-SESSION.json` and `HANDOFF.json`.
 
-Adapter is closed as an offline development workstream. The private Staging Adapter API is limited to owner-authenticated local pairing and event persistence. KOReader plugin work starts after this handoff commit and remains a separate implementation, test, CI and handoff scope. Phase08 overall remains `IN_PROGRESS_OFFLINE_RECONCILIATION` until the plugin workstream passes.
+Adapter is closed as an offline development workstream. KOReader plugin source `0432eb7e3c4babf8de47909ec2e4f1c376f3d6ec` now passes all 10 exact-head PR workflows, including Phase01 ARM64 and a Lua client mock and deterministic versioned package checks. Run IDs, changed-file list, local syntax/mock results, and artifact SHA-256 are in `ACTIVE-SESSION.json` and `HANDOFF.json`. The plugin reads only the fixed Grimmory OPDS root via GET, asks for credentials at runtime, rejects redirects, caps the response at 256 KiB and reports entry count/next-page presence only. It does not follow links or download files. The Staging Adapter API remains limited to owner-authenticated local pairing and event persistence. Phase08 remains `IN_PROGRESS_OFFLINE_RECONCILIATION` while the Staging execution is prepared.
 
-The owner confirms `192.168.1.116` already hosts Grimmory and has added a user. Deployment and authenticated catalog reading have not yet been verified. After plugin exact-head CI and handoff, deploy to the existing Staging host, verify the new OPDS user's access is limited to the disposable test library, and perform one fixed catalog GET that reports only bounded counts. Do not follow acquisition links or download book files. Keep Grimmory writes, protected Adapter writes and production deployment disabled. Phase09 NAS/Hermes/device E2E, security review, signing and rollback remain separate deferred work.
+The owner confirms `192.168.1.116` already hosts Grimmory and has added an OPDS user for the single-owner account. No deployment or authenticated catalog read has passed. After plugin handoff documentation CI, deploy to the existing Staging host and perform one fixed catalog GET that reports only bounded counts. Do not follow acquisition links or download book files. Keep Grimmory writes, protected Adapter writes and production deployment disabled. Phase09 NAS/Hermes/device E2E, security review, signing and rollback remain separate deferred work.
 
 ## Historical local checkpoints — superseded by the exact-head result above
 

@@ -37,10 +37,11 @@ copy credentials from Grimmory or mount the NAS into the Adapter.
 
 This validates the live Adapter over the private LAN. It does not read or write
 Grimmory or NAS data. A separate read-only Grimmory catalog check uses the
-existing Grimmory OPDS endpoint on port `6060` and an OPDS account scoped to the
-disposable test library. Keep that account's password out of the Adapter env
-file and use it only for the catalog-read test. The plugin catalog check must
-fetch only the OPDS catalog, not follow book-file links.
+existing Grimmory OPDS endpoint on port `6060` and the owner's OPDS account
+linked to the owner's Grimmory user. No test-library restriction is required
+for this single-owner catalog read. Keep the OPDS password out of the Adapter
+env file and enter it only at the interactive catalog-read prompt. The plugin
+fetches only the OPDS catalog; it does not follow book-file links.
 
 To stop the local Adapter without affecting other containers or data:
 

@@ -128,11 +128,13 @@ Grimmory is installed there, and has added an OPDS user for the single-owner
 catalog read.
 After the KOReader plugin's exact-source CI, handoff and final documentation
 checks pass, deploy the candidate to that machine and run
-`PHASE09-ACCEPTANCE-PLAN.md`. Before any
-state-changing scenario, verify the disposable Grimmory account, test library,
-backup, read-only NAS fixture, owner-session configuration, private ingress
-and test readers. These are execution checks on the existing Staging host, not
-a request to provision another environment. Staging readiness and test
+`PHASE09-ACCEPTANCE-PLAN.md`. For the first read-only OPDS catalog GET, use
+the owner-linked OPDS account; no test-library restriction or backup is
+required. Before any later
+state-changing scenario, verify the applicable backup, read-only NAS fixture,
+owner-session configuration, private ingress and test readers. These are
+execution checks on the existing Staging host, not a request to provision
+another environment. Staging readiness and test
 execution do not authorize production deployment.
 
 Production remains `NOT_AUTHORIZED` until Phase09 scenario evidence is complete

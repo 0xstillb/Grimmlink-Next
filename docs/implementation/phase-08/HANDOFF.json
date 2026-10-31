@@ -59,15 +59,15 @@
     "branch": "codex/phase-01-08-completion",
     "pullRequest": "https://github.com/0xstillb/Grimmlink-Next/pull/13",
     "baseIntegrationHead": "68b7d74daecdacc909ac095c86f6f95aed84ffe7",
-    "sourceHead": "9e872755fbabd93dabc254372574cc5e77f6a639",
+    "sourceHead": "0432eb7e3c4babf8de47909ec2e4f1c376f3d6ec",
     "workstreamOrder": [
       "ADAPTER",
       "KOREADER_PLUGIN"
     ],
-    "currentWorkstream": "KOREADER_PLUGIN",
-    "nextWorkstream": "PHASE09_STAGING_E2E",
+    "currentWorkstream": "PHASE09_STAGING_E2E",
+    "nextWorkstream": "AUTHENTICATED_READ_ONLY_OPDS_TEST",
     "phase09Status": "NOT_RUN",
-    "stagingHostStatus": "EXISTS_OWNER_CONFIRMED_GRIMMORY_PRESENT_USER_ADDED_DEPLOYMENT_PENDING",
+    "stagingHostStatus": "EXISTS_OWNER_CONFIRMED_GRIMMORY_PRESENT_SINGLE_OWNER_OPDS_USER_ADDED_DEPLOYMENT_PENDING",
     "productionStatus": "NOT_AUTHORIZED",
     "officialGatewayForwarding": "DENY_ALL",
     "protectedWrites": "OFF",
@@ -148,7 +148,7 @@
       "fullWindowsWorkspaceVitest": "FAIL_181_PASSED_26_PLATFORM_OR_LOOPBACK_FAILURES",
       "fullRepositoryPrettier": "FAIL_84_PREEXISTING_FILES_REPORTED"
     },
-    "exactHeadLinuxCI": "PASS_10_WORKFLOWS_AT_9E872755_INCLUDING_PHASE01_ARM64_PHASE02_SPRING_PHASE07_AND_PHASE08",
+    "exactHeadLinuxCI": "PASS_10_WORKFLOWS_AT_0432EB7_INCLUDING_PHASE01_ARM64_PHASE02_SPRING_PHASE07_AND_PHASE08",
     "currentCheckpointExactHeadLinuxCI": "CD26C0DB_PASS_10_WORKFLOWS;_ADAPTER_CLOSEOUT_VERIFIED;_PLUGIN_NEXT",
     "adapterCloseout": {
       "status": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
@@ -173,9 +173,10 @@
       },
       "localValidation": "PASS_134_ADAPTER_TESTS_ACROSS_11_FILES; PERSISTENCE_AND_ADAPTER_TYPECHECKS; TARGETED_ESLINT_PRETTIER_DIFF_CHECK; PHASE00_60_TESTS_AND_GATE_VALIDATOR; EXACT_HEAD_CI_VALIDATED_COMPOSE_CADDY_AND_STAGING_SMOKE_SCRIPT",
       "deferredToPhase09": [
-        "LIVE_AUTHENTICATED_OPDS_CATALOG_READ_ON_STAGING",
-        "KOReader_DEVICE_INSTALL_AND_PHYSICAL_READER_E2E",
-        "NAS_HERMES_AND_CONTENT_OPEN_E2E",
+        "DEPLOY_TO_EXISTING_STAGING_HOST",
+        "AUTHENTICATED_FIXED_OPDS_GET",
+        "KOReader_DEVICE_INSTALL_AND_PHYSICAL_READER_WORKFLOW",
+        "NAS_HERMES_FULL_SYNC",
         "PRODUCTION_PACKAGE_SIGNING_AND_ROLLBACK",
         "CONSOLIDATED_INDEPENDENT_SECURITY_REVIEW"
       ]
@@ -249,9 +250,55 @@
       "protectedWrites": "OFF",
       "production": "NOT_AUTHORIZED",
       "phase09E2E": "NOT_RUN"
+    },
+    "pluginCloseout": {
+      "status": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
+      "sourceHead": "0432eb7e3c4babf8de47909ec2e4f1c376f3d6ec",
+      "exactHeadCI": {
+        "sourceHead": "0432eb7e3c4babf8de47909ec2e4f1c376f3d6ec",
+        "conclusion": "SUCCESS",
+        "totalWorkflows": 10,
+        "passedWorkflows": 10,
+        "workflowRunIds": [
+          41199337691,
+          41199337674,
+          41199337708,
+          41199337709,
+          41199337680,
+          41199337697,
+          41199337692,
+          41199337698,
+          41199337681,
+          41199337725
+        ]
+      },
+      "changedFiles": [
+        ".github/workflows/phase07-offline.yml",
+        "docs/implementation/phase-08/GATE.md",
+        "plugins/koreader/grimmlink_next.koplugin/README.md",
+        "plugins/koreader/grimmlink_next.koplugin/_meta.lua",
+        "plugins/koreader/grimmlink_next.koplugin/main.lua",
+        "plugins/koreader/grimmlink_next.koplugin/reader_client.lua",
+        "scripts/phase-07/package_plugin.py",
+        "scripts/phase-07/test-lua-mock.lua"
+      ],
+      "localValidation": "PASS_LUA_SYNTAX_AND_OPDS_MOCK; VERSIONED_ZIP_DETERMINISTIC_SHA256_B8E9EBE76EF53902A39C4F1079008EDD56B9093E24DC26EBEB8178C4CD5C8404; PHASE07_WORKFLOW_AND_ALL_10_PR_WORKFLOWS_PASS",
+      "artifact": {
+        "name": "grimmlink-next-koreader-staging-readonly-0.2.0",
+        "sha256": "B8E9EBE76EF53902A39C4F1079008EDD56B9093E24DC26EBEB8178C4CD5C8404"
+      },
+      "liveGrimmoryOpdsRead": "NOT_RUN_STAGING_DEPLOYMENT_PENDING",
+      "deferredToPhase09": [
+        "DEPLOY_TO_EXISTING_STAGING_HOST",
+        "AUTHENTICATED_FIXED_OPDS_GET",
+        "KOReader_DEVICE_INSTALL_AND_PHYSICAL_READER_WORKFLOW",
+        "NAS_HERMES_FULL_SYNC",
+        "PRODUCTION_PACKAGE_SIGNING_AND_ROLLBACK",
+        "CONSOLIDATED_INDEPENDENT_SECURITY_REVIEW"
+      ]
     }
   },
-  "currentCheckpointExactHeadLinuxCI": "PASS_10_WORKFLOWS_AT_9E872755",
+  "currentCheckpointExactHeadLinuxCI": "PASS_10_WORKFLOWS_AT_0432EB7_INCLUDING_PHASE01_ARM64_PHASE02_SPRING_PHASE07_AND_PHASE08",
   "adapterCloseout": {
     "status": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
     "sourceHead": "9e872755fbabd93dabc254372574cc5e77f6a639",
@@ -275,9 +322,56 @@
     },
     "localValidation": "PASS_134_ADAPTER_TESTS_ACROSS_11_FILES; PERSISTENCE_AND_ADAPTER_TYPECHECKS; TARGETED_ESLINT_PRETTIER_DIFF_CHECK; PHASE00_60_TESTS_AND_GATE_VALIDATOR; EXACT_HEAD_CI_VALIDATED_COMPOSE_CADDY_AND_STAGING_SMOKE_SCRIPT",
     "deferredToPhase09": [
-      "LIVE_AUTHENTICATED_OPDS_CATALOG_READ_ON_STAGING",
-      "KOReader_DEVICE_INSTALL_AND_PHYSICAL_READER_E2E",
-      "NAS_HERMES_AND_CONTENT_OPEN_E2E",
+      "DEPLOY_TO_EXISTING_STAGING_HOST",
+      "AUTHENTICATED_FIXED_OPDS_GET",
+      "KOReader_DEVICE_INSTALL_AND_PHYSICAL_READER_WORKFLOW",
+      "NAS_HERMES_FULL_SYNC",
+      "PRODUCTION_PACKAGE_SIGNING_AND_ROLLBACK",
+      "CONSOLIDATED_INDEPENDENT_SECURITY_REVIEW"
+    ]
+  },
+  "pluginCloseout": {
+    "status": "DEV_CHECKS_PASS_WITH_DEFERRED_RISKS",
+    "sourceHead": "0432eb7e3c4babf8de47909ec2e4f1c376f3d6ec",
+    "exactHeadCI": {
+      "sourceHead": "0432eb7e3c4babf8de47909ec2e4f1c376f3d6ec",
+      "conclusion": "SUCCESS",
+      "totalWorkflows": 10,
+      "passedWorkflows": 10,
+      "workflowRunIds": [
+        41199337691,
+        41199337674,
+        41199337708,
+        41199337709,
+        41199337680,
+        41199337697,
+        41199337692,
+        41199337698,
+        41199337681,
+        41199337725
+      ]
+    },
+    "changedFiles": [
+      ".github/workflows/phase07-offline.yml",
+      "docs/implementation/phase-08/GATE.md",
+      "plugins/koreader/grimmlink_next.koplugin/README.md",
+      "plugins/koreader/grimmlink_next.koplugin/_meta.lua",
+      "plugins/koreader/grimmlink_next.koplugin/main.lua",
+      "plugins/koreader/grimmlink_next.koplugin/reader_client.lua",
+      "scripts/phase-07/package_plugin.py",
+      "scripts/phase-07/test-lua-mock.lua"
+    ],
+    "localValidation": "PASS_LUA_SYNTAX_AND_OPDS_MOCK; VERSIONED_ZIP_DETERMINISTIC_SHA256_B8E9EBE76EF53902A39C4F1079008EDD56B9093E24DC26EBEB8178C4CD5C8404; PHASE07_WORKFLOW_AND_ALL_10_PR_WORKFLOWS_PASS",
+    "artifact": {
+      "name": "grimmlink-next-koreader-staging-readonly-0.2.0",
+      "sha256": "B8E9EBE76EF53902A39C4F1079008EDD56B9093E24DC26EBEB8178C4CD5C8404"
+    },
+    "liveGrimmoryOpdsRead": "NOT_RUN_STAGING_DEPLOYMENT_PENDING",
+    "deferredToPhase09": [
+      "DEPLOY_TO_EXISTING_STAGING_HOST",
+      "AUTHENTICATED_FIXED_OPDS_GET",
+      "KOReader_DEVICE_INSTALL_AND_PHYSICAL_READER_WORKFLOW",
+      "NAS_HERMES_FULL_SYNC",
       "PRODUCTION_PACKAGE_SIGNING_AND_ROLLBACK",
       "CONSOLIDATED_INDEPENDENT_SECURITY_REVIEW"
     ]
