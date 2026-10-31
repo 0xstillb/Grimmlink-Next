@@ -53,5 +53,9 @@ it("exposes every Phase08 product area with a scoped preview description", () =>
       expect(html).toContain("UNKNOWN · review required");
       expect(html).toContain("NOT_AUTHORIZED");
     }
+    if (section === "Logs & Diagnostics") {
+      expect(html).toContain("Copy safe support bundle");
+      expect(html).toContain("copied text cannot be revoked");
+    }
   }
 });

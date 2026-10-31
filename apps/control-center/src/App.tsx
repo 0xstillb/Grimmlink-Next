@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import {
   DISCONNECTED,
+  createSafeSupportBundle,
   inspectLocalAdapter,
-  safeDiagnosticExport,
   type LocalSnapshot,
+  type SafeSupportBundle,
 } from "./phase08-model.js";
 
 export const sections = [
@@ -97,6 +98,7 @@ export function App({ initialSection = "Overview" }: { initialSection?: Section 
   const [snapshot, setSnapshot] = useState<LocalSnapshot>(DISCONNECTED);
   const [checking, setChecking] = useState(false);
   const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
+  const [supportBundle, setSupportBundle] = useState<SafeSupportBundle | null>(null);
 
   const refresh = useCallback(async (signal: AbortSignal) => {
     setChecking(true);
@@ -113,9 +115,23 @@ export function App({ initialSection = "Overview" }: { initialSection?: Section 
     return () => controller.abort();
   }, [refresh]);
 
+  useEffect(() => {
+    if (!supportBundle) return;
+    const timer = window.setTimeout(
+      () => {
+        setSupportBundle(null);
+        setCopyState("idle");
+      },
+      Math.max(0, supportBundle.expiresAtMs - Date.now()),
+    );
+    return () => window.clearTimeout(timer);
+  }, [supportBundle]);
+
   const copyDiagnostics = async () => {
     try {
-      await navigator.clipboard.writeText(safeDiagnosticExport(snapshot));
+      const bundle = await createSafeSupportBundle(snapshot);
+      setSupportBundle(bundle);
+      await navigator.clipboard.writeText(bundle.text);
       setCopyState("copied");
     } catch {
       setCopyState("failed");
@@ -146,6 +162,7 @@ export function App({ initialSection = "Overview" }: { initialSection?: Section 
               onClick={() => {
                 setSelected(label);
                 setCopyState("idle");
+                setSupportBundle(null);
               }}
             >
               {label}
@@ -368,15 +385,29 @@ export function App({ initialSection = "Overview" }: { initialSection?: Section 
               <strong>{snapshot.nativeKosync}</strong>
             </div>
             <button className="primary-button" type="button" onClick={() => void copyDiagnostics()}>
-              Copy safe diagnostic report
+              Copy safe support bundle
             </button>
+            <p className="bundle-expiry-note">
+              The one-hour timer clears this page preview; copied text cannot be revoked.
+            </p>
             <p role="status" aria-live="polite">
-              {copyState === "copied"
-                ? "Safe report copied."
+              {copyState === "copied" && supportBundle
+                ? `Support bundle copied. This page preview expires at ${supportBundle.expiresAt}.`
                 : copyState === "failed"
-                  ? "Copy unavailable in this browser."
+                  ? supportBundle
+                    ? "Bundle preview is ready; clipboard access is unavailable."
+                    : "Bundle generation or clipboard access is unavailable in this browser."
                   : "No device or backend details are collected."}
             </p>
+            {supportBundle && (
+              <details className="bundle-preview">
+                <summary>Preview the allow-listed bundle</summary>
+                <p>
+                  SHA-256: <code>{supportBundle.checksumSha256}</code>
+                </p>
+                <pre>{supportBundle.text}</pre>
+              </details>
+            )}
             <p className="empty-state">
               No server logs, alerts or remote diagnostics were collected
             </p>

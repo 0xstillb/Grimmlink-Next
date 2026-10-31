@@ -127,3 +127,64 @@ export function safeDiagnosticExport(snapshot: LocalSnapshot): string {
     2,
   );
 }
+
+export const SUPPORT_BUNDLE_TTL_MS = 60 * 60_000;
+
+export type SafeSupportBundle = Readonly<{
+  text: string;
+  checksumSha256: string;
+  createdAt: string;
+  expiresAt: string;
+  expiresAtMs: number;
+}>;
+
+/**
+ * Build an in-memory, allow-listed support bundle. The checksum covers only
+ * the canonical report JSON; its one-hour expiry clears the page preview, not
+ * copies already placed on the system clipboard.
+ */
+export async function createSafeSupportBundle(
+  snapshot: LocalSnapshot,
+  createdAtMs = Date.now(),
+): Promise<SafeSupportBundle> {
+  if (!Number.isSafeInteger(createdAtMs) || createdAtMs < 0) {
+    throw new Error("SUPPORT_BUNDLE_CLOCK_INVALID");
+  }
+  const expiresAtMs = createdAtMs + SUPPORT_BUNDLE_TTL_MS;
+  const createdDate = new Date(createdAtMs);
+  const expiresDate = new Date(expiresAtMs);
+  if (
+    !Number.isSafeInteger(expiresAtMs) ||
+    !Number.isFinite(createdDate.getTime()) ||
+    !Number.isFinite(expiresDate.getTime())
+  ) {
+    throw new Error("SUPPORT_BUNDLE_CLOCK_INVALID");
+  }
+
+  const report = JSON.parse(safeDiagnosticExport(snapshot)) as Record<string, unknown>;
+  const digest = await globalThis.crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(JSON.stringify(report)),
+  );
+  const checksumSha256 = Array.from(new Uint8Array(digest), (value) =>
+    value.toString(16).padStart(2, "0"),
+  ).join("");
+  const createdAt = createdDate.toISOString();
+  const expiresAt = expiresDate.toISOString();
+  const text = JSON.stringify(
+    {
+      schema: "grimmlink.phase08.support-bundle.v1",
+      createdAt,
+      expiresAt,
+      checksum: { algorithm: "SHA-256", covers: "report-json-v1", value: checksumSha256 },
+      report,
+    },
+    null,
+    2,
+  );
+  return { text, checksumSha256, createdAt, expiresAt, expiresAtMs };
+}
+
+export function supportBundleExpired(bundle: SafeSupportBundle, nowMs = Date.now()): boolean {
+  return !Number.isSafeInteger(nowMs) || nowMs >= bundle.expiresAtMs;
+}

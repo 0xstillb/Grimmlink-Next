@@ -289,6 +289,34 @@ footer {
   border-radius: 12px;
   background: #151d2a;
 }
+.bundle-preview {
+  margin-top: 18px;
+  border-top: 1px solid #303b50;
+  padding-top: 14px;
+  color: #c5cee0;
+}
+.bundle-expiry-note {
+  color: #aeb9cd;
+  font-size: 12px !important;
+}
+.bundle-preview summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.bundle-preview pre {
+  max-height: 20rem;
+  overflow: auto;
+  padding: 14px;
+  border-radius: 10px;
+  background: #111925;
+  color: #dce5f4;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+}
+.bundle-preview code {
+  overflow-wrap: anywhere;
+}
 .preview-actions {
   display: flex;
   flex-wrap: wrap;

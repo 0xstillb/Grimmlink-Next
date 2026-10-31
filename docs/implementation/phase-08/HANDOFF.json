@@ -52,7 +52,7 @@
     "FULL_REAL_HERMES_NAS_READER_E2E",
     "ONE_FINAL_INDEPENDENT_SECURITY_REVIEW_AND_REMEDIATION"
   ],
-  "nextAction": "Continue Phase01-08 offline reconciliation on PR #13. Check its exact-head Linux CI, then implement and verify the remaining Phase08 log, release-watcher, authenticated screen contracts and package hardening before claiming the phase ready for Phase09.",
+  "nextAction": "Continue Phase01-08 offline reconciliation on PR #13. Recheck exact-head Linux CI after the current checkpoint commit, then implement and verify the remaining Phase08 log, release-watcher transport, authenticated screen contracts and package hardening before claiming the phase ready for Phase09.",
   "reconciliationCheckpoint": {
     "date": "2026-10-31",
     "status": "IN_PROGRESS_OFFLINE_RECONCILIATION",
@@ -60,29 +60,33 @@
     "pullRequest": "https://github.com/0xstillb/Grimmlink-Next/pull/13",
     "baseIntegrationHead": "68b7d74daecdacc909ac095c86f6f95aed84ffe7",
     "sourceHead": "READ_LIVE_GITHUB_AFTER_THIS_CHECKPOINT_COMMIT",
+    "previousCommittedHeadLinuxCI": "SUCCESS_AT_81A19C8_10_WORKFLOWS_PHASE01_FOUNDATION_AND_ARM64_JOBS",
     "delivered": [
       "10_NAVIGATION_SECTIONS_WITH_EXPLICIT_UNAVAILABLE_STATES",
       "PROTECTED_PREVIEW_ACTIONS_DISABLED_WITH_ACCESSIBLE_REASON",
       "PHASE09_STAGING_ACCEPTANCE_PLAN",
       "BOUNDED_GITHUB_RELEASE_AND_ADVISORY_PARSERS_WITH_FIXTURE_TESTS",
-      "FAIL_CLOSED_COMPATIBILITY_IMPACT_AND_INSTALL_AUTHORIZATION_SUMMARY"
+      "FAIL_CLOSED_COMPATIBILITY_IMPACT_AND_INSTALL_AUTHORIZATION_SUMMARY",
+      "ALLOWLISTED_SUPPORT_BUNDLE_PREVIEW_SHA256_AND_ONE_HOUR_IN_PAGE_EXPIRY"
     ],
     "localChecks": {
-      "controlCenterTypecheck": "PASS",
-      "controlCenterTests": "PASS_10_TESTS",
+      "controlCenterTypecheck": "PASS_LOCAL_WORKSPACE_BINARY",
+      "controlCenterTests": "PASS_12_TESTS",
       "changedFilesPrettier": "PASS",
       "changedUiEslint": "PASS",
       "viteProductionBuild": "PASS",
-      "phase00PythonUnit": "PASS_57_WITH_WORKSPACE_WRITABLE_TEMP",
-      "phase00GateValidator": "PASS",
       "phase08StaticPolicyScan": "PASS",
+      "phase00GateValidator": "PASS_13_GATE_ROWS",
+      "packageManager": "COREPACK_DOWNLOAD_BLOCKED_LOCAL_WORKSPACE_BINARIES_USED",
+      "phase00PythonUnit": "PASS_57_WITH_WORKSPACE_WRITABLE_TEMP",
       "phase08PackageTests": "MANIFEST_PASS_SYMLINK_CASE_BLOCKED_WINDOWS_EPERM",
       "fullWindowsWorkspaceVitest": "FAIL_181_PASSED_26_PLATFORM_OR_LOOPBACK_FAILURES",
       "fullRepositoryPrettier": "FAIL_84_PREEXISTING_FILES_REPORTED"
     },
-    "exactHeadLinuxCI": "PENDING",
+    "exactHeadLinuxCI": "PENDING_FOR_THIS_CHECKPOINT_COMMIT",
     "notDelivered": [
       "LIVE_LOG_VIEWER_ROTATION_RETENTION_AND_AUTHENTICATED_UI_CONTROL_FOR_EXISTING_DEBUG_TRACE_LEASES",
+      "AUTHENTICATED_SERVER_SIDE_SUPPORT_BUNDLE_COLLECTION_RETENTION_AND_DELIVERY",
       "RELEASE_AND_ADVISORY_FEED_TRANSPORT_AND_AUTHENTICATED_DATA_FLOW",
       "REVIEWED_COMPATIBILITY_MANIFEST_AND_EVIDENCE_BASED_IMPACT_CLASSIFICATION",
       "TRUSTED_OWNER_MANUAL_APPROVAL_WORKFLOW_WITHOUT_AUTOMATIC_INSTALL",
