@@ -1,15 +1,12 @@
-# GrimmLink Next KOReader offline preview
+# GrimmLink Next KOReader Staging client
 
-This is an installable KOReader menu preview. Its broad menu structure follows
-the Connection, sync actions, advanced setup/backup, shelf settings, and
-diagnostics groups used by GrimmLink. Those entries are previews only: this
-plugin does not connect to Grimmory, send requests, save credentials, sync
-reader data, or write to device books. Every sync/configuration action explains
-that the feature is disabled.
+This KOReader plugin provides two explicit Staging checks:
 
-To install, copy the complete `grimmlink_next.koplugin` directory into the
-KOReader `plugins` directory and restart KOReader. Open **Tools → GrimmLink
-Next**. To remove it, delete that plugin directory and restart KOReader.
+- A private-LAN Adapter connection using a one-time pairing token held in memory, local test-file listing, and local session START/STOP events.
+- One fixed read-only Grimmory request to `http://192.168.1.116:6060/api/v1/opds`. Enter an OPDS user restricted to the disposable test library. The username and password are prompted in KOReader and are not saved. The client sends one `GET`, rejects redirects, caps the Atom response at 256 KiB, and displays only the entry count and whether a next page exists. It does not follow feed links or open/download book files.
 
-The package is a UI preview only; it is not a release of the GrimmLink sync
-client and has not been tested on a physical reader.
+The local Adapter is expected at `http://192.168.1.116:6062`; its pairing token stays in memory for the current KOReader process. Only the Staging URL and paired device ID are saved in KOReader settings. Automatic sync, Grimmory writes, progress/personal sync, shelf mutation and book downloads remain disabled.
+
+To install, copy the complete `grimmlink_next.koplugin` directory into the KOReader `plugins` directory and restart KOReader. Open **Tools → GrimmLink Next**. To remove it, delete that plugin directory and restart KOReader.
+
+The packaged ZIP is versioned as a Staging test candidate, not a signed production release. CI mocks and a successful catalog request do not prove physical-reader workflows, NAS behavior, full sync or production readiness.

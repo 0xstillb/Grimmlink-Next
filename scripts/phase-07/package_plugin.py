@@ -1,22 +1,21 @@
 #!/usr/bin/env python3
-"""Create a deterministic KOReader offline-preview ZIP package."""
+"""Create a deterministic KOReader Staging read-only candidate ZIP."""
 from __future__ import annotations
-
-import argparse
 from pathlib import Path
+import argparse
 import stat
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[2]
 PLUGIN = ROOT / "plugins" / "koreader" / "grimmlink_next.koplugin"
-REQUIRED = {"_meta.lua", "main.lua", "offline_core.lua", "README.md"}
+REQUIRED = {"_meta.lua", "main.lua", "reader_client.lua", "offline_core.lua", "README.md"}
 
 
 def package(output: Path) -> None:
     files = sorted(path for path in PLUGIN.rglob("*") if path.is_file())
     names = {path.relative_to(PLUGIN).as_posix() for path in files}
     if not REQUIRED.issubset(names):
-        raise SystemExit("KOReader plugin package is missing required files")
+        raise SystemExit("KOReader Staging package is missing required files")
     if any(path.suffix in {".pyc", ".db", ".sqlite", ".log"} for path in files):
         raise SystemExit("Refusing to include generated or private data")
     output.parent.mkdir(parents=True, exist_ok=True)

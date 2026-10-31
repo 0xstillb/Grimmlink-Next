@@ -53,7 +53,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq lua5.4
-          luac5.4 -p plugins/koreader/grimmlink_next.koplugin/main.lua plugins/koreader/grimmlink_next.koplugin/offline_core.lua plugins/koreader/grimmlink_next.koplugin/_meta.lua
+          luac5.4 -p plugins/koreader/grimmlink_next.koplugin/main.lua plugins/koreader/grimmlink_next.koplugin/reader_client.lua plugins/koreader/grimmlink_next.koplugin/offline_core.lua plugins/koreader/grimmlink_next.koplugin/_meta.lua
           lua5.4 scripts/phase-07/test-lua-mock.lua
       - name: Validate private Staging deployment topology
         run: |
@@ -77,17 +77,20 @@ jobs:
           rm .env.staging
       - name: Build and inspect offline KOReader plugin package
         run: |
-          python3 scripts/phase-07/package_plugin.py --output "$RUNNER_TEMP/grimmlink-next-offline.zip"
-          python3 scripts/phase-07/package_plugin.py --output "$RUNNER_TEMP/grimmlink-next-offline-second.zip"
-          cmp "$RUNNER_TEMP/grimmlink-next-offline.zip" "$RUNNER_TEMP/grimmlink-next-offline-second.zip"
-          unzip -Z1 "$RUNNER_TEMP/grimmlink-next-offline.zip" | grep -Fx 'grimmlink_next.koplugin/main.lua'
-          unzip -Z1 "$RUNNER_TEMP/grimmlink-next-offline.zip" | grep -Fx 'grimmlink_next.koplugin/_meta.lua'
-          ! unzip -p "$RUNNER_TEMP/grimmlink-next-offline.zip" grimmlink_next.koplugin/main.lua | grep -Eiq 'https?://|NetworkMgr|socket|http[.]request'
-      - name: Publish offline preview package artifact
+          python3 scripts/phase-07/package_plugin.py --output "$RUNNER_TEMP/grimmlink-next-staging-readonly.zip"
+          python3 scripts/phase-07/package_plugin.py --output "$RUNNER_TEMP/grimmlink-next-staging-readonly-second.zip"
+          cmp "$RUNNER_TEMP/grimmlink-next-staging-readonly.zip" "$RUNNER_TEMP/grimmlink-next-staging-readonly-second.zip"
+          unzip -Z1 "$RUNNER_TEMP/grimmlink-next-staging-readonly.zip" | grep -Fx 'grimmlink_next.koplugin/main.lua'
+          unzip -Z1 "$RUNNER_TEMP/grimmlink-next-staging-readonly.zip" | grep -Fx 'grimmlink_next.koplugin/reader_client.lua'
+          unzip -Z1 "$RUNNER_TEMP/grimmlink-next-staging-readonly.zip" | grep -Fx 'grimmlink_next.koplugin/_meta.lua'
+          unzip -p "$RUNNER_TEMP/grimmlink-next-staging-readonly.zip" grimmlink_next.koplugin/reader_client.lua | grep -Fq 'local OPDS_URL = "http://192.168.1.116:6060/api/v1/opds"'
+          unzip -p "$RUNNER_TEMP/grimmlink-next-staging-readonly.zip" grimmlink_next.koplugin/reader_client.lua | grep -Fq 'followRedirects = false'
+          ! unzip -p "$RUNNER_TEMP/grimmlink-next-staging-readonly.zip" grimmlink_next.koplugin/reader_client.lua | grep -Eiq 'api/v1/(books|shelves|files|metadata|sessions|progress)'
+      - name: Publish Staging read-only package artifact
         uses: actions/upload-artifact@v4
         with:
-          name: grimmlink-next-koreader-offline-preview
-          path: ${{ runner.temp }}/grimmlink-next-offline.zip
+          name: grimmlink-next-koreader-staging-readonly-0.2.0
+          path: ${{ runner.temp }}/grimmlink-next-staging-readonly.zip
           if-no-files-found: error
           retention-days: 14
       - name: Historical Phase00 fail-closed integrity
