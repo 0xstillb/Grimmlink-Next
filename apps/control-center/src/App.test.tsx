@@ -27,7 +27,7 @@ it("exposes every Phase08 product area with a scoped preview description", () =>
   ]);
   expect(Object.keys(sectionDescriptions)).toEqual(sections);
   const expectedContent: Partial<Record<(typeof sections)[number], string>> = {
-    "OPF Sync": "No source books or metadata changes are loaded",
+    "OPF Sync": "Choose one OPF file to inspect its metadata.",
     Identity: "No verified identity or device records to display",
     Reading: "No verified reading position is available",
     "Sidecar & Restore": "No backup or Sidecar files are being read",
@@ -45,7 +45,13 @@ it("exposes every Phase08 product area with a scoped preview description", () =>
     const expected = expectedContent[section];
     if (expected) {
       expect(html).toContain(expected);
-      if (section !== "Logs & Diagnostics") expect(html).toContain("disabled=");
+      if (section !== "Logs & Diagnostics" && section !== "OPF Sync")
+        expect(html).toContain("disabled=");
+    }
+    if (section === "OPF Sync") {
+      expect(html).toContain('type="file"');
+      expect(html).toContain("Read-only · no NAS");
+      expect(html).toContain("parsed in memory and discarded");
     }
     if (section === "Jobs") {
       expect(html).toContain("Checking the authenticated local job API.");

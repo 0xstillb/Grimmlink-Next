@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { DiagnosticsViewer } from "./DiagnosticsViewer.js";
 import { JobsPanel } from "./JobsPanel.js";
+import { OpfPreviewPanel } from "./OpfPreviewPanel.js";
 import { UpdateCenter } from "./UpdateCenter.js";
 import {
   createServerSupportBundle,
@@ -307,18 +308,7 @@ export function App({ initialSection = "Overview" }: { initialSection?: Section 
         )}
 
         {selected === "OPF Sync" && (
-          <PreviewPanel
-            title="OPF metadata review"
-            description="The preview does not mount or scan a NAS, read an OPF, or contact Grimmory. A future dry run must show exact source, target, field locks and collection diffs before any approved write."
-            rows={[
-              ["Source inventory", "Not observed"],
-              ["Metadata mode", "Sparse preview only"],
-              ["Metadata apply", "OFF"],
-              ["Cover upload", "OFF"],
-            ]}
-            actions={["Inspect OPF", "Build dry run", "Apply approved changes"]}
-            emptyState="No source books or metadata changes are loaded"
-          />
+          <OpfPreviewPanel onSignIn={() => setSelected("Logs & Diagnostics")} />
         )}
 
         {selected === "Identity" && (

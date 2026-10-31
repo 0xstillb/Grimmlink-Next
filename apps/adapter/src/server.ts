@@ -16,6 +16,7 @@ import { classifyGatewayRequest } from "./gateway/route-policy.js";
 import type { OwnerAuthenticator } from "./auth/owner-auth.js";
 import { registerIsolatedUpdateFeedRoutes, type UpdateFeedReader } from "./update-feed.js";
 import { registerLocalJobsRoutes, type LocalJobsRouteSource } from "./local-jobs-routes.js";
+import { registerLocalOpfPreviewRoutes } from "./local-opf-preview-routes.js";
 
 export type AdapterDiagnostics = Readonly<{
   buffers: Readonly<Record<string, SafeLogBuffer>>;
@@ -93,7 +94,8 @@ export async function buildServer(
       decision === "LOCAL_READ" ||
       decision === "LOCAL_DIAGNOSTICS" ||
       decision === "LOCAL_AUTH" ||
-      decision === "LOCAL_JOBS"
+      decision === "LOCAL_JOBS" ||
+      decision === "LOCAL_OPF_PREVIEW"
     )
       return;
     return reply.code(decision === "INVALID_TARGET" ? 400 : 403).send({
@@ -216,6 +218,7 @@ export async function buildServer(
   );
   if (options.ownerAuth) {
     options.ownerAuth.registerRoutes(server as unknown as FastifyInstance);
+    registerLocalOpfPreviewRoutes(server as unknown as FastifyInstance, options.ownerAuth);
   }
   if (options.localJobs) {
     registerLocalJobsRoutes(server as unknown as FastifyInstance, options.localJobs);

@@ -52,14 +52,14 @@
     "FULL_REAL_HERMES_NAS_READER_E2E",
     "ONE_FINAL_INDEPENDENT_SECURITY_REVIEW_AND_REMEDIATION"
   ],
-  "nextAction": "Continue Phase01-08 offline reconciliation on PR #13. Recheck exact-head Linux CI after the update-feed checkpoint commit, then implement and verify authenticated log and support-bundle flows, configured egress and owner-session integration, compatibility/impact review, authenticated screen contracts and package hardening before claiming the phase ready for Phase09.",
+  "nextAction": "Verify exact-head CI for the authenticated owner-selected OPF preview checkpoint, then implement and verify Identity, Reading, Sidecar, OPDS and Settings API screens, reviewed compatibility evidence and owner approval, and package/config/rollback hardening before claiming Phase08 ready for Phase09.",
   "reconciliationCheckpoint": {
     "date": "2026-10-31",
     "status": "IN_PROGRESS_OFFLINE_RECONCILIATION",
     "branch": "codex/phase-01-08-completion",
     "pullRequest": "https://github.com/0xstillb/Grimmlink-Next/pull/13",
     "baseIntegrationHead": "68b7d74daecdacc909ac095c86f6f95aed84ffe7",
-    "sourceHead": "1a3a9f68a2062314c1d21d04740af4e08864afcf",
+    "sourceHead": "b611edbb0dfbf5d65f6ea11b6ae69c7450323225",
     "previousCommittedHeadLinuxCI": "B49AFC780879DAD2E0E4F1DDC29CACF967DD0146_SUCCESS_10_WORKFLOWS",
     "delivered": [
       "10_NAVIGATION_SECTIONS_WITH_EXPLICIT_UNAVAILABLE_STATES",
@@ -77,7 +77,9 @@
       "SUPPORT_BUNDLE_ALLOWLIST_SHA256_MAX_8_MEMORY_BUNDLES_ONE_HOUR_TTL",
       "OWNER_AUTHENTICATED_CONFIGURED_GITHUB_FEED_SOURCE_LIST_AND_READ_ONLY_SNAPSHOT_ROUTE",
       "UPDATE_CENTER_EXPLICIT_OWNER_ACTION_TO_FETCH_UNVERIFIED_RELEASE_AND_ADVISORY_EVIDENCE",
-      "DIAGNOSTICS_SERVER_COMPOSITION_USES_CONFIGURED_OWNER_SESSION_AND_CSRF_WHEN_ENABLED"
+      "DIAGNOSTICS_SERVER_COMPOSITION_USES_CONFIGURED_OWNER_SESSION_AND_CSRF_WHEN_ENABLED",
+      "OWNER_AUTHENTICATED_LOCAL_JOBS_SCREEN_AND_SQLITE_QUEUE_API",
+      "OWNER_CSRF_GUARDED_USER_SELECTED_OPF_PREVIEW_IN_MEMORY_NO_NAS_NO_WRITEBACK"
     ],
     "localChecks": {
       "controlCenterTypecheck": "PASS_LOCAL_WORKSPACE_BINARY",
@@ -99,6 +101,12 @@
       "updateFeedAndServerTargetedTests": "PASS_72_TESTS_ACROSS_6_FILES_AT_403412A",
       "latestUpdateCenterActionTest": "PASS_2_TESTS_AT_1A3A9F6",
       "latestTargetedEslintPrettierDiffCheck": "PASS_AT_1A3A9F6",
+      "opfJobGatewayServerAndControlCenterTests": "PASS_62_TESTS_ACROSS_5_FILES",
+      "adapterTypecheckForNewWorkspaceDependency": "PASS_WITH_TEMPORARY_PATH_MAPPING",
+      "controlCenterTypecheckForOpfScreen": "PASS",
+      "controlCenterViteBuildForOpfScreen": "PASS",
+      "opfSliceTargetedEslintPrettierAndDiffCheck": "PASS",
+      "newWorkspaceDependencyInstall": "BLOCKED_COREPACK_REGISTRY_DNS; EXACT_HEAD_CI_PENDING",
       "phase08StaticPolicyScan": "PASS",
       "phase00GateValidator": "PASS_13_GATE_ROWS",
       "packageManager": "COREPACK_DOWNLOAD_BLOCKED_LOCAL_WORKSPACE_BINARIES_USED",
@@ -107,13 +115,13 @@
       "fullWindowsWorkspaceVitest": "FAIL_181_PASSED_26_PLATFORM_OR_LOOPBACK_FAILURES",
       "fullRepositoryPrettier": "FAIL_84_PREEXISTING_FILES_REPORTED"
     },
-    "exactHeadLinuxCI": "PASS_10_WORKFLOWS_AT_C2689CB_SUPPORT_BUNDLE_HEAD",
-    "currentCheckpointExactHeadLinuxCI": "9_OF_10_SUCCESS_AT_1A3A9F6;_PHASE01_FOUNDATION_ARM64_RUNNING",
+    "exactHeadLinuxCI": "PASS_10_WORKFLOWS_AT_B611EDB_BASE_HEAD",
+    "currentCheckpointExactHeadLinuxCI": "B611EDB_BASE_PASS_10_WORKFLOWS;_OPF_SLICE_LOCAL_CHECKS_PASS;_NEW_EXACT_HEAD_CI_PENDING",
     "additionalOfflineDiagnosticsFactory": "MAIN_OPTIONALLY_MOUNTS_OWNER_AUTH_CSRF_DIAGNOSTICS_SUPPORT_BUNDLE_AND_CONFIGURED_FIXED_ORIGIN_GITHUB_FEED;_AUTH_AND_FEED_DISABLED_WITHOUT_ENV_CONFIG",
     "notDelivered": [
       "REVIEWED_COMPATIBILITY_MANIFEST_AND_EVIDENCE_BASED_IMPACT_CLASSIFICATION",
       "TRUSTED_OWNER_MANUAL_APPROVAL_WORKFLOW_WITHOUT_AUTOMATIC_INSTALL",
-      "AUTHENTICATED_SCREEN_API_INTEGRATION_FOR_OPF_JOBS_IDENTITY_READING_SIDECAR_OPDS_AND_SETTINGS",
+      "AUTHENTICATED_SCREEN_API_INTEGRATION_FOR_IDENTITY_READING_SIDECAR_OPDS_AND_SETTINGS",
       "PRODUCTION_RELEASE_PACKAGE_CONFIG_AND_ROLLBACK_HARDENING",
       "LIVE_OWNER_CREDENTIALS_AND_NETWORK_EGRESS_POLICY_NOT_EXERCISED",
       "PHASE09_REAL_NAS_HERMES_READER_E2E_AND_CONSOLIDATED_INDEPENDENT_REVIEW"

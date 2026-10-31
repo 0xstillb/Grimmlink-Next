@@ -101,6 +101,14 @@ describe("Phase02 zero-forward gateway classifier", () => {
     expect(classify("GET", `${sources}/Uppercase`)).toBe("DENY_UPSTREAM");
   });
 
+  it("permits only an owner-authenticated local OPF preview submission", () => {
+    const preview = "/api/grimmlink/v2/local/opf/preview";
+    expect(classify("POST", preview)).toBe("LOCAL_OPF_PREVIEW");
+    expect(classify("GET", preview)).toBe("DENY_UPSTREAM");
+    expect(classify("POST", `${preview}?debug=1`)).toBe("INVALID_TARGET");
+    expect(classify("POST", `${preview}/apply`)).toBe("DENY_UPSTREAM");
+  });
+
   it.each([
     "/",
     "/api/v1/books",

@@ -50,6 +50,12 @@ describe("foundation server", () => {
       url: "/api/grimmlink/v2/local/auth/session",
     });
     expect(ownerSessionRoute.statusCode).toBe(404);
+    const ownerOpfRoute = await server.inject({
+      method: "POST",
+      url: "/api/grimmlink/v2/local/opf/preview",
+      payload: { opfXml: "<package><metadata/></package>" },
+    });
+    expect(ownerOpfRoute.statusCode).toBe(404);
     const diagnosticLine = buffer.read({
       code: "REQUEST_SUMMARY",
       requestId: health.headers["x-correlation-id"],
@@ -144,6 +150,38 @@ describe("foundation server", () => {
     });
     expect(logs.statusCode).toBe(200);
     expect(logs.json()).toMatchObject({ module: "adapter", lines: [] });
+    const csrfToken = login.json<{ csrfToken: string }>().csrfToken;
+    const opfPreview = await server.inject({
+      method: "POST",
+      url: "/api/grimmlink/v2/local/opf/preview",
+      headers: {
+        cookie,
+        origin: "http://127.0.0.1:5173",
+        "x-csrf-token": csrfToken,
+      },
+      payload: {
+        opfXml:
+          '<package xmlns="http://www.idpf.org/2007/opf" xmlns:dc="http://purl.org/dc/elements/1.1/"><metadata><dc:title>Owner preview</dc:title></metadata></package>',
+      },
+    });
+    expect(opfPreview.statusCode).toBe(200);
+    expect(opfPreview.json()).toMatchObject({
+      metadata: { title: "Owner preview" },
+      action: "DRY_RUN_ONLY",
+      writesAllowed: false,
+      source: "OWNER_SELECTED_OPF",
+    });
+    const openapi = await server.inject({ method: "GET", url: "/openapi.json" });
+    expect(
+      openapi.json().paths["/api/grimmlink/v2/local/opf/preview"].post.responses["200"],
+    ).toBeDefined();
+    const anonymousOpf = await server.inject({
+      method: "POST",
+      url: "/api/grimmlink/v2/local/opf/preview",
+      payload: { opfXml: "<package><metadata/></package>" },
+    });
+    expect(anonymousOpf.statusCode).toBe(403);
+    expect(anonymousOpf.json()).toEqual({ error: "OWNER_AUTH_REQUIRED" });
     await server.close();
   });
 

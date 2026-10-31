@@ -8,6 +8,7 @@ export type GatewayDecision =
   | "LOCAL_DIAGNOSTICS"
   | "LOCAL_JOBS"
   | "LOCAL_AUTH"
+  | "LOCAL_OPF_PREVIEW"
   | "INVALID_TARGET"
   | "DENY_UPSTREAM";
 
@@ -25,6 +26,7 @@ const SUPPORT_BUNDLE_DOWNLOAD_PATH =
 const UPDATE_FEED_LIST_PATH = "/api/grimmlink/v2/local/updates";
 const UPDATE_FEED_SOURCE_PATH = /^\/api\/grimmlink\/v2\/local\/updates\/[a-z][a-z0-9-]{0,31}$/;
 const LOCAL_JOBS_PATH = "/api/grimmlink/v2/local/jobs";
+const LOCAL_OPF_PREVIEW_PATH = "/api/grimmlink/v2/local/opf/preview";
 const LOCAL_JOBS_EVENTS_PATH = `${LOCAL_JOBS_PATH}/events`;
 const LOCAL_JOB_CONTROL_PATH =
   /^\/api\/grimmlink\/v2\/local\/jobs\/[A-Za-z0-9][A-Za-z0-9:_-]{0,119}\/control$/;
@@ -132,6 +134,10 @@ export function classifyGatewayRequest(
     if (query !== undefined) return "INVALID_TARGET";
     if (path === SUPPORT_BUNDLE_PATH && method === "POST") return "LOCAL_DIAGNOSTICS";
     if (SUPPORT_BUNDLE_DOWNLOAD_PATH.test(path) && method === "GET") return "LOCAL_DIAGNOSTICS";
+  }
+  if (path === LOCAL_OPF_PREVIEW_PATH) {
+    if (query !== undefined) return "INVALID_TARGET";
+    if (method === "POST") return "LOCAL_OPF_PREVIEW";
   }
   if (path === UPDATE_FEED_LIST_PATH || UPDATE_FEED_SOURCE_PATH.test(path)) {
     if (query !== undefined) return "INVALID_TARGET";
