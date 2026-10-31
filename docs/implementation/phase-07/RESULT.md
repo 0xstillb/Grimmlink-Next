@@ -1,12 +1,15 @@
 # Phase 07 — KOReader Lua, Shelf, Personal Records and Reading Sessions
 
-**2026-10-30: DEV_CHECKS_PASS_WITH_DEFERRED_RISKS at tested source.** This checkpoint does not claim runtime readiness or real reader compatibility.
+**2026-10-30: offline preview package added after the earlier tested source.** This checkpoint does not claim sync readiness or real reader compatibility; new changes require exact-head CI.
+
+Current reconciliation work is on Draft [PR #13](https://github.com/0xstillb/Grimmlink-Next/pull/13), based on integration `68b7d74daecdacc909ac095c86f6f95aed84ffe7`. The exact source SHA for this menu/package checkpoint will be added after commit; its CI is pending until then.
 
 Source branch: feat/next-phase-07 stacked on Phase06 feat/next-phase-06 at ae66c0b6dec46222110a04417e2545792d244f8c. Integration is still Phase05 3b5321ede76f74fd1d94ebaece119fc4f6f11aaf; main untouched.
 
 ## Implemented (offline synthetic only)
 
-- Bounded Lua prototype plugins/koreader/grimmlink_next_offline.lua: event envelope and **manual** shelf preview; no real KOReader installation, automatic sync, network or file I/O.
+- Installable KOReader UI preview at `plugins/koreader/grimmlink_next.koplugin/`: valid `_meta.lua`/`main.lua`, Tools menu with Status, Connection, Progress, Sessions, Shelves, Personal Data and Diagnostics entries, plus a deterministic ZIP packager. All network and sync actions explain that the offline preview is disabled; no credentials, network or file writes.
+- Bounded Lua offline core: event envelope and **manual** shelf preview; the menu preview is not the GrimmLink sync client.
 - packages/personal: strict personal payload contract for ratings (1–5), bookmarks and annotations; deterministic manual shelf diff. No reset-rating or personal bridge enablement.
 - Guarded Fastify mock route factory (not mounted) for reader personal GET/PUT, session events, and CSRF-protected owner manual-shelf preview, with HTTP negative tests.
 - Local SQLite migration 0006: immutable owner/book/file/edition registration, personal records, CAS/event replay receipts, reading session lifecycle, no remote outbox dispatch.
@@ -16,7 +19,7 @@ Source branch: feat/next-phase-07 stacked on Phase06 feat/next-phase-06 at ae66c
 
 ## Not implemented / Phase09 obligations
 
-KOReader Lua plugin runtime integration, real annotation DB/metadata schema, Official authenticated book/file/record entitlement, actual shelf mutation/Personal API, durable remote queue with UNKNOWN reconcile, multi-reader golden annotation and sessions, host/NAS/Hermes E2E. This is **not** a ready-to-install plugin or a claimed cross-device sync solution.
+KOReader device runtime smoke test, sync implementation, real annotation DB/metadata schema, Official authenticated book/file/record entitlement, actual shelf mutation/Personal API, durable remote queue with UNKNOWN reconcile, multi-reader golden annotation and sessions, host/NAS/Hermes E2E. The ZIP is installable as an offline UI preview only, not a ready-to-use sync plugin or cross-device sync solution.
 
 All personal/session bridge capabilities OFF; Native KOSync OFF, Official Gateway DENY_ALL; no live routes mounted; no production deployment. One consolidated independent security review/remediation in Phase09, not required for safe offline Phase07 development.
 

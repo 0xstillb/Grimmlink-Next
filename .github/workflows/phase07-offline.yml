@@ -53,7 +53,23 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq lua5.4
+          luac5.4 -p plugins/koreader/grimmlink_next.koplugin/main.lua plugins/koreader/grimmlink_next.koplugin/offline_core.lua plugins/koreader/grimmlink_next.koplugin/_meta.lua
           lua5.4 scripts/phase-07/test-lua-mock.lua
+      - name: Build and inspect offline KOReader plugin package
+        run: |
+          python3 scripts/phase-07/package_plugin.py --output "$RUNNER_TEMP/grimmlink-next-offline.zip"
+          python3 scripts/phase-07/package_plugin.py --output "$RUNNER_TEMP/grimmlink-next-offline-second.zip"
+          cmp "$RUNNER_TEMP/grimmlink-next-offline.zip" "$RUNNER_TEMP/grimmlink-next-offline-second.zip"
+          unzip -Z1 "$RUNNER_TEMP/grimmlink-next-offline.zip" | grep -Fx 'grimmlink_next.koplugin/main.lua'
+          unzip -Z1 "$RUNNER_TEMP/grimmlink-next-offline.zip" | grep -Fx 'grimmlink_next.koplugin/_meta.lua'
+          ! unzip -p "$RUNNER_TEMP/grimmlink-next-offline.zip" grimmlink_next.koplugin/main.lua | grep -Eiq 'https?://|NetworkMgr|socket|http[.]request'
+      - name: Publish offline preview package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: grimmlink-next-koreader-offline-preview
+          path: ${{ runner.temp }}/grimmlink-next-offline.zip
+          if-no-files-found: error
+          retention-days: 14
       - name: Historical Phase00 fail-closed integrity
         run: |
           python3 -m unittest discover -s scripts/phase-00 -p 'test_*.py' -v
@@ -65,9 +81,10 @@ jobs:
           grep -q 'PERSONAL_BRIDGE_DISABLED_PHASE09' packages/personal/src/index.ts
           grep -q 'MANUAL_PREVIEW_ONLY' packages/persistence/src/phase07-personal.ts
           grep -q 'PHASE07_READER_REVOKED_OR_EXPIRED' packages/persistence/src/phase07-personal.ts
-          ! grep -Eq 'phase07-personal|phase07-routes|grimmlink_next_offline' apps/adapter/src/server.ts
+          ! grep -Eq 'phase07-personal|phase07-routes|grimmlink_next[.]koplugin' apps/adapter/src/server.ts
           grep -q '"officialGatewayForwarding": "DENY_ALL"' docs/implementation/ACTIVE-SESSION.json
           grep -q '"personalBridge": "OFF"' docs/implementation/ACTIVE-SESSION.json
           grep -q '"sessionBridge": "OFF"' docs/implementation/ACTIVE-SESSION.json
-          test ! -e plugins/koreader/_meta.lua
-          echo 'OFFLINE FIXTURE ONLY; no installed plugin, no Official mutation, no live route.'
+          test -f plugins/koreader/grimmlink_next.koplugin/_meta.lua
+          test -f plugins/koreader/grimmlink_next.koplugin/main.lua
+          echo 'INSTALLABLE OFFLINE UI PREVIEW ONLY; no Official mutation, no live route or device claim.'
