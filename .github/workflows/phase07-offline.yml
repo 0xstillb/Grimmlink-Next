@@ -60,7 +60,7 @@ jobs:
           bash -n scripts/phase-09/prepare-private-staging.sh scripts/phase-09/staging-local-smoke.sh
           cp .env.staging.example .env.staging
           docker compose -p grimmlink-staging-check -f compose.phase08.staging-local.yml config --format json > "$RUNNER_TEMP/phase08-staging-compose.json"
-          docker run --rm -v "$PWD/gateway/Caddyfile.phase08.staging-local:/etc/caddy/Caddyfile:ro" caddy:2.10.2-alpine validate --config /etc/caddy/Caddyfile --adapter caddyfile
+          docker run --rm --entrypoint caddy -v "$PWD/gateway/Caddyfile.phase08.staging-local:/etc/caddy/Caddyfile:ro" caddy:2.10.2-alpine validate --config /etc/caddy/Caddyfile --adapter caddyfile
           python3 - "$RUNNER_TEMP/phase08-staging-compose.json" <<'PY'
           import json,sys
           config=json.load(open(sys.argv[1], encoding="utf-8"))
