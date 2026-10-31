@@ -59,7 +59,7 @@
     "branch": "codex/phase-01-08-completion",
     "pullRequest": "https://github.com/0xstillb/Grimmlink-Next/pull/13",
     "baseIntegrationHead": "68b7d74daecdacc909ac095c86f6f95aed84ffe7",
-    "sourceHead": "READ_LIVE_GITHUB_AFTER_THIS_CHECKPOINT_COMMIT",
+    "sourceHead": "301ef63a9208c1ba69a860a110cb721fcf14602b",
     "previousCommittedHeadLinuxCI": "B49AFC780879DAD2E0E4F1DDC29CACF967DD0146_SUCCESS_10_WORKFLOWS",
     "delivered": [
       "10_NAVIGATION_SECTIONS_WITH_EXPLICIT_UNAVAILABLE_STATES",
@@ -99,8 +99,8 @@
       "fullWindowsWorkspaceVitest": "FAIL_181_PASSED_26_PLATFORM_OR_LOOPBACK_FAILURES",
       "fullRepositoryPrettier": "FAIL_84_PREEXISTING_FILES_REPORTED"
     },
-    "exactHeadLinuxCI": "PASS_10_WORKFLOWS_AT_CODE_HEAD_D47AFC5",
-    "currentCheckpointExactHeadLinuxCI": "PENDING_FOR_UI_AND_DIAGNOSTICS_FOLLOWUP_COMMIT",
+    "exactHeadLinuxCI": "PASS_10_WORKFLOWS_AT_CODE_HEAD_301EF63A",
+    "currentCheckpointExactHeadLinuxCI": "PASS_10_WORKFLOWS_AT_CODE_HEAD_301EF63A",
     "additionalOfflineDiagnosticsFactory": "BUILD_SERVER_OPTIONAL_COMPOSITION_TESTED_WITH_SYNTHETIC_OWNER_CSRF; GATEWAY_ALLOWLISTS_ONLY_ADAPTER_PATH_AND_SAFE_FILTERS; DEFAULT_MAIN_UNMOUNTED",
     "notDelivered": [
       "DEFAULT_MAIN_HAS_NO_TRUSTED_OWNER_SESSION_PROVIDER_AND_KEEPS_DIAGNOSTICS_ROUTE_UNMOUNTED",
