@@ -30,7 +30,7 @@ authorize a deployment. Each phase's live Notion scope remains the requirement.
 - Phase00 Python suite passed 57/57 when `TEMP`/`TMP` pointed to a workspace-writable directory. Phase08 package manifest test passed; symlink rejection could not execute on Windows (`EPERM`).
 - Adapter typecheck and all 85 tests across 11 Adapter test files passed locally, including the isolated update-feed and diagnostics route fixtures. Observability typecheck and all 14 tests across 2 files passed. Targeted Prettier and ESLint passed for the changed implementation and tests.
 - Full Windows workspace Vitest run: 181 passed / 26 failed across 45 files. Failures include Linux-only filesystem fixtures, POSIX SQLite directory-mode checks, Windows symlink permissions and loopback transport failures. Full-repository Prettier check reported 84 files; changed files passed targeted formatting. Do not report an all-green Windows suite.
-- Previous committed heads `81a19c8`, `41b4ddf` and `ef5a03f` had earlier workflow evidence. Exact committed head `b49afc7` passed all 10 GitHub Actions workflows; that result does not transfer to the diagnostics-route checkpoint, which still requires its own exact-head Linux CI.
+- Previous committed heads `81a19c8`, `41b4ddf` and `ef5a03f` had earlier workflow evidence. Exact code head `2891a645` passed all 10 GitHub Actions workflows, including the Phase01 foundation/ARM64 and pinned Spring jobs; this remains offline CI evidence and does not close Phase08 or prove runtime/device behavior.
 
 ## Current local verification
 

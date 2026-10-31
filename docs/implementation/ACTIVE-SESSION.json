@@ -404,7 +404,7 @@
       "baseIntegrationHead": "68b7d74daecdacc909ac095c86f6f95aed84ffe7",
       "sourceHead": "READ_LIVE_GITHUB_AFTER_THIS_CHECKPOINT_COMMIT",
       "previousExactHeadLinuxCI": "B49AFC780879DAD2E0E4F1DDC29CACF967DD0146_SUCCESS_10_WORKFLOWS",
-      "exactHeadLinuxCI": "PENDING_FOR_THIS_CHECKPOINT_COMMIT",
+      "exactHeadLinuxCI": "PASS_10_WORKFLOWS_AT_CODE_HEAD_2891A645",
       "uiNavigationSections": 10,
       "releaseEvidenceParserTests": "PASS_5_TESTS",
       "safeSupportBundleTests": "PASS_2_TESTS",
