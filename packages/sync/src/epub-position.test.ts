@@ -254,7 +254,11 @@ describe("Phase06 EPUB DOM position conversion", () => {
     const { bytes, edition } = fixture();
     const book = await openOfflineEpubPositions(bytes, edition);
     const nativePosition = "/body/DocFragment[1]/body/p/text().0";
-    const mismatch = book.convert({ source: "XPOINTER", nativePosition, expectedText: "ข้อความอื่น" });
+    const mismatch = book.convert({
+      source: "XPOINTER",
+      nativePosition,
+      expectedText: "ข้อความอื่น",
+    });
     expect(mismatch).toMatchObject({
       status: "CHAPTER_ONLY",
       nativePosition,
