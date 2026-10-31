@@ -15,10 +15,10 @@ const files = {
 </container>`,
   "OEBPS/content.opf": `<?xml version="1.0"?>
 <package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="book">
-  <manifest><item id="chapter" href="chapter.xhtml" media-type="application/xhtml+xml"/></manifest>
+  <manifest><item id="chapter" href="chapter%20thai.xhtml" media-type="application/xhtml+xml"/></manifest>
   <spine><itemref idref="chapter"/></spine>
 </package>`,
-  "OEBPS/chapter.xhtml": `<html xmlns="http://www.w3.org/1999/xhtml"><head><title>ไทย</title></head><body><p>เริ่มอ่านตรงนี้</p></body></html>`,
+  "OEBPS/chapter thai.xhtml": `<html xmlns="http://www.w3.org/1999/xhtml"><head><title>ไทย</title></head><body><p>เริ่มอ่านตรงนี้</p></body></html>`,
 };
 const bytes = zipSync(
   Object.fromEntries(Object.entries(files).map(([name, value]) => [name, strToU8(value)])),

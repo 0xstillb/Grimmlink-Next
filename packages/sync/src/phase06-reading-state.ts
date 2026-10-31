@@ -27,7 +27,9 @@ const validXPointer = (value: unknown): value is string =>
   parseXPointer(value) !== undefined;
 const safeHref = (value: unknown): value is string =>
   typeof value === "string" &&
-  /^[A-Za-z0-9_\-./]{1,512}$/.test(value) &&
+  value.length > 0 &&
+  value.length <= 512 &&
+  !/[?#%\\\x00-\x1f\x7f]/.test(value) &&
   !value.startsWith("/") &&
   value.split("/").every((segment) => segment.length > 0 && segment !== "." && segment !== "..");
 
