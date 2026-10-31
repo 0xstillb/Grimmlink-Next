@@ -1,5 +1,15 @@
 # Phase 08 — Single-Owner Control Center, Diagnostics and Offline Packaging
 
+## Reconciliation checkpoint — 2026-10-31 (IN PROGRESS)
+
+The live integration base was fetched at `68b7d74daecdacc909ac095c86f6f95aed84ffe7`. On Draft [PR #13](https://github.com/0xstillb/Grimmlink-Next/pull/13), the Control Center navigation now exposes 10 requirement areas: Overview, OPF Sync, Jobs, Identity, Reading, Sidecar & Restore, OPDS, Logs & Diagnostics, Settings & Devices, and Update Center. Missing live data is shown as unavailable; protected actions are disabled. This is UI coverage, not implementation of the underlying log stream, update watcher, authenticated operations or device/NAS connections.
+
+Added [PHASE09-ACCEPTANCE-PLAN.md](./PHASE09-ACCEPTANCE-PLAN.md) with staging-only acceptance scenarios, pass evidence and stop conditions. It is a plan and has not been executed.
+
+**Local checks for this checkpoint:** Control Center typecheck, 5 UI/diagnostic tests, targeted Prettier check, ESLint over `apps packages`, Vite production build, the Phase00 gate validator and Phase08 static policy scan passed. With `TEMP`/`TMP` redirected to a workspace-writable folder, the Phase00 Python suite passed **57/57**; its default Windows sandbox temp path had previously caused filesystem errors. The full Windows workspace Vitest run was **not green**: 181 passed and 26 failed across 45 files, including Linux-only fixture checks, POSIX SQLite permission checks, symlink permission failures and local loopback transport failures. The Phase08 package test's deterministic-manifest case passed, but its symlink-rejection case could not run because Windows returned `EPERM`. Full-repository Prettier check reports 84 existing files; changed files pass the targeted check. Exact-head Linux GitHub CI is pending and must be checked before treating this checkpoint as validated.
+
+**Phase 08 remains open against the complete Notion scope:** the Pino redaction logger and in-memory DEBUG/TRACE lease primitive exist, but live log viewing, rotation/retention and authenticated UI control are not wired; the fake-release/advisory watcher and compatibility/approval behavior are not implemented; existing auth/CSRF policies and API route factories are not mounted or integrated with these screens; and production package/config/rollback hardening is incomplete. The Phase 09 test plan is now present, but the other items are not claimed complete. Official forwarding remains `DENY_ALL`, protected writes remain `OFF`, and production is `NOT_AUTHORIZED`.
+
 **2026-10-30 — DEV_CHECKS_PASS_WITH_DEFERRED_RISKS (offline only).** This is an isolated development handoff, not a runtime, production, or real hardware authorization. Branch feat/next-phase-08 stacked on Phase07 b1a2a042; Draft PR #12 targets Phase07. Integration remains Phase05 at 3b5321ed; main unchanged.
 
 ## Delivered in source

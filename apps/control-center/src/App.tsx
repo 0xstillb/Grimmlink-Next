@@ -6,15 +6,32 @@ import {
   type LocalSnapshot,
 } from "./phase08-model.js";
 
-const sections = [
+export const sections = [
   "Overview",
-  "Devices",
+  "OPF Sync",
   "Jobs",
-  "Diagnostics",
+  "Identity",
+  "Reading",
+  "Sidecar & Restore",
+  "OPDS",
+  "Logs & Diagnostics",
+  "Settings & Devices",
   "Update Center",
-  "Settings",
 ] as const;
 type Section = (typeof sections)[number];
+
+export const sectionDescriptions: Record<Section, string> = {
+  Overview: "Development readiness and the current offline safety boundary.",
+  "OPF Sync": "Review source and metadata capabilities without scanning a live library.",
+  Jobs: "Inspect job and event-stream availability without submitting work.",
+  Identity: "Book-file identity and reader pairing status for the single owner.",
+  Reading: "Position and Continue Reading status without inventing progress.",
+  "Sidecar & Restore": "Backup and Sidecar capabilities in preview-only mode.",
+  OPDS: "Subscription status without claiming full shelf membership sync.",
+  "Logs & Diagnostics": "Secret-safe diagnostics; live logs are not connected.",
+  "Settings & Devices": "Private owner settings and paired-reader availability.",
+  "Update Center": "Compatibility and update approval remain preview-only.",
+};
 
 const cards = [
   ["Gateway", "DENY_ALL", "Official upstream traffic is disabled"],
@@ -22,8 +39,61 @@ const cards = [
   ["Release", "NOT AUTHORIZED", "Phase 09 review and device tests required"],
 ] as const;
 
-export function App() {
-  const [selected, setSelected] = useState<Section>("Overview");
+function PreviewPanel({
+  title,
+  badge = "Preview only",
+  description,
+  rows,
+  actions,
+  emptyState,
+}: {
+  title: string;
+  badge?: string;
+  description: string;
+  rows?: ReadonlyArray<readonly [string, string]>;
+  actions?: ReadonlyArray<string>;
+  emptyState: string;
+}) {
+  return (
+    <section className="panel">
+      <div className="panel-heading">
+        <h2>{title}</h2>
+        <span className="pill">{badge}</span>
+      </div>
+      <p>{description}</p>
+      {rows?.map(([label, value]) => (
+        <div className="status-row" key={label}>
+          <span>{label}</span>
+          <strong>{value}</strong>
+        </div>
+      ))}
+      {actions && actions.length > 0 && (
+        <>
+          <p className="preview-note" id="preview-action-note">
+            Actions are disabled in this preview; no protected operation is submitted.
+          </p>
+          <div className="preview-actions" aria-label="Unavailable preview actions">
+            {actions.map((action) => (
+              <button
+                className="secondary-button"
+                type="button"
+                key={action}
+                disabled
+                aria-describedby="preview-action-note"
+              >
+                {action}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+      <p className="empty-state">{emptyState}</p>
+    </section>
+  );
+}
+
+export function App({ initialSection = "Overview" }: { initialSection?: Section }) {
+  const [selected, setSelected] = useState<Section>(initialSection);
   const [snapshot, setSnapshot] = useState<LocalSnapshot>(DISCONNECTED);
   const [checking, setChecking] = useState(false);
   const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
@@ -88,14 +158,12 @@ export function App() {
           No production connection
         </p>
       </aside>
-      <main id="main-content">
+      <main id="main-content" aria-labelledby="page-title">
         <header>
           <div>
             <p className="eyebrow">CONTROL CENTER / PHASE 08</p>
-            <h1>{selected}</h1>
-            <p className="muted">
-              Private single-owner preview · no real reader or Official operations
-            </p>
+            <h1 id="page-title">{selected}</h1>
+            <p className="muted">{sectionDescriptions[selected]}</p>
           </div>
           <div className="header-actions">
             <span className="state">
@@ -148,8 +216,9 @@ export function App() {
                 <span className="pill">Mock-only</span>
               </div>
               <p>
-                Phases 01–07 have offline development deliverables. Real Hermes, NAS and reader
-                verification, independent security review and release approval remain in Phase 09.
+                This preview does not certify phase exit gates. Check each phase handoff for
+                verified code and CI evidence. Real Hermes, NAS and reader verification, the
+                consolidated security review and release approval remain in Phase 09.
               </p>
               <div className="status-row">
                 <span>Source</span>
@@ -167,38 +236,117 @@ export function App() {
           </>
         )}
 
-        {selected === "Devices" && (
-          <section className="panel">
-            <h2>Paired readers</h2>
-            <p>
-              No verified device inventory is connected to this preview. Pairing and revocation
-              require a trusted owner session and are not exposed here.
-            </p>
-            <p className="empty-state">No device data to display</p>
-          </section>
+        {selected === "OPF Sync" && (
+          <PreviewPanel
+            title="OPF metadata review"
+            description="The preview does not mount or scan a NAS, read an OPF, or contact Grimmory. A future dry run must show exact source, target, field locks and collection diffs before any approved write."
+            rows={[
+              ["Source inventory", "Not observed"],
+              ["Metadata mode", "Sparse preview only"],
+              ["Metadata apply", "OFF"],
+              ["Cover upload", "OFF"],
+            ]}
+            actions={["Inspect OPF", "Build dry run", "Apply approved changes"]}
+            emptyState="No source books or metadata changes are loaded"
+          />
+        )}
+
+        {selected === "Identity" && (
+          <PreviewPanel
+            title="Book identity and readers"
+            description="Identity requires an exact book-file edition fingerprint. Pairing and revocation require a trusted owner session; no identifiers or reader inventory are connected here."
+            rows={[
+              ["Canonical owner", "Not observed"],
+              ["Book-file mapping", "Not loaded"],
+              ["Reader devices", "Not connected"],
+              ["Pairing and revocation", "Unavailable"],
+            ]}
+            actions={["Pair a reader", "Revoke a reader"]}
+            emptyState="No verified identity or device records to display"
+          />
+        )}
+
+        {selected === "Reading" && (
+          <PreviewPanel
+            title="Continue Reading"
+            description="Positions are never estimated from a title, timestamp or percent. Exact Resume requires a file-edition and text-anchor match; native reader positions remain untouched when a match cannot be proven."
+            rows={[
+              ["Resume position", "NO_POSITION"],
+              ["Exact EPUB resume", "Not verified"],
+              ["PDF page mapping", "Fixture-only"],
+              ["Progress percent", "Not estimated"],
+            ]}
+            actions={["Refresh reading state", "Resolve a position"]}
+            emptyState="No verified reading position is available"
+          />
+        )}
+
+        {selected === "Sidecar & Restore" && (
+          <PreviewPanel
+            title="Sidecar and backup restore"
+            description="Sidecar parsing and metadata-only backup verification have offline fixtures. This preview is not connected to a NAS, backup directory or Official restore API."
+            rows={[
+              ["NAS mount", "Not observed"],
+              ["Sidecar import", "Preview-only"],
+              ["Backup inventory", "Not loaded"],
+              ["Restore apply", "OFF"],
+            ]}
+            actions={["Inspect Sidecar", "Verify backup", "Preview restore"]}
+            emptyState="No backup or Sidecar files are being read"
+          />
+        )}
+
+        {selected === "OPDS" && (
+          <PreviewPanel
+            title="OPDS subscriptions"
+            description="Subscription links and reader download sources are distinct from complete two-way shelf membership. No remote catalog or device account is queried here."
+            rows={[
+              ["Catalog connection", "Not connected"],
+              ["Subscriptions", "Not loaded"],
+              ["Shelf reconciliation", "Not supported by this preview"],
+            ]}
+            actions={["Add a subscription", "Refresh catalog"]}
+            emptyState="No OPDS subscription data is available"
+          />
         )}
 
         {selected === "Jobs" && (
-          <section className="panel">
-            <h2>Local jobs</h2>
-            <p>
-              Phase 04 SQLite job and recovery primitives are tested with isolated fixtures. This UI
-              does not read a live queue or submit jobs.
-            </p>
-            <p className="empty-state">No job telemetry to display</p>
-          </section>
+          <PreviewPanel
+            title="Jobs and event stream"
+            description="The Phase 04 queue, replay and recovery contracts have isolated tests. The production adapter does not mount this route factory, so there is no live queue or SSE stream to display."
+            rows={[
+              ["Queue state", "Not observed"],
+              ["Event stream", "Unavailable"],
+              ["Automatic retry", "Disabled"],
+            ]}
+            actions={["Pause jobs", "Resume jobs", "Retry failed job"]}
+            emptyState="No job telemetry is connected"
+          />
         )}
 
-        {selected === "Diagnostics" && (
+        {selected === "Logs & Diagnostics" && (
           <section className="panel" aria-label="Diagnostics">
             <div className="panel-heading">
-              <h2>Secret-safe diagnostics</h2>
+              <h2>Logs and secret-safe diagnostics</h2>
               <span className="pill">Allow-list export</span>
             </div>
             <p>
-              Only known local capability fields are included. Credentials, server logs, notes,
-              device IDs and library records are never exported.
+              Server logs are not connected, so no log text or activity appears here. The report
+              below is generated only from known local capability fields; credentials, notes, device
+              IDs and library records are never exported.
             </p>
+            <div className="status-row">
+              <span>Live log viewer</span>
+              <strong>Not connected</strong>
+            </div>
+            <div className="status-row">
+              <span>Scoped DEBUG / TRACE</span>
+              <strong>Unavailable</strong>
+            </div>
+            <div className="status-row">
+              <span>Rotation and retention</span>
+              <strong>Not configured by this UI</strong>
+            </div>
             <div className="status-row">
               <span>Local adapter</span>
               <strong>{snapshot.adapter}</strong>
@@ -229,58 +377,43 @@ export function App() {
                   ? "Copy unavailable in this browser."
                   : "No device or backend details are collected."}
             </p>
+            <p className="empty-state">
+              No server logs, alerts or remote diagnostics were collected
+            </p>
           </section>
         )}
 
         {selected === "Update Center" && (
-          <section className="panel">
-            <div className="panel-heading">
-              <h2>Update Center</h2>
-              <span className="pill">Preview only</span>
-            </div>
-            <p>
-              Package artifacts are generated and checksummed by isolated CI. This page cannot
-              download, install, roll back or schedule an update.
-            </p>
-            <div className="status-row">
-              <span>UI package</span>
-              <strong>Phase 08 development</strong>
-            </div>
-            <div className="status-row">
-              <span>Installed runtime version</span>
-              <strong>Not verified</strong>
-            </div>
-            <div className="status-row">
-              <span>Auto-update</span>
-              <strong>Disabled</strong>
-            </div>
-            <div className="status-row">
-              <span>Rollback</span>
-              <strong>Requires Phase 09 real restore test</strong>
-            </div>
-            <p className="empty-state">No update can be applied from this preview</p>
-          </section>
+          <PreviewPanel
+            title="Update Center"
+            description="This screen does not contact GitHub or download release metadata. Compatibility review, signed artifacts, manual approval, install and rollback are not wired to this preview."
+            rows={[
+              ["Release watcher", "Not connected"],
+              ["Compatibility manifest", "Not loaded"],
+              ["Installed runtime version", "Not verified"],
+              ["Automatic update", "Disabled"],
+              ["Release authorization", "NOT_AUTHORIZED"],
+              ["Rollback", "Phase 09 verification required"],
+            ]}
+            actions={["Check for releases", "Review compatibility", "Approve installation"]}
+            emptyState="No update has been fetched or applied"
+          />
         )}
 
-        {selected === "Settings" && (
-          <section className="panel">
-            <h2>Private configuration</h2>
-            <p>
-              One canonical owner, multiple future paired readers. No multi-tenant roles or public
-              sharing controls.
-            </p>
-            {cards.map(([title, value, description]) => (
-              <div className="status-row" key={title}>
-                <span>
-                  {title} · {description}
-                </span>
-                <strong>{value}</strong>
-              </div>
-            ))}
-            <p className="empty-state">
-              Settings are read-only until trusted owner authentication is connected
-            </p>
-          </section>
+        {selected === "Settings & Devices" && (
+          <PreviewPanel
+            title="Private settings and devices"
+            description="The delivery policy is single-owner private with multiple individually paired readers. Authentication, pairing, revocation and protected settings require the trusted owner runtime, which is not connected."
+            rows={[
+              ["Workspace policy", "Single owner · private"],
+              ["Owner session", "Not connected"],
+              ["Reader inventory", "Not observed"],
+              ["Gateway forwarding", "DENY_ALL"],
+              ["Personal and session writes", "OFF"],
+            ]}
+            actions={["Sign in", "Pair a reader", "Rotate device token"]}
+            emptyState="Settings remain read-only until owner authentication is available"
+          />
         )}
 
         <footer>

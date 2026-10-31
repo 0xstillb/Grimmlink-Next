@@ -1,6 +1,7 @@
 import { it, expect } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
-import { App } from "./App.js";
+import { App, sectionDescriptions, sections } from "./App.js";
+
 it("renders accessible navigation and real disconnected empty state", () => {
   const html = renderToStaticMarkup(<App />);
   expect(html).toContain('aria-label="Primary navigation"');
@@ -9,4 +10,43 @@ it("renders accessible navigation and real disconnected empty state", () => {
   expect(html).toContain("Not connected");
   expect(html).toContain("No activity to display");
   expect(html).not.toContain("100% synced");
+});
+
+it("exposes every Phase08 product area with a scoped preview description", () => {
+  expect(sections).toEqual([
+    "Overview",
+    "OPF Sync",
+    "Jobs",
+    "Identity",
+    "Reading",
+    "Sidecar & Restore",
+    "OPDS",
+    "Logs & Diagnostics",
+    "Settings & Devices",
+    "Update Center",
+  ]);
+  expect(Object.keys(sectionDescriptions)).toEqual(sections);
+  const expectedContent: Partial<Record<(typeof sections)[number], string>> = {
+    "OPF Sync": "No source books or metadata changes are loaded",
+    Jobs: "No job telemetry is connected",
+    Identity: "No verified identity or device records to display",
+    Reading: "No verified reading position is available",
+    "Sidecar & Restore": "No backup or Sidecar files are being read",
+    OPDS: "No OPDS subscription data is available",
+    "Logs & Diagnostics": "No server logs, alerts or remote diagnostics were collected",
+    "Settings & Devices": "Settings remain read-only until owner authentication is available",
+    "Update Center": "No update has been fetched or applied",
+  };
+
+  for (const section of sections) {
+    const html = renderToStaticMarkup(<App initialSection={section} />);
+    expect(html).toContain(section.replace(/&/g, "&amp;"));
+    expect(html).toContain("All Official forwarding and protected writes remain OFF");
+    expect(html).not.toContain("100% synced");
+    const expected = expectedContent[section];
+    if (expected) {
+      expect(html).toContain(expected);
+      if (section !== "Logs & Diagnostics") expect(html).toContain("disabled=");
+    }
+  }
 });
